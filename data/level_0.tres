@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cnj7k31nxfag8"]
+
+[ext_resource type="Script" path="res://resources/level.gd" id="1_jy0r7"]
+
+[resource]
+script = ExtResource("1_jy0r7")
+rows = 6
+columns = 6
