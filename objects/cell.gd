@@ -27,7 +27,6 @@ func _on_mouse_exited():
 	cell_exited.emit(boardPos)
 				
 func _on_input_event(viewport, event, shape_idx):
-	print(event)
 	if event is InputEventMouseButton and event.is_pressed():
 		# Check if it's a left mouse button click (button_index 1) if needed
 		if event.button_index == MOUSE_BUTTON_LEFT:
