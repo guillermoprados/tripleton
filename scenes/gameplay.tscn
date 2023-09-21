@@ -1,3 +1,22 @@
-[gd_scene format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=3 format=3 uid="uid://dciutmggheven"]
+
+[ext_resource type="Script" path="res://scenes/gameplay.gd" id="1_gck8e"]
+[ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://objects/board.tscn" id="2_7sxhf"]
 
 [node name="Gameplay" type="Node2D"]
+script = ExtResource("1_gck8e")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_right = 599.0
+offset_bottom = 980.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.219608, 0.776471, 0.866667, 1)
+
+[node name="Board" parent="." instance=ExtResource("2_7sxhf")]
+position = Vector2(304, 485)
