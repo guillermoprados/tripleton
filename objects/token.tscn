@@ -1,20 +1,20 @@
 [gd_scene load_steps=5 format=3 uid="uid://gbg1fq05vnj5"]
 
-[ext_resource type="Texture2D" uid="uid://bb51vyximw1v2" path="res://images/game_tiles.png" id="1_lx41f"]
+[ext_resource type="Texture2D" uid="uid://bb51vyximw1v2" path="res://images/game_tiles.png" id="1_jnfuy"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4ei3b"]
-atlas = ExtResource("1_lx41f")
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4y2u"]
+atlas = ExtResource("1_jnfuy")
 region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qo5fi"]
-atlas = ExtResource("1_lx41f")
-region = Rect2(0, 0, 128, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsfi5"]
+atlas = ExtResource("1_jnfuy")
+region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_v4x7j"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4ei3b")
+"texture": SubResource("AtlasTexture_g4y2u")
 }],
 "loop": true,
 "name": &"combine",
@@ -22,7 +22,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qo5fi")
+"texture": SubResource("AtlasTexture_wsfi5")
 }],
 "loop": true,
 "name": &"idle",
@@ -30,7 +30,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qo5fi")
+"texture": SubResource("AtlasTexture_wsfi5")
 }],
 "loop": true,
 "name": &"random",
@@ -38,7 +38,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qo5fi")
+"texture": SubResource("AtlasTexture_wsfi5")
 }],
 "loop": true,
 "name": &"shine",
@@ -48,13 +48,5 @@ animations = [{
 [node name="token" type="Node"]
 
 [node name="a0_bamboo" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_v4x7j")
-animation = &"combine"
-
-[node name="a1_lamp" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_v4x7j")
-animation = &"combine"
-
-[node name="a2_gate" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_v4x7j")
 animation = &"combine"
