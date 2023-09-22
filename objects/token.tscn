@@ -1,18 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://gbg1fq05vnj5"]
+[gd_scene load_steps=6 format=3 uid="uid://gbg1fq05vnj5"]
 
-[ext_resource type="Texture2D" uid="uid://bb51vyximw1v2" path="res://images/game_tiles.png" id="1_jnfuy"]
+[ext_resource type="Script" path="res://objects/token.gd" id="1_6fv6m"]
+[ext_resource type="Texture2D" uid="uid://dv7q6obmashm4" path="res://images/tokens/bamboo.png" id="1_sq3qk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g4y2u"]
-atlas = ExtResource("1_jnfuy")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wsfi5"]
-atlas = ExtResource("1_jnfuy")
 region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_v4x7j"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_sq3qk")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_g4y2u")
 }],
@@ -22,6 +24,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("1_sq3qk")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_wsfi5")
 }],
 "loop": true,
@@ -29,6 +34,9 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_sq3qk")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wsfi5")
 }],
@@ -38,6 +46,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("1_sq3qk")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_wsfi5")
 }],
 "loop": true,
@@ -46,7 +57,8 @@ animations = [{
 }]
 
 [node name="token" type="Node"]
+script = ExtResource("1_6fv6m")
 
 [node name="a0_bamboo" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_v4x7j")
-animation = &"combine"
+animation = &"shine"
