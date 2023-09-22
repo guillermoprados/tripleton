@@ -5,6 +5,8 @@ extends Node2D
 var floating: bool
 var token_size: Vector2 = token_predefined_size
 
+@export var id:int = 1;
+
 func _ready():
 	pass  # Replace with function body.
 

@@ -3,7 +3,6 @@ extends Node2D
 @export var token_scene: PackedScene
 
 var floating_token
-var placed_tokens = []
 
 func _ready():
 	# Connect the screen size changed signal to a function
@@ -31,7 +30,6 @@ func create_floating_token():
 	token_instance.position = token_position
 	floating_token = token_instance
 
-
 func _on_board_board_cell_moved(index):
 	var cell_size = $Board.cell_size
 	var token_position = $Board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
@@ -39,5 +37,5 @@ func _on_board_board_cell_moved(index):
 
 func _on_board_board_cell_selected(index):
 	if $Board.is_cell_empty(index):
-		placed_tokens.append(floating_token)
+		$Board.set_token_at_cell(floating_token, index)
 		create_floating_token()

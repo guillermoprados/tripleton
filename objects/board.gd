@@ -14,7 +14,8 @@ var board_size: Vector2 = Vector2.ZERO # Store the cell size for external access
 var rows: int
 var columns: int
 var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
-var cell_tokens: Array = []  # The matrix of int values
+var cell_tokens_ids: Array = []  # The matrix of int values
+var placed_tokens = []
 var last_placed_token_position: Vector2 = Vector2.ZERO
 
 func _ready():
@@ -46,26 +47,27 @@ func create_board(rows: int, columns: int):
 			cell_instance.cell_index = Vector2(row, col)
 			add_child(cell_instance)
 		
-		cell_tokens.append(row_tokens)
+		cell_tokens_ids.append(row_tokens)
 	board_size = Vector2(columns * cell_size.x, rows * cell_size.y)
 	# set some default placed position
 	last_placed_token_position = Vector2.ZERO
 
 # Set the token for a specific cell
-func set_token_at_cell(token_id: int, cell_pos: Vector2):
-	cell_tokens[cell_pos.x][cell_pos.y] = token_id
+func set_token_at_cell(token, cell_pos: Vector2):
+	cell_tokens_ids[cell_pos.x][cell_pos.y] = token.id
+	placed_tokens.append(token)
 	last_placed_token_position = cell_pos
 
 # Get the token at a specific cell
 func get_token_at_cell(cell_pos: Vector2) -> int:
-	return cell_tokens[cell_pos.x][cell_pos.y]
+	return cell_tokens_ids[cell_pos.x][cell_pos.y]
 
 # Check if the cell is empty
 func is_cell_empty(cell_pos: Vector2) -> bool:
-	return cell_tokens[cell_pos.x][cell_pos.y] == EMPTY_CELL
+	return cell_tokens_ids[cell_pos.x][cell_pos.y] == EMPTY_CELL
 
 func reset_board_to_empty():
-	for row in cell_tokens:
+	for row in cell_tokens_ids:
 		for i in range(row.size()):
 			row[i] = EMPTY_CELL
 
