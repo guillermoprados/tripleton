@@ -28,6 +28,11 @@ func create_board(rows: int, columns: int):
 			row_tokens.append(EMPTY_CELL)  # Initializing matrix with EMPTY_CELL value
 			var cell_instance = cell_scene.instantiate()
 	
+			# Connect the cell signals to the board methods using the new syntax
+			cell_instance.cell_entered.connect(self._on_cell_entered)
+			cell_instance.cell_exited.connect(self._on_cell_exited)
+			cell_instance.cell_selected.connect(self._on_cell_selected)
+
 			if cell_size == Vector2.ZERO:  # Only assign cell_size once
 				cell_size = cell_instance.size()
 	
@@ -73,3 +78,12 @@ func get_closer_empty_cell_to_last_token() -> Vector2:
 					nearest_empty_pos = cell_index
 
 	return nearest_empty_pos
+
+func _on_cell_entered(cell_pos: Vector2):
+	print('entered ', cell_pos)
+	
+func _on_cell_exited(cell_pos: Vector2):
+	print('exited ', cell_pos)
+	
+func _on_cell_selected(cell_pos: Vector2):
+	print('selected ', cell_pos)
