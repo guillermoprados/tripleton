@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=5 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="Script" path="res://scenes/gameplay.gd" id="1_gck8e"]
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://objects/token.tscn" id="2_08wbk"]
+[ext_resource type="PackedScene" uid="uid://dqoc7lfl8mxw1" path="res://ui/panels/gameplay_ui.tscn" id="4_fpg8e"]
 
 [node name="Gameplay" type="Node2D"]
 script = ExtResource("1_gck8e")
@@ -22,6 +23,8 @@ color = Color(0.219608, 0.776471, 0.866667, 1)
 
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
 position = Vector2(304, 485)
+
+[node name="CanvasLayer" parent="." instance=ExtResource("4_fpg8e")]
 
 [connection signal="board_cell_moved" from="Board" to="." method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="." method="_on_board_board_cell_selected"]
