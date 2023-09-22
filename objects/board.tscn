@@ -6,5 +6,5 @@
 
 [node name="board" type="Node2D"]
 script = ExtResource("1_dbrbv")
-levelConfig = ExtResource("2_m02r2")
+level_config = ExtResource("2_m02r2")
 cell_scene = ExtResource("3_6rpbb")
