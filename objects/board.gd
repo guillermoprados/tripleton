@@ -5,9 +5,10 @@ const EMPTY_CELL = -1
 @export var level_config: Resource
 @export var cell_scene: PackedScene
 
-var dimensions: Vector2
+var board_size: Vector2 = Vector2.ZERO # Store the cell size for external access
 var rows: int
 var columns: int
+var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
 var cell_tokens: Array = []  # The matrix of int values
 var last_placed_token_position: Vector2 = Vector2.ZERO
 
@@ -21,19 +22,21 @@ func _process(delta):
 	pass
 
 func create_board(rows: int, columns: int):
-	var cell_size: Vector2
 	for row in range(rows):
 		var row_tokens: Array = []
 		for col in range(columns):
 			row_tokens.append(EMPTY_CELL)  # Initializing matrix with EMPTY_CELL value
 			var cell_instance = cell_scene.instantiate()
-			cell_size = cell_instance.size()
+	
+			if cell_size == Vector2.ZERO:  # Only assign cell_size once
+				cell_size = cell_instance.size()
+	
 			cell_instance.position = Vector2(col * cell_size.x, row * cell_size.y)
 			cell_instance.cell_index = Vector2(row, col)
 			add_child(cell_instance)
 		
 		cell_tokens.append(row_tokens)
-	dimensions = Vector2(columns * cell_size.x, rows * cell_size.y)
+	board_size = Vector2(columns * cell_size.x, rows * cell_size.y)
 	# set some default placed position
 	last_placed_token_position = Vector2.ZERO
 
