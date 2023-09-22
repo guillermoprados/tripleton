@@ -1,5 +1,7 @@
 extends Node2D
 
+var CellScript = preload("res://objects/cell.gd")
+
 const EMPTY_CELL = -1
 
 @export var level_config: Resource
@@ -80,10 +82,25 @@ func get_closer_empty_cell_to_last_token() -> Vector2:
 	return nearest_empty_pos
 
 func _on_cell_entered(cell_pos: Vector2):
-	print('entered ', cell_pos)
+	set_hovering_on_cell(cell_pos)
 	
 func _on_cell_exited(cell_pos: Vector2):
 	print('exited ', cell_pos)
 	
 func _on_cell_selected(cell_pos: Vector2):
 	print('selected ', cell_pos)
+
+func clear_current_hovering():
+	for cell in get_tree().get_nodes_in_group("cells"):
+		cell.highlight(CellScript.HighlightMode.NONE, true)
+
+func set_hovering_on_cell(cell_pos: Vector2):
+	clear_current_hovering()
+
+	var can_place_token = is_cell_empty(cell_pos)
+
+	for cell in get_tree().get_nodes_in_group("cells"):
+		if cell.cell_index == cell_pos:
+			cell.highlight(CellScript.HighlightMode.HOVER, can_place_token)
+		elif cell.cell_index.x == cell_pos.x or cell.cell_index.y == cell_pos.y:
+			cell.highlight(CellScript.HighlightMode.SAME_LINE, can_place_token)
