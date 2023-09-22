@@ -34,7 +34,8 @@ func create_board(rows: int, columns: int):
 			cell_instance.cell_entered.connect(self._on_cell_entered)
 			cell_instance.cell_exited.connect(self._on_cell_exited)
 			cell_instance.cell_selected.connect(self._on_cell_selected)
-
+			
+			cell_instance.add_to_group("cells")
 			if cell_size == Vector2.ZERO:  # Only assign cell_size once
 				cell_size = cell_instance.size()
 	
@@ -92,8 +93,8 @@ func _on_cell_selected(cell_pos: Vector2):
 
 func clear_current_hovering():
 	for cell in get_tree().get_nodes_in_group("cells"):
-		cell.highlight(CellScript.HighlightMode.NONE, true)
-
+			cell.highlight(CellScript.HighlightMode.NONE, true)
+			
 func set_hovering_on_cell(cell_pos: Vector2):
 	clear_current_hovering()
 

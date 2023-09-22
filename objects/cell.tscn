@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ubd2d"]
 size = Vector2(58, 58)
 
-[node name="Area2D" type="Area2D" groups=["cells"]]
+[node name="Area2D" type="Area2D"]
 collision_mask = 0
 priority = 1
 script = ExtResource("1_63653")
