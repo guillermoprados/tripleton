@@ -5,31 +5,37 @@ signal cell_selected(index:Vector2)
 
 var cell_index:Vector2
 
-@export var empty_color: Color
-@export var hover_color: Color
-@export var select_color: Color
+enum HighlightMode {
+	NONE,
+	HOVER,
+	SAME_LINE,
+	COMBINATION
+}
+
+@export var base_color : Color = Color(0.5, 0.5, 0.5, 1)
+@export var transparent_color : Color = Color(1, 1, 1, 0)
+@export var highlight_strong_valid : Color = Color(0.5, 1, 0.5, 1)
+@export var highlight_strong_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var highlight_light_valid : Color = Color(0.75, 1, 0.75, 1)
+@export var highlight_light_invalid : Color = Color(1, 0.75, 0.75, 1)
+@export var highlight_combination : Color = Color(0.5, 0.5, 1, 1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$BackColor.color = empty_color
+	$BackColor.color = base_color
+	$HighLightColor.color = transparent_color
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 func _on_mouse_entered():
-	$BackColor.color = hover_color
 	cell_entered.emit(cell_index)
 
 func _on_mouse_exited():
-	$BackColor.color = empty_color
 	cell_exited.emit(cell_index)
 				
 func _on_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.is_pressed():
 		# Check if it's a left mouse button click (button_index 1) if needed
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			$BackColor.color = select_color
 			cell_selected.emit(cell_index)
 	elif event is InputEventScreenTouch and event.pressed:
 		pass
@@ -42,3 +48,14 @@ func _on_input_event(viewport, event, shape_idx):
 
 func size() -> Vector2:
 	return $BackColor.get_size()
+
+func highlight(mode: HighlightMode, valid: bool) -> void:
+	match mode:
+		HighlightMode.NONE:
+			$HighLightColor.color = transparent_color
+		HighlightMode.HOVER:
+			$HighLightColor.color = highlight_strong_valid if valid else highlight_strong_invalid
+		HighlightMode.SAME_LINE:
+			$HighLightColor.color = highlight_light_valid if valid else highlight_light_invalid
+		HighlightMode.COMBINATION:
+			$BackColor.color = highlight_combination
