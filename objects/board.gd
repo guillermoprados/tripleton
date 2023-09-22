@@ -4,6 +4,9 @@ var CellScript = preload("res://objects/cell.gd")
 
 const EMPTY_CELL = -1
 
+signal board_cell_moved(index:Vector2)
+signal board_cell_selected(index:Vector2)
+
 @export var level_config: Resource
 @export var cell_scene: PackedScene
 
@@ -84,12 +87,13 @@ func get_closer_empty_cell_to_last_token() -> Vector2:
 
 func _on_cell_entered(cell_pos: Vector2):
 	set_hovering_on_cell(cell_pos)
+	board_cell_moved.emit(cell_pos)
 	
 func _on_cell_exited(cell_pos: Vector2):
-	print('exited ', cell_pos)
+	pass
 	
 func _on_cell_selected(cell_pos: Vector2):
-	print('selected ', cell_pos)
+	board_cell_selected.emit(cell_pos)
 
 func clear_current_hovering():
 	for cell in get_tree().get_nodes_in_group("cells"):

@@ -22,3 +22,6 @@ color = Color(0.219608, 0.776471, 0.866667, 1)
 
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
 position = Vector2(304, 485)
+
+[connection signal="board_cell_moved" from="Board" to="." method="_on_board_board_cell_moved"]
+[connection signal="board_cell_selected" from="Board" to="." method="_on_board_board_cell_selected"]
