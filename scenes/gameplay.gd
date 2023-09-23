@@ -4,7 +4,7 @@ extends Node2D
 
 var floating_token
 
-signal show_message(message:String, time:float)
+signal show_message(message:String, theme_color:String, time:float)
 
 func _ready():
 	# Connect the screen size changed signal to a function
@@ -46,4 +46,4 @@ func _on_board_board_cell_selected(index):
 		$Board.set_token_at_cell(floating_token, index)
 		create_floating_token()
 	else:
-		show_message.emit("Cannot place token", .5); #localize
+		show_message.emit("Cannot place token", "error_font", .5); #localize
