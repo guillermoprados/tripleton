@@ -1,7 +1,5 @@
 extends Node2D
 
-var CellScript = preload("res://objects/cell.gd")
-
 const EMPTY_CELL = -1
 
 signal board_cell_moved(index:Vector2)
@@ -111,7 +109,7 @@ func _on_cell_selected(cell_pos: Vector2):
 func clear_current_hovering():
 	for row in cells_matrix:
 		for cell in row:
-			cell.highlight(CellScript.HighlightMode.NONE, true)
+			cell.highlight(Constants.HighlightMode.NONE, true)
 			
 func set_hovering_on_cell(cell_pos: Vector2):
 	clear_current_hovering()
@@ -121,6 +119,6 @@ func set_hovering_on_cell(cell_pos: Vector2):
 	for row in cells_matrix:
 		for cell in row:
 			if cell.cell_index == cell_pos:
-				cell.highlight(CellScript.HighlightMode.HOVER, can_place_token)
+				cell.highlight(Constants.HighlightMode.HOVER, can_place_token)
 			elif cell.cell_index.x == cell_pos.x or cell.cell_index.y == cell_pos.y:
-				cell.highlight(CellScript.HighlightMode.SAME_LINE, can_place_token)
+				cell.highlight(Constants.HighlightMode.SAME_LINE, can_place_token)

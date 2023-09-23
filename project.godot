@@ -14,6 +14,10 @@ config/name="Tripleton"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Constants="*res://scripts/Constants.gd"
+
 [display]
 
 window/size/viewport_width=700

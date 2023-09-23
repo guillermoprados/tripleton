@@ -24,7 +24,8 @@ color = Color(0.219608, 0.776471, 0.866667, 1)
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
 position = Vector2(304, 485)
 
-[node name="CanvasLayer" parent="." instance=ExtResource("4_fpg8e")]
+[node name="GameplayUI" parent="." instance=ExtResource("4_fpg8e")]
 
+[connection signal="show_message" from="." to="GameplayUI" method="_on_gameplay_show_message"]
 [connection signal="board_cell_moved" from="Board" to="." method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="." method="_on_board_board_cell_selected"]
