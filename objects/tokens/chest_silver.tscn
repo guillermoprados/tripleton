@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ch1l8do3fkdc7"]
+
+[ext_resource type="Texture2D" uid="uid://ck13vimv2ke55" path="res://images/tokens/chest_silver.png" id="1_xjfqo"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xjfqo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"
