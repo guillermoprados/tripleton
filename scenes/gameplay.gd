@@ -19,6 +19,9 @@ func _on_screen_size_changed():
 		(screen_size.y - board_size.y) / 2
 	)
 	$Board.position = board_pos
+	if floating_token:
+		floating_token.position = $Board.position
+	$Board.clear_current_hovering()
 
 func create_floating_token():
 	var token_instance = token_scene.instantiate()
@@ -37,5 +40,6 @@ func _on_board_board_cell_moved(index):
 
 func _on_board_board_cell_selected(index):
 	if $Board.is_cell_empty(index):
+		remove_child(floating_token)
 		$Board.set_token_at_cell(floating_token, index)
 		create_floating_token()

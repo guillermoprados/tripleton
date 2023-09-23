@@ -15,7 +15,8 @@ var rows: int
 var columns: int
 var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
 var cell_tokens_ids: Array = []  # The matrix of int values
-var placed_tokens = []
+var placed_tokens = [] # The token scenes
+var cells_matrix: Array = [] # The cells matrix so we can access them directly
 var last_placed_token_position: Vector2 = Vector2.ZERO
 
 func _ready():
@@ -30,6 +31,7 @@ func _process(delta):
 func create_board(rows: int, columns: int):
 	for row in range(rows):
 		var row_tokens: Array = []
+		var row_cells: Array = []  # This will store the cell references for this row
 		for col in range(columns):
 			row_tokens.append(EMPTY_CELL)  # Initializing matrix with EMPTY_CELL value
 			var cell_instance = cell_scene.instantiate()
@@ -39,15 +41,16 @@ func create_board(rows: int, columns: int):
 			cell_instance.cell_exited.connect(self._on_cell_exited)
 			cell_instance.cell_selected.connect(self._on_cell_selected)
 			
-			cell_instance.add_to_group("cells")
 			if cell_size == Vector2.ZERO:  # Only assign cell_size once
 				cell_size = cell_instance.size()
 	
 			cell_instance.position = Vector2(col * cell_size.x, row * cell_size.y)
 			cell_instance.cell_index = Vector2(row, col)
 			add_child(cell_instance)
-		
+			row_cells.append(cell_instance)
 		cell_tokens_ids.append(row_tokens)
+		cells_matrix.append(row_cells)  # Storing the row of cells into the matrix
+	
 	board_size = Vector2(columns * cell_size.x, rows * cell_size.y)
 	# set some default placed position
 	last_placed_token_position = Vector2.ZERO
@@ -56,11 +59,19 @@ func create_board(rows: int, columns: int):
 func set_token_at_cell(token, cell_pos: Vector2):
 	cell_tokens_ids[cell_pos.x][cell_pos.y] = token.id
 	placed_tokens.append(token)
+	add_child(token)
+	token.position = get_cell_at_position(cell_pos).position
 	last_placed_token_position = cell_pos
 
 # Get the token at a specific cell
 func get_token_at_cell(cell_pos: Vector2) -> int:
 	return cell_tokens_ids[cell_pos.x][cell_pos.y]
+
+# Get the cell scene at a given position
+func get_cell_at_position(cell_pos: Vector2) -> Node:
+	if cell_pos.x < rows and cell_pos.y < columns:
+		return cells_matrix[cell_pos.x][cell_pos.y]
+	return null  # Return null if the position is out of bounds
 
 # Check if the cell is empty
 func is_cell_empty(cell_pos: Vector2) -> bool:
@@ -98,7 +109,8 @@ func _on_cell_selected(cell_pos: Vector2):
 	board_cell_selected.emit(cell_pos)
 
 func clear_current_hovering():
-	for cell in get_tree().get_nodes_in_group("cells"):
+	for row in cells_matrix:
+		for cell in row:
 			cell.highlight(CellScript.HighlightMode.NONE, true)
 			
 func set_hovering_on_cell(cell_pos: Vector2):
@@ -106,8 +118,9 @@ func set_hovering_on_cell(cell_pos: Vector2):
 
 	var can_place_token = is_cell_empty(cell_pos)
 
-	for cell in get_tree().get_nodes_in_group("cells"):
-		if cell.cell_index == cell_pos:
-			cell.highlight(CellScript.HighlightMode.HOVER, can_place_token)
-		elif cell.cell_index.x == cell_pos.x or cell.cell_index.y == cell_pos.y:
-			cell.highlight(CellScript.HighlightMode.SAME_LINE, can_place_token)
+	for row in cells_matrix:
+		for cell in row:
+			if cell.cell_index == cell_pos:
+				cell.highlight(CellScript.HighlightMode.HOVER, can_place_token)
+			elif cell.cell_index.x == cell_pos.x or cell.cell_index.y == cell_pos.y:
+				cell.highlight(CellScript.HighlightMode.SAME_LINE, can_place_token)
