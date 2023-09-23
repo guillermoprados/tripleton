@@ -5,13 +5,6 @@ signal cell_selected(index:Vector2)
 
 var cell_index:Vector2
 
-enum HighlightMode {
-	NONE,
-	HOVER,
-	SAME_LINE,
-	COMBINATION
-}
-
 @export var base_color : Color = Color(0.5, 0.5, 0.5, 1)
 @export var transparent_color : Color = Color(1, 1, 1, 0)
 @export var highlight_strong_valid : Color = Color(0.5, 1, 0.5, 1)
@@ -49,13 +42,13 @@ func _on_input_event(viewport, event, shape_idx):
 func size() -> Vector2:
 	return $BackColor.get_size()
 
-func highlight(mode: HighlightMode, valid: bool) -> void:
+func highlight(mode: Constants.HighlightMode, valid: bool) -> void:
 	match mode:
-		HighlightMode.NONE:
+		Constants.HighlightMode.NONE:
 			$HighLightColor.color = transparent_color
-		HighlightMode.HOVER:
+		Constants.HighlightMode.HOVER:
 			$HighLightColor.color = highlight_strong_valid if valid else highlight_strong_invalid
-		HighlightMode.SAME_LINE:
+		Constants.HighlightMode.SAME_LINE:
 			$HighLightColor.color = highlight_light_valid if valid else highlight_light_invalid
-		HighlightMode.COMBINATION:
+		Constants.HighlightMode.COMBINATION:
 			$BackColor.color = highlight_combination

@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c1meoxw1r8o2k"]
+
+[ext_resource type="FontFile" uid="uid://cgsk47qsbyxui" path="res://ui/fonts/Questrial-Regular.ttf" id="1_re1el"]
+
+[resource]
+default_font = ExtResource("1_re1el")
+default_font_size = 40
+/colors/error = Color(0.478431, 0, 0.137255, 1)
+Label/colors/error_font = Color(1, 0, 0, 1)

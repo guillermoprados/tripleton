@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqoc7lfl8mxw1"]
+
+[ext_resource type="Theme" uid="uid://c1meoxw1r8o2k" path="res://ui/themes/main_theme.tres" id="1_00c0a"]
+[ext_resource type="Script" path="res://ui/panels/gameplay_ui.gd" id="1_34u8y"]
+
+[node name="GameplayUI" type="CanvasLayer"]
+script = ExtResource("1_34u8y")
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -138.0
+offset_top = 50.0
+offset_right = 138.0
+offset_bottom = 92.0
+grow_horizontal = 2
+theme = ExtResource("1_00c0a")
+text = "Some Message"
+
+[node name="MessageTimer" type="Timer" parent="."]
+one_shot = true
