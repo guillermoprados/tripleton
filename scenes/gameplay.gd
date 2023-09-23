@@ -37,5 +37,6 @@ func _on_board_board_cell_moved(index):
 
 func _on_board_board_cell_selected(index):
 	if $Board.is_cell_empty(index):
+		remove_child(floating_token)
 		$Board.set_token_at_cell(floating_token, index)
 		create_floating_token()
