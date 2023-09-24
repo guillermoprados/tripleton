@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var token_scene: PackedScene
+@export var tokens_data: TokensDataArray
 
 var floating_token
 
@@ -27,6 +28,7 @@ func _on_screen_size_changed():
 
 func create_floating_token():
 	var token_instance = token_scene.instantiate()
+	token_instance.set_data(tokens_data.tokens[0])
 	var closer_empty_cell = $Board.get_closer_empty_cell_to_last_token()
 	var cell_size = $Board.cell_size
 	add_child(token_instance)

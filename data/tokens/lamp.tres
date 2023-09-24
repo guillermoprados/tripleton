@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://yxb4d3i1elr8"]
+
+[ext_resource type="Script" path="res://resources/token_data.gd" id="1_5j6ns"]
+[ext_resource type="PackedScene" uid="uid://bn6ghnvdsftlm" path="res://objects/tokens/lamp.tscn" id="2_0k35l"]
+
+[resource]
+script = ExtResource("1_5j6ns")
+id = 1
+name = "lamp"
+sprite_scene = ExtResource("2_0k35l")
+points = 50

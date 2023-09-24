@@ -1,65 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://gbg1fq05vnj5"]
+[gd_scene load_steps=2 format=3 uid="uid://gbg1fq05vnj5"]
 
 [ext_resource type="Script" path="res://objects/token.gd" id="1_6fv6m"]
-[ext_resource type="Texture2D" uid="uid://dv7q6obmashm4" path="res://images/tokens/bamboo.png" id="1_sq3qk"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g4y2u"]
-region = Rect2(0, 0, 128, 128)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wsfi5"]
-region = Rect2(128, 0, 128, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_v4x7j"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_sq3qk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g4y2u")
-}],
-"loop": true,
-"name": &"combine",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_sq3qk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wsfi5")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_sq3qk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wsfi5")
-}],
-"loop": true,
-"name": &"random",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_sq3qk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wsfi5")
-}],
-"loop": true,
-"name": &"shine",
-"speed": 5.0
-}]
 
 [node name="Token" type="Node2D"]
 script = ExtResource("1_6fv6m")
-
-[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(64, 64)
-sprite_frames = SubResource("SpriteFrames_v4x7j")
-animation = &"shine"

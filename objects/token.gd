@@ -4,7 +4,8 @@ extends Node2D
 
 var floating: bool
 var token_size: Vector2 = token_predefined_size
-
+var token_data: TokenData
+ 
 @export var id:int = 1;
 
 func _ready():
@@ -23,3 +24,8 @@ func _draw():
 	# Drawing a rectangle at the token's position with the token's size
 	# The color is set to red for visibility, but you can change it as per your preference
 	draw_rect(Rect2(Vector2.ZERO, token_predefined_size), Color(1, 0, 0, 0.5), false)
+
+func set_data(data:TokenData):
+	token_data = data
+	var sprite_instance = token_data.sprite_scene.instantiate()
+	add_child(sprite_instance)

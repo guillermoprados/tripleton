@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=6 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="Script" path="res://scenes/gameplay.gd" id="1_gck8e"]
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://objects/token.tscn" id="2_08wbk"]
+[ext_resource type="Resource" uid="uid://bt0vinmctpxe6" path="res://data/tokens_array.tres" id="3_6iknq"]
 [ext_resource type="PackedScene" uid="uid://dqoc7lfl8mxw1" path="res://ui/panels/gameplay_ui.tscn" id="4_fpg8e"]
 
 [node name="Gameplay" type="Node2D"]
 script = ExtResource("1_gck8e")
 token_scene = ExtResource("2_08wbk")
+tokens_data = ExtResource("3_6iknq")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15

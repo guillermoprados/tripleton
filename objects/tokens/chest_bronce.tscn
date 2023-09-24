@@ -14,5 +14,6 @@ animations = [{
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(64, 64)
 sprite_frames = SubResource("SpriteFrames_opgpc")
 animation = &"idle"

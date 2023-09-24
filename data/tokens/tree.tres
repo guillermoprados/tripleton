@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://24w85gntjo8m"]
+
+[ext_resource type="Script" path="res://resources/token_data.gd" id="1_yonk0"]
+[ext_resource type="PackedScene" uid="uid://bp7pugj5uta4l" path="res://objects/tokens/tree.tscn" id="2_mc3au"]
+
+[resource]
+script = ExtResource("1_yonk0")
+name = "tree"
+sprite_scene = ExtResource("2_mc3au")
+points = 50
