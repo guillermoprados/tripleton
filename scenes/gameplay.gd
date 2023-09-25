@@ -1,13 +1,13 @@
 extends Node2D
 
-@export var token_scene: PackedScene
-@export var tokens_config: TokensConfig
+@export var token_provider: TokenProvider
 
 var floating_token
 
 signal show_message(message:String, theme_color:String, time:float)
 
 func _ready():
+	assert(token_provider, "token_provider is not set!")
 	# Connect the screen size changed signal to a function
 	get_tree().root.size_changed.connect(_on_screen_size_changed)
 	_on_screen_size_changed()
@@ -27,8 +27,7 @@ func _on_screen_size_changed():
 	$Board.clear_current_hovering()
 
 func create_floating_token():
-	var token_instance = token_scene.instantiate()
-	token_instance.set_data(tokens_config.tokens[0])
+	var token_instance = token_provider.get_token_instance()
 	var closer_empty_cell = $Board.get_closer_empty_cell_to_last_token()
 	var cell_size = $Board.cell_size
 	add_child(token_instance)

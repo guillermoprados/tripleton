@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TokenProvider" load_steps=4 format=3 uid="uid://4wdbbspckbtc"]
+
+[ext_resource type="Script" path="res://scripts/token_provider.gd" id="1_k0gur"]
+[ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://objects/token.tscn" id="2_txv82"]
+[ext_resource type="Resource" uid="uid://cvwsr67y5u75o" path="res://data/tokens_config.tres" id="3_3x4od"]
+
+[resource]
+script = ExtResource("1_k0gur")
+token_scene = ExtResource("2_txv82")
+tokens_config = ExtResource("3_3x4od")
