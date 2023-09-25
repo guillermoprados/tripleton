@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TokenCategory" load_steps=5 format=3 uid="uid://ccqhatfrpk7jv"]
+
+[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens/chest_bronce.tres" id="1_6i3ot"]
+[ext_resource type="Resource" uid="uid://cqty26t0ppt3d" path="res://data/tokens/chest_silver.tres" id="2_ud772"]
+[ext_resource type="Resource" uid="uid://c6ragfjs3jdr8" path="res://data/tokens/chest_gold.tres" id="3_xcuve"]
+[ext_resource type="Script" path="res://resources/token_category.gd" id="4_nr8a2"]
+
+[resource]
+script = ExtResource("4_nr8a2")
+name = "chests"
+ordered_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_6i3ot"), ExtResource("2_ud772"), ExtResource("3_xcuve")])
+spawneable = false

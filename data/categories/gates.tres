@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TokenCategory" load_steps=5 format=3 uid="uid://bkp04lj21tt64"]
+
+[ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens/bamboo.tres" id="1_8blq5"]
+[ext_resource type="Script" path="res://resources/token_category.gd" id="1_js2y6"]
+[ext_resource type="Resource" uid="uid://yxb4d3i1elr8" path="res://data/tokens/lamp.tres" id="2_tnfyg"]
+[ext_resource type="Resource" uid="uid://ps32pfs5cnga" path="res://data/tokens/gate.tres" id="3_m2ah3"]
+
+[resource]
+script = ExtResource("1_js2y6")
+name = "gates"
+ordered_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_8blq5"), ExtResource("2_tnfyg"), ExtResource("3_m2ah3")])
+spawneable = true

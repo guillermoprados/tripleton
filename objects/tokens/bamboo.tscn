@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://e3qrttn6mcg8"]
+
+[ext_resource type="Texture2D" uid="uid://dv7q6obmashm4" path="res://images/tokens/bamboo.png" id="1_extq4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_extq4")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(63, 63)
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"

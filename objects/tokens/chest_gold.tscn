@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcs4r0bgkes0w"]
+
+[ext_resource type="Texture2D" uid="uid://dtiipamtjp2kr" path="res://images/tokens/chest_gold.png" id="1_gjdv1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_gjdv1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(64, 64)
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"

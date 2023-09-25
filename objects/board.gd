@@ -5,7 +5,6 @@ const EMPTY_CELL = -1
 signal board_cell_moved(index:Vector2)
 signal board_cell_selected(index:Vector2)
 
-@export var level_config: Resource
 @export var cell_scene: PackedScene
 
 var board_size: Vector2 = Vector2.ZERO # Store the cell size for external access
@@ -17,11 +16,10 @@ var placed_tokens = [] # The token scenes
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
 var last_placed_token_position: Vector2 = Vector2.ZERO
 
-func _ready():
-	if level_config:
-		rows = level_config.rows
-		columns = level_config.columns
-		create_board(rows, columns)	
+func initialize(level_config:LevelConfig):
+	rows = level_config.rows
+	columns = level_config.columns
+	create_board(rows, columns)	
 
 func _process(delta):
 	pass

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://du28juuf5qsld"]
+
+[ext_resource type="Texture2D" uid="uid://dqoohj85gfjvd" path="res://images/tokens/bush.png" id="1_tmovj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tmovj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(66, 67)
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"
