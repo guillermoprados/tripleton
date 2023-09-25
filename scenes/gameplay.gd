@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var token_provider: TokenProvider
+@export var level_config: LevelConfig
 
 var floating_token
 
@@ -8,6 +9,8 @@ signal show_message(message:String, theme_color:String, time:float)
 
 func _ready():
 	assert(token_provider, "token_provider is not set!")
+	assert(level_config, "level_config is not set!")
+	$Board.initialize(level_config)
 	# Connect the screen size changed signal to a function
 	get_tree().root.size_changed.connect(_on_screen_size_changed)
 	_on_screen_size_changed()
