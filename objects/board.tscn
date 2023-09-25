@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dlrmlfrpnrkcu"]
+[gd_scene load_steps=6 format=3 uid="uid://dlrmlfrpnrkcu"]
 
 [ext_resource type="Script" path="res://objects/board.gd" id="1_dbrbv"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://objects/cell.tscn" id="3_6rpbb"]
 [ext_resource type="Script" path="res://scripts/token_data_provider.gd" id="3_o0y68"]
 [ext_resource type="Resource" uid="uid://cvwsr67y5u75o" path="res://data/tokens_config.tres" id="4_moqu1"]
+[ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="5_k0268"]
 
 [node name="board" type="Node2D"]
 script = ExtResource("1_dbrbv")
@@ -12,3 +13,7 @@ cell_scene = ExtResource("3_6rpbb")
 [node name="TokenDataProvider" type="Node" parent="."]
 script = ExtResource("3_o0y68")
 tokens_config = ExtResource("4_moqu1")
+
+[node name="Combinator" type="Node" parent="." node_paths=PackedStringArray("token_data_info_provider")]
+script = ExtResource("5_k0268")
+token_data_info_provider = NodePath("../TokenDataProvider")

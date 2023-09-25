@@ -1,4 +1,4 @@
-extends Node2D
+class_name Board extends Node2D
 
 const EMPTY_CELL = -1
 
@@ -12,7 +12,7 @@ var rows: int
 var columns: int
 var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
 var cell_tokens_ids: Array = []  # The matrix of int values
-var placed_tokens = [] # The token scenes
+var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
 var last_placed_token_position: Vector2 = Vector2.ZERO
 
@@ -54,10 +54,21 @@ func create_board(rows: int, columns: int):
 # Set the token for a specific cell
 func set_token_at_cell(token, cell_pos: Vector2):
 	cell_tokens_ids[cell_pos.x][cell_pos.y] = token.id
-	placed_tokens.append(token)
+	placed_tokens[cell_pos] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_pos).position
 	last_placed_token_position = cell_pos
+
+func clear_token(cell_index: Vector2) -> void:
+	# Update the matrix value to EMPTY_CELL
+	cell_tokens_ids[cell_index.x][cell_index.y] = EMPTY_CELL
+	
+	# Remove the token instance from the scene if it exists in the dictionary
+	if placed_tokens.has(cell_index):
+		var token = placed_tokens[cell_index]
+		token.queue_free()  # Safely remove the token from the scene
+		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
+
 
 # Get the token at a specific cell
 func get_token_at_cell(cell_pos: Vector2) -> int:
