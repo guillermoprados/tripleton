@@ -1,6 +1,6 @@
-extends Resource
+extends Node2D
 
-class_name TokenProvider
+class_name TokenInstanceProvider
 
 @export var token_scene: PackedScene
 @export var level_config: LevelConfig  # Reference to your level config resource
@@ -8,7 +8,7 @@ class_name TokenProvider
 var tokens: Array = []
 var probabilities: Array = []
 
-func __setup_probabilities():
+func _ready():
 	# Get the current difficulty (for now, it's the first one)
 	var current_difficulty = level_config.difficulties[0]
 
@@ -28,10 +28,6 @@ func __setup_probabilities():
 	print("probs:",probabilities)
 
 func get_token_instance() -> Token:
-	
-	if(!probabilities):
-		__setup_probabilities()
-	
 	# Select a token based on the probabilities
 	var chosen_token = __pick_weighted(tokens, probabilities)
 	

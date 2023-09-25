@@ -7,3 +7,5 @@ enum HighlightMode {
 	SAME_LINE,
 	COMBINATION
 }
+
+var MinRequiredTokensForCombination = 3 
