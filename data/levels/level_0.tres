@@ -7,4 +7,4 @@
 script = ExtResource("1_o70xh")
 rows = 6
 columns = 6
-difficulties = Array[Object]([ExtResource("1_4l3lq")])
+difficulties = Array[Resource("res://resources/game_difficulty.gd")]([ExtResource("1_4l3lq")])

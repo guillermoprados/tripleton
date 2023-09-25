@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=7 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="Script" path="res://scenes/gameplay.gd" id="1_gck8e"]
 [ext_resource type="Resource" uid="uid://4wdbbspckbtc" path="res://data/token_provider.tres" id="2_7is2f"]
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="Resource" uid="uid://cnj7k31nxfag8" path="res://data/levels/level_0.tres" id="3_4t22s"]
 [ext_resource type="PackedScene" uid="uid://dqoc7lfl8mxw1" path="res://ui/panels/gameplay_ui.tscn" id="4_fpg8e"]
+[ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://objects/cell.tscn" id="6_h3m50"]
 
 [node name="Gameplay" type="Node2D"]
 script = ExtResource("1_gck8e")
@@ -27,6 +28,12 @@ color = Color(0.219608, 0.776471, 0.866667, 1)
 position = Vector2(304, 485)
 
 [node name="GameplayUI" parent="." instance=ExtResource("4_fpg8e")]
+
+[node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
+position = Vector2(113, 186)
+
+[node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
+position = Vector2(424, 181)
 
 [connection signal="show_message" from="." to="GameplayUI" method="_on_gameplay_show_message"]
 [connection signal="board_cell_moved" from="Board" to="." method="_on_board_board_cell_moved"]
