@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LevelConfig" load_steps=3 format=3 uid="uid://cji3ph3ys8fs3"]
+
+[ext_resource type="Resource" uid="uid://bxppopushegky" path="res://data/difficulties/test_diff.tres" id="1_u2ppt"]
+[ext_resource type="Script" path="res://resources/level_config.gd" id="1_xwj48"]
+
+[resource]
+script = ExtResource("1_xwj48")
+rows = 5
+columns = 5
+difficulties = Array[Resource("res://resources/game_difficulty.gd")]([ExtResource("1_u2ppt")])
