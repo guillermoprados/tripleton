@@ -1,8 +1,10 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cnj7k31nxfag8"]
+[gd_resource type="Resource" script_class="LevelConfig" load_steps=3 format=3 uid="uid://cnj7k31nxfag8"]
 
-[ext_resource type="Script" path="res://resources/level_config.gd" id="1_jy0r7"]
+[ext_resource type="Resource" uid="uid://dho3rwr388oji" path="res://data/difficulties/easy.tres" id="1_4l3lq"]
+[ext_resource type="Script" path="res://resources/level_config.gd" id="1_o70xh"]
 
 [resource]
-script = ExtResource("1_jy0r7")
+script = ExtResource("1_o70xh")
 rows = 6
 columns = 6
+difficulties = Array[Object]([ExtResource("1_4l3lq")])

@@ -3,47 +3,46 @@ extends Resource
 class_name TokenProvider
 
 @export var token_scene: PackedScene
-@export var tokens_config: TokensConfig 
+@export var level_config: LevelConfig  # Reference to your level config resource
 
-var probabilities: Array = [60, 20, 10, 5, 5]  # and so on, you can extend this as needed
+var tokens: Array = []
+var probabilities: Array = []
+
+func __setup_probabilities():
+	# Get the current difficulty (for now, it's the first one)
+	var current_difficulty = level_config.difficulties[0]
+
+	# If there's no difficulty set, or no probabilities, return
+	if current_difficulty == null or current_difficulty.probabilities.size() == 0:
+		assert("No difficulties or probabilities set!")
+	
+	var total_prob = 0.0
+	for prob_entry in current_difficulty.probabilities:
+		tokens.append(prob_entry.token)
+		probabilities.append(prob_entry.probability)
+		total_prob += prob_entry.probability
+	
+	# Normalize the probabilities
+	for i in range(probabilities.size()):
+		probabilities[i] /= total_prob
+	print("probs:",probabilities)
 
 func get_token_instance() -> Token:
-	# Filter out non-spawnable categories
-	var spawnable_categories = []
-	for category in tokens_config.categories:
-		if category.spawneable:
-			spawnable_categories.append(category)
-
-	# Check if we have more spawnable categories than probabilities provided
-	if spawnable_categories.size() > probabilities.size():
-		printerr("Not enough probabilities provided for the number of spawnable categories!")
-		return null
 	
-	# Normalize the probabilities so they sum up to 1
-	var total_prob = 0
-	for prob in probabilities:
-		total_prob += prob
-	var normalized_probs = []
-	for prob in probabilities:
-		normalized_probs.append(prob / total_prob)
+	if(!probabilities):
+		__setup_probabilities()
 	
-	# Select a category based on the normalized probabilities
-	var selected_category = _pick_weighted(spawnable_categories, normalized_probs)
+	# Select a token based on the probabilities
+	var chosen_token = __pick_weighted(tokens, probabilities)
 	
-	# Select a random token from the chosen category
-	var token_index = randi() % selected_category.ordered_tokens.size()
-	var chosen_token = selected_category.ordered_tokens[token_index]
-	chosen_token.id = token_index
-	
-	# Instantiate and set data
+	# Instantiate and return the chosen token instance
 	var token_instance = token_scene.instantiate()
 	token_instance.set_data(chosen_token)
 	
 	return token_instance
 
 # Function to pick an item based on weights
-func _pick_weighted(items: Array, weights: Array) -> Variant:
-	var total_weight = 1.0
+func __pick_weighted(items: Array, weights: Array) -> Variant:
 	var choice = randf()
 
 	for i in range(items.size()):

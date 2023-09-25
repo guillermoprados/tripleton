@@ -17,4 +17,4 @@
 [resource]
 script = ExtResource("1_e2tok")
 tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("5_vvneq"), ExtResource("6_1gks1"), ExtResource("7_52mm6"), ExtResource("8_i0hqk"), ExtResource("9_dr7wr"), ExtResource("10_1dyb7"), ExtResource("11_1othl"), ExtResource("12_1hsoi"), ExtResource("13_q2cul")])
-categories = Array[Resource("res://resources/token_category.gd")]([ExtResource("1_fucnt"), ExtResource("2_ej4wq"), ExtResource("3_vp2yq")])
+categories = Array[Resource("res://resources/token_category.gd")]([ExtResource("3_vp2yq"), ExtResource("1_fucnt"), ExtResource("2_ej4wq")])

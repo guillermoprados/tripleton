@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_awjf4")
+id = 3
 name = "chest_bronce"
 sprite_scene = ExtResource("2_vh220")
 points = 50

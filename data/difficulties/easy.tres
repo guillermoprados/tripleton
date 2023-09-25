@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="GameDifficulty" load_steps=15 format=3 uid="uid://dho3rwr388oji"]
+
+[ext_resource type="Script" path="res://resources/game_difficulty.gd" id="1_o0djm"]
+[ext_resource type="Script" path="res://resources/token_probability.gd" id="1_uaqkm"]
+[ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens/bamboo.tres" id="2_ljukv"]
+[ext_resource type="Resource" uid="uid://brb7hxkvj1bxx" path="res://data/tokens/grass.tres" id="3_ot2wc"]
+[ext_resource type="Resource" uid="uid://d3bom2w3ool18" path="res://data/tokens/bush.tres" id="4_h615m"]
+[ext_resource type="Resource" uid="uid://yxb4d3i1elr8" path="res://data/tokens/lamp.tres" id="5_hsakj"]
+[ext_resource type="Resource" uid="uid://24w85gntjo8m" path="res://data/tokens/tree.tres" id="6_x8wfw"]
+[ext_resource type="Resource" uid="uid://ps32pfs5cnga" path="res://data/tokens/gate.tres" id="7_j8xhw"]
+
+[sub_resource type="Resource" id="Resource_ixiyk"]
+script = ExtResource("1_uaqkm")
+token = ExtResource("2_ljukv")
+probability = 40.0
+
+[sub_resource type="Resource" id="Resource_j5qs1"]
+script = ExtResource("1_uaqkm")
+token = ExtResource("3_ot2wc")
+probability = 40.0
+
+[sub_resource type="Resource" id="Resource_qtxsv"]
+script = ExtResource("1_uaqkm")
+token = ExtResource("4_h615m")
+probability = 20.0
+
+[sub_resource type="Resource" id="Resource_cuum7"]
+script = ExtResource("1_uaqkm")
+token = ExtResource("5_hsakj")
+probability = 20.0
+
+[sub_resource type="Resource" id="Resource_38ji7"]
+script = ExtResource("1_uaqkm")
+token = ExtResource("6_x8wfw")
+probability = 5.0
+
+[sub_resource type="Resource" id="Resource_vl7cf"]
+script = ExtResource("1_uaqkm")
+token = ExtResource("7_j8xhw")
+probability = 5.0
+
+[resource]
+script = ExtResource("1_o0djm")
+name = "easy"
+maxPoints = 10000
+probabilities = Array[ExtResource("1_uaqkm")]([SubResource("Resource_ixiyk"), SubResource("Resource_j5qs1"), SubResource("Resource_qtxsv"), SubResource("Resource_cuum7"), SubResource("Resource_38ji7"), SubResource("Resource_vl7cf")])
