@@ -3,7 +3,9 @@ extends Node2D
 @export var token_provider: TokenProvider
 @export var level_config: LevelConfig
 
-var floating_token
+var floating_token: Token
+var saved_token: Token
+
 
 signal show_message(message:String, theme_color:String, time:float)
 
@@ -15,7 +17,11 @@ func _ready():
 	get_tree().root.size_changed.connect(_on_screen_size_changed)
 	_on_screen_size_changed()
 	create_floating_token()
-
+	$SaveTokenCell.cell_entered.connect(self._on_save_token_cell_entered)
+	$SaveTokenCell.cell_exited.connect(self._on_save_token_cell_exited)
+	$SaveTokenCell.cell_selected.connect(self._on_save_token_cell_selected)
+	
+	
 func _on_screen_size_changed():
 	var screen_size = get_viewport().get_visible_rect().size
 	$ColorRect.set_size(screen_size)
@@ -52,3 +58,25 @@ func _on_board_board_cell_selected(index):
 		create_floating_token()
 	else:
 		show_message.emit("Cannot place token", "error_font", .5); #localize
+
+func _on_save_token_cell_entered(cell_pos: Vector2):
+	$SaveTokenCell.highlight(Constants.HighlightMode.HOVER, true)
+	pass
+	
+func _on_save_token_cell_exited(cell_pos: Vector2):
+	$SaveTokenCell.highlight(Constants.HighlightMode.NONE, true)
+	pass
+	
+func _on_save_token_cell_selected(cell_pos: Vector2):
+	if saved_token:
+		var floating_pos = floating_token.position
+		var switch_token = floating_token
+		floating_token = saved_token
+		saved_token = switch_token
+		floating_token.position = floating_pos
+		saved_token.position = $SaveTokenCell.position
+	else:
+		print("no saved token")
+		floating_token.position = $SaveTokenCell.position
+		saved_token = floating_token 
+		create_floating_token()
