@@ -9,3 +9,4 @@
 script = ExtResource("1_xtece")
 name = "houses"
 ordered_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_wcbp3"), ExtResource("2_g4i3j"), ExtResource("3_s60hk")])
+spawneable = true

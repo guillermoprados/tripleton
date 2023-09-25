@@ -1,12 +1,13 @@
 extends Node2D
 
+class_name Token
+
 @export var token_predefined_size: Vector2 = Vector2(128, 128)  # default size, you can adjust it in the editor
 
 var floating: bool
 var token_size: Vector2 = token_predefined_size
-var token_data: TokenData
  
-@export var id:int = 1;
+var id:int = -1
 
 func _ready():
 	pass  # Replace with function body.
@@ -25,7 +26,7 @@ func _draw():
 	# The color is set to red for visibility, but you can change it as per your preference
 	draw_rect(Rect2(Vector2.ZERO, token_predefined_size), Color(1, 0, 0, 0.5), false)
 
-func set_data(data:TokenData):
-	token_data = data
+func set_data(token_data:TokenData):
+	id = token_data.id
 	var sprite_instance = token_data.sprite_scene.instantiate()
 	add_child(sprite_instance)
