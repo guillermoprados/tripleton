@@ -78,22 +78,6 @@ func reset_board_to_empty():
 		for i in range(row.size()):
 			row[i] = EMPTY_CELL
 
-func get_closer_empty_cell_to_last_token() -> Vector2:
-	var nearest_empty_pos = Vector2.ZERO
-	var nearest_distance = INF
-
-	for row in range(rows):
-		for col in range(columns):
-			var cell_index = Vector2(row, col)
-
-			if is_cell_empty(cell_index):
-				var distance = cell_index.distance_to(last_placed_token_position)
-				if distance < nearest_distance:
-					nearest_distance = distance
-					nearest_empty_pos = cell_index
-
-	return nearest_empty_pos
-
 func _on_cell_entered(cell_pos: Vector2):
 	set_hovering_on_cell(cell_pos)
 	board_cell_moved.emit(cell_pos)
