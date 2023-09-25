@@ -47,8 +47,9 @@ func create_floating_token():
 func _on_board_board_cell_moved(index):
 	$SpawnTokenCell.highlight(Constants.HighlightMode.NONE, true)
 	var cell_size = $Board.cell_size
-	var token_position = $Board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
-	floating_token.position = token_position
+	if $Board.is_cell_empty(index):
+		var token_position = $Board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
+		floating_token.position = token_position
 
 func _on_board_board_cell_selected(index):
 	if $Board.is_cell_empty(index):
