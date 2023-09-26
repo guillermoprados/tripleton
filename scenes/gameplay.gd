@@ -12,6 +12,9 @@ var save_token_cell: BoardCell
 var spawn_token_cell: BoardCell
 var combinator: Combinator
 
+# for debugging purposes
+var is_scroll_in_progress: bool = false
+
 func _ready():
 	board = $Board
 	token_instance_provider = $TokenInstanceProvider
@@ -44,6 +47,34 @@ func _on_screen_size_changed():
 	if floating_token:
 		floating_token.position = board.position
 	board.clear_highlights()
+
+func _input(event):
+	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
+		return
+
+	if event is InputEventMouseButton:
+		var next_token_data = null
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			if token_data_provider.token_has_next_level(floating_token.id):
+				next_token_data = token_data_provider.get_next_level_data(floating_token.id)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if token_data_provider.token_has_previous_level(floating_token.id):
+				next_token_data = token_data_provider.get_previous_level_data(floating_token.id)
+		if next_token_data != null:
+			var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
+			add_child(next_token_instance)
+			next_token_instance.set_size(board.cell_size)
+			next_token_instance.position = floating_token.position
+			floating_token.queue_free()
+			floating_token = next_token_instance
+			
+			is_scroll_in_progress = true
+			var timer = get_tree().create_timer(0.1)
+			timer.connect("timeout", self.__on_scroll_timer_timeout)
+			
+func __on_scroll_timer_timeout():
+	is_scroll_in_progress = false
+
 
 func create_floating_token():
 	var token_instance = token_instance_provider.get_random_token_instance()

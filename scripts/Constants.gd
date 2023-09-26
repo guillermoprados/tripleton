@@ -10,3 +10,5 @@ enum HighlightMode {
 
 var MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
 var INVALID_TOKEN_ID = -1
+
+var IS_DEBUG_MODE = true
