@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://cqty26t0ppt3d"]
+
+[ext_resource type="Script" path="res://resources/token_data.gd" id="1_hu1p7"]
+[ext_resource type="PackedScene" uid="uid://ch1l8do3fkdc7" path="res://objects/tokens/chest_silver.tscn" id="2_i04ar"]
+
+[resource]
+script = ExtResource("1_hu1p7")
+id = 2
+name = "chest_silver"
+sprite_scene = ExtResource("2_i04ar")
+points = 10000

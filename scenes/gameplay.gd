@@ -111,10 +111,11 @@ func combine_tokens(combination: Combination):
 
 		# Add the combination result
 		if cell_index == combination.initial_cell():
+			var next_token_data:TokenData
 			if token_data_provider.token_has_next_level(token_id):
-				var next_token_data:TokenData = token_data_provider.get_next_level_data(token_id)
-				var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
-				next_token_instance.set_size(board.cell_size)
-				board.set_token_at_cell(next_token_instance,cell_index)
+				next_token_data = token_data_provider.get_next_level_data(token_id)
 			else:
-				print("prize")
+				next_token_data = token_data_provider.get_prize_for_token_category(token_id)
+			var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
+			next_token_instance.set_size(board.cell_size)
+			board.set_token_at_cell(next_token_instance,cell_index)
