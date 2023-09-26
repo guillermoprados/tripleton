@@ -14,6 +14,7 @@ var combinator: Combinator
 
 # for debugging purposes
 var is_scroll_in_progress: bool = false
+var current_cell_index: Vector2
 
 func _ready():
 	board = $Board
@@ -53,6 +54,7 @@ func _input(event):
 		return
 
 	if event is InputEventMouseButton:
+		#this is only for debugging
 		var next_token_data = null
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			if token_data_provider.token_has_next_level(floating_token.id):
@@ -67,14 +69,17 @@ func _input(event):
 			next_token_instance.position = floating_token.position
 			floating_token.queue_free()
 			floating_token = next_token_instance
-			
+			combinator.reset_combinations(board.rows, board.columns)
+			board.clear_highlights()
+			var combination:Combination = check_combination(current_cell_index, floating_token.id)
+			if combination.is_valid():
+				highlight_combination(combination)
 			is_scroll_in_progress = true
 			var timer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
 			
 func __on_scroll_timer_timeout():
 	is_scroll_in_progress = false
-
 
 func create_floating_token():
 	var token_instance = token_instance_provider.get_random_token_instance()
@@ -85,6 +90,7 @@ func create_floating_token():
 	floating_token = token_instance
 
 func _on_board_board_cell_moved(index):
+	current_cell_index = index
 	spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
 	var cell_size = board.cell_size
 	if board.is_cell_empty(index):
