@@ -25,7 +25,6 @@ func _ready():
 	# Normalize the probabilities
 	for i in range(probabilities.size()):
 		probabilities[i] /= total_prob
-	print("probs:",probabilities)
 
 func get_token_instance() -> Token:
 	# Select a token based on the probabilities

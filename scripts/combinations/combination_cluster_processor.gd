@@ -14,7 +14,7 @@ static func evaluate_combination(floating_token_id: int, combination: Combinatio
 			__search_combination_for_cell(token_id, board_tokens_ids, combination.initial_cell(), combination_level, true)
 			token_id = token_info_provider.get_token_id_for_next_level(token_id)
 			if combination_level.valid_combination_cells.size() >= Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION:
-				combination.add_data(combination_level.valid_combination_cells, level)
+				combination.add_data(combination_level.get_valid_combination_cells(), level)
 			else:
 				# discard the level and stop
 				combination_level.valid_combination_cells.clear()

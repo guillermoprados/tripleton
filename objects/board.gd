@@ -14,17 +14,11 @@ var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
 var cell_tokens_ids: Array = []  # The matrix of int values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
-var last_placed_token_position: Vector2 = Vector2.ZERO
-
-var combinator:Combinator
-
-func initialize(level_config:LevelConfig):
-	rows = level_config.rows
-	columns = level_config.columns
-	create_board(rows, columns)	
 
 func _ready():
-	combinator = $Combinator
+	rows = 6
+	columns = 6
+	create_board(rows, columns)	
 	
 func _process(delta):
 	pass
@@ -53,17 +47,14 @@ func create_board(rows: int, columns: int):
 		cells_matrix.append(row_cells)  # Storing the row of cells into the matrix
 	
 	board_size = Vector2(columns * cell_size.x, rows * cell_size.y)
-	# set some default placed position
-	last_placed_token_position = Vector2.ZERO
-
+	
 # Set the token for a specific cell
 func set_token_at_cell(token, cell_pos: Vector2):
 	cell_tokens_ids[cell_pos.x][cell_pos.y] = token.id
 	placed_tokens[cell_pos] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_pos).position
-	last_placed_token_position = cell_pos
-
+	
 func clear_token(cell_index: Vector2) -> void:
 	# Update the matrix value to EMPTY_CELL
 	cell_tokens_ids[cell_index.x][cell_index.y] = EMPTY_CELL
@@ -120,6 +111,3 @@ func set_hovering_on_cell(cell_pos: Vector2):
 				cell.highlight(Constants.HighlightMode.HOVER, can_place_token)
 			elif cell.cell_index.x == cell_pos.x or cell.cell_index.y == cell_pos.y:
 				cell.highlight(Constants.HighlightMode.SAME_LINE, can_place_token)
-
-func check_combination(cell_index:Vector2, tokenId) -> Combination:
-	return combinator.search_combinations_for_cell(tokenId, cell_index)

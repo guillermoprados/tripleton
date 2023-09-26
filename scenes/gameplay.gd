@@ -9,22 +9,26 @@ var board:Board
 var token_instance_provider:TokenInstanceProvider
 var save_token_cell: BoardCell
 var spawn_token_cell: BoardCell
+var combinator: Combinator
 
 func _ready():
-	
 	board = $Board
 	token_instance_provider = $TokenInstanceProvider
 	save_token_cell = $SaveTokenCell
 	spawn_token_cell = $SpawnTokenCell
+	combinator = $Combinator
 	
-	board.initialize(token_instance_provider.level_config)
-	# Connect the screen size changed signal to a function
-	get_tree().root.size_changed.connect(_on_screen_size_changed)
-	_on_screen_size_changed()
-	create_floating_token()
 	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
+	
+	combinator.reset_combinations(board.rows, board.columns)
+	
+	create_floating_token()
+	
+	# Connect the screen size changed signal to a function
+	get_tree().root.size_changed.connect(_on_screen_size_changed)
+	_on_screen_size_changed()
 	
 func _on_screen_size_changed():
 	var screen_size = get_viewport().get_visible_rect().size
@@ -54,12 +58,17 @@ func _on_board_board_cell_moved(index):
 	if board.is_cell_empty(index):
 		var token_position = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
-
+	var combination:Combination = check_combination(index, floating_token.id)
+	print("is valid?", combination.is_valid())
+	if combination.is_valid():
+		highlight_combination(combination)
+		
 func _on_board_board_cell_selected(index):
 	if board.is_cell_empty(index):
 		remove_child(floating_token)
 		board.set_token_at_cell(floating_token, index)
 		board.clear_current_hovering()
+		combinator.reset_combinations(board.rows, board.columns)
 		create_floating_token()
 	else:
 		show_message.emit("Cannot place token", "error_font", .5); #localize
@@ -81,7 +90,32 @@ func _on_save_token_cell_selected(cell_pos: Vector2):
 		floating_token.position = floating_pos
 		saved_token.position = save_token_cell.position
 	else:
-		print("no saved token")
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
 		create_floating_token()
+
+func check_combination(cell_index:Vector2, tokenId) -> Combination:
+	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids)
+
+func highlight_combination(combination:Combination):
+	for cell_index in combination.combinable_cells:
+		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
+		
+func combine_tokens(combination: Combination) -> TokenData:
+	var next_token_data:TokenData = null
+	
+	# for cell_index in combination.combinable_cells:
+		# var token_id = cell_tokens_ids[cell_index]
+		# clear_token(cell_index)
+
+		# Add the combination result
+		#if cell_index == combination.initial_cell():
+			# var token_type = token_data_info_provider.get_combination_type_for_token(token_id)
+			# var level = combination.level_reached() + 1
+			# if level >= token_data_info_provider.get_number_of_levels_for_token_id(token_id):
+			#	token_type = "chests"  # Assuming chests is the category you want to default to
+			#	level = 0
+			# next_token_data = token_data_info_provider.get_token_data(token_type, level)
+			# board.set_token_at_cell(cell_index, next_token_data.id)
+
+	return next_token_data

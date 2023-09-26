@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ceop3mb7y5m2h"]
+
+[ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="1_y8u7p"]
+
+[node name="Combinator" type="Node" node_paths=PackedStringArray("token_data_info_provider")]
+script = ExtResource("1_y8u7p")
+token_data_info_provider = NodePath("")

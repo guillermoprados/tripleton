@@ -14,3 +14,10 @@ func has_cross_compared(cell: Vector2) -> bool:
 
 func clear_valid_combination() -> void:
 	valid_combination_cells.clear()
+
+# Methods to retrieve the keys as arrays
+func get_cross_compared_cells() -> Array:
+	return cross_compared_cells.keys()
+
+func get_valid_combination_cells() -> Array:
+	return valid_combination_cells.keys()
