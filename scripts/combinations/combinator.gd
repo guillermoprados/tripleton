@@ -10,7 +10,6 @@ func reset_combinations(rows:int, columns:int) -> void:
 		for col_index in range(columns):
 			var cell_index = Vector2(row_index, col_index)
 			combinations[cell_index] = Combination.new(cell_index)
-	print("combinations resetted")
 
 # This is the method that starts the search of a combination
 func search_combinations_for_cell(floating_token_id: int, cell_index: Vector2, board_token_ids: Array) -> Combination:

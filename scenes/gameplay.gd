@@ -41,7 +41,7 @@ func _on_screen_size_changed():
 	board.position = board_pos
 	if floating_token:
 		floating_token.position = board.position
-	board.clear_current_hovering()
+	board.clear_highlights()
 
 func create_floating_token():
 	var token_instance = token_instance_provider.get_token_instance()
@@ -59,7 +59,6 @@ func _on_board_board_cell_moved(index):
 		var token_position = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
 	var combination:Combination = check_combination(index, floating_token.id)
-	print("is valid?", combination.is_valid())
 	if combination.is_valid():
 		highlight_combination(combination)
 		
@@ -67,7 +66,7 @@ func _on_board_board_cell_selected(index):
 	if board.is_cell_empty(index):
 		remove_child(floating_token)
 		board.set_token_at_cell(floating_token, index)
-		board.clear_current_hovering()
+		board.clear_highlights()
 		combinator.reset_combinations(board.rows, board.columns)
 		create_floating_token()
 	else:

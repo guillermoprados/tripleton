@@ -95,13 +95,13 @@ func _on_cell_exited(cell_pos: Vector2):
 func _on_cell_selected(cell_pos: Vector2):
 	board_cell_selected.emit(cell_pos)
 
-func clear_current_hovering():
+func clear_highlights():
 	for row in cells_matrix:
 		for cell in row:
 			cell.highlight(Constants.HighlightMode.NONE, true)
 			
 func set_hovering_on_cell(cell_pos: Vector2):
-	clear_current_hovering()
+	clear_highlights()
 
 	var can_place_token = is_cell_empty(cell_pos)
 

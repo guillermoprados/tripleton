@@ -51,4 +51,4 @@ func highlight(mode: Constants.HighlightMode, valid: bool) -> void:
 		Constants.HighlightMode.SAME_LINE:
 			$HighLightColor.color = highlight_light_valid if valid else highlight_light_invalid
 		Constants.HighlightMode.COMBINATION:
-			$BackColor.color = highlight_combination
+			$HighLightColor.color = highlight_combination
