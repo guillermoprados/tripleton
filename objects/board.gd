@@ -16,11 +16,16 @@ var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and t
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
 var last_placed_token_position: Vector2 = Vector2.ZERO
 
+var combinator:Combinator
+
 func initialize(level_config:LevelConfig):
 	rows = level_config.rows
 	columns = level_config.columns
 	create_board(rows, columns)	
 
+func _ready():
+	combinator = $Combinator
+	
 func _process(delta):
 	pass
 
@@ -115,3 +120,6 @@ func set_hovering_on_cell(cell_pos: Vector2):
 				cell.highlight(Constants.HighlightMode.HOVER, can_place_token)
 			elif cell.cell_index.x == cell_pos.x or cell.cell_index.y == cell_pos.y:
 				cell.highlight(Constants.HighlightMode.SAME_LINE, can_place_token)
+
+func check_combination(cell_index:Vector2, tokenId) -> Combination:
+	return combinator.search_combinations_for_cell(tokenId, cell_index)

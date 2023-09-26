@@ -1,4 +1,5 @@
-extends Area2D
+class_name BoardCell extends Area2D
+
 signal cell_entered(index:Vector2)
 signal cell_exited(index:Vector2)
 signal cell_selected(index:Vector2)
@@ -18,7 +19,6 @@ func _ready():
 	$BackColor.color = base_color
 	$HighLightColor.color = transparent_color
 	
-
 func _on_mouse_entered():
 	cell_entered.emit(cell_index)
 

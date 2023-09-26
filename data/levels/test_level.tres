@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("1_xwj48")
-rows = 5
-columns = 5
+rows = 6
+columns = 6
 difficulties = Array[Resource("res://resources/game_difficulty.gd")]([ExtResource("1_u2ppt")])

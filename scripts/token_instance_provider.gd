@@ -3,7 +3,7 @@ extends Node
 class_name TokenInstanceProvider
 
 @export var token_scene: PackedScene
-@export var level_config: LevelConfig  # Reference to your level config resource
+@export var level_config: LevelConfig
 
 var tokens: Array = []
 var probabilities: Array = []
