@@ -1,4 +1,4 @@
-extends Node2D
+class_name Board extends Node2D
 
 const EMPTY_CELL = -1
 
@@ -12,15 +12,14 @@ var rows: int
 var columns: int
 var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
 var cell_tokens_ids: Array = []  # The matrix of int values
-var placed_tokens = [] # The token scenes
+var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
-var last_placed_token_position: Vector2 = Vector2.ZERO
 
-func initialize(level_config:LevelConfig):
-	rows = level_config.rows
-	columns = level_config.columns
+func _ready():
+	rows = 6
+	columns = 6
 	create_board(rows, columns)	
-
+	
 func _process(delta):
 	pass
 
@@ -48,19 +47,27 @@ func create_board(rows: int, columns: int):
 		cells_matrix.append(row_cells)  # Storing the row of cells into the matrix
 	
 	board_size = Vector2(columns * cell_size.x, rows * cell_size.y)
-	# set some default placed position
-	last_placed_token_position = Vector2.ZERO
-
+	
 # Set the token for a specific cell
 func set_token_at_cell(token, cell_pos: Vector2):
 	cell_tokens_ids[cell_pos.x][cell_pos.y] = token.id
-	placed_tokens.append(token)
+	placed_tokens[cell_pos] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_pos).position
-	last_placed_token_position = cell_pos
+	
+func clear_token(cell_index: Vector2) -> void:
+	# Update the matrix value to EMPTY_CELL
+	cell_tokens_ids[cell_index.x][cell_index.y] = EMPTY_CELL
+	
+	# Remove the token instance from the scene if it exists in the dictionary
+	if placed_tokens.has(cell_index):
+		var token = placed_tokens[cell_index]
+		token.queue_free()  # Safely remove the token from the scene
+		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
+
 
 # Get the token at a specific cell
-func get_token_at_cell(cell_pos: Vector2) -> int:
+func get_token_id_at_cell(cell_pos: Vector2) -> int:
 	return cell_tokens_ids[cell_pos.x][cell_pos.y]
 
 # Get the cell scene at a given position
@@ -88,13 +95,13 @@ func _on_cell_exited(cell_pos: Vector2):
 func _on_cell_selected(cell_pos: Vector2):
 	board_cell_selected.emit(cell_pos)
 
-func clear_current_hovering():
+func clear_highlights():
 	for row in cells_matrix:
 		for cell in row:
 			cell.highlight(Constants.HighlightMode.NONE, true)
 			
 func set_hovering_on_cell(cell_pos: Vector2):
-	clear_current_hovering()
+	clear_highlights()
 
 	var can_place_token = is_cell_empty(cell_pos)
 

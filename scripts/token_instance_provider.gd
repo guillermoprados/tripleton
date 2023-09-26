@@ -1,14 +1,14 @@
-extends Resource
+extends Node
 
-class_name TokenProvider
+class_name TokenInstanceProvider
 
 @export var token_scene: PackedScene
-@export var level_config: LevelConfig  # Reference to your level config resource
+@export var level_config: LevelConfig
 
 var tokens: Array = []
 var probabilities: Array = []
 
-func __setup_probabilities():
+func _ready():
 	# Get the current difficulty (for now, it's the first one)
 	var current_difficulty = level_config.difficulties[0]
 
@@ -25,19 +25,21 @@ func __setup_probabilities():
 	# Normalize the probabilities
 	for i in range(probabilities.size()):
 		probabilities[i] /= total_prob
-	print("probs:",probabilities)
 
-func get_token_instance() -> Token:
-	
-	if(!probabilities):
-		__setup_probabilities()
-	
+func get_random_token_instance() -> Token:
 	# Select a token based on the probabilities
 	var chosen_token = __pick_weighted(tokens, probabilities)
 	
 	# Instantiate and return the chosen token instance
 	var token_instance = token_scene.instantiate()
 	token_instance.set_data(chosen_token)
+	
+	return token_instance
+
+func get_token_instance(token_data:TokenData) -> Token:
+	# Instantiate and return the chosen token instance
+	var token_instance = token_scene.instantiate()
+	token_instance.set_data(token_data)
 	
 	return token_instance
 
