@@ -26,13 +26,20 @@ func _ready():
 	for i in range(probabilities.size()):
 		probabilities[i] /= total_prob
 
-func get_token_instance() -> Token:
+func get_random_token_instance() -> Token:
 	# Select a token based on the probabilities
 	var chosen_token = __pick_weighted(tokens, probabilities)
 	
 	# Instantiate and return the chosen token instance
 	var token_instance = token_scene.instantiate()
 	token_instance.set_data(chosen_token)
+	
+	return token_instance
+
+func get_token_instance(token_data:TokenData) -> Token:
+	# Instantiate and return the chosen token instance
+	var token_instance = token_scene.instantiate()
+	token_instance.set_data(token_data)
 	
 	return token_instance
 

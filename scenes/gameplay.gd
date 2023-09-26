@@ -7,6 +7,7 @@ signal show_message(message:String, theme_color:String, time:float)
 
 var board:Board
 var token_instance_provider:TokenInstanceProvider
+var token_data_provider:TokenDataProvider
 var save_token_cell: BoardCell
 var spawn_token_cell: BoardCell
 var combinator: Combinator
@@ -14,6 +15,7 @@ var combinator: Combinator
 func _ready():
 	board = $Board
 	token_instance_provider = $TokenInstanceProvider
+	token_data_provider = $TokenDataProvider
 	save_token_cell = $SaveTokenCell
 	spawn_token_cell = $SpawnTokenCell
 	combinator = $Combinator
@@ -44,10 +46,9 @@ func _on_screen_size_changed():
 	board.clear_highlights()
 
 func create_floating_token():
-	var token_instance = token_instance_provider.get_token_instance()
-	var cell_size = board.cell_size
+	var token_instance = token_instance_provider.get_random_token_instance()
 	add_child(token_instance)
-	token_instance.set_size(cell_size)
+	token_instance.set_size(board.cell_size)
 	token_instance.position = spawn_token_cell.position
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 	floating_token = token_instance
@@ -67,6 +68,9 @@ func _on_board_board_cell_selected(index):
 		remove_child(floating_token)
 		board.set_token_at_cell(floating_token, index)
 		board.clear_highlights()
+		var combination:Combination = check_combination(index, floating_token.id)
+		if combination.is_valid():
+			combine_tokens(combination)
 		combinator.reset_combinations(board.rows, board.columns)
 		create_floating_token()
 	else:
@@ -100,21 +104,17 @@ func highlight_combination(combination:Combination):
 	for cell_index in combination.combinable_cells:
 		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
 		
-func combine_tokens(combination: Combination) -> TokenData:
-	var next_token_data:TokenData = null
-	
-	# for cell_index in combination.combinable_cells:
-		# var token_id = cell_tokens_ids[cell_index]
-		# clear_token(cell_index)
+func combine_tokens(combination: Combination):
+	for cell_index in combination.combinable_cells:
+		var token_id = board.get_token_id_at_cell(cell_index)
+		board.clear_token(cell_index)
 
 		# Add the combination result
-		#if cell_index == combination.initial_cell():
-			# var token_type = token_data_info_provider.get_combination_type_for_token(token_id)
-			# var level = combination.level_reached() + 1
-			# if level >= token_data_info_provider.get_number_of_levels_for_token_id(token_id):
-			#	token_type = "chests"  # Assuming chests is the category you want to default to
-			#	level = 0
-			# next_token_data = token_data_info_provider.get_token_data(token_type, level)
-			# board.set_token_at_cell(cell_index, next_token_data.id)
-
-	return next_token_data
+		if cell_index == combination.initial_cell():
+			if token_data_provider.token_has_next_level(token_id):
+				var next_token_data:TokenData = token_data_provider.get_next_level_data(token_id)
+				var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
+				next_token_instance.set_size(board.cell_size)
+				board.set_token_at_cell(next_token_instance,cell_index)
+			else:
+				print("prize")

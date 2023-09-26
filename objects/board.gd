@@ -67,7 +67,7 @@ func clear_token(cell_index: Vector2) -> void:
 
 
 # Get the token at a specific cell
-func get_token_at_cell(cell_pos: Vector2) -> int:
+func get_token_id_at_cell(cell_pos: Vector2) -> int:
 	return cell_tokens_ids[cell_pos.x][cell_pos.y]
 
 # Get the cell scene at a given position
