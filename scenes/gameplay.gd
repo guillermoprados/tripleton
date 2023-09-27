@@ -1,5 +1,7 @@
 extends Node2D
 
+@export var level_config:LevelConfig
+
 var floating_token: Token
 var saved_token: Token
 
@@ -29,6 +31,8 @@ func _ready():
 	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
 	
 	combinator.reset_combinations(board.rows, board.columns)
+	
+	token_instance_provider.set_difficulty_tokens(level_config.difficulties[0])
 	
 	create_floating_token()
 	

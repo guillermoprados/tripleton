@@ -3,53 +3,46 @@ extends Node
 class_name TokenInstanceProvider
 
 @export var token_scene: PackedScene
-@export var level_config: LevelConfig
 
-var tokens: Array = []
-var probabilities: Array = []
+signal difficulty_depleted()
 
-func _ready():
-	# Get the current difficulty (for now, it's the first one)
-	var current_difficulty = level_config.difficulties[0]
+# list of token data
+var items_data: Array = []
 
-	# If there's no difficulty set, or no probabilities, return
-	if current_difficulty == null or current_difficulty.probabilities.size() == 0:
-		assert("No difficulties or probabilities set!")
+func set_difficulty_tokens(difficulty: GameDifficulty) -> void:
+	# Create a list of tokens data
+	var temp_list: Array = []
+	for item in difficulty.items:
+		for _i in range(item.number_of_items):
+			temp_list.append(item.token)
 	
-	var total_prob = 0.0
-	for prob_entry in current_difficulty.probabilities:
-		tokens.append(prob_entry.token)
-		probabilities.append(prob_entry.probability)
-		total_prob += prob_entry.probability
+	# Randomize the list
+	temp_list.shuffle()
 	
-	# Normalize the probabilities
-	for i in range(probabilities.size()):
-		probabilities[i] /= total_prob
+	# Assign the randomized list to items_data
+	items_data = temp_list
 
 func get_random_token_instance() -> Token:
-	# Select a token based on the probabilities
-	var chosen_token = __pick_weighted(tokens, probabilities)
+	
+	# Assert if list is empty
+	assert(items_data.size() > 0, "TokenInstanceProvider: No more tokens left.")
+	
+	# Pop the first item in the items_data and get the data from it
+	var token_data = items_data.pop_front()
 	
 	# Instantiate and return the chosen token instance
-	var token_instance = token_scene.instantiate()
-	token_instance.set_data(chosen_token)
+	var token_instance: Token = token_scene.instantiate() as Token
+	token_instance.set_data(token_data)
+	
+	# If list is empty, emit the difficulty_depleted signal
+	if items_data.size() == 0:
+		difficulty_depleted.emit()
 	
 	return token_instance
 
-func get_token_instance(token_data:TokenData) -> Token:
+func get_token_instance(token_data: TokenData) -> Token:
 	# Instantiate and return the chosen token instance
-	var token_instance = token_scene.instantiate()
+	var token_instance: Token = token_scene.instantiate() as Token
 	token_instance.set_data(token_data)
 	
 	return token_instance
-
-# Function to pick an item based on weights
-func __pick_weighted(items: Array, weights: Array) -> Variant:
-	var choice = randf()
-
-	for i in range(items.size()):
-		if choice < weights[i]:
-			return items[i]
-		choice -= weights[i]
-
-	return items[items.size() - 1]  # Just in case of some floating-point inaccuracies
