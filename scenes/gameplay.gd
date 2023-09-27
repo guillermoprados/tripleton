@@ -71,9 +71,9 @@ func _input(event):
 			floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
-			var combination:Combination = check_combination(current_cell_index, floating_token.id)
+			var combination:Combination = __check_combination(current_cell_index, floating_token.id)
 			if combination.is_valid():
-				highlight_combination(combination)
+				__highlight_combination(combination)
 			is_scroll_in_progress = true
 			var timer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
@@ -96,18 +96,18 @@ func _on_board_board_cell_moved(index):
 	if board.is_cell_empty(index):
 		var token_position = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
-		var combination:Combination = check_combination(index, floating_token.id)
+		var combination:Combination = __check_combination(index, floating_token.id)
 		if combination.is_valid():
-			highlight_combination(combination)
+			__highlight_combination(combination)
 		
 func _on_board_board_cell_selected(index):
 	if board.is_cell_empty(index):
 		remove_child(floating_token)
 		board.set_token_at_cell(floating_token, index)
 		board.clear_highlights()
-		var combination:Combination = check_combination(index, floating_token.id)
+		var combination:Combination = __check_combination(index, floating_token.id)
 		if combination.is_valid():
-			combine_tokens(combination)
+			__combine_tokens(combination)
 		combinator.reset_combinations(board.rows, board.columns)
 		create_floating_token()
 	else:
@@ -134,25 +134,36 @@ func _on_save_token_cell_selected(cell_pos: Vector2):
 		saved_token = floating_token 
 		create_floating_token()
 
-func check_combination(cell_index:Vector2, tokenId) -> Combination:
+func __check_combination(cell_index:Vector2, tokenId) -> Combination:
 	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids)
 
-func highlight_combination(combination:Combination):
+func __highlight_combination(combination:Combination):
 	for cell_index in combination.combinable_cells:
 		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
 		
-func combine_tokens(combination: Combination):
+func __combine_tokens(combination: Combination):
+	
+	combinator.reset_combinations(board.rows, board.columns)
+	
 	for cell_index in combination.combinable_cells:
 		var token_id = board.get_token_id_at_cell(cell_index)
 		board.clear_token(cell_index)
 
-		# Add the combination result
 		if cell_index == combination.initial_cell():
+			var is_prize = false
 			var next_token_data:TokenData
+			
 			if token_data_provider.token_has_next_level(token_id):
 				next_token_data = token_data_provider.get_next_level_data(token_id)
 			else:
+				is_prize = true
 				next_token_data = token_data_provider.get_prize_for_token_category(token_id)
+			
 			var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
 			next_token_instance.set_size(board.cell_size)
 			board.set_token_at_cell(next_token_instance,cell_index)
+
+			if is_prize:
+				var prize_combination:Combination = __check_combination(cell_index, next_token_instance.id)
+				if prize_combination.is_valid():
+					__combine_tokens(prize_combination)
