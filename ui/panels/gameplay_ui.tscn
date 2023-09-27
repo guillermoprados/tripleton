@@ -1,10 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqoc7lfl8mxw1"]
+[gd_scene load_steps=4 format=3 uid="uid://dqoc7lfl8mxw1"]
 
 [ext_resource type="Theme" uid="uid://c1meoxw1r8o2k" path="res://ui/themes/main_theme.tres" id="1_00c0a"]
 [ext_resource type="Script" path="res://ui/panels/gameplay_ui.gd" id="1_34u8y"]
+[ext_resource type="PackedScene" uid="uid://cf4lf5wwylon3" path="res://scenes/misc/award_points.tscn" id="2_ti06n"]
 
 [node name="GameplayUI" type="CanvasLayer"]
 script = ExtResource("1_34u8y")
+award_points_scene = ExtResource("2_ti06n")
 
 [node name="Message" type="Label" parent="."]
 anchors_preset = 5

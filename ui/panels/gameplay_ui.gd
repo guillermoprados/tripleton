@@ -5,6 +5,8 @@ var total_points:int = 0
 var points_label:Label
 var message_label:Label
 
+@export var award_points_scene: PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	points_label = $Points
@@ -33,10 +35,12 @@ func _on_gameplay_show_message(message, color_name, time):
 	message_label.show()  # Show the message label
 	$MessageTimer.start(time)  # Start the timer
 
-
 func _on_gameplay_points_received(points, position):
-	pass # Replace with function body.
-
+	var award_instance = award_points_scene.instantiate()
+	award_instance.position = position
+	add_child(award_instance)
+	award_instance.show_points(points)
+	
 
 func _on_gameplay_update_total_points(points):
 	total_points = points

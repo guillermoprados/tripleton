@@ -160,7 +160,10 @@ func __combine_tokens(combination: Combination):
 		
 		game_info.points += token_data.points
 		var cell_position = board.get_cell_at_position(cell_index).position
-		points_received.emit(token_data.points, cell_position)
+		var points_position: Vector2 = board.position + cell_position
+		points_position.x += board.cell_size.x / 2 
+		points_position.y += board.cell_size.y / 4 
+		points_received.emit(token_data.points, points_position)
 		
 		board.clear_token(cell_index)
 
