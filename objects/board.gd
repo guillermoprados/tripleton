@@ -6,6 +6,8 @@ signal board_cell_moved(index:Vector2)
 signal board_cell_selected(index:Vector2)
 
 @export var cell_scene: PackedScene
+@export var default_rows: int = 5
+@export var default_columns: int = 5
 
 var board_size: Vector2 = Vector2.ZERO # Store the cell size for external access
 var rows: int
@@ -16,14 +18,19 @@ var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and t
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
 
 func _ready():
-	rows = 6
-	columns = 6
-	create_board(rows, columns)	
+	rows = default_rows
+	columns = default_columns
+	configure(rows, columns)	
 	
 func _process(delta):
 	pass
 
-func create_board(rows: int, columns: int):
+func configure(rows: int, columns: int):
+	__clear_board()
+	
+	self.rows = rows
+	self.columns = columns
+	
 	for row in range(rows):
 		var row_tokens: Array = []
 		var row_cells: Array = []  # This will store the cell references for this row
@@ -47,6 +54,19 @@ func create_board(rows: int, columns: int):
 		cells_matrix.append(row_cells)  # Storing the row of cells into the matrix
 	
 	board_size = Vector2(columns * cell_size.x, rows * cell_size.y)
+
+func __clear_board():
+	# Clear cell instances
+	for row in cells_matrix:
+		for cell in row:
+			cell.queue_free()
+	cells_matrix.clear()
+	cell_tokens_ids.clear()
+
+	# Clear token instances
+	for token_pos in placed_tokens.keys():
+		placed_tokens[token_pos].queue_free()
+	placed_tokens.clear()
 	
 # Set the token for a specific cell
 func set_token_at_cell(token, cell_pos: Vector2):
@@ -79,11 +99,6 @@ func get_cell_at_position(cell_pos: Vector2) -> Node:
 # Check if the cell is empty
 func is_cell_empty(cell_pos: Vector2) -> bool:
 	return cell_tokens_ids[cell_pos.x][cell_pos.y] == EMPTY_CELL
-
-func reset_board_to_empty():
-	for row in cell_tokens_ids:
-		for i in range(row.size()):
-			row[i] = EMPTY_CELL
 
 func _on_cell_entered(cell_pos: Vector2):
 	set_hovering_on_cell(cell_pos)
