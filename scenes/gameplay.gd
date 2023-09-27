@@ -26,6 +26,8 @@ func _ready():
 	spawn_token_cell = $SpawnTokenCell
 	combinator = $Combinator
 	
+	board.configure(level_config.rows, level_config.columns)
+	
 	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
