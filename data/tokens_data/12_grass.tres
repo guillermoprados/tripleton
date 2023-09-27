@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://brb7hxkvj1bxx"]
+
+[ext_resource type="Script" path="res://resources/token_data.gd" id="1_jyvry"]
+[ext_resource type="PackedScene" uid="uid://ogt5ls3c3342" path="res://objects/tokens/grass.tscn" id="2_23w48"]
+
+[resource]
+script = ExtResource("1_jyvry")
+id = 12
+name = "grass"
+sprite_scene = ExtResource("2_23w48")
+points = 40

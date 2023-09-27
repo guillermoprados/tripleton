@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://bvgu8vg37wmjx"]
+
+[ext_resource type="Script" path="res://resources/token_data.gd" id="1_nqh7x"]
+[ext_resource type="PackedScene" uid="uid://e3qrttn6mcg8" path="res://objects/tokens/bamboo.tscn" id="2_66vmq"]
+
+[resource]
+script = ExtResource("1_nqh7x")
+id = 7
+name = "bamboo"
+sprite_scene = ExtResource("2_66vmq")
+points = 50

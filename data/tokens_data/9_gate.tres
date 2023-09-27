@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://ps32pfs5cnga"]
+
+[ext_resource type="Script" path="res://resources/token_data.gd" id="1_toalw"]
+[ext_resource type="PackedScene" uid="uid://bauhbswb7qhrc" path="res://objects/tokens/gate.tscn" id="2_glhvv"]
+
+[resource]
+script = ExtResource("1_toalw")
+id = 9
+name = "gate"
+sprite_scene = ExtResource("2_glhvv")
+points = 500

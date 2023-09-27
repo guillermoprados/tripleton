@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://resources/token_probability.gd" id="1_bt0rq"]
 [ext_resource type="Script" path="res://resources/game_difficulty.gd" id="1_symua"]
-[ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens/bamboo.tres" id="2_q03rl"]
+[ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens_data/7_bamboo.tres" id="2_q03rl"]
 
 [sub_resource type="Resource" id="Resource_gj38y"]
 script = ExtResource("1_bt0rq")
