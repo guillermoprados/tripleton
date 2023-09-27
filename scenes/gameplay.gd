@@ -5,6 +5,7 @@ var saved_token: Token
 
 signal show_message(message:String, theme_color:String, time:float)
 signal points_received(points:int, position:Vector2)
+signal update_total_points(points:int)
 
 var board:Board
 var game_info:GameInfo
@@ -153,7 +154,14 @@ func __combine_tokens(combination: Combination):
 	combinator.reset_combinations(board.rows, board.columns)
 	
 	for cell_index in combination.combinable_cells:
-		var token_id = board.get_token_id_at_cell(cell_index)
+		
+		var token_id:int = board.get_token_id_at_cell(cell_index)
+		var token_data: TokenData = token_data_provider.token_data_by_token_id[token_id]
+		
+		game_info.points += token_data.points
+		var cell_position = board.get_cell_at_position(cell_index).position
+		points_received.emit(token_data.points, cell_position)
+		
 		board.clear_token(cell_index)
 
 		if cell_index == combination.initial_cell():
@@ -174,3 +182,5 @@ func __combine_tokens(combination: Combination):
 				var prize_combination:Combination = __check_combination(cell_index, next_token_instance.id)
 				if prize_combination.is_valid():
 					__combine_tokens(prize_combination)
+					
+	update_total_points.emit(game_info.points)
