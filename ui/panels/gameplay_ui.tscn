@@ -11,12 +11,23 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -138.0
-offset_top = 50.0
+offset_top = 100.0
 offset_right = 138.0
-offset_bottom = 92.0
+offset_bottom = 142.0
 grow_horizontal = 2
 theme = ExtResource("1_00c0a")
 text = "Some Message"
 
 [node name="MessageTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Points" type="Label" parent="."]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 70.0
+offset_bottom = 53.0
+theme = ExtResource("1_00c0a")
+text = "0"
+
+[node name="PointsMarker" type="Marker2D" parent="Points"]
+position = Vector2(20, 20)

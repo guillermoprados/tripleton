@@ -1,13 +1,13 @@
 extends Node2D
 
-@export var level_config:LevelConfig
-
 var floating_token: Token
 var saved_token: Token
 
 signal show_message(message:String, theme_color:String, time:float)
+signal points_received(points:int, position:Vector2)
 
 var board:Board
+var game_info:GameInfo
 var token_instance_provider:TokenInstanceProvider
 var token_data_provider:TokenDataProvider
 var save_token_cell: BoardCell
@@ -19,6 +19,7 @@ var is_scroll_in_progress: bool = false
 var current_cell_index: Vector2
 
 func _ready():
+	game_info = $GameInfo
 	board = $Board
 	token_instance_provider = $TokenInstanceProvider
 	token_data_provider = $TokenDataProvider
@@ -26,7 +27,7 @@ func _ready():
 	spawn_token_cell = $SpawnTokenCell
 	combinator = $Combinator
 	
-	board.configure(level_config.rows, level_config.columns)
+	board.configure(game_info.rows, game_info.columns)
 	
 	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
@@ -34,7 +35,7 @@ func _ready():
 	
 	combinator.reset_combinations(board.rows, board.columns)
 	
-	token_instance_provider.set_difficulty_tokens(level_config.difficulties[0])
+	token_instance_provider.set_difficulty_tokens(game_info.next_difficulty())
 	
 	create_floating_token()
 	
