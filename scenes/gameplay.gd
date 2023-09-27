@@ -96,9 +96,9 @@ func _on_board_board_cell_moved(index):
 	if board.is_cell_empty(index):
 		var token_position = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
-	var combination:Combination = check_combination(index, floating_token.id)
-	if combination.is_valid():
-		highlight_combination(combination)
+		var combination:Combination = check_combination(index, floating_token.id)
+		if combination.is_valid():
+			highlight_combination(combination)
 		
 func _on_board_board_cell_selected(index):
 	if board.is_cell_empty(index):
