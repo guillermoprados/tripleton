@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqoc7lfl8mxw1"]
+[gd_scene load_steps=5 format=3 uid="uid://dqoc7lfl8mxw1"]
 
 [ext_resource type="Theme" uid="uid://c1meoxw1r8o2k" path="res://ui/themes/main_theme.tres" id="1_00c0a"]
 [ext_resource type="Script" path="res://ui/panels/gameplay_ui.gd" id="1_34u8y"]
 [ext_resource type="PackedScene" uid="uid://cf4lf5wwylon3" path="res://scenes/misc/award_points.tscn" id="2_ti06n"]
+[ext_resource type="PackedScene" uid="uid://cvawnoqn2542o" path="res://scenes/misc/total_points.tscn" id="4_ad6wm"]
 
 [node name="GameplayUI" type="CanvasLayer"]
 script = ExtResource("1_34u8y")
@@ -23,13 +24,6 @@ text = "Some Message"
 [node name="MessageTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Points" type="Label" parent="."]
-offset_left = 30.0
-offset_top = 30.0
-offset_right = 70.0
-offset_bottom = 53.0
-theme = ExtResource("1_00c0a")
-text = "0"
-
-[node name="PointsMarker" type="Marker2D" parent="Points"]
-position = Vector2(20, 20)
+[node name="Points" parent="." instance=ExtResource("4_ad6wm")]
+position = Vector2(29, 20)
+scale_delta = 0.2

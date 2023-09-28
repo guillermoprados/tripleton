@@ -1,8 +1,6 @@
 extends CanvasLayer
 
-var total_points:int = 0
-
-var points_label:Label
+var points_label:TotalPoints
 var message_label:Label
 
 @export var award_points_scene: PackedScene
@@ -14,15 +12,14 @@ func _ready():
 	reset()
 
 func reset():
-	total_points = 0 
-	points_label.text = str(total_points)
+	points_label.reset()
 	message_label.hide()
 	$MessageTimer.timeout.connect(hide_message)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	points_label.text = str(total_points)
+	pass
 
 func hide_message():
 	message_label.hide()
@@ -43,4 +40,4 @@ func _on_gameplay_points_received(points, position):
 	
 
 func _on_gameplay_update_total_points(points):
-	total_points = points
+	points_label.update_points(points)
