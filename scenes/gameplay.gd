@@ -1,13 +1,14 @@
 extends Node2D
 
-@export var level_config:LevelConfig
-
 var floating_token: Token
 var saved_token: Token
 
 signal show_message(message:String, theme_color:String, time:float)
+signal points_received(points:int, position:Vector2)
+signal update_total_points(points:int)
 
 var board:Board
+var game_info:GameInfo
 var token_instance_provider:TokenInstanceProvider
 var token_data_provider:TokenDataProvider
 var save_token_cell: BoardCell
@@ -19,6 +20,7 @@ var is_scroll_in_progress: bool = false
 var current_cell_index: Vector2
 
 func _ready():
+	game_info = $GameInfo
 	board = $Board
 	token_instance_provider = $TokenInstanceProvider
 	token_data_provider = $TokenDataProvider
@@ -26,7 +28,7 @@ func _ready():
 	spawn_token_cell = $SpawnTokenCell
 	combinator = $Combinator
 	
-	board.configure(level_config.rows, level_config.columns)
+	board.configure(game_info.rows, game_info.columns)
 	
 	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
@@ -34,7 +36,7 @@ func _ready():
 	
 	combinator.reset_combinations(board.rows, board.columns)
 	
-	token_instance_provider.set_difficulty_tokens(level_config.difficulties[0])
+	token_instance_provider.set_difficulty_tokens(game_info.next_difficulty())
 	
 	create_floating_token()
 	
@@ -152,7 +154,17 @@ func __combine_tokens(combination: Combination):
 	combinator.reset_combinations(board.rows, board.columns)
 	
 	for cell_index in combination.combinable_cells:
-		var token_id = board.get_token_id_at_cell(cell_index)
+		
+		var token_id:int = board.get_token_id_at_cell(cell_index)
+		var token_data: TokenData = token_data_provider.token_data_by_token_id[token_id]
+		
+		game_info.points += token_data.points
+		var cell_position = board.get_cell_at_position(cell_index).position
+		var points_position: Vector2 = board.position + cell_position
+		points_position.x += board.cell_size.x / 2 
+		points_position.y += board.cell_size.y / 4 
+		points_received.emit(token_data.points, points_position)
+		
 		board.clear_token(cell_index)
 
 		if cell_index == combination.initial_cell():
@@ -173,3 +185,5 @@ func __combine_tokens(combination: Combination):
 				var prize_combination:Combination = __check_combination(cell_index, next_token_instance.id)
 				if prize_combination.is_valid():
 					__combine_tokens(prize_combination)
+					
+	update_total_points.emit(game_info.points)
