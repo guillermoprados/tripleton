@@ -26,4 +26,5 @@ one_shot = true
 
 [node name="Points" parent="." instance=ExtResource("4_ad6wm")]
 position = Vector2(29, 20)
+total_points = 0
 scale_delta = 0.2

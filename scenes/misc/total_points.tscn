@@ -5,6 +5,8 @@
 
 [node name="Points" type="Node2D"]
 script = ExtResource("1_c8dt0")
+DecreaseColor = Color(0.784314, 0.431373, 0.0196078, 1)
+IncreaseColor = Color(0.835294, 0.364706, 0.196078, 1)
 
 [node name="PointsLabel" type="Label" parent="."]
 offset_right = 223.0
