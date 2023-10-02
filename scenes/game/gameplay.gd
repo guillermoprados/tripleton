@@ -180,7 +180,7 @@ func __combine_tokens(combination: Combination):
 				next_token_data = token_data_provider.get_next_level_data(token_id)
 			else:
 				is_prize = true
-				next_token_data = token_data_provider.get_prize_for_token_category(token_id)
+				next_token_data = token_data_provider.get_prize_for_token_combination(token_id)
 			
 			var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
 			next_token_instance.set_size(board.cell_size)

@@ -5,22 +5,22 @@ class_name TokenDataProvider
 @export var tokens_config: TokensConfig
 
 var token_data_by_token_id: Dictionary
-var token_category_by_token_id: Dictionary
+var token_combination_by_token_id: Dictionary
 var combinable_tokens_ids: Array = [] #stores all the tokens that are in fact combinable
 
 func _ready():
 	tokens_config.verify_configuration()
 	
 	token_data_by_token_id = {}
-	for cat in tokens_config.categories:
-		for token_data in cat.ordered_tokens:
+	for comb in tokens_config.combinations:
+		for token_data in comb.ordered_tokens:
 			token_data_by_token_id[token_data.id] = token_data
 			combinable_tokens_ids.append(token_data.id)
 	
-	token_category_by_token_id = {}
-	for cat in tokens_config.categories:
-		for token_data in cat.ordered_tokens:
-			token_category_by_token_id[token_data.id] = cat
+	token_combination_by_token_id = {}
+	for comb in tokens_config.combinations:
+		for token_data in comb.ordered_tokens:
+			token_combination_by_token_id[token_data.id] = comb
 
 func is_token_combinable(token_id: String) -> bool:
 	return combinable_tokens_ids.has(token_id)
@@ -37,8 +37,8 @@ func get_previous_level_data(token_id:String) -> TokenData:
 		return token_data_by_token_id[previous_level_token_id]
 	return null
 
-func get_prize_for_token_category(token_id) -> TokenData:
-	return token_category_by_token_id[token_id].prize
+func get_prize_for_token_combination(token_id) -> TokenData:
+	return token_combination_by_token_id[token_id].prize
 
 func token_has_next_level(token_id: String) -> bool:
 	return get_token_id_for_next_level(token_id) != Constants.INVALID_TOKEN_ID
@@ -47,14 +47,14 @@ func token_has_previous_level(token_id: String) -> bool:
 	return get_token_id_for_previous_level(token_id) != Constants.INVALID_TOKEN_ID
 
 func get_level_for_token_id(token_id: String) -> int:
-	var cat = token_category_by_token_id[token_id]
-	for level in range(cat.ordered_tokens.size()):
-		if cat.ordered_tokens[level].id == token_id:
+	var comb = token_combination_by_token_id[token_id]
+	for level in range(comb.ordered_tokens.size()):
+		if comb.ordered_tokens[level].id == token_id:
 			return level
 	return 0
 
 func get_number_of_levels_for_token_id(token_id: String) -> int:
-	return token_category_by_token_id[token_id].ordered_tokens.size()
+	return token_combination_by_token_id[token_id].ordered_tokens.size()
 
 func get_token_id_for_next_level(token_id: String) -> String:
 	var current_level = get_level_for_token_id(token_id)
@@ -62,7 +62,7 @@ func get_token_id_for_next_level(token_id: String) -> String:
 	var next_token_id = Constants.INVALID_TOKEN_ID
 	
 	if current_level < total_levels - 1:
-		next_token_id = token_category_by_token_id[token_id].ordered_tokens[current_level + 1].id
+		next_token_id = token_combination_by_token_id[token_id].ordered_tokens[current_level + 1].id
 	
 	return next_token_id
 
@@ -70,6 +70,6 @@ func get_token_id_for_previous_level(token_id: String) -> String:
 	var current_level = get_level_for_token_id(token_id)
 	var prev_token_id = Constants.INVALID_TOKEN_ID
 	if current_level > 0:
-		var category = token_category_by_token_id[token_id]
-		prev_token_id = category.ordered_tokens[current_level - 1].id
+		var combination = token_combination_by_token_id[token_id]
+		prev_token_id = combination.ordered_tokens[current_level - 1].id
 	return prev_token_id

@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="TokensConfig" load_steps=14 format=3 uid="uid://cvwsr67y5u75o"]
 
 [ext_resource type="Script" path="res://resources/tokens_config.gd" id="1_e2tok"]
-[ext_resource type="Resource" uid="uid://bkp04lj21tt64" path="res://data/categories/gates.tres" id="1_fucnt"]
-[ext_resource type="Resource" uid="uid://b2pgnq7dtai13" path="res://data/categories/houses.tres" id="2_ej4wq"]
-[ext_resource type="Resource" uid="uid://ccqhatfrpk7jv" path="res://data/categories/chests.tres" id="3_vp2yq"]
+[ext_resource type="Resource" uid="uid://ccqhatfrpk7jv" path="res://data/combinations/chests.tres" id="1_q7duq"]
+[ext_resource type="Resource" uid="uid://bkp04lj21tt64" path="res://data/combinations/gates.tres" id="2_jpn6p"]
+[ext_resource type="Resource" uid="uid://b2pgnq7dtai13" path="res://data/combinations/houses.tres" id="3_oh007"]
 [ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens_data/bamboo.tres" id="5_vvneq"]
 [ext_resource type="Resource" uid="uid://d3bom2w3ool18" path="res://data/tokens_data/bush.tres" id="6_1gks1"]
 [ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chests/chest_bronce.tres" id="7_52mm6"]
@@ -17,4 +17,4 @@
 [resource]
 script = ExtResource("1_e2tok")
 tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("5_vvneq"), ExtResource("6_1gks1"), ExtResource("7_52mm6"), ExtResource("8_i0hqk"), ExtResource("9_dr7wr"), ExtResource("10_1dyb7"), ExtResource("11_1othl"), ExtResource("12_1hsoi"), ExtResource("13_q2cul")])
-categories = Array[Resource("res://resources/token_category.gd")]([ExtResource("3_vp2yq"), ExtResource("1_fucnt"), ExtResource("2_ej4wq")])
+combinations = Array[Resource("res://resources/token_combination.gd")]([ExtResource("1_q7duq"), ExtResource("2_jpn6p"), ExtResource("3_oh007")])
