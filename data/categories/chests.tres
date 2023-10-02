@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="TokenCategory" load_steps=6 format=3 uid="uid://ccqhatfrpk7jv"]
 
-[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/1_chest_bronce.tres" id="1_qunof"]
-[ext_resource type="Resource" uid="uid://cqty26t0ppt3d" path="res://data/tokens_data/2_chest_silver.tres" id="2_jd32e"]
-[ext_resource type="Resource" uid="uid://c6ragfjs3jdr8" path="res://data/tokens_data/3_chest_gold.tres" id="3_27epj"]
-[ext_resource type="Resource" uid="uid://dtxx2e5e3txfk" path="res://data/tokens_data/4_chest_diamond.tres" id="4_6bcte"]
+[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chest_bronce.tres" id="1_qunof"]
+[ext_resource type="Resource" uid="uid://cqty26t0ppt3d" path="res://data/tokens_data/chest_silver.tres" id="2_jd32e"]
+[ext_resource type="Resource" uid="uid://c6ragfjs3jdr8" path="res://data/tokens_data/chest_gold.tres" id="3_27epj"]
+[ext_resource type="Resource" uid="uid://dtxx2e5e3txfk" path="res://data/tokens_data/chest_diamond.tres" id="4_6bcte"]
 [ext_resource type="Script" path="res://resources/token_category.gd" id="4_nr8a2"]
 
 [resource]

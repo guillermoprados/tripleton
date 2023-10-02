@@ -10,7 +10,7 @@ func verify_configuration():
 	# Check if all tokens have a unique ID
 	var token_ids: Array = []
 	for token in tokens:
-		assert(not token.id in token_ids, "Duplicate token ID found: " + str(token.id)+" on "+token.name)
+		assert(not token.id in token_ids, "Duplicate token ID found: " + token.id)
 		token_ids.append(token.id)
 	
 	# Check if categories have at least one token and prize set

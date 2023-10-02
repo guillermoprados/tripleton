@@ -7,7 +7,7 @@ enum HighlightMode {
 	COMBINATION
 }
 
-var MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
-var INVALID_TOKEN_ID = -1
-
-var IS_DEBUG_MODE = true
+const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
+const INVALID_TOKEN_ID = ""
+const EMPTY_CELL = ""
+const IS_DEBUG_MODE = true

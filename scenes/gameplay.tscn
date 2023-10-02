@@ -19,6 +19,9 @@ script = ExtResource("1_gck8e")
 script = ExtResource("3_8dctr")
 level_config = ExtResource("3_4t22s")
 
+[node name="Combinator" type="Node" parent="."]
+script = ExtResource("10_dfvt2")
+
 [node name="TokenInstanceProvider" type="Node2D" parent="."]
 script = ExtResource("2_6dw36")
 token_scene = ExtResource("2_08wbk")
@@ -49,10 +52,6 @@ position = Vector2(113, 186)
 
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(424, 181)
-
-[node name="Combinator" type="Node" parent="." node_paths=PackedStringArray("token_data_info_provider")]
-script = ExtResource("10_dfvt2")
-token_data_info_provider = NodePath("../TokenDataProvider")
 
 [connection signal="points_received" from="." to="GameplayUI" method="_on_gameplay_points_received"]
 [connection signal="show_message" from="." to="GameplayUI" method="_on_gameplay_show_message"]

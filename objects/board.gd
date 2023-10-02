@@ -1,7 +1,5 @@
 class_name Board extends Node2D
 
-const EMPTY_CELL = -1
-
 signal board_cell_moved(index:Vector2)
 signal board_cell_selected(index:Vector2)
 
@@ -13,7 +11,7 @@ var board_size: Vector2 = Vector2.ZERO # Store the cell size for external access
 var rows: int
 var columns: int
 var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
-var cell_tokens_ids: Array = []  # The matrix of int values
+var cell_tokens_ids: Array = []  # The matrix of string values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
 
@@ -35,7 +33,7 @@ func configure(rows: int, columns: int):
 		var row_tokens: Array = []
 		var row_cells: Array = []  # This will store the cell references for this row
 		for col in range(columns):
-			row_tokens.append(EMPTY_CELL)  # Initializing matrix with EMPTY_CELL value
+			row_tokens.append(Constants.EMPTY_CELL)  # Initializing matrix with EMPTY_CELL value
 			var cell_instance = cell_scene.instantiate()
 	
 			# Connect the cell signals to the board methods using the new syntax
@@ -77,7 +75,7 @@ func set_token_at_cell(token, cell_pos: Vector2):
 	
 func clear_token(cell_index: Vector2) -> void:
 	# Update the matrix value to EMPTY_CELL
-	cell_tokens_ids[cell_index.x][cell_index.y] = EMPTY_CELL
+	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
 	
 	# Remove the token instance from the scene if it exists in the dictionary
 	if placed_tokens.has(cell_index):
@@ -87,7 +85,7 @@ func clear_token(cell_index: Vector2) -> void:
 
 
 # Get the token at a specific cell
-func get_token_id_at_cell(cell_pos: Vector2) -> int:
+func get_token_id_at_cell(cell_pos: Vector2) -> String:
 	return cell_tokens_ids[cell_pos.x][cell_pos.y]
 
 # Get the cell scene at a given position
@@ -98,7 +96,7 @@ func get_cell_at_position(cell_pos: Vector2) -> Node:
 
 # Check if the cell is empty
 func is_cell_empty(cell_pos: Vector2) -> bool:
-	return cell_tokens_ids[cell_pos.x][cell_pos.y] == EMPTY_CELL
+	return cell_tokens_ids[cell_pos.x][cell_pos.y] == Constants.EMPTY_CELL
 
 func _on_cell_entered(cell_pos: Vector2):
 	set_hovering_on_cell(cell_pos)

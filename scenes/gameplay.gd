@@ -143,7 +143,7 @@ func _on_save_token_cell_selected(cell_pos: Vector2):
 		create_floating_token()
 
 func __check_combination(cell_index:Vector2, tokenId) -> Combination:
-	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids)
+	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids, token_data_provider)
 
 func __highlight_combination(combination:Combination):
 	for cell_index in combination.combinable_cells:
@@ -155,7 +155,7 @@ func __combine_tokens(combination: Combination):
 	
 	for cell_index in combination.combinable_cells:
 		
-		var token_id:int = board.get_token_id_at_cell(cell_index)
+		var token_id:String = board.get_token_id_at_cell(cell_index)
 		var token_data: TokenData = token_data_provider.token_data_by_token_id[token_id]
 		
 		game_info.points += token_data.points

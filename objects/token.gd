@@ -7,7 +7,7 @@ class_name Token
 var floating: bool
 var token_size: Vector2 = token_predefined_size
  
-var id:int = -1
+var id:String = Constants.INVALID_TOKEN_ID
 
 func _ready():
 	pass  # Replace with function body.
