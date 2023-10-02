@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://bvgu8vg37wmjx"]
 
 [ext_resource type="Script" path="res://resources/token_data.gd" id="1_t4wxl"]
-[ext_resource type="PackedScene" uid="uid://e3qrttn6mcg8" path="res://objects/tokens/bamboo.tscn" id="2_dn3vp"]
+[ext_resource type="PackedScene" uid="uid://e3qrttn6mcg8" path="res://scenes/objects/tokens/bamboo.tscn" id="2_dn3vp"]
 
 [resource]
 script = ExtResource("1_t4wxl")

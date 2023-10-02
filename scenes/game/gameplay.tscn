@@ -1,15 +1,15 @@
 [gd_scene load_steps=12 format=3 uid="uid://dciutmggheven"]
 
-[ext_resource type="Script" path="res://scenes/gameplay.gd" id="1_gck8e"]
-[ext_resource type="Script" path="res://scripts/token_instance_provider.gd" id="2_6dw36"]
-[ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://objects/board.tscn" id="2_7sxhf"]
-[ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://objects/token.tscn" id="2_08wbk"]
+[ext_resource type="Script" path="res://scenes/game/gameplay.gd" id="1_gck8e"]
+[ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
+[ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="Resource" uid="uid://cnj7k31nxfag8" path="res://data/levels/level_0.tres" id="3_4t22s"]
 [ext_resource type="Resource" uid="uid://cvwsr67y5u75o" path="res://data/tokens_config.tres" id="3_6iknq"]
 [ext_resource type="Script" path="res://scripts/game_info.gd" id="3_8dctr"]
 [ext_resource type="PackedScene" uid="uid://dqoc7lfl8mxw1" path="res://ui/panels/gameplay_ui.tscn" id="4_fpg8e"]
-[ext_resource type="Script" path="res://scripts/token_data_provider.gd" id="5_sutux"]
-[ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="Script" path="res://scripts/tokens_helpers/token_instance_provider.gd" id="5_86bwx"]
+[ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="Script" path="res://scripts/tokens_helpers/token_data_provider.gd" id="7_cehjm"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 
 [node name="Gameplay" type="Node2D"]
@@ -23,11 +23,11 @@ level_config = ExtResource("3_4t22s")
 script = ExtResource("10_dfvt2")
 
 [node name="TokenInstanceProvider" type="Node2D" parent="."]
-script = ExtResource("2_6dw36")
+script = ExtResource("5_86bwx")
 token_scene = ExtResource("2_08wbk")
 
 [node name="TokenDataProvider" type="Node" parent="."]
-script = ExtResource("5_sutux")
+script = ExtResource("7_cehjm")
 tokens_config = ExtResource("3_6iknq")
 
 [node name="ColorRect" type="ColorRect" parent="."]

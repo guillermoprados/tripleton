@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://resources/token_category.gd" id="1_xtece"]
 [ext_resource type="Resource" uid="uid://d3bom2w3ool18" path="res://data/tokens_data/bush.tres" id="2_hvgdr"]
 [ext_resource type="Resource" uid="uid://24w85gntjo8m" path="res://data/tokens_data/tree.tres" id="3_i1bd2"]
-[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chest_bronce.tres" id="4_lrdq8"]
+[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chests/chest_bronce.tres" id="4_lrdq8"]
 
 [resource]
 script = ExtResource("1_xtece")

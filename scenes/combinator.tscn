@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dkwq0uqql71ag"]
-
-[ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="1_y8u7p"]
-
-[node name="Combinator" type="Node"]
-script = ExtResource("1_y8u7p")

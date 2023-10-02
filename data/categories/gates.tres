@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://resources/token_category.gd" id="1_js2y6"]
 [ext_resource type="Resource" uid="uid://yxb4d3i1elr8" path="res://data/tokens_data/lamp.tres" id="2_tnfyg"]
 [ext_resource type="Resource" uid="uid://ps32pfs5cnga" path="res://data/tokens_data/gate.tres" id="3_m2ah3"]
-[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chest_bronce.tres" id="4_ktr2x"]
+[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chests/chest_bronce.tres" id="4_ktr2x"]
 
 [resource]
 script = ExtResource("1_js2y6")

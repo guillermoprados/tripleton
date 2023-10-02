@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cs3h2jmbb6qk7"]
 
-[ext_resource type="Script" path="res://objects/cell.gd" id="1_63653"]
+[ext_resource type="Script" path="res://scenes/objects/cell.gd" id="1_tbt80"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ubd2d"]
 size = Vector2(58, 58)
@@ -8,7 +8,7 @@ size = Vector2(58, 58)
 [node name="Area2D" type="Area2D"]
 collision_mask = 0
 priority = 1
-script = ExtResource("1_63653")
+script = ExtResource("1_tbt80")
 highlight_strong_valid = Color(0.501961, 1, 0.501961, 0.427451)
 highlight_strong_invalid = Color(1, 0.501961, 0.501961, 0.521569)
 highlight_light_valid = Color(0.74902, 1, 0.74902, 0.321569)

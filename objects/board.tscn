@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://dlrmlfrpnrkcu"]
-
-[ext_resource type="Script" path="res://objects/board.gd" id="1_dbrbv"]
-[ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://objects/cell.tscn" id="3_6rpbb"]
-
-[node name="board" type="Node2D"]
-script = ExtResource("1_dbrbv")
-cell_scene = ExtResource("3_6rpbb")

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TokenData" load_steps=2 format=3 uid="uid://e56dit314ila"]
+
+[ext_resource type="Script" path="res://resources/token_data.gd" id="1_0s2gp"]
+
+[resource]
+script = ExtResource("1_0s2gp")
+id = ""
+points = 0

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cvawnoqn2542o"]
 
 [ext_resource type="Theme" uid="uid://c1meoxw1r8o2k" path="res://ui/themes/main_theme.tres" id="1_7nqm2"]
-[ext_resource type="Script" path="res://scenes/misc/total_points.gd" id="1_c8dt0"]
+[ext_resource type="Script" path="res://ui/misc/total_points.gd" id="1_c8dt0"]
 
 [node name="Points" type="Node2D"]
 script = ExtResource("1_c8dt0")
