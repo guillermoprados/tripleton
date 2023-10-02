@@ -130,6 +130,9 @@ func _on_save_token_cell_exited(cell_pos: Vector2):
 	pass
 	
 func _on_save_token_cell_selected(cell_pos: Vector2):
+	__swap_floating_token(cell_pos)
+
+func __swap_floating_token(cell_pos: Vector2):
 	if saved_token:
 		var floating_pos = floating_token.position
 		var switch_token = floating_token
@@ -141,7 +144,9 @@ func _on_save_token_cell_selected(cell_pos: Vector2):
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
 		create_floating_token()
-
+	# reset combinations because we're caching them
+	combinator.reset_combinations(board.rows, board.columns)
+	
 func __check_combination(cell_index:Vector2, tokenId) -> Combination:
 	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids, token_data_provider)
 
