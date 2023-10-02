@@ -8,3 +8,5 @@ script = ExtResource("1_lh4v3")
 id = "bush"
 sprite_scene = ExtResource("2_7vsvx")
 points = 80
+gold = 0
+is_prize = false

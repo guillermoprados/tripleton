@@ -8,3 +8,5 @@ script = ExtResource("1_i6v1s")
 id = "lamp"
 sprite_scene = ExtResource("2_7odvp")
 points = 100
+gold = 0
+is_prize = false

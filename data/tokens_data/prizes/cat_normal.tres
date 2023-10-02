@@ -1,8 +1,14 @@
-[gd_resource type="Resource" script_class="TokenData" load_steps=2 format=3 uid="uid://cw8k7uvbyc7p"]
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://cw8k7uvbyc7p"]
 
 [ext_resource type="Script" path="res://resources/token_data.gd" id="1_gnm6p"]
+[ext_resource type="PackedScene" uid="uid://de1nf16qnkxsf" path="res://scenes/objects/tokens/prizes/cat_normal.tscn" id="2_bjw55"]
 
 [resource]
 script = ExtResource("1_gnm6p")
 id = ""
-points = 0
+sprite_scene = ExtResource("2_bjw55")
+points = 1000
+gold = 0
+is_chest = false
+prizes = Array[Resource("res://resources/pool_item.gd")]([])
+is_prize = true
