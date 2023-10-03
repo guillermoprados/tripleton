@@ -6,6 +6,9 @@ static func evaluate_combination(initial_token_id: String, combination: Combinat
 	if not combination.evaluated:
 		combination.evaluated = true
 
+		if !token_info_provider.token_is_combinable(initial_token_id):
+			return
+			
 		var token_id:String = initial_token_id
 		var first_level = token_info_provider.get_level_for_token_id(token_id)
 		var number_of_levels = token_info_provider.get_number_of_levels_for_token_id(token_id)

@@ -4,25 +4,30 @@ class_name TokenDataProvider
 
 var _resource_item_pool: Array = []
 
-var token_data_by_token_id: Dictionary
-var token_combination_by_token_id: Dictionary
-var combinable_tokens_ids: Array = [] #stores all the tokens that are in fact combinable
+var token_data_by_token_id: Dictionary = {}
+var token_combination_by_token_id: Dictionary = {}
+var token_chest_by_token_id: Dictionary = {}
 
 func _init(game_config:GameConfig):
-	token_data_by_token_id = {}
-	for comb in game_config.combinations:
-		for token_data in comb.ordered_tokens:
-			token_data_by_token_id[token_data.id] = token_data
-			combinable_tokens_ids.append(token_data.id)
 	
-	token_combination_by_token_id = {}
+	for chest_data in game_config.chests:
+		token_chest_by_token_id[chest_data.chest.id] = chest_data		
+		
 	for comb in game_config.combinations:
 		for token_data in comb.ordered_tokens:
 			token_combination_by_token_id[token_data.id] = comb
-
-func is_token_combinable(token_id: String) -> bool:
-	return combinable_tokens_ids.has(token_id)
 	
+	for comb in game_config.combinations:
+		for token_data in comb.ordered_tokens:
+			token_data_by_token_id[token_data.id] = token_data
+		
+
+func token_is_combinable(token_id: String) -> bool:
+	return token_combination_by_token_id.has(token_id)
+
+func token_is_chest(token_id: String) -> bool:
+	return token_chest_by_token_id.has(token_id)
+
 func get_next_level_data(token_id:String) -> TokenData:
 	var next_level_token_id = get_token_id_for_next_level(token_id)
 	if next_level_token_id != Constants.INVALID_TOKEN_ID:
@@ -36,7 +41,7 @@ func get_previous_level_data(token_id:String) -> TokenData:
 	return null
 
 func get_prize_for_token_combination(token_id) -> TokenData:
-	return token_combination_by_token_id[token_id].prize
+	return token_combination_by_token_id[token_id].chest_prize.chest
 
 func token_has_next_level(token_id: String) -> bool:
 	return get_token_id_for_next_level(token_id) != Constants.INVALID_TOKEN_ID

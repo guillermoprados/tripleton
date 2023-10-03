@@ -116,10 +116,10 @@ func _on_board_board_cell_selected(index):
 		__place_token_at_cell(floating_token, index)
 	else:
 		var cell_token = board.get_token_at_cell(index)
-		# if cell_token.is_chest():
-		#	cell_token.open_chest()
-		
-		show_message.emit("Cannot place token", "error_font", .5); #localize
+		if token_data_provider.token_is_chest(cell_token.id):
+			print('Open chest')
+		else:
+			show_message.emit("Cannot place token", "error_font", .5); #localize
 
 func __place_token_at_cell(token:Token, cell_pos: Vector2):
 	remove_child(token)
