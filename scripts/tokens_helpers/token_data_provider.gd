@@ -1,24 +1,22 @@
-extends Node
+extends RefCounted
 
 class_name TokenDataProvider
 
-@export var tokens_config: TokensConfig
+var _resource_item_pool: Array = []
 
 var token_data_by_token_id: Dictionary
 var token_combination_by_token_id: Dictionary
 var combinable_tokens_ids: Array = [] #stores all the tokens that are in fact combinable
 
-func _ready():
-	tokens_config.verify_configuration()
-	
+func _init(game_config:GameConfig):
 	token_data_by_token_id = {}
-	for comb in tokens_config.combinations:
+	for comb in game_config.combinations:
 		for token_data in comb.ordered_tokens:
 			token_data_by_token_id[token_data.id] = token_data
 			combinable_tokens_ids.append(token_data.id)
 	
 	token_combination_by_token_id = {}
-	for comb in tokens_config.combinations:
+	for comb in game_config.combinations:
 		for token_data in comb.ordered_tokens:
 			token_combination_by_token_id[token_data.id] = comb
 

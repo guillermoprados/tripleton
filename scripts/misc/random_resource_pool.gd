@@ -1,4 +1,3 @@
-# random_resource_item_pool.gd
 extends RefCounted
 
 class_name RandomResourcePool

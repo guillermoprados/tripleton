@@ -7,6 +7,8 @@ signal show_message(message:String, theme_color:String, time:float)
 signal points_received(points:int, position:Vector2)
 signal update_total_points(points:int)
 
+@export var game_config:GameConfig
+
 var board:Board
 var game_info:GameInfo
 var token_instance_provider:TokenInstanceProvider
@@ -23,10 +25,11 @@ func _ready():
 	game_info = $GameInfo
 	board = $Board
 	token_instance_provider = $TokenInstanceProvider
-	token_data_provider = $TokenDataProvider
 	save_token_cell = $SaveTokenCell
 	spawn_token_cell = $SpawnTokenCell
 	combinator = $Combinator
+	
+	token_data_provider = TokenDataProvider.new(game_config)
 	
 	board.configure(game_info.rows, game_info.columns)
 	
@@ -113,8 +116,8 @@ func _on_board_board_cell_selected(index):
 		__place_token_at_cell(floating_token, index)
 	else:
 		var cell_token = board.get_token_at_cell(index)
-		if cell_token.is_chest():
-			cell_token.open_chest()
+		# if cell_token.is_chest():
+		#	cell_token.open_chest()
 		
 		show_message.emit("Cannot place token", "error_font", .5); #localize
 

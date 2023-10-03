@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TokenChest" load_steps=5 format=3 uid="uid://delixqyir20ha"]
+
+[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chests/chest_bronce.tres" id="1_gjeyy"]
+[ext_resource type="Resource" uid="uid://e56dit314ila" path="res://data/tokens_data/prizes/coins_small.tres" id="2_53jpe"]
+[ext_resource type="Resource" uid="uid://cw8k7uvbyc7p" path="res://data/tokens_data/prizes/cat_normal.tres" id="3_3guip"]
+[ext_resource type="Script" path="res://resources/token_chest.gd" id="4_mx7nk"]
+
+[resource]
+script = ExtResource("4_mx7nk")
+chest = ExtResource("1_gjeyy")
+prizes = Array[Resource("res://resources/token_data.gd")]([ExtResource("2_53jpe"), ExtResource("3_3guip")])

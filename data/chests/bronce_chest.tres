@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="TokenChest" load_steps=2 format=3 uid="uid://yikfgrot1cg2"]
+
+[ext_resource type="Script" path="res://resources/token_chest.gd" id="1_ixdo6"]
+
+[resource]
+script = ExtResource("1_ixdo6")
+prizes = Array[Resource("res://resources/token_data.gd")]([])

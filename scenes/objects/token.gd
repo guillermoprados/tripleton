@@ -29,15 +29,5 @@ func _draw():
 
 func set_data(token_data:TokenData):
 	id = token_data.id
-	self.token_data = token_data.clone()
 	var sprite_instance = token_data.sprite_scene.instantiate()
 	add_child(sprite_instance)
-	
-func is_prize() -> bool:
-	return token_data.is_prize
-	
-func is_chest() -> bool:
-	return token_data.is_chest
-	
-func open_chest():
-	print("Open")
