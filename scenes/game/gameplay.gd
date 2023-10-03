@@ -79,7 +79,7 @@ func _input(event):
 			floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
-			var combination:Combination = __check_combination(current_cell_index, floating_token.id)
+			var combination:Combination = __check_combination(floating_token.id, current_cell_index)
 			if combination.is_valid():
 				__highlight_combination(combination)
 			is_scroll_in_progress = true
@@ -104,22 +104,30 @@ func _on_board_board_cell_moved(index):
 	if board.is_cell_empty(index):
 		var token_position = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
-		var combination:Combination = __check_combination(index, floating_token.id)
+		var combination:Combination = __check_combination(floating_token.id, current_cell_index)
 		if combination.is_valid():
 			__highlight_combination(combination)
 		
 func _on_board_board_cell_selected(index):
 	if board.is_cell_empty(index):
-		remove_child(floating_token)
-		board.set_token_at_cell(floating_token, index)
-		board.clear_highlights()
-		var combination:Combination = __check_combination(index, floating_token.id)
-		if combination.is_valid():
-			__combine_tokens(combination)
-		combinator.reset_combinations(board.rows, board.columns)
-		create_floating_token()
+		__place_token_at_cell(floating_token, index)
 	else:
+		var cell_token = board.get_token_at_cell(index)
+		if cell_token.is_chest():
+			cell_token.open_chest()
+		
 		show_message.emit("Cannot place token", "error_font", .5); #localize
+
+func __place_token_at_cell(token:Token, cell_pos: Vector2):
+	remove_child(token)
+	board.set_token_at_cell(token, cell_pos)
+	board.clear_highlights()
+	var combination:Combination = __check_combination(token.id, cell_pos)
+	if combination.is_valid():
+		__combine_tokens(combination)
+	combinator.reset_combinations(board.rows, board.columns)
+	create_floating_token()
+	
 
 func _on_save_token_cell_entered(cell_pos: Vector2):
 	save_token_cell.highlight(Constants.HighlightMode.HOVER, true)
@@ -147,7 +155,7 @@ func __swap_floating_token(cell_pos: Vector2):
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)
 	
-func __check_combination(cell_index:Vector2, tokenId) -> Combination:
+func __check_combination(tokenId, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids, token_data_provider)
 
 func __highlight_combination(combination:Combination):
@@ -160,7 +168,7 @@ func __combine_tokens(combination: Combination):
 	
 	for cell_index in combination.combinable_cells:
 		
-		var token_id:String = board.get_token_id_at_cell(cell_index)
+		var token_id:String = board.get_token_at_cell(cell_index).id
 		var token_data: TokenData = token_data_provider.token_data_by_token_id[token_id]
 		
 		game_info.points += token_data.points
@@ -187,7 +195,7 @@ func __combine_tokens(combination: Combination):
 			board.set_token_at_cell(next_token_instance,cell_index)
 
 			if is_prize:
-				var prize_combination:Combination = __check_combination(cell_index, next_token_instance.id)
+				var prize_combination:Combination = __check_combination(next_token_instance.id, cell_index)
 				if prize_combination.is_valid():
 					__combine_tokens(prize_combination)
 					

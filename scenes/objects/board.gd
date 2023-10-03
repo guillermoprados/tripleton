@@ -83,10 +83,8 @@ func clear_token(cell_index: Vector2) -> void:
 		token.queue_free()  # Safely remove the token from the scene
 		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
 
-
-# Get the token at a specific cell
-func get_token_id_at_cell(cell_pos: Vector2) -> String:
-	return cell_tokens_ids[cell_pos.x][cell_pos.y]
+func get_token_at_cell(cell_pos: Vector2) -> Token:
+	return placed_tokens[cell_pos]
 
 # Get the cell scene at a given position
 func get_cell_at_position(cell_pos: Vector2) -> Node:
