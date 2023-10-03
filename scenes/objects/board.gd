@@ -67,11 +67,11 @@ func __clear_board():
 	placed_tokens.clear()
 	
 # Set the token for a specific cell
-func set_token_at_cell(token, cell_pos: Vector2):
-	cell_tokens_ids[cell_pos.x][cell_pos.y] = token.id
-	placed_tokens[cell_pos] = token
+func set_token_at_cell(token:Token, cell_index: Vector2):
+	cell_tokens_ids[cell_index.x][cell_index.y] = token.id
+	placed_tokens[cell_index] = token
 	add_child(token)
-	token.position = get_cell_at_position(cell_pos).position
+	token.position = get_cell_at_position(cell_index).position
 	
 func clear_token(cell_index: Vector2) -> void:
 	# Update the matrix value to EMPTY_CELL
@@ -83,42 +83,42 @@ func clear_token(cell_index: Vector2) -> void:
 		token.queue_free()  # Safely remove the token from the scene
 		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
 
-func get_token_at_cell(cell_pos: Vector2) -> Token:
-	return placed_tokens[cell_pos]
+func get_token_at_cell(cell_index: Vector2) -> Token:
+	return placed_tokens[cell_index]
 
 # Get the cell scene at a given position
-func get_cell_at_position(cell_pos: Vector2) -> Node:
-	if cell_pos.x < rows and cell_pos.y < columns:
-		return cells_matrix[cell_pos.x][cell_pos.y]
+func get_cell_at_position(cell_index: Vector2) -> Node:
+	if cell_index.x < rows and cell_index.y < columns:
+		return cells_matrix[cell_index.x][cell_index.y]
 	return null  # Return null if the position is out of bounds
 
 # Check if the cell is empty
-func is_cell_empty(cell_pos: Vector2) -> bool:
-	return cell_tokens_ids[cell_pos.x][cell_pos.y] == Constants.EMPTY_CELL
+func is_cell_empty(cell_index: Vector2) -> bool:
+	return cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL
 
-func _on_cell_entered(cell_pos: Vector2):
-	set_hovering_on_cell(cell_pos)
-	board_cell_moved.emit(cell_pos)
+func _on_cell_entered(cell_index: Vector2):
+	set_hovering_on_cell(cell_index)
+	board_cell_moved.emit(cell_index)
 	
-func _on_cell_exited(cell_pos: Vector2):
+func _on_cell_exited(cell_index: Vector2):
 	pass
 	
-func _on_cell_selected(cell_pos: Vector2):
-	board_cell_selected.emit(cell_pos)
+func _on_cell_selected(cell_index: Vector2):
+	board_cell_selected.emit(cell_index)
 
 func clear_highlights():
 	for row in cells_matrix:
 		for cell in row:
 			cell.highlight(Constants.HighlightMode.NONE, true)
 			
-func set_hovering_on_cell(cell_pos: Vector2):
+func set_hovering_on_cell(cell_index: Vector2):
 	clear_highlights()
 
-	var can_place_token = is_cell_empty(cell_pos)
+	var can_place_token = is_cell_empty(cell_index)
 
 	for row in cells_matrix:
 		for cell in row:
-			if cell.cell_index == cell_pos:
+			if cell.cell_index == cell_index:
 				cell.highlight(Constants.HighlightMode.HOVER, can_place_token)
-			elif cell.cell_index.x == cell_pos.x or cell.cell_index.y == cell_pos.y:
+			elif cell.cell_index.x == cell_index.x or cell.cell_index.y == cell_index.y:
 				cell.highlight(Constants.HighlightMode.SAME_LINE, can_place_token)

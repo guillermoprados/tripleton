@@ -41,11 +41,11 @@ func _ready():
 	
 	token_instance_provider.set_difficulty_tokens(game_info.next_difficulty())
 	
-	create_floating_token()
-	
 	# Connect the screen size changed signal to a function
 	get_tree().root.size_changed.connect(_on_screen_size_changed)
 	_on_screen_size_changed()
+	
+	create_floating_token()
 	
 func _on_screen_size_changed():
 	var screen_size = get_viewport().get_visible_rect().size
@@ -89,9 +89,9 @@ func _input(event):
 func __instantiate_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
 	var instance:Token = token_instance_provider.get_token_instance(token_data)
 	instance.set_size(board.cell_size)
-	instance.position = position
 	if parent:
 		parent.add_child(instance)
+	instance.position = position
 	return instance
 			
 func __on_scroll_timer_timeout():
@@ -102,7 +102,7 @@ func create_floating_token():
 	floating_token = __instantiate_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 	
-func _on_board_board_cell_moved(index):
+func _on_board_board_cell_moved(index:Vector2):
 	current_cell_index = index
 	spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
 	var cell_size = board.cell_size
@@ -113,7 +113,7 @@ func _on_board_board_cell_moved(index):
 		if combination.is_valid():
 			__highlight_combination(combination)
 		
-func _on_board_board_cell_selected(index):
+func _on_board_board_cell_selected(index:Vector2):
 	if board.is_cell_empty(index):
 		__place_token_at_cell(floating_token, index)
 	else:

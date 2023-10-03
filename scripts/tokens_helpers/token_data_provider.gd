@@ -7,20 +7,22 @@ var _resource_item_pool: Array = []
 var token_data_by_token_id: Dictionary = {}
 var token_combination_by_token_id: Dictionary = {}
 var token_chest_by_token_id: Dictionary = {}
+var prize_tokens_ids: Array[String] = []
 
 func _init(game_config:GameConfig):
-	
 	for chest_data in game_config.chests:
 		token_chest_by_token_id[chest_data.chest.id] = chest_data		
-		
+		# add tokens from chest prizes
+		for token_data in chest_data.prizes:
+			token_data_by_token_id[token_data.id] = token_data		
+			prize_tokens_ids.append(token_data.id)
+			
 	for comb in game_config.combinations:
 		for token_data in comb.ordered_tokens:
 			token_combination_by_token_id[token_data.id] = comb
-	
-	for comb in game_config.combinations:
-		for token_data in comb.ordered_tokens:
-			token_data_by_token_id[token_data.id] = token_data
-		
+			# add tokens from combinations
+			token_data_by_token_id[token_data.id] = token_data		
+		token_data_by_token_id[comb.chest_prize.chest.id] = comb.chest_prize.chest
 
 func token_is_combinable(token_id: String) -> bool:
 	return token_combination_by_token_id.has(token_id)
@@ -79,3 +81,6 @@ func token_is_chest(token_id: String) -> bool:
 	
 func get_chest(token_id: String) -> TokenChest: 
 	return token_chest_by_token_id[token_id]
+
+func token_is_prize(token_id: String) -> bool:
+	return prize_tokens_ids.has(token_id)
