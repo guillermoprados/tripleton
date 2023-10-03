@@ -7,7 +7,6 @@ class_name TokenData
 @export var points: int = 0
 @export var gold: int = 0
 @export var is_chest: bool
-@export var prizes: Array[PoolItem] = [] #should only be used by chests
 @export var is_prize: bool
 
 func clone() -> TokenData:
@@ -19,7 +18,6 @@ func clone() -> TokenData:
 	new_token_data.points = points
 	new_token_data.gold = gold
 	new_token_data.is_chest = is_chest
-	new_token_data.prizes = prizes.duplicate(true) # Deep copy of the array
 	new_token_data.is_prize = is_prize
 	
 	return new_token_data

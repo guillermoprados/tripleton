@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TokenData" load_steps=6 format=3 uid="uid://dtxx2e5e3txfk"]
 
 [ext_resource type="Script" path="res://resources/token_data.gd" id="1_kg3gf"]
-[ext_resource type="Script" path="res://resources/pool_item.gd" id="1_nsdta"]
+[ext_resource type="Script" path="res://resources/pooleable_resource.gd" id="1_nsdta"]
 [ext_resource type="PackedScene" uid="uid://dc8njfr3fgjof" path="res://scenes/objects/tokens/chests/chest_diamond.tscn" id="2_1ch1s"]
 [ext_resource type="Resource" uid="uid://caycqgglxlokt" path="res://data/tokens_data/prizes/cat_gold.tres" id="2_l2y86"]
 

@@ -1,6 +1,6 @@
 extends Resource
 
-class_name	PoolItem
+class_name	PooleableResource
 
 @export var token:TokenData
 @export var number_of_items:int

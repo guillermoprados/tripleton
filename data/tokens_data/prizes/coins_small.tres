@@ -10,5 +10,4 @@ sprite_scene = ExtResource("2_8ttvh")
 points = 0
 gold = 50
 is_chest = false
-prizes = Array[Resource("res://resources/pool_item.gd")]([])
 is_prize = true

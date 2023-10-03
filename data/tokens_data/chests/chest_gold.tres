@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TokenData" load_steps=8 format=3 uid="uid://c6ragfjs3jdr8"]
 
-[ext_resource type="Script" path="res://resources/pool_item.gd" id="1_dx5oo"]
+[ext_resource type="Script" path="res://resources/pooleable_resource.gd" id="1_dx5oo"]
 [ext_resource type="Script" path="res://resources/token_data.gd" id="1_ta25n"]
 [ext_resource type="Resource" uid="uid://caycqgglxlokt" path="res://data/tokens_data/prizes/cat_gold.tres" id="2_c7ih0"]
 [ext_resource type="PackedScene" uid="uid://bcs4r0bgkes0w" path="res://scenes/objects/tokens/chests/chest_gold.tscn" id="2_prwim"]

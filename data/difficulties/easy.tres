@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="GameDifficulty" load_steps=15 format=3 uid="uid://dho3rwr388oji"]
 
-[ext_resource type="Script" path="res://resources/pool_item.gd" id="1_41sh6"]
+[ext_resource type="Script" path="res://resources/pooleable_resource.gd" id="1_41sh6"]
 [ext_resource type="Script" path="res://resources/game_difficulty.gd" id="1_o0djm"]
 [ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens_data/bamboo.tres" id="2_ljukv"]
 [ext_resource type="Resource" uid="uid://brb7hxkvj1bxx" path="res://data/tokens_data/grass.tres" id="3_ot2wc"]
