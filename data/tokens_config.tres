@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="TokensConfig" load_steps=14 format=3 uid="uid://cvwsr67y5u75o"]
+[gd_resource type="Resource" script_class="TokensConfig" load_steps=14 format=3 uid="uid://cabydtqgs3fbu"]
 
 [ext_resource type="Script" path="res://resources/tokens_config.gd" id="1_e2tok"]
 [ext_resource type="Resource" uid="uid://ccqhatfrpk7jv" path="res://data/combinations/chests.tres" id="1_q7duq"]

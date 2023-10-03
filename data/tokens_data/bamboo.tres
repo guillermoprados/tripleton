@@ -9,4 +9,6 @@ id = "bamboo"
 sprite_scene = ExtResource("2_dn3vp")
 points = 50
 gold = 0
+is_chest = false
+prizes = Array[Resource("res://resources/pool_item.gd")]([])
 is_prize = false

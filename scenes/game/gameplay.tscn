@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="Resource" uid="uid://cnj7k31nxfag8" path="res://data/levels/level_0.tres" id="3_4t22s"]
-[ext_resource type="Resource" uid="uid://cvwsr67y5u75o" path="res://data/tokens_config.tres" id="3_6iknq"]
+[ext_resource type="Resource" uid="uid://cabydtqgs3fbu" path="res://data/tokens_config.tres" id="3_6iknq"]
 [ext_resource type="Script" path="res://scripts/game_info.gd" id="3_8dctr"]
 [ext_resource type="PackedScene" uid="uid://dqoc7lfl8mxw1" path="res://ui/panels/gameplay_ui.tscn" id="4_fpg8e"]
 [ext_resource type="Script" path="res://scripts/tokens_helpers/token_instance_provider.gd" id="5_86bwx"]

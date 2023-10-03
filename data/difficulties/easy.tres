@@ -41,6 +41,5 @@ number_of_items = 2
 
 [resource]
 script = ExtResource("1_o0djm")
-name = "easy"
 maxPoints = 10000
 items = Array[ExtResource("1_41sh6")]([SubResource("Resource_885b6"), SubResource("Resource_ejs6n"), SubResource("Resource_kt80c"), SubResource("Resource_7niby"), SubResource("Resource_tuqar"), SubResource("Resource_u4wsj")])
