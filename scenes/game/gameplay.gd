@@ -79,7 +79,7 @@ func _input(event):
 			floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
-			var combination:Combination = __check_combination(floating_token.id, current_cell_index)
+			var combination:Combination = __check_recursive_combination(floating_token.id, current_cell_index)
 			if combination.is_valid():
 				__highlight_combination(combination)
 			is_scroll_in_progress = true
@@ -109,7 +109,7 @@ func _on_board_board_cell_moved(index:Vector2):
 	if board.is_cell_empty(index):
 		var token_position = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
-		var combination:Combination = __check_combination(floating_token.id, current_cell_index)
+		var combination:Combination = __check_recursive_combination(floating_token.id, current_cell_index)
 		if combination.is_valid():
 			__highlight_combination(combination)
 		
@@ -129,9 +129,10 @@ func __place_token_at_cell(token:Token, cell_index: Vector2):
 	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
-	var combination:Combination = __check_combination(token.id, cell_index)
+	var combination:Combination = __check_single_combination(token.id, cell_index)
 	if combination.is_valid():
-		__combine_tokens(combination)
+		var combined_token = __combine_tokens(combination)
+		__place_token_at_cell(combined_token, combination.cell_index)
 	
 func __open_chest(token:Token, cell_index: Vector2):
 	floating_token.position = spawn_token_cell.position
@@ -169,16 +170,29 @@ func __swap_floating_token(cell_index: Vector2):
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)
 	
-func __check_combination(tokenId, cell_index:Vector2) -> Combination:
-	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids, token_data_provider)
+func __check_recursive_combination(tokenId, cell_index:Vector2) -> Combination:
+	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids, true, token_data_provider)
+
+func __check_single_combination(tokenId, cell_index:Vector2) -> Combination:
+	return combinator.search_combinations_for_cell(tokenId, cell_index, board.cell_tokens_ids, false, token_data_provider)
 
 func __highlight_combination(combination:Combination):
 	for cell_index in combination.combinable_cells:
 		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
 		
-func __combine_tokens(combination: Combination):
+func __combine_tokens(combination: Combination) -> Token:
+	
+	var base_token_id:String = board.get_token_at_cell(combination.initial_cell()).id
+	
+	var next_token_data:TokenData
+	if token_data_provider.token_has_next_level(base_token_id):
+		next_token_data = token_data_provider.get_next_level_data(base_token_id)
+	else:
+		next_token_data = token_data_provider.get_prize_for_token_combination(base_token_id)
+	
+	var combined_token : Token = __instantiate_token(next_token_data, Vector2.ZERO, null)
+	
 	for cell_index in combination.combinable_cells:
-		
 		var token_id:String = board.get_token_at_cell(cell_index).id
 		var token_data: TokenData = token_data_provider.token_data_by_token_id[token_id]
 		
@@ -190,23 +204,7 @@ func __combine_tokens(combination: Combination):
 		points_received.emit(token_data.points, points_position)
 		
 		board.clear_token(cell_index)
-
-		if cell_index == combination.initial_cell():
-			var is_prize = false
-			var next_token_data:TokenData
-			
-			if token_data_provider.token_has_next_level(token_id):
-				next_token_data = token_data_provider.get_next_level_data(token_id)
-			else:
-				is_prize = true
-				next_token_data = token_data_provider.get_prize_for_token_combination(token_id)
-			
-			var next_token_instance = __instantiate_token(next_token_data, floating_token.position, null)
-			board.set_token_at_cell(next_token_instance,cell_index)
-
-			if is_prize:
-				var prize_combination:Combination = __check_combination(next_token_instance.id, cell_index)
-				if prize_combination.is_valid():
-					__combine_tokens(prize_combination)
 					
 	update_total_points.emit(game_info.points)
+	
+	return combined_token

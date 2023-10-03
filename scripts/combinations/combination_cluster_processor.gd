@@ -2,7 +2,7 @@
 class_name CombinationClusterProcessor extends RefCounted
 
 # The primary evaluation method
-static func evaluate_combination(initial_token_id: String, combination: Combination, board_tokens_ids: Array, token_info_provider: TokenDataProvider) -> void:
+static func evaluate_combination(initial_token_id: String, combination: Combination, board_tokens_ids: Array, recursive_levels:bool, token_info_provider: TokenDataProvider) -> void:
 	if not combination.evaluated:
 		combination.evaluated = true
 
@@ -18,6 +18,8 @@ static func evaluate_combination(initial_token_id: String, combination: Combinat
 			token_id = token_info_provider.get_token_id_for_next_level(token_id)
 			if combination_level.valid_combination_cells.size() >= Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION:
 				combination.add_data(combination_level.get_valid_combination_cells(), level)
+				if !recursive_levels:
+					break
 			else:
 				# discard the level and stop
 				combination_level.valid_combination_cells.clear()
