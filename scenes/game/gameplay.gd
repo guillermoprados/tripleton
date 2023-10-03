@@ -115,7 +115,9 @@ func _on_board_board_cell_moved(index:Vector2):
 		
 func _on_board_board_cell_selected(index:Vector2):
 	if board.is_cell_empty(index):
+		remove_child(floating_token)
 		__place_token_at_cell(floating_token, index)
+		create_floating_token()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
 		if token_data_provider.token_is_chest(cell_token.id):
@@ -124,14 +126,12 @@ func _on_board_board_cell_selected(index:Vector2):
 			show_message.emit("Cannot place token", "error_font", .5); #localize
 
 func __place_token_at_cell(token:Token, cell_index: Vector2):
-	remove_child(token)
+	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
 	var combination:Combination = __check_combination(token.id, cell_index)
 	if combination.is_valid():
 		__combine_tokens(combination)
-	combinator.reset_combinations(board.rows, board.columns)
-	create_floating_token()
 	
 func __open_chest(token:Token, cell_index: Vector2):
 	floating_token.position = spawn_token_cell.position
@@ -177,9 +177,6 @@ func __highlight_combination(combination:Combination):
 		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
 		
 func __combine_tokens(combination: Combination):
-	
-	combinator.reset_combinations(board.rows, board.columns)
-	
 	for cell_index in combination.combinable_cells:
 		
 		var token_id:String = board.get_token_at_cell(cell_index).id
