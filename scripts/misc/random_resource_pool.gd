@@ -11,8 +11,8 @@ func _init(items: Array[PooleableResource] = []):
 func populate_and_shuffle_pool(items: Array[PooleableResource]):
 	_resource_item_pool.clear()
 	for item in items:
-		for _i in range(item.number_of_items):
-			_resource_item_pool.append(item.token)
+		for _i in range(item.amount):
+			_resource_item_pool.append(item.resource)
 	_resource_item_pool.shuffle()
 
 func pop_item() -> Resource:
