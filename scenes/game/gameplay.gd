@@ -74,10 +74,7 @@ func _input(event):
 			if token_data_provider.token_has_previous_level(floating_token.id):
 				next_token_data = token_data_provider.get_previous_level_data(floating_token.id)
 		if next_token_data != null:
-			var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
-			add_child(next_token_instance)
-			next_token_instance.set_size(board.cell_size)
-			next_token_instance.position = floating_token.position
+			var next_token_instance = __instantiate_token(next_token_data, floating_token.position, self)
 			floating_token.queue_free()
 			floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)
@@ -89,17 +86,22 @@ func _input(event):
 			var timer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
 			
+func __instantiate_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
+	var instance:Token = token_instance_provider.get_token_instance(token_data)
+	instance.set_size(board.cell_size)
+	instance.position = position
+	if parent:
+		parent.add_child(instance)
+	return instance
+			
 func __on_scroll_timer_timeout():
 	is_scroll_in_progress = false
 
 func create_floating_token():
-	var token_instance = token_instance_provider.get_random_token_instance()
-	add_child(token_instance)
-	token_instance.set_size(board.cell_size)
-	token_instance.position = spawn_token_cell.position
+	var random_token_data = token_instance_provider.get_random_token_data()
+	floating_token = __instantiate_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
-	floating_token = token_instance
-
+	
 func _on_board_board_cell_moved(index):
 	current_cell_index = index
 	spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
@@ -115,35 +117,44 @@ func _on_board_board_cell_selected(index):
 	if board.is_cell_empty(index):
 		__place_token_at_cell(floating_token, index)
 	else:
-		var cell_token = board.get_token_at_cell(index)
+		var cell_token:Token = board.get_token_at_cell(index)
 		if token_data_provider.token_is_chest(cell_token.id):
-			print('Open chest')
+			__open_chest(cell_token, index)
 		else:
 			show_message.emit("Cannot place token", "error_font", .5); #localize
 
-func __place_token_at_cell(token:Token, cell_pos: Vector2):
+func __place_token_at_cell(token:Token, cell_index: Vector2):
 	remove_child(token)
-	board.set_token_at_cell(token, cell_pos)
+	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
-	var combination:Combination = __check_combination(token.id, cell_pos)
+	var combination:Combination = __check_combination(token.id, cell_index)
 	if combination.is_valid():
 		__combine_tokens(combination)
 	combinator.reset_combinations(board.rows, board.columns)
 	create_floating_token()
 	
+func __open_chest(token:Token, cell_index: Vector2):
+	floating_token.position = spawn_token_cell.position
+	board.clear_highlights()
+	board.clear_token(cell_index)
+	
+	var chest: TokenChest = token_data_provider.get_chest(token.id)
+	var prize_data: TokenData = chest.get_random_prize()
+	var prize_instance = __instantiate_token(prize_data, Vector2.ZERO, null)
+	board.set_token_at_cell(prize_instance, cell_index)
 
-func _on_save_token_cell_entered(cell_pos: Vector2):
+func _on_save_token_cell_entered(cell_index: Vector2):
 	save_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 	pass
 	
-func _on_save_token_cell_exited(cell_pos: Vector2):
+func _on_save_token_cell_exited(cell_index: Vector2):
 	save_token_cell.highlight(Constants.HighlightMode.NONE, true)
 	pass
 	
-func _on_save_token_cell_selected(cell_pos: Vector2):
-	__swap_floating_token(cell_pos)
+func _on_save_token_cell_selected(cell_index: Vector2):
+	__swap_floating_token(cell_index)
 
-func __swap_floating_token(cell_pos: Vector2):
+func __swap_floating_token(cell_index: Vector2):
 	if saved_token:
 		var floating_pos = floating_token.position
 		var switch_token = floating_token
@@ -193,8 +204,7 @@ func __combine_tokens(combination: Combination):
 				is_prize = true
 				next_token_data = token_data_provider.get_prize_for_token_combination(token_id)
 			
-			var next_token_instance = token_instance_provider.get_token_instance(next_token_data)
-			next_token_instance.set_size(board.cell_size)
+			var next_token_instance = __instantiate_token(next_token_data, floating_token.position, null)
 			board.set_token_at_cell(next_token_instance,cell_index)
 
 			if is_prize:

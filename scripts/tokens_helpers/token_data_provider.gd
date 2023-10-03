@@ -25,9 +25,6 @@ func _init(game_config:GameConfig):
 func token_is_combinable(token_id: String) -> bool:
 	return token_combination_by_token_id.has(token_id)
 
-func token_is_chest(token_id: String) -> bool:
-	return token_chest_by_token_id.has(token_id)
-
 func get_next_level_data(token_id:String) -> TokenData:
 	var next_level_token_id = get_token_id_for_next_level(token_id)
 	if next_level_token_id != Constants.INVALID_TOKEN_ID:
@@ -76,3 +73,9 @@ func get_token_id_for_previous_level(token_id: String) -> String:
 		var combination = token_combination_by_token_id[token_id]
 		prev_token_id = combination.ordered_tokens[current_level - 1].id
 	return prev_token_id
+
+func token_is_chest(token_id: String) -> bool:
+	return token_chest_by_token_id.has(token_id)
+	
+func get_chest(token_id: String) -> TokenChest: 
+	return token_chest_by_token_id[token_id]
