@@ -135,14 +135,15 @@ func __place_token_at_cell(token:Token, cell_index: Vector2):
 		__place_token_at_cell(combined_token, combination.cell_index)
 	
 func __open_chest(token:Token, cell_index: Vector2):
+	#move the floating token back
 	floating_token.position = spawn_token_cell.position
-	board.clear_highlights()
+	#remove the chest
 	board.clear_token(cell_index)
 	
 	var chest: TokenChest = token_data_provider.get_chest(token.id)
 	var prize_data: TokenData = chest.get_random_prize()
 	var prize_instance = __instantiate_token(prize_data, Vector2.ZERO, null)
-	board.set_token_at_cell(prize_instance, cell_index)
+	__place_token_at_cell(prize_instance, cell_index)
 
 func _on_save_token_cell_entered(cell_index: Vector2):
 	save_token_cell.highlight(Constants.HighlightMode.HOVER, true)

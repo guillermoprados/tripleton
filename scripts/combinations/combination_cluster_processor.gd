@@ -24,6 +24,7 @@ static func evaluate_combination(initial_token_id: String, combination: Combinat
 				# discard the level and stop
 				combination_level.valid_combination_cells.clear()
 				break
+	# if I want to evaluate chests for prize levels I have to do it here as well
 
 # Helper method to search combination for cell
 static func __search_combination_for_cell(token_id: String, board_tokens_ids: Array, current_cell: Vector2, combination_level: CombinationLevel, is_origin: bool) -> void:
