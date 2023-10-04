@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenCombination" load_steps=6 format=3 uid="uid://ccqhatfrpk7jv"]
+
+[ext_resource type="Resource" uid="uid://bm4es7otf6cy4" path="res://data/tokens_data/chests/chest_bronce.tres" id="1_qunof"]
+[ext_resource type="Resource" uid="uid://cqty26t0ppt3d" path="res://data/tokens_data/chests/chest_silver.tres" id="2_jd32e"]
+[ext_resource type="Resource" uid="uid://c6ragfjs3jdr8" path="res://data/tokens_data/chests/chest_gold.tres" id="3_27epj"]
+[ext_resource type="Resource" uid="uid://delixqyir20ha" path="res://data/chests/diamond_chest.tres" id="4_ngm50"]
+[ext_resource type="Script" path="res://resources/token_combination.gd" id="4_nr8a2"]
+
+[resource]
+script = ExtResource("4_nr8a2")
+name = "chests"
+ordered_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_qunof"), ExtResource("2_jd32e"), ExtResource("3_27epj")])
+chest_prize = ExtResource("4_ngm50")

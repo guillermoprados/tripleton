@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenCombination" load_steps=6 format=3 uid="uid://b2pgnq7dtai13"]
+
+[ext_resource type="Resource" uid="uid://brb7hxkvj1bxx" path="res://data/tokens_data/grass.tres" id="1_rgb6s"]
+[ext_resource type="Script" path="res://resources/token_combination.gd" id="1_xtece"]
+[ext_resource type="Resource" uid="uid://d3bom2w3ool18" path="res://data/tokens_data/bush.tres" id="2_hvgdr"]
+[ext_resource type="Resource" uid="uid://24w85gntjo8m" path="res://data/tokens_data/tree.tres" id="3_i1bd2"]
+[ext_resource type="Resource" uid="uid://yikfgrot1cg2" path="res://data/chests/bronce_chest.tres" id="4_76miy"]
+
+[resource]
+script = ExtResource("1_xtece")
+name = "houses"
+ordered_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_rgb6s"), ExtResource("2_hvgdr"), ExtResource("3_i1bd2")])
+chest_prize = ExtResource("4_76miy")

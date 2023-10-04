@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs3h2jmbb6qk7"]
+
+[ext_resource type="Script" path="res://scenes/objects/cell.gd" id="1_tbt80"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ubd2d"]
+size = Vector2(58, 58)
+
+[node name="Area2D" type="Area2D"]
+collision_mask = 0
+priority = 1
+script = ExtResource("1_tbt80")
+highlight_strong_valid = Color(0.501961, 1, 0.501961, 0.427451)
+highlight_strong_invalid = Color(1, 0.501961, 0.501961, 0.521569)
+highlight_light_valid = Color(0.74902, 1, 0.74902, 0.321569)
+highlight_light_invalid = Color(1, 0.74902, 0.74902, 0.133333)
+highlight_combination = Color(0.501961, 0.501961, 1, 0.576471)
+
+[node name="BackColor" type="ColorRect" parent="."]
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_filter = 2
+
+[node name="HighLightColor" type="ColorRect" parent="."]
+offset_right = 60.0
+offset_bottom = 60.0
+mouse_filter = 2
+color = Color(0.996078, 1, 1, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(30, 30)
+shape = SubResource("RectangleShape2D_ubd2d")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="GameConfig" load_steps=7 format=3 uid="uid://cs6on2gqs3b0v"]
+
+[ext_resource type="Resource" uid="uid://yikfgrot1cg2" path="res://data/chests/bronce_chest.tres" id="1_uhlx4"]
+[ext_resource type="Script" path="res://resources/game_config.gd" id="1_uoaw4"]
+[ext_resource type="Resource" uid="uid://delixqyir20ha" path="res://data/chests/diamond_chest.tres" id="2_kgg5a"]
+[ext_resource type="Resource" uid="uid://ccqhatfrpk7jv" path="res://data/combinations/chests.tres" id="3_7c0vy"]
+[ext_resource type="Resource" uid="uid://bkp04lj21tt64" path="res://data/combinations/gates.tres" id="4_5bp47"]
+[ext_resource type="Resource" uid="uid://b2pgnq7dtai13" path="res://data/combinations/houses.tres" id="5_agewo"]
+
+[resource]
+script = ExtResource("1_uoaw4")
+combinations = Array[Resource("res://resources/token_combination.gd")]([ExtResource("3_7c0vy"), ExtResource("4_5bp47"), ExtResource("5_agewo")])
+chests = Array[Resource("res://resources/token_chest.gd")]([ExtResource("1_uhlx4"), ExtResource("2_kgg5a")])

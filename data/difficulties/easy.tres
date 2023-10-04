@@ -1,46 +1,45 @@
 [gd_resource type="Resource" script_class="GameDifficulty" load_steps=15 format=3 uid="uid://dho3rwr388oji"]
 
-[ext_resource type="Script" path="res://resources/difficulty_item.gd" id="1_ktfyc"]
 [ext_resource type="Script" path="res://resources/game_difficulty.gd" id="1_o0djm"]
-[ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens_data/7_bamboo.tres" id="2_ljukv"]
-[ext_resource type="Resource" uid="uid://brb7hxkvj1bxx" path="res://data/tokens_data/12_grass.tres" id="3_ot2wc"]
-[ext_resource type="Resource" uid="uid://d3bom2w3ool18" path="res://data/tokens_data/13_bush.tres" id="4_h615m"]
-[ext_resource type="Resource" uid="uid://yxb4d3i1elr8" path="res://data/tokens_data/8_lamp.tres" id="5_hsakj"]
-[ext_resource type="Resource" uid="uid://24w85gntjo8m" path="res://data/tokens_data/14_tree.tres" id="6_x8wfw"]
-[ext_resource type="Resource" uid="uid://ps32pfs5cnga" path="res://data/tokens_data/9_gate.tres" id="7_j8xhw"]
+[ext_resource type="Script" path="res://resources/pooleable_resource.gd" id="2_jql14"]
+[ext_resource type="Resource" uid="uid://bvgu8vg37wmjx" path="res://data/tokens_data/bamboo.tres" id="2_ljukv"]
+[ext_resource type="Resource" uid="uid://brb7hxkvj1bxx" path="res://data/tokens_data/grass.tres" id="3_ot2wc"]
+[ext_resource type="Resource" uid="uid://d3bom2w3ool18" path="res://data/tokens_data/bush.tres" id="4_h615m"]
+[ext_resource type="Resource" uid="uid://yxb4d3i1elr8" path="res://data/tokens_data/lamp.tres" id="5_hsakj"]
+[ext_resource type="Resource" uid="uid://24w85gntjo8m" path="res://data/tokens_data/tree.tres" id="6_x8wfw"]
+[ext_resource type="Resource" uid="uid://ps32pfs5cnga" path="res://data/tokens_data/gate.tres" id="7_j8xhw"]
 
 [sub_resource type="Resource" id="Resource_885b6"]
-script = ExtResource("1_ktfyc")
-token = ExtResource("2_ljukv")
-number_of_items = 20
+script = ExtResource("2_jql14")
+resource = ExtResource("2_ljukv")
+amount = 20
 
 [sub_resource type="Resource" id="Resource_ejs6n"]
-script = ExtResource("1_ktfyc")
-token = ExtResource("3_ot2wc")
-number_of_items = 20
+script = ExtResource("2_jql14")
+resource = ExtResource("3_ot2wc")
+amount = 20
 
 [sub_resource type="Resource" id="Resource_kt80c"]
-script = ExtResource("1_ktfyc")
-token = ExtResource("4_h615m")
-number_of_items = 6
+script = ExtResource("2_jql14")
+resource = ExtResource("4_h615m")
+amount = 6
 
 [sub_resource type="Resource" id="Resource_7niby"]
-script = ExtResource("1_ktfyc")
-token = ExtResource("5_hsakj")
-number_of_items = 5
+script = ExtResource("2_jql14")
+resource = ExtResource("5_hsakj")
+amount = 6
 
 [sub_resource type="Resource" id="Resource_tuqar"]
-script = ExtResource("1_ktfyc")
-token = ExtResource("7_j8xhw")
-number_of_items = 2
+script = ExtResource("2_jql14")
+resource = ExtResource("6_x8wfw")
+amount = 1
 
 [sub_resource type="Resource" id="Resource_u4wsj"]
-script = ExtResource("1_ktfyc")
-token = ExtResource("6_x8wfw")
-number_of_items = 2
+script = ExtResource("2_jql14")
+resource = ExtResource("7_j8xhw")
+amount = 1
 
 [resource]
 script = ExtResource("1_o0djm")
-name = "easy"
 maxPoints = 10000
-items = Array[ExtResource("1_ktfyc")]([SubResource("Resource_885b6"), SubResource("Resource_ejs6n"), SubResource("Resource_kt80c"), SubResource("Resource_7niby"), SubResource("Resource_tuqar"), SubResource("Resource_u4wsj")])
+items = Array[ExtResource("2_jql14")]([SubResource("Resource_885b6"), SubResource("Resource_ejs6n"), SubResource("Resource_kt80c"), SubResource("Resource_7niby"), SubResource("Resource_tuqar"), SubResource("Resource_u4wsj")])

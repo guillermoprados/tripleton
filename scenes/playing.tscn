@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://d14xmqrino4kq"]
+
+[ext_resource type="PackedScene" uid="uid://dciutmggheven" path="res://scenes/game/gameplay.tscn" id="1_h2f8u"]
+[ext_resource type="PackedScene" uid="uid://6pgaxl6wvy6v" path="res://ui/screens/gameplay_ui.tscn" id="2_a1ljr"]
+
+[node name="Playing" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Gameplay" parent="CanvasLayer" instance=ExtResource("1_h2f8u")]
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="gameplay_ui" parent="CanvasLayer2" instance=ExtResource("2_a1ljr")]
+
+[connection signal="accumulated_reward_update" from="CanvasLayer/Gameplay" to="CanvasLayer2/gameplay_ui" method="_on_gameplay_accumulated_reward_update"]
+[connection signal="show_floating_reward" from="CanvasLayer/Gameplay" to="CanvasLayer2/gameplay_ui" method="_on_gameplay_show_floating_reward"]
+[connection signal="show_message" from="CanvasLayer/Gameplay" to="CanvasLayer2/gameplay_ui" method="_on_gameplay_show_message"]
