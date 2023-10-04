@@ -122,6 +122,8 @@ func _on_board_board_cell_selected(index:Vector2):
 		var cell_token:Token = board.get_token_at_cell(index)
 		if token_data_provider.token_is_chest(cell_token.id):
 			__open_chest(cell_token, index)
+		elif token_data_provider.token_is_prize(cell_token.id):
+			__collect_reward(cell_token, index)
 		else:
 			show_message.emit("Cannot place token", "error_font", .5); #localize
 
@@ -146,7 +148,11 @@ func __open_chest(token:Token, cell_index: Vector2):
 	var prize_data: TokenData = chest.get_random_prize()
 	var prize_instance = __instantiate_token(prize_data, Vector2.ZERO, null)
 	__place_token_at_cell(prize_instance, cell_index)
-
+	
+func __collect_reward(token:Token, cell_index: Vector2):
+	var prize: TokenData = token_data_provider.token_data_by_token_id[token.id]
+	__add_reward(prize.reward_type, prize.reward_value, cell_index)
+	board.clear_token(cell_index)	
 
 func _on_save_token_cell_entered(cell_index: Vector2):
 	save_token_cell.highlight(Constants.HighlightMode.HOVER, true)
