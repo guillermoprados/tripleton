@@ -7,6 +7,12 @@ enum HighlightMode {
 	COMBINATION
 }
 
+enum RewardType {
+	NONE,
+	GOLD,
+	POINTS,
+}
+
 const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
 const INVALID_TOKEN_ID = ""
 const EMPTY_CELL = ""

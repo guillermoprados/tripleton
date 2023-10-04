@@ -7,7 +7,7 @@ class_name GameInfo
 var rows: int
 var columns: int
 var points: int
-
+var gold: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

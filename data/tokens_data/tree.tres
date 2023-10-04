@@ -7,6 +7,5 @@
 script = ExtResource("1_dg8m3")
 id = "tree"
 sprite_scene = ExtResource("2_xg2xk")
-points = 200
-gold = 0
-is_prize = false
+reward_type = 1
+reward_value = 50

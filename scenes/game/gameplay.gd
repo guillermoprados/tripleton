@@ -4,8 +4,8 @@ var floating_token: Token
 var saved_token: Token
 
 signal show_message(message:String, theme_color:String, time:float)
-signal points_received(points:int, position:Vector2)
-signal update_total_points(points:int)
+signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
+signal accumulated_reward_update(type:Constants.RewardType, value:int)
 
 @export var game_config:GameConfig
 
@@ -200,15 +200,24 @@ func __combine_tokens(combination: Combination) -> Token:
 		var token_id:String = board.get_token_at_cell(cell_index).id
 		var token_data: TokenData = token_data_provider.token_data_by_token_id[token_id]
 		
-		game_info.points += token_data.points
-		var cell_position = board.get_cell_at_position(cell_index).position
-		var points_position: Vector2 = board.position + cell_position
-		points_position.x += board.cell_size.x / 2 
-		points_position.y += board.cell_size.y / 4 
-		points_received.emit(token_data.points, points_position)
-		
+		__add_reward(token_data.reward_type, token_data.reward_value, cell_index)
 		board.clear_token(cell_index)
 					
-	update_total_points.emit(game_info.points)
-	
 	return combined_token
+
+func __add_reward(type:Constants.RewardType, value:int, cell_index:Vector2):
+	var cell_position = board.get_cell_at_position(cell_index).position
+	var reward_position: Vector2 = board.position + cell_position
+	reward_position.x += board.cell_size.x / 2 
+	reward_position.y += board.cell_size.y / 4 
+		
+	show_floating_reward.emit(type, value, reward_position)
+		
+	if type == Constants.RewardType.GOLD:
+		game_info.gold += value
+		accumulated_reward_update.emit(type, game_info.gold)
+	elif type == Constants.RewardType.POINTS:
+		game_info.points += value
+		accumulated_reward_update.emit(type, game_info.points)
+	else: 
+		assert("trying to add 0 points??")

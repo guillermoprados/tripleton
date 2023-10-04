@@ -1,33 +1,11 @@
-[gd_resource type="Resource" script_class="TokenData" load_steps=10 format=3 uid="uid://cqty26t0ppt3d"]
+[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://cqty26t0ppt3d"]
 
 [ext_resource type="Script" path="res://resources/token_data.gd" id="1_ifaa7"]
-[ext_resource type="Script" path="res://resources/pooleable_resource.gd" id="1_o687i"]
 [ext_resource type="PackedScene" uid="uid://ch1l8do3fkdc7" path="res://scenes/objects/tokens/chests/chest_silver.tscn" id="2_iaikq"]
-[ext_resource type="Resource" uid="uid://caycqgglxlokt" path="res://data/tokens_data/prizes/cat_gold.tres" id="2_ra2bv"]
-[ext_resource type="Resource" uid="uid://cw8k7uvbyc7p" path="res://data/tokens_data/prizes/cat_normal.tres" id="3_0p373"]
-[ext_resource type="Resource" uid="uid://cua182agxgl87" path="res://data/tokens_data/prizes/gold_pile.tres" id="4_f6mxb"]
-
-[sub_resource type="Resource" id="Resource_q65wm"]
-script = ExtResource("1_o687i")
-token = ExtResource("2_ra2bv")
-number_of_items = 2
-
-[sub_resource type="Resource" id="Resource_6h8b2"]
-script = ExtResource("1_o687i")
-token = ExtResource("3_0p373")
-number_of_items = 5
-
-[sub_resource type="Resource" id="Resource_caabe"]
-script = ExtResource("1_o687i")
-token = ExtResource("4_f6mxb")
-number_of_items = 5
 
 [resource]
 script = ExtResource("1_ifaa7")
 id = "chest_silver"
 sprite_scene = ExtResource("2_iaikq")
-points = 10000
-gold = 0
-is_chest = true
-prizes = Array[ExtResource("1_o687i")]([SubResource("Resource_q65wm"), SubResource("Resource_6h8b2"), SubResource("Resource_caabe")])
-is_prize = false
+reward_type = 1
+reward_value = 400

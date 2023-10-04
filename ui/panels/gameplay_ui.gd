@@ -1,6 +1,8 @@
 extends CanvasLayer
 
 var points_label:TotalPoints
+var gold_label:TotalPoints
+
 var message_label:Label
 
 @export var award_points_scene: PackedScene
@@ -8,6 +10,7 @@ var message_label:Label
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	points_label = $Points
+	gold_label = $Gold
 	message_label = $Message
 	reset()
 
@@ -32,12 +35,17 @@ func _on_gameplay_show_message(message, color_name, time):
 	message_label.show()  # Show the message label
 	$MessageTimer.start(time)  # Start the timer
 
-func _on_gameplay_points_received(points, position):
-	var award_instance = award_points_scene.instantiate()
+
+func _on_gameplay_show_floating_reward(type, value, position):
+	var award_instance:AwardPoints = award_points_scene.instantiate()
 	award_instance.position = position
 	add_child(award_instance)
-	award_instance.show_points(points)
-	
+	award_instance.show_points(value)	
 
-func _on_gameplay_update_total_points(points):
-	points_label.update_points(points)
+func _on_gameplay_accumulated_reward_update(type, value):
+	if type == Constants.RewardType.GOLD:
+		gold_label.update_points(value)
+	elif  type == Constants.RewardType.POINTS:
+		points_label.update_points(value)
+	else:
+		assert("wtf??")
