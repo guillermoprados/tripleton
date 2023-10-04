@@ -1,5 +1,7 @@
 extends Control
 
+class_name PointsCounter
+
 var label:Label
 var icon:TextureRect
 
