@@ -27,13 +27,11 @@ func _process(delta):
 func hide_message():
 	alert_message.hide()
 
-func _on_gameplay_show_message(message, color_name, time):
-	var theme_color = alert_message.get_theme().get_color(color_name, "Label")
-	if theme_color:  # Check if the color is defined in the theme
-		alert_message.add_theme_color_override("font_color", theme_color)
+func _on_gameplay_show_message(message:String, type:Constants.MessageType, time:float):
+	# TODO colors by type
 	alert_message.text = message  # Set the message text
 	alert_message.show()  # Show the message label
-	$MessageTimer.start(time)  # Start the timer
+	$AlertMessageTimer.start(time)  # Start the timer
 
 
 func _on_gameplay_show_floating_reward(type, value, position):

@@ -30,6 +30,7 @@ offset_top = -11.5
 offset_right = 180.0
 offset_bottom = 11.5
 grow_vertical = 2
+theme_override_font_sizes/font_size = 30
 text = "Some Testing value"
 text_overrun_behavior = 3
 
