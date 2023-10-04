@@ -45,7 +45,7 @@ func _ready():
 	get_tree().root.size_changed.connect(_on_screen_size_changed)
 	_on_screen_size_changed()
 	
-	create_floating_token()
+	__create_floating_token()
 	
 func _on_screen_size_changed():
 	var screen_size = get_viewport().get_visible_rect().size
@@ -97,7 +97,7 @@ func __instantiate_token(token_data:TokenData, position:Vector2, parent:Node) ->
 func __on_scroll_timer_timeout():
 	is_scroll_in_progress = false
 
-func create_floating_token():
+func __create_floating_token():
 	var random_token_data = token_instance_provider.get_random_token_data()
 	floating_token = __instantiate_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
@@ -117,7 +117,7 @@ func _on_board_board_cell_selected(index:Vector2):
 	if board.is_cell_empty(index):
 		remove_child(floating_token)
 		__place_token_at_cell(floating_token, index)
-		create_floating_token()
+		__create_floating_token()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
 		if token_data_provider.token_is_chest(cell_token.id):
@@ -126,8 +126,10 @@ func _on_board_board_cell_selected(index:Vector2):
 			show_message.emit("Cannot place token", "error_font", .5); #localize
 
 func __place_token_at_cell(token:Token, cell_index: Vector2):
+	assert(token, "trying to set a null token")
 	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
+	assert(board.get_token_at_cell(cell_index), "placed token is empty")
 	board.clear_highlights()
 	var combination:Combination = __check_single_combination(token.id, cell_index)
 	if combination.is_valid():
@@ -144,6 +146,7 @@ func __open_chest(token:Token, cell_index: Vector2):
 	var prize_data: TokenData = chest.get_random_prize()
 	var prize_instance = __instantiate_token(prize_data, Vector2.ZERO, null)
 	__place_token_at_cell(prize_instance, cell_index)
+
 
 func _on_save_token_cell_entered(cell_index: Vector2):
 	save_token_cell.highlight(Constants.HighlightMode.HOVER, true)
@@ -167,7 +170,7 @@ func __swap_floating_token(cell_index: Vector2):
 	else:
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
-		create_floating_token()
+		__create_floating_token()
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)
 	

@@ -23,6 +23,10 @@ func _init(game_config:GameConfig):
 			# add tokens from combinations
 			token_data_by_token_id[token_data.id] = token_data		
 		token_data_by_token_id[comb.chest_prize.chest.id] = comb.chest_prize.chest
+	
+	for token_data in token_data_by_token_id.values():
+		token_data.validate()
+	
 
 func token_is_combinable(token_id: String) -> bool:
 	return token_combination_by_token_id.has(token_id)

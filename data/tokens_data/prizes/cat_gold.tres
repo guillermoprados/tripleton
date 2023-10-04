@@ -5,9 +5,7 @@
 
 [resource]
 script = ExtResource("1_j8bbw")
-id = ""
+id = "cat_gold"
 sprite_scene = ExtResource("2_4pgod")
 points = 0
 gold = 500
-is_chest = false
-is_prize = true
