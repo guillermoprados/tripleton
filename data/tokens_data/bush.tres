@@ -7,5 +7,5 @@
 script = ExtResource("1_lh4v3")
 id = "bush"
 sprite_scene = ExtResource("2_7vsvx")
-reward_type = 1
+reward_type = 2
 reward_value = 40

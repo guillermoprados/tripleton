@@ -7,5 +7,5 @@
 script = ExtResource("1_t4wxl")
 id = "bamboo"
 sprite_scene = ExtResource("2_dn3vp")
-reward_type = 1
+reward_type = 2
 reward_value = 20

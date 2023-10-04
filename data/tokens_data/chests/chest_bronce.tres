@@ -7,5 +7,5 @@
 script = ExtResource("1_g2p7c")
 id = "chest_bronce"
 sprite_scene = ExtResource("2_vy5am")
-reward_type = 1
+reward_type = 2
 reward_value = 200
