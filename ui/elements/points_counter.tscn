@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://eaia0816n1hc"]
+
+[ext_resource type="Script" path="res://ui/elements/points_counter.gd" id="1_8ie7c"]
+[ext_resource type="Texture2D" uid="uid://dndy7qpvwm8c2" path="res://images/tokens/cat.png" id="1_y4pjw"]
+
+[node name="PointsCounter" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 50.0
+script = ExtResource("1_8ie7c")
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.627451, 0.870588, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 80.0
+offset_top = -11.5
+offset_right = 180.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "Some Testing value"
+text_overrun_behavior = 3
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 1
+offset_top = -10.0
+offset_right = 128.0
+offset_bottom = 118.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_y4pjw")
