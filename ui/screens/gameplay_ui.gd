@@ -1,23 +1,23 @@
-extends CanvasLayer
+extends Control
 
-var points_label:TotalPoints
-var gold_label:TotalPoints
+var points_label:PointsCounter
+var gold_label:PointsCounter
 
-var message_label:Label
+var alert_message:Label
 
 @export var award_points_scene: PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	points_label = $Points
-	gold_label = $Gold
-	message_label = $Message
+	points_label = $PointsCounter
+	gold_label = $GoldCounter
+	alert_message = $AlertMessage
 	reset()
 
 func reset():
 	points_label.reset()
-	message_label.hide()
-	$MessageTimer.timeout.connect(hide_message)
+	alert_message.hide()
+	$AlertMessageTimer.timeout.connect(hide_message)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,15 +25,13 @@ func _process(delta):
 	pass
 
 func hide_message():
-	message_label.hide()
+	alert_message.hide()
 
-func _on_gameplay_show_message(message, color_name, time):
-	var theme_color = message_label.get_theme().get_color(color_name, "Label")
-	if theme_color:  # Check if the color is defined in the theme
-		message_label.add_theme_color_override("font_color", theme_color)
-	message_label.text = message  # Set the message text
-	message_label.show()  # Show the message label
-	$MessageTimer.start(time)  # Start the timer
+func _on_gameplay_show_message(message:String, type:Constants.MessageType, time:float):
+	# TODO colors by type
+	alert_message.text = message  # Set the message text
+	alert_message.show()  # Show the message label
+	$AlertMessageTimer.start(time)  # Start the timer
 
 
 func _on_gameplay_show_floating_reward(type, value, position):

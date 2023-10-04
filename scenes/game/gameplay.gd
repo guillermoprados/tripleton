@@ -3,7 +3,7 @@ extends Node2D
 var floating_token: Token
 var saved_token: Token
 
-signal show_message(message:String, theme_color:String, time:float)
+signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 signal accumulated_reward_update(type:Constants.RewardType, value:int)
 
@@ -125,7 +125,7 @@ func _on_board_board_cell_selected(index:Vector2):
 		elif token_data_provider.token_is_prize(cell_token.id):
 			__collect_reward(cell_token, index)
 		else:
-			show_message.emit("Cannot place token", "error_font", .5); #localize
+			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
 func __place_token_at_cell(token:Token, cell_index: Vector2):
 	assert(token, "trying to set a null token")
