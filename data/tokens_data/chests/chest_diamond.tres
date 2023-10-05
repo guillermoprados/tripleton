@@ -1,11 +1,14 @@
-[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://dtxx2e5e3txfk"]
+[gd_resource type="Resource" script_class="TokenChest" load_steps=4 format=3 uid="uid://bjadbhv7bs0km"]
 
-[ext_resource type="Script" path="res://resources/token_data.gd" id="1_kg3gf"]
-[ext_resource type="PackedScene" uid="uid://dc8njfr3fgjof" path="res://scenes/objects/tokens/chests/chest_diamond.tscn" id="2_1ch1s"]
+[ext_resource type="Resource" uid="uid://bf3hfptwixrqq" path="res://data/tokens_data/prizes/cat_gold.tres" id="1_kfs3q"]
+[ext_resource type="Script" path="res://resources/token_chest.gd" id="3_d2wu4"]
+[ext_resource type="PackedScene" uid="uid://dc8njfr3fgjof" path="res://scenes/objects/tokens/chests/chest_diamond.tscn" id="3_tppfy"]
 
 [resource]
-script = ExtResource("1_kg3gf")
+script = ExtResource("3_d2wu4")
+prizes = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_kfs3q")])
 id = "chest_diamond"
-sprite_scene = ExtResource("2_1ch1s")
-reward_type = 2
-reward_value = 300
+sprite_scene = ExtResource("3_tppfy")
+type = 1
+reward_type = 0
+reward_value = 0

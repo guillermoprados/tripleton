@@ -1,5 +1,12 @@
 extends Node
 
+enum TokenType {
+	NORMAL,
+	CHEST,
+	PRIZE,
+	ENEMY
+}
+
 enum HighlightMode {
 	NONE,
 	HOVER,

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TokenCombinable" load_steps=3 format=3 uid="uid://bvaf8dwe6id6q"]
+
+[ext_resource type="Script" path="res://resources/token_combinable.gd" id="1_g0crq"]
+[ext_resource type="PackedScene" uid="uid://bn6ghnvdsftlm" path="res://scenes/objects/tokens/lamp.tscn" id="2_jaqgj"]
+
+[resource]
+script = ExtResource("1_g0crq")
+id = "lamp"
+sprite_scene = ExtResource("2_jaqgj")
+type = 0
+reward_type = 2
+reward_value = 40
