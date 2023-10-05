@@ -6,15 +6,11 @@ var current_state: Constants.PlayingState = Constants.PlayingState.INTRO
 var states: Dictionary = {}
 var active_state: StateBase
 
-@export var game_manager:GameManager
-
 func _ready():
-	assert(game_manager, "game manager not assigned to states")
 	for node in get_children():
 		if node is StateBase:
 			states[node.state_id] = node
 			node.switch_state.connect(self.switch_state)
-			node.game_manager = game_manager
 			node.set_process(false)
 	switch_state(current_state)
 
