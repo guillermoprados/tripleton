@@ -10,7 +10,6 @@ signal switch_state(next_state:Constants.PlayingState)
 
 @export var game_manager:GameManager
 @export var board: Board
-@export var token_instance_provider:TokenInstanceProvider
 
 
 func set_active(value):

@@ -1,11 +1,17 @@
-[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://c6ragfjs3jdr8"]
+[gd_resource type="Resource" script_class="TokenChest" load_steps=6 format=3 uid="uid://7k60x8lr2nec"]
 
-[ext_resource type="Script" path="res://resources/token_data.gd" id="1_ta25n"]
+[ext_resource type="Resource" uid="uid://bjadbhv7bs0km" path="res://data/tokens_data/chests/chest_diamond.tres" id="1_0v0tv"]
+[ext_resource type="Resource" uid="uid://csfyt1yyd14ki" path="res://data/tokens_data/prizes/cat_white.tres" id="1_fxvwu"]
 [ext_resource type="PackedScene" uid="uid://bcs4r0bgkes0w" path="res://scenes/objects/tokens/chests/chest_gold.tscn" id="2_prwim"]
+[ext_resource type="Script" path="res://resources/token_chest.gd" id="3_6q8vy"]
+[ext_resource type="Resource" uid="uid://bf3hfptwixrqq" path="res://data/tokens_data/prizes/cat_gold.tres" id="3_eucdn"]
 
 [resource]
-script = ExtResource("1_ta25n")
-id = "chest_gold"
+script = ExtResource("3_6q8vy")
+prizes = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_fxvwu"), ExtResource("3_eucdn")])
+next_token = ExtResource("1_0v0tv")
 sprite_scene = ExtResource("2_prwim")
+type = 1
 reward_type = 2
-reward_value = 400
+reward_value = 500
+id = "chest_gold"

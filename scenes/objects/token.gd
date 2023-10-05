@@ -8,7 +8,7 @@ var floating: bool
 var token_size: Vector2 = token_predefined_size
  
 var id:String = Constants.INVALID_TOKEN_ID
-var token_data:TokenData
+var data:TokenData
 
 func _ready():
 	pass  # Replace with function body.
@@ -29,5 +29,6 @@ func _draw():
 
 func set_data(token_data:TokenData):
 	id = token_data.id
+	data = token_data
 	var sprite_instance = token_data.sprite_scene.instantiate()
 	add_child(sprite_instance)

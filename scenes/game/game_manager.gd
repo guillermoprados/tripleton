@@ -6,18 +6,14 @@ signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 signal accumulated_reward_update(type:Constants.RewardType, value:int)
 
-@export var game_config:GameConfig
+@export var token_scene: PackedScene
 @export var board:Board
 @export var game_info:GameInfo
-@export var token_instance_provider:TokenInstanceProvider
-
-var token_data_provider:TokenDataProvider
 
 func _ready():
-	token_data_provider = TokenDataProvider.new(game_config)
 	
 	board.configure(game_info.rows, game_info.columns)
-	token_instance_provider.set_difficulty_tokens(game_info.next_difficulty())
+	set_difficulty_tokens(game_info.next_difficulty())
 	
 	# Connect the screen size changed signal to a function
 	get_tree().root.size_changed.connect(_on_screen_size_changed)
@@ -37,7 +33,7 @@ func _on_screen_size_changed():
 	board.clear_highlights()
 
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
-	var instance:Token = token_instance_provider.get_token_instance(token_data)
+	var instance:Token = get_token_instance(token_data)
 	instance.set_size(board.cell_size)
 	if parent:
 		parent.add_child(instance)
@@ -64,4 +60,29 @@ func sum_rewards(type:Constants.RewardType, value:int, cell_index:Vector2):
 func show_game_message(message:String, type:Constants.MessageType, time:float):
 	show_message.emit(message, type, time)
 
+# list of token data
+var tokens_pool: RandomResourcePool
 
+func set_difficulty_tokens(difficulty: GameDifficulty) -> void:
+	tokens_pool = RandomResourcePool.new(difficulty.items)
+
+func get_random_token_data() -> TokenData:
+	
+	# Assert if list is empty
+	assert(!tokens_pool.is_empty(), "TokenInstanceProvider: No more tokens left.")
+	
+	# Pop the first item in the items_data and get the data from it
+	var token_data = tokens_pool.pop_item()
+	
+	# If list is empty, emit the difficulty_depleted signal
+	if tokens_pool.is_empty():
+		assert("next difficulty")
+	
+	return token_data
+
+func get_token_instance(token_data: TokenData) -> Token:
+	# Instantiate and return the chosen token instance
+	var token_instance: Token = token_scene.instantiate() as Token
+	token_instance.set_data(token_data)
+	
+	return token_instance

@@ -1,11 +1,12 @@
-[gd_resource type="Resource" script_class="TokenData" load_steps=3 format=3 uid="uid://caycqgglxlokt"]
+[gd_resource type="Resource" script_class="TokenPrize" load_steps=3 format=3 uid="uid://bf3hfptwixrqq"]
 
-[ext_resource type="Script" path="res://resources/token_data.gd" id="1_j8bbw"]
-[ext_resource type="PackedScene" uid="uid://ckd27kni48c75" path="res://scenes/objects/tokens/prizes/cat_gold.tscn" id="2_4pgod"]
+[ext_resource type="Script" path="res://resources/token_prize.gd" id="1_ejd44"]
+[ext_resource type="PackedScene" uid="uid://de1nf16qnkxsf" path="res://scenes/objects/tokens/prizes/cat_normal.tscn" id="2_cdgx8"]
 
 [resource]
-script = ExtResource("1_j8bbw")
-id = "cat_gold"
-sprite_scene = ExtResource("2_4pgod")
-reward_type = 1
-reward_value = 20
+script = ExtResource("1_ejd44")
+id = "cat_white"
+sprite_scene = ExtResource("2_cdgx8")
+type = 2
+reward_type = 2
+reward_value = 200
