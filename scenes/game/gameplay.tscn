@@ -1,12 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=12 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
-[ext_resource type="Resource" uid="uid://cs6on2gqs3b0v" path="res://data/game/game_config.tres" id="2_yk2wx"]
 [ext_resource type="Resource" uid="uid://cnj7k31nxfag8" path="res://data/levels/level_0.tres" id="3_4t22s"]
 [ext_resource type="Script" path="res://scripts/game_info.gd" id="3_8dctr"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
-[ext_resource type="Script" path="res://scripts/tokens_helpers/token_instance_provider.gd" id="5_86bwx"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scenes/game/state_machine.gd" id="10_mhtrr"]
@@ -20,19 +18,14 @@
 script = ExtResource("3_8dctr")
 level_config = ExtResource("3_4t22s")
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "game_info", "token_instance_provider")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "game_info")]
 script = ExtResource("3_wjn15")
-game_config = ExtResource("2_yk2wx")
+token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
 game_info = NodePath("../GameInfo")
-token_instance_provider = NodePath("../TokenInstanceProvider")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
-
-[node name="TokenInstanceProvider" type="Node2D" parent="."]
-script = ExtResource("5_86bwx")
-token_scene = ExtResource("2_08wbk")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -64,9 +57,9 @@ script = ExtResource("11_14lxr")
 state_id = 1
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
-token_instance_provider = NodePath("../../TokenInstanceProvider")
+token_instance_provider = NodePath("")
 
-[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell", "game_manager", "board", "token_instance_provider")]
+[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell", "game_manager", "board")]
 script = ExtResource("12_0351f")
 combinator = NodePath("../../Combinator")
 save_token_cell = NodePath("../../SaveTokenCell")
@@ -74,7 +67,6 @@ spawn_token_cell = NodePath("../../SpawnTokenCell")
 state_id = 2
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
-token_instance_provider = NodePath("../../TokenInstanceProvider")
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 

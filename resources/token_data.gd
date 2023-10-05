@@ -1,8 +1,7 @@
-extends Resource
+extends PooleableResource
 
 class_name TokenData
 
-@export var id: String
 @export var sprite_scene: PackedScene
 
 @export var type: Constants.TokenType

@@ -4,14 +4,14 @@ class_name RandomResourcePool
 
 var _resource_item_pool: Array = []
 
-func _init(items: Array[PooleableResource] = []):
+func _init(items: Array[PoolItemResource] = []) -> void:
 	populate_and_shuffle_pool(items)
 
-func populate_and_shuffle_pool(items: Array[PooleableResource]):
+func populate_and_shuffle_pool(items: Array[PoolItemResource]) -> void:
 	_resource_item_pool.clear()
-	for item in items:
+	for item:PoolItemResource in items:
 		for _i in range(item.amount):
-			_resource_item_pool.append(item.resource)
+			_resource_item_pool.append(item.item_resource)
 	_resource_item_pool.shuffle()
 
 func pop_item() -> Resource:
