@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=18 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -10,7 +10,13 @@
 [ext_resource type="Script" path="res://scenes/game/state_machine.gd" id="10_mhtrr"]
 [ext_resource type="Script" path="res://scenes/game/state_intro.gd" id="11_14lxr"]
 [ext_resource type="PackedScene" uid="uid://6pgaxl6wvy6v" path="res://ui/screens/gameplay_ui.tscn" id="11_ha0hn"]
+[ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="11_m4oe4"]
 [ext_resource type="Script" path="res://scenes/game/state_player_turn.gd" id="12_0351f"]
+[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="12_td8ws"]
+[ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="13_cokf0"]
+[ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="14_se4fc"]
+[ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="15_mktlm"]
+[ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="16_v6svl"]
 
 [node name="Gameplay" type="Node2D"]
 
@@ -64,6 +70,7 @@ script = ExtResource("12_0351f")
 combinator = NodePath("../../Combinator")
 save_token_cell = NodePath("../../SaveTokenCell")
 spawn_token_cell = NodePath("../../SpawnTokenCell")
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_m4oe4"), ExtResource("12_td8ws"), ExtResource("13_cokf0"), ExtResource("14_se4fc"), ExtResource("15_mktlm"), ExtResource("16_v6svl")])
 state_id = 2
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")

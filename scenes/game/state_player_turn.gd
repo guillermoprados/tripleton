@@ -9,6 +9,8 @@ class_name  StatePlayerTurn
 var current_cell_index: Vector2
 
 # for debugging purposes
+@export var scroll_tokens:Array[TokenData]
+var current_scroll_item: int = 0
 var is_scroll_in_progress: bool = false
 
 var floating_token: Token
@@ -36,10 +38,25 @@ func _input(event):
 		#this is only for debugging
 		var next_token_data = null
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			print("change up")
+			current_scroll_item += 1
+			if current_scroll_item >= scroll_tokens.size():
+				current_scroll_item = 0
+			next_token_data = scroll_tokens[current_scroll_item]
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			print("change down")
+			current_scroll_item -= 1
+			if current_scroll_item < 0:
+				current_scroll_item = scroll_tokens.size() - 1
+			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
+			var next_token_instance = game_manager.instantiate_new_token(next_token_data, floating_token.position, self)
+			floating_token.queue_free()
+			floating_token = next_token_instance
+			combinator.reset_combinations(board.rows, board.columns)
+			board.clear_highlights()
+			var combination:Combination = check_recursive_combination(floating_token, current_cell_index)
+			if combination.is_valid():
+				highlight_combination(combination)
+			is_scroll_in_progress = true
 			var timer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
 

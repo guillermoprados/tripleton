@@ -11,4 +11,4 @@ sprite_scene = ExtResource("2_sa5qx")
 type = 0
 reward_type = 2
 reward_value = 40
-id = "lamp"
+id = "gate"
