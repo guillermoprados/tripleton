@@ -8,6 +8,8 @@ signal switch_state(next_state:Constants.PlayingState)
 
 @export var state_id:Constants.PlayingState
 
+var game_manager:GameManager
+
 func set_active(value):
 	is_active = value
 	

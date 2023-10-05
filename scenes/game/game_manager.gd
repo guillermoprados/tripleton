@@ -1,4 +1,6 @@
-extends Node2D
+extends Node
+
+class_name GameManager
 
 var floating_token: Token
 var saved_token: Token
@@ -8,30 +10,19 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 signal accumulated_reward_update(type:Constants.RewardType, value:int)
 
 @export var game_config:GameConfig
+@export var board:Board
+@export var game_info:GameInfo
+@export var token_instance_provider:TokenInstanceProvider
+@export var save_token_cell: BoardCell
+@export var spawn_token_cell: BoardCell
+@export var combinator: Combinator
+@export var state_machine: StateMachine
 
-var board:Board
-var game_info:GameInfo
-var token_instance_provider:TokenInstanceProvider
 var token_data_provider:TokenDataProvider
-var save_token_cell: BoardCell
-var spawn_token_cell: BoardCell
-var combinator: Combinator
 
-var state_machine: StateMachine
-
-# for debugging purposes
-var is_scroll_in_progress: bool = false
 var current_cell_index: Vector2
 
 func _ready():
-	game_info = $GameInfo
-	board = $Board
-	token_instance_provider = $TokenInstanceProvider
-	save_token_cell = $SaveTokenCell
-	spawn_token_cell = $SpawnTokenCell
-	combinator = $Combinator
-	state_machine = $StateMachine
-	
 	token_data_provider = TokenDataProvider.new(game_config)
 	
 	board.configure(game_info.rows, game_info.columns)
@@ -52,7 +43,6 @@ func _ready():
 	
 func _on_screen_size_changed():
 	var screen_size = get_viewport().get_visible_rect().size
-	$ColorRect.set_size(screen_size)
 	var board_size = board.board_size
 	var board_pos = Vector2(
 		(screen_size.x - board_size.x) / 2,
@@ -63,32 +53,6 @@ func _on_screen_size_changed():
 		floating_token.position = board.position
 	board.clear_highlights()
 
-func _input(event):
-	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
-		return
-
-	if event is InputEventMouseButton:
-		#this is only for debugging
-		var next_token_data = null
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			if token_data_provider.token_has_next_level(floating_token.id):
-				next_token_data = token_data_provider.get_next_level_data(floating_token.id)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			if token_data_provider.token_has_previous_level(floating_token.id):
-				next_token_data = token_data_provider.get_previous_level_data(floating_token.id)
-		if next_token_data != null:
-			var next_token_instance = __instantiate_token(next_token_data, floating_token.position, self)
-			floating_token.queue_free()
-			floating_token = next_token_instance
-			combinator.reset_combinations(board.rows, board.columns)
-			board.clear_highlights()
-			var combination:Combination = __check_recursive_combination(floating_token.id, current_cell_index)
-			if combination.is_valid():
-				__highlight_combination(combination)
-			is_scroll_in_progress = true
-			var timer = get_tree().create_timer(0.1)
-			timer.connect("timeout", self.__on_scroll_timer_timeout)
-			
 func __instantiate_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
 	var instance:Token = token_instance_provider.get_token_instance(token_data)
 	instance.set_size(board.cell_size)
@@ -96,9 +60,6 @@ func __instantiate_token(token_data:TokenData, position:Vector2, parent:Node) ->
 		parent.add_child(instance)
 	instance.position = position
 	return instance
-			
-func __on_scroll_timer_timeout():
-	is_scroll_in_progress = false
 
 func __create_floating_token():
 	var random_token_data = token_instance_provider.get_random_token_data()
