@@ -1,4 +1,4 @@
-extends GameplayState
+extends StateBase
 
 class_name StateIntro
 
@@ -9,4 +9,5 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	switch_state.emit(Constants.PlayingState.PLAYER)
 	pass

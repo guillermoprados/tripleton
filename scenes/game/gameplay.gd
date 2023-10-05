@@ -17,6 +17,8 @@ var save_token_cell: BoardCell
 var spawn_token_cell: BoardCell
 var combinator: Combinator
 
+var state_machine: StateMachine
+
 # for debugging purposes
 var is_scroll_in_progress: bool = false
 var current_cell_index: Vector2
@@ -28,6 +30,7 @@ func _ready():
 	save_token_cell = $SaveTokenCell
 	spawn_token_cell = $SpawnTokenCell
 	combinator = $Combinator
+	state_machine = $StateMachine
 	
 	token_data_provider = TokenDataProvider.new(game_config)
 	
