@@ -13,6 +13,14 @@ enum RewardType {
 	POINTS,
 }
 
+enum PlayingState {
+	NONE,
+	INTRO,
+	PLAYER,
+	ENEMIES,
+	PAUSED
+}
+
 enum MessageType {
 	INFO,
 	NORMAL,

@@ -1,22 +1,31 @@
-[gd_scene load_steps=10 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=14 format=3 uid="uid://dciutmggheven"]
 
-[ext_resource type="Script" path="res://scenes/game/gameplay.gd" id="1_gck8e"]
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="Resource" uid="uid://cs6on2gqs3b0v" path="res://data/game/game_config.tres" id="2_yk2wx"]
 [ext_resource type="Resource" uid="uid://cnj7k31nxfag8" path="res://data/levels/level_0.tres" id="3_4t22s"]
 [ext_resource type="Script" path="res://scripts/game_info.gd" id="3_8dctr"]
+[ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
 [ext_resource type="Script" path="res://scripts/tokens_helpers/token_instance_provider.gd" id="5_86bwx"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
+[ext_resource type="Script" path="res://scenes/game/state_machine.gd" id="10_mhtrr"]
+[ext_resource type="Script" path="res://scenes/game/state_intro.gd" id="11_14lxr"]
+[ext_resource type="PackedScene" uid="uid://6pgaxl6wvy6v" path="res://ui/screens/gameplay_ui.tscn" id="11_ha0hn"]
+[ext_resource type="Script" path="res://scenes/game/state_player_turn.gd" id="12_0351f"]
 
 [node name="Gameplay" type="Node2D"]
-script = ExtResource("1_gck8e")
-game_config = ExtResource("2_yk2wx")
 
 [node name="GameInfo" type="Node" parent="."]
 script = ExtResource("3_8dctr")
 level_config = ExtResource("3_4t22s")
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "game_info", "token_instance_provider")]
+script = ExtResource("3_wjn15")
+game_config = ExtResource("2_yk2wx")
+board = NodePath("../Board")
+game_info = NodePath("../GameInfo")
+token_instance_provider = NodePath("../TokenInstanceProvider")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -29,9 +38,10 @@ token_scene = ExtResource("2_08wbk")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 1.0
-offset_right = 599.0
-offset_bottom = 980.0
+offset_left = -138.0
+offset_top = -67.0
+offset_right = 833.0
+offset_bottom = 1395.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -46,5 +56,32 @@ position = Vector2(113, 186)
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(424, 181)
 
-[connection signal="board_cell_moved" from="Board" to="." method="_on_board_board_cell_moved"]
-[connection signal="board_cell_selected" from="Board" to="." method="_on_board_board_cell_selected"]
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("10_mhtrr")
+
+[node name="IntroState" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board", "token_instance_provider")]
+script = ExtResource("11_14lxr")
+state_id = 1
+game_manager = NodePath("../../GameManager")
+board = NodePath("../../Board")
+token_instance_provider = NodePath("../../TokenInstanceProvider")
+
+[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell", "game_manager", "board", "token_instance_provider")]
+script = ExtResource("12_0351f")
+combinator = NodePath("../../Combinator")
+save_token_cell = NodePath("../../SaveTokenCell")
+spawn_token_cell = NodePath("../../SpawnTokenCell")
+state_id = 2
+game_manager = NodePath("../../GameManager")
+board = NodePath("../../Board")
+token_instance_provider = NodePath("../../TokenInstanceProvider")
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="gameplay_ui" parent="UICanvas" instance=ExtResource("11_ha0hn")]
+
+[connection signal="accumulated_reward_update" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_accumulated_reward_update"]
+[connection signal="show_floating_reward" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_show_floating_reward"]
+[connection signal="show_message" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_show_message"]
+[connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
+[connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
