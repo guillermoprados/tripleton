@@ -28,7 +28,7 @@ func _input(event):
 			if game_manager.token_data_provider.token_has_previous_level(game_manager.floating_token.id):
 				next_token_data = game_manager.token_data_provider.get_previous_level_data(game_manager.floating_token.id)
 		if next_token_data != null:
-			var next_token_instance = game_manager.__instantiate_token(game_manager.next_token_data, game_manager.floating_token.position, self)
+			var next_token_instance = game_manager.instantiate_new_token(game_manager.next_token_data, game_manager.floating_token.position, self)
 			game_manager.floating_token.queue_free()
 			game_manager.floating_token = next_token_instance
 			game_manager.combinator.reset_combinations(game_manager.board.rows, game_manager.board.columns)
