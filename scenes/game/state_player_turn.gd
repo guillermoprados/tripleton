@@ -17,7 +17,7 @@ var floating_token: Token
 var saved_token: Token
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
@@ -27,16 +27,16 @@ func _ready():
 	create_floating_token()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta:float) -> void:
 	pass
 
-func _input(event):
+func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
 		return
 
 	if event is InputEventMouseButton:
 		#this is only for debugging
-		var next_token_data = null
+		var next_token_data:TokenData = null
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			current_scroll_item += 1
 			if current_scroll_item >= scroll_tokens.size():
@@ -48,7 +48,7 @@ func _input(event):
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			var next_token_instance = game_manager.instantiate_new_token(next_token_data, floating_token.position, self)
+			var next_token_instance:Token = game_manager.instantiate_new_token(next_token_data, floating_token.position, self)
 			floating_token.queue_free()
 			floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)
@@ -57,31 +57,29 @@ func _input(event):
 			if combination.is_valid():
 				highlight_combination(combination)
 			is_scroll_in_progress = true
-			var timer = get_tree().create_timer(0.1)
+			var timer:SceneTreeTimer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
 
-func __on_scroll_timer_timeout():
+func __on_scroll_timer_timeout() -> void:
 	is_scroll_in_progress = false
 
-func create_floating_token():
-	var random_token_data = game_manager.get_random_token_data()
+func create_floating_token() -> void:
+	var random_token_data:TokenData = game_manager.get_random_token_data()
 	floating_token = game_manager.instantiate_new_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 	
-func _on_board_board_cell_moved(index:Vector2):
+func _on_board_board_cell_moved(index:Vector2) -> void:
 	current_cell_index = index
 	spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
-	var board = board
-	var cell_size = board.cell_size
+	var cell_size:Vector2 = board.cell_size
 	if board.is_cell_empty(index):
-		var token_position = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
+		var token_position:Vector2 = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
 		var combination:Combination = check_recursive_combination(floating_token, current_cell_index)
 		if combination.is_valid():
 			highlight_combination(combination)
 		
-func _on_board_board_cell_selected(index:Vector2):
-	var board = board
+func _on_board_board_cell_selected(index:Vector2) -> void:
 	
 	if board.is_cell_empty(index):
 		remove_child(floating_token)
@@ -96,37 +94,37 @@ func _on_board_board_cell_selected(index:Vector2):
 		else:
 			game_manager.show_game_message("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
-func open_chest(token:Token, cell_index: Vector2):
+func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
 	floating_token.position = spawn_token_cell.position
 	#remove the chest
 	board.clear_token(cell_index)
 	
 	var chest_data: TokenChest = token.data
-	var prize_data = chest_data.get_random_prize()
-	var prize_instance = game_manager.instantiate_new_token(prize_data, Vector2.ZERO, null)
+	var prize_data:TokenPrize = chest_data.get_random_prize()
+	var prize_instance:Token = game_manager.instantiate_new_token(prize_data, Vector2.ZERO, null)
 	place_token_at_cell(prize_instance, cell_index)
 	
-func collect_reward(token:Token, cell_index: Vector2):
+func collect_reward(token:Token, cell_index: Vector2) -> void:
 	var prize_data: TokenPrize = token.data
 	game_manager.sum_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	board.clear_token(cell_index)	
 
-func _on_save_token_cell_entered(cell_index: Vector2):
+func _on_save_token_cell_entered(cell_index: Vector2) -> void:
 	save_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 	pass
 	
-func _on_save_token_cell_exited(cell_index: Vector2):
+func _on_save_token_cell_exited(cell_index: Vector2) -> void:
 	save_token_cell.highlight(Constants.HighlightMode.NONE, true)
 	pass
 	
-func _on_save_token_cell_selected(cell_index: Vector2):
+func _on_save_token_cell_selected(cell_index: Vector2) -> void:
 	__swap_floating_token(cell_index)
 
-func __swap_floating_token(cell_index: Vector2):
+func __swap_floating_token(cell_index: Vector2) -> void:
 	if saved_token:
-		var floating_pos = floating_token.position
-		var switch_token = floating_token
+		var floating_pos:Vector2 = floating_token.position
+		var switch_token:Token = floating_token
 		floating_token = saved_token
 		saved_token = switch_token
 		floating_token.position = floating_pos
@@ -140,7 +138,7 @@ func __swap_floating_token(cell_index: Vector2):
 
 
 
-func place_token_at_cell(token:Token, cell_index: Vector2):
+func place_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	assert(token, "trying to set a null token")
 	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
@@ -148,7 +146,7 @@ func place_token_at_cell(token:Token, cell_index: Vector2):
 	board.clear_highlights()
 	var combination:Combination = check_single_combination(token, cell_index)
 	if combination.is_valid():
-		var combined_token = combine_tokens(combination)
+		var combined_token:Token = combine_tokens(combination)
 		place_token_at_cell(combined_token, combination.cell_index)
 	
 func check_recursive_combination(token:Token, cell_index:Vector2) -> Combination:
@@ -157,8 +155,8 @@ func check_recursive_combination(token:Token, cell_index:Vector2) -> Combination
 func check_single_combination(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, false)
 
-func highlight_combination(combination:Combination):
-	for cell_index in combination.combinable_cells:
+func highlight_combination(combination:Combination) -> void:
+	for cell_index:Vector2 in combination.combinable_cells:
 		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
 		
 func combine_tokens(combination: Combination) -> Token:
@@ -173,8 +171,8 @@ func combine_tokens(combination: Combination) -> Token:
 		
 	var combined_token : Token = game_manager.instantiate_new_token(next_token_data, Vector2.ZERO, null)
 	
-	for cell_index in combination.combinable_cells:
-		var token = board.get_token_at_cell(cell_index)
+	for cell_index:Vector2 in combination.combinable_cells:
+		var token:Token = board.get_token_at_cell(cell_index)
 		game_manager.sum_rewards(token.data.reward_type, token.data.reward_value, cell_index)
 		board.clear_token(cell_index)
 					

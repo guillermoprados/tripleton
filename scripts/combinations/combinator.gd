@@ -6,7 +6,7 @@ func reset_combinations(rows:int, columns:int) -> void:
 	combinations = {}
 	for row_index in range(rows):
 		for col_index in range(columns):
-			var cell_index = Vector2(row_index, col_index)
+			var cell_index:Vector2 = Vector2(row_index, col_index)
 			combinations[cell_index] = Combination.new(cell_index)
 
 # This is the method that starts the search of a combination
@@ -30,7 +30,7 @@ static func __evaluate_combination(initial_token: TokenData, combination: Combin
 	var level:int = 0
 	
 	while evaluating_token.has_next_token():
-		var combination_level = CombinationLevel.new()
+		var combination_level:CombinationLevel = CombinationLevel.new()
 		__search_combination_for_cell(evaluating_token.id, board_tokens_ids, combination.initial_cell(), combination_level, true)
 		
 		if combination_level.valid_combination_cells.size() >= Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION:

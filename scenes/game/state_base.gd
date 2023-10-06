@@ -12,7 +12,7 @@ signal switch_state(next_state:Constants.PlayingState)
 @export var board: Board
 
 
-func set_active(value):
+func set_active(value:bool) -> void:
 	is_active = value
 	
 	if is_active:
@@ -21,10 +21,10 @@ func set_active(value):
 		_on_state_exited()
 
 # override in states	
-func _on_state_entered():
+func _on_state_entered() -> void:
 	pass
 
 # override in states
-func _on_state_exited():
+func _on_state_exited() -> void:
 	pass
 	

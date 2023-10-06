@@ -1,4 +1,6 @@
-class_name BoardCell extends Area2D
+extends Area2D
+
+class_name BoardCell
 
 signal cell_entered(index:Vector2)
 signal cell_exited(index:Vector2)
@@ -15,17 +17,17 @@ var cell_index:Vector2
 @export var highlight_combination : Color = Color(0.5, 0.5, 1, 1)
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	$BackColor.color = base_color
 	$HighLightColor.color = transparent_color
 	
-func _on_mouse_entered():
+func _on_mouse_entered() -> void:
 	cell_entered.emit(cell_index)
 
-func _on_mouse_exited():
+func _on_mouse_exited() -> void:
 	cell_exited.emit(cell_index)
 				
-func _on_input_event(viewport, event, shape_idx):
+func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
 		# Check if it's a left mouse button click (button_index 1) if needed
 		if event.button_index == MOUSE_BUTTON_LEFT:

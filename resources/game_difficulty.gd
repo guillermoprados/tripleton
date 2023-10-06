@@ -3,7 +3,7 @@ class_name GameDifficulty extends Resource
 @export var maxPoints: int
 @export var items: Array[PoolItemResource] = []
 
-func validate_configuration():
+func validate_configuration()  -> void:
 	assert((maxPoints > 0), "GameDifficulty: maxPoints should be greater than 0.")
 	assert((items.size() > 0), "GameDifficulty: Items array should not be empty.")
 	for item in items:
