@@ -15,6 +15,8 @@ var cell_tokens_ids: Array = []  # The matrix of string values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
 
+var enabled_interaction: bool = false
+
 func _ready() -> void:
 	rows = default_rows
 	columns = default_columns
@@ -97,13 +99,19 @@ func is_cell_empty(cell_index: Vector2) -> bool:
 	return cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL
 
 func _on_cell_entered(cell_index: Vector2) -> void:
+	if not enabled_interaction:
+		return
 	set_hovering_on_cell(cell_index)
 	board_cell_moved.emit(cell_index)
 	
 func _on_cell_exited(cell_index: Vector2) -> void:
+	if not enabled_interaction:
+		return
 	pass
 	
 func _on_cell_selected(cell_index: Vector2) -> void:
+	if not enabled_interaction:
+		return
 	board_cell_selected.emit(cell_index)
 
 func clear_highlights() -> void:

@@ -18,10 +18,6 @@ var saved_token: Token
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
-	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
-	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
-	
 	combinator.reset_combinations(board.rows, board.columns)
 	
 	create_floating_token()
@@ -29,6 +25,26 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
 	pass
+
+# override in states	
+func _on_state_entered() -> void:
+	
+	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
+	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
+	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
+	
+	board.enabled_interaction = true
+	
+
+# override in states
+func _on_state_exited() -> void:
+	
+	save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
+	save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
+	save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
+	
+	board.enabled_interaction = false
+
 
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
@@ -84,7 +100,8 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 	if board.is_cell_empty(index):
 		remove_child(floating_token)
 		place_token_at_cell(floating_token, index)
-		create_floating_token()
+		finish_player_turn()
+		#create_floating_token()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
 		if cell_token.data.type == Constants.TokenType.CHEST:
@@ -94,6 +111,9 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 		else:
 			game_manager.show_game_message("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
+func finish_player_turn() -> void:
+	switch_state.emit(Constants.PlayingState.ENEMIES)
+	
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
 	floating_token.position = spawn_token_cell.position
