@@ -156,7 +156,7 @@ func check_single_combination(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, false)
 
 func highlight_combination(combination:Combination) -> void:
-	for cell_index:Vector2 in combination.combinable_cells:
+	for cell_index in combination.combinable_cells:
 		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
 		
 func combine_tokens(combination: Combination) -> Token:
@@ -171,7 +171,7 @@ func combine_tokens(combination: Combination) -> Token:
 		
 	var combined_token : Token = game_manager.instantiate_new_token(next_token_data, Vector2.ZERO, null)
 	
-	for cell_index:Vector2 in combination.combinable_cells:
+	for cell_index in combination.combinable_cells:
 		var token:Token = board.get_token_at_cell(cell_index)
 		game_manager.sum_rewards(token.data.reward_type, token.data.reward_value, cell_index)
 		board.clear_token(cell_index)

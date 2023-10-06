@@ -55,14 +55,14 @@ func configure(rows: int, columns: int) -> void:
 
 func __clear_board() -> void:
 	# Clear cell instances
-	for row:Array in cells_matrix:
-		for cell:BoardCell in row:
+	for row in cells_matrix:
+		for cell in row:
 			cell.queue_free()
 	cells_matrix.clear()
 	cell_tokens_ids.clear()
 
 	# Clear token instances
-	for token_pos:Array in placed_tokens.keys():
+	for token_pos in placed_tokens.keys():
 		placed_tokens[token_pos].queue_free()
 	placed_tokens.clear()
 	
@@ -107,8 +107,8 @@ func _on_cell_selected(cell_index: Vector2) -> void:
 	board_cell_selected.emit(cell_index)
 
 func clear_highlights() -> void:
-	for row:Array in cells_matrix:
-		for cell:BoardCell in row:
+	for row in cells_matrix:
+		for cell in row:
 			cell.highlight(Constants.HighlightMode.NONE, true)
 			
 func set_hovering_on_cell(cell_index: Vector2) -> void:
@@ -116,8 +116,8 @@ func set_hovering_on_cell(cell_index: Vector2) -> void:
 
 	var can_place_token:bool = is_cell_empty(cell_index)
 
-	for row:Array in cells_matrix:
-		for cell:BoardCell in row:
+	for row in cells_matrix:
+		for cell in row:
 			if cell.cell_index == cell_index:
 				cell.highlight(Constants.HighlightMode.HOVER, can_place_token)
 			elif cell.cell_index.x == cell_index.x or cell.cell_index.y == cell_index.y:
