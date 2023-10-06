@@ -21,14 +21,12 @@ func _process(delta:float)-> void:
 func switch_state(new_state:Constants.PlayingState)-> void:
 	if active_state:
 		print("leaving state: "+ __state_name(active_state.state_id))
-		active_state._on_state_exited()
 		active_state.set_active(false)
 	
 	active_state = states[new_state]
 	
 	if active_state:
 		print("entering state: "+ __state_name(active_state.state_id))
-		active_state._on_state_entered()
 		active_state.set_active(true)
 
 func __state_name(state:Constants.PlayingState) -> String:

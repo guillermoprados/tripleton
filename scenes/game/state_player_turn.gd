@@ -20,8 +20,6 @@ var saved_token: Token
 func _ready() -> void:
 	combinator.reset_combinations(board.rows, board.columns)
 	
-	create_floating_token()
-	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
 	pass
@@ -29,22 +27,24 @@ func _process(delta:float) -> void:
 # override in states	
 func _on_state_entered() -> void:
 	
+	create_floating_token()
+	
 	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
 	
 	board.enabled_interaction = true
-	
 
 # override in states
 func _on_state_exited() -> void:
+	
+	floating_token = null
 	
 	save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
 	save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
 	save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
 	
 	board.enabled_interaction = false
-
 
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
@@ -80,6 +80,7 @@ func __on_scroll_timer_timeout() -> void:
 	is_scroll_in_progress = false
 
 func create_floating_token() -> void:
+	print("Create floating token")
 	var random_token_data:TokenData = game_manager.get_random_token_data()
 	floating_token = game_manager.instantiate_new_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
@@ -101,7 +102,6 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 		remove_child(floating_token)
 		place_token_at_cell(floating_token, index)
 		finish_player_turn()
-		#create_floating_token()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
 		if cell_token.data.type == Constants.TokenType.CHEST:

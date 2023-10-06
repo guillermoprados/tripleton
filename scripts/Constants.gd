@@ -47,3 +47,5 @@ const INVALID_TOKEN_ID = ""
 const EMPTY_CELL = ""
 const INVALID_CELL = Vector2(-1,-1)
 const IS_DEBUG_MODE = true
+
+const GROUP_ENEMIES = "enemies"

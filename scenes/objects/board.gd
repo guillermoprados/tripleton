@@ -130,3 +130,10 @@ func set_hovering_on_cell(cell_index: Vector2) -> void:
 				cell.highlight(Constants.HighlightMode.HOVER, can_place_token)
 			elif cell.cell_index.x == cell_index.x or cell.cell_index.y == cell_index.y:
 				cell.highlight(Constants.HighlightMode.SAME_LINE, can_place_token)
+
+func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
+	var filtered_tokens = {}
+	for key in placed_tokens:
+		if placed_tokens[key].data.type == type:
+			filtered_tokens[key] = placed_tokens[key]
+	return filtered_tokens
