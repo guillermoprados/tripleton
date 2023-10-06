@@ -10,7 +10,7 @@ signal accumulated_reward_update(type:Constants.RewardType, value:int)
 @export var board:Board
 @export var game_info:GameInfo
 
-func _ready():
+func _ready() -> void:
 	
 	board.configure(game_info.rows, game_info.columns)
 	set_difficulty_tokens(game_info.next_difficulty())
@@ -20,10 +20,10 @@ func _ready():
 	_on_screen_size_changed()
 	
 	
-func _on_screen_size_changed():
-	var screen_size = get_viewport().get_visible_rect().size
-	var board_size = board.board_size
-	var board_pos = Vector2(
+func _on_screen_size_changed() -> void:
+	var screen_size:Vector2 = get_viewport().get_visible_rect().size
+	var board_size:Vector2 = board.board_size
+	var board_pos:Vector2 = Vector2(
 		(screen_size.x - board_size.x) / 2,
 		(screen_size.y - board_size.y) / 2
 	)
@@ -40,8 +40,8 @@ func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) 
 	instance.position = position
 	return instance
 
-func sum_rewards(type:Constants.RewardType, value:int, cell_index:Vector2):
-	var cell_position = board.get_cell_at_position(cell_index).position
+func sum_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
+	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
 	var reward_position: Vector2 = board.position + cell_position
 	reward_position.x += board.cell_size.x / 2 
 	reward_position.y += board.cell_size.y / 4 
@@ -57,7 +57,7 @@ func sum_rewards(type:Constants.RewardType, value:int, cell_index:Vector2):
 	else: 
 		assert("trying to add 0 points??")
 		
-func show_game_message(message:String, type:Constants.MessageType, time:float):
+func show_game_message(message:String, type:Constants.MessageType, time:float) -> void:
 	show_message.emit(message, type, time)
 
 # list of token data
@@ -72,7 +72,7 @@ func get_random_token_data() -> TokenData:
 	assert(!tokens_pool.is_empty(), "TokenInstanceProvider: No more tokens left.")
 	
 	# Pop the first item in the items_data and get the data from it
-	var token_data = tokens_pool.pop_item()
+	var token_data:TokenData = tokens_pool.pop_item()
 	
 	# If list is empty, emit the difficulty_depleted signal
 	if tokens_pool.is_empty():

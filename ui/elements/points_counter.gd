@@ -25,11 +25,11 @@ enum ScaleState {
 	DECREASE
 }
 
-var current_scale_state = ScaleState.INCREASE
+var current_scale_state:ScaleState = ScaleState.INCREASE
 
 var increment_rate: float = 0.0  # This will be our constant increment rate
 
-func _ready():
+func _ready() -> void:
 	label = $Label
 	icon = $Icon
 	original_font_color = label.modulate  
@@ -37,13 +37,13 @@ func _ready():
 		icon.texture = icon_texture
 	reset()
 
-func reset():
+func reset() -> void:
 	display_points = 0
 	total_points = 0
 	label.text = "0"
 	label.modulate = original_font_color  # Reset color
 
-func _process(delta):
+func _process(delta:float) -> void:
 	if display_points < total_points:
 		display_points += increment_rate * delta
 		elapsed_time += delta
@@ -67,9 +67,9 @@ func _process(delta):
 			label.text = str(int(display_points))
 			set_process(false)
 
-func update_points(new_points: int):
+func update_points(new_points: int) -> void:
 	total_points = new_points
-	var point_difference = total_points - display_points
+	var point_difference:int = total_points - display_points
 	increment_rate = point_difference / increase_time
 
 	# Determine color based on whether it's an increase or decrease

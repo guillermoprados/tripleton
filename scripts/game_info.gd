@@ -10,13 +10,13 @@ var points: int
 var gold: int
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	assert(level_config != null, "Please set the level config")
 	self.rows = level_config.rows
 	self.columns = level_config.columns
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta:float) -> void:
 	pass
 	
 func next_difficulty() -> GameDifficulty:

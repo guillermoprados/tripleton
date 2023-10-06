@@ -6,7 +6,7 @@ var current_state: Constants.PlayingState = Constants.PlayingState.INTRO
 var states: Dictionary = {}
 var active_state: StateBase
 
-func _ready():
+func _ready() -> void:
 	for node in get_children():
 		if node is StateBase:
 			states[node.state_id] = node
@@ -14,11 +14,11 @@ func _ready():
 			node.set_process(false)
 	switch_state(current_state)
 
-func _process(delta):
+func _process(delta:float)-> void:
 	if active_state:
 		active_state._process(delta)
 
-func switch_state(new_state:Constants.PlayingState):
+func switch_state(new_state:Constants.PlayingState)-> void:
 	if active_state:
 		print("leaving state: "+ __state_name(active_state.state_id))
 		active_state._on_state_exited()

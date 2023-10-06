@@ -9,7 +9,7 @@ class_name TokenData
 @export var reward_type: Constants.RewardType
 @export var reward_value: int = 0
 
-func validate():
+func validate() -> void:
 	# Check ID
 	assert(id != null, "ID cannot be null.")
 	assert(id != "", "ID cannot be empty.")

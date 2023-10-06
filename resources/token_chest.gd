@@ -7,5 +7,5 @@ class_name TokenChest
 func get_random_prize() -> TokenData:
 	assert(prizes.size() > 0, "This chest is empty")
 	randomize()
-	var random_index = randi() % prizes.size()
+	var random_index:int = randi() % prizes.size()
 	return prizes[random_index]

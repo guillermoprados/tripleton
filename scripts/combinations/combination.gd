@@ -20,7 +20,7 @@ func level_reached() -> int:
 	return last_level_reached
 
 func add_data(cells: Array, new_last_level_reached: int) -> void:
-	for cell in cells:
+	for cell:Vector2 in cells:
 		combinable_cells.append(cell)
 	
 	if new_last_level_reached > last_level_reached:

@@ -58,12 +58,11 @@ position = Vector2(424, 181)
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("10_mhtrr")
 
-[node name="IntroState" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board", "token_instance_provider")]
+[node name="IntroState" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("11_14lxr")
 state_id = 1
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
-token_instance_provider = NodePath("")
 
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell", "game_manager", "board")]
 script = ExtResource("12_0351f")
