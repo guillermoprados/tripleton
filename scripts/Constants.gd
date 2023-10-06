@@ -7,6 +7,13 @@ enum TokenType {
 	ENEMY
 }
 
+enum EnemyType {
+	PENGUIN,
+	CRAB,
+	ARMADILLO,
+	MOLE
+}
+
 enum HighlightMode {
 	NONE,
 	HOVER,

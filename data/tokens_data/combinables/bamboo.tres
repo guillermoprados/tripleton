@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="1_3c2jo"]
 [ext_resource type="Script" path="res://resources/token_combinable.gd" id="1_p0l0a"]
-[ext_resource type="PackedScene" uid="uid://e3qrttn6mcg8" path="res://scenes/objects/tokens/bamboo.tscn" id="2_byqlu"]
+[ext_resource type="PackedScene" uid="uid://e3qrttn6mcg8" path="res://scenes/objects/tokens/combinables/bamboo.tscn" id="2_byqlu"]
 
 [resource]
 script = ExtResource("1_p0l0a")
