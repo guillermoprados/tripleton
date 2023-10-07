@@ -2,6 +2,9 @@ extends TokenCombinableData
 
 class_name TokenChestData
 
+func type() -> Constants.TokenType:
+	return Constants.TokenType.CHEST
+	
 @export var prizes: Array[TokenData]
 
 func get_random_prize() -> TokenData:

@@ -13,7 +13,7 @@ var id:String:
 
 var type:Constants.TokenType:
 	get:
-		return data.type		
+		return data.type()		
 
 var _behavior: TokenBehavior
 

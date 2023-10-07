@@ -104,9 +104,9 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 		finish_player_turn()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
-		if cell_token.data.type == Constants.TokenType.CHEST:
+		if cell_token.type == Constants.TokenType.CHEST:
 			open_chest(cell_token, index)
-		elif cell_token.data.type == Constants.TokenType.PRIZE:
+		elif cell_token.type == Constants.TokenType.PRIZE:
 			collect_reward(cell_token, index)
 		else:
 			game_manager.show_game_message("Cannot place token", Constants.MessageType.ERROR, .5); #localize
