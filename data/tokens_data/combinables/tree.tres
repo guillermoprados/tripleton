@@ -8,7 +8,6 @@
 script = ExtResource("1_8iguc")
 next_token = ExtResource("1_klpdv")
 sprite_scene = ExtResource("3_8otxv")
-type = 0
 reward_type = 2
 reward_value = 60
 id = "tree"

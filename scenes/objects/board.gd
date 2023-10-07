@@ -99,14 +99,18 @@ func unsuscribe_to_enemy(token:EnemyTokenBehavior) -> void:
 	token.move_in_board.disconnect(self.move_token_from_to)
 	pass 
 	
-func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2):
+func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float):
 	assert(cell_tokens_ids[cell_index_to.x][cell_index_to.y] == Constants.EMPTY_CELL, "cannot move to here!")
 	assert(cell_tokens_ids[cell_index_from.x][cell_index_from.y] != Constants.EMPTY_CELL, "cannot move empty token!")
 	
 	cell_tokens_ids[cell_index_to.x][cell_index_to.y] = cell_tokens_ids[cell_index_from.x][cell_index_from.y]
 	placed_tokens[cell_index_to] = placed_tokens[cell_index_from]
 	
-	placed_tokens[cell_index_from].position = get_cell_at_position(cell_index_to).position
+	if tween_time <= 0:
+		placed_tokens[cell_index_from].position = get_cell_at_position(cell_index_to).position
+	else:
+		var tween = create_tween()
+		tween.tween_property(placed_tokens[cell_index_from], "position", get_cell_at_position(cell_index_to).position, tween_time)
 	
 	cell_tokens_ids[cell_index_from.x][cell_index_from.y] = Constants.EMPTY_CELL
 	placed_tokens.erase(cell_index_from)

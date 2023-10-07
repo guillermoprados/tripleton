@@ -2,12 +2,12 @@ extends TokenBehavior
 
 class_name EnemyTokenBehavior
 
-signal  move_in_board(from_cell:Vector2, to_cell:Vector2)
+signal  move_in_board(from_cell:Vector2, to_cell:Vector2, transition_time:float)
 
 func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_next_empty_cell(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
-			move_in_board.emit(current_cell, next_empty_cell)
+			move_in_board.emit(current_cell, next_empty_cell, .2)
 			# animate and then emit finish
 			action_finished.emit()
 		else:
