@@ -71,7 +71,7 @@ func __clear_board() -> void:
 # Set the token for a specific cell
 func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	
-	if token.data.type == Constants.TokenType.ENEMY:
+	if token.type == Constants.TokenType.ENEMY:
 		subscribe_to_enemy_signals(token.behavior)
 	
 	cell_tokens_ids[cell_index.x][cell_index.y] = token.id
@@ -86,7 +86,7 @@ func clear_token(cell_index: Vector2) -> void:
 	# Remove the token instance from the scene if it exists in the dictionary
 	if placed_tokens.has(cell_index):
 		var token:Token = placed_tokens[cell_index]
-		if token.data.type == Constants.TokenType.ENEMY:
+		if token.type == Constants.TokenType.ENEMY:
 			unsuscribe_to_enemy(token.behavior)
 		token.queue_free()  # Safely remove the token from the scene
 		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
@@ -162,6 +162,6 @@ func set_hovering_on_cell(cell_index: Vector2) -> void:
 func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
 	var filtered_tokens = {}
 	for key in placed_tokens:
-		if placed_tokens[key].data.type == type:
+		if placed_tokens[key].type == type:
 			filtered_tokens[key] = placed_tokens[key]
 	return filtered_tokens

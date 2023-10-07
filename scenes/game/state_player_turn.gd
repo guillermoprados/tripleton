@@ -104,9 +104,9 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 		finish_player_turn()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
-		if cell_token.data.type == Constants.TokenType.CHEST:
+		if cell_token.type == Constants.TokenType.CHEST:
 			open_chest(cell_token, index)
-		elif cell_token.data.type == Constants.TokenType.PRIZE:
+		elif cell_token.type == Constants.TokenType.PRIZE:
 			collect_reward(cell_token, index)
 		else:
 			game_manager.show_game_message("Cannot place token", Constants.MessageType.ERROR, .5); #localize
@@ -120,13 +120,13 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	#remove the chest
 	board.clear_token(cell_index)
 	
-	var chest_data: TokenChest = token.data
-	var prize_data:TokenPrize = chest_data.get_random_prize()
+	var chest_data: TokenChestData = token.data
+	var prize_data:TokenPrizeData = chest_data.get_random_prize()
 	var prize_instance:Token = game_manager.instantiate_new_token(prize_data, Vector2.ZERO, null)
 	place_token_at_cell(prize_instance, cell_index)
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
-	var prize_data: TokenPrize = token.data
+	var prize_data: TokenPrizeData = token.data
 	game_manager.sum_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	board.clear_token(cell_index)	
 
@@ -182,9 +182,9 @@ func highlight_combination(combination:Combination) -> void:
 func combine_tokens(combination: Combination) -> Token:
 	
 	var initial_token:Token = board.get_token_at_cell(combination.initial_cell())
-	var initial_token_data:TokenCombinable = initial_token.data
+	var initial_token_data:TokenCombinableData = initial_token.data
 	
-	var next_token_data:TokenCombinable = initial_token_data.next_token
+	var next_token_data:TokenCombinableData = initial_token_data.next_token
 	
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
