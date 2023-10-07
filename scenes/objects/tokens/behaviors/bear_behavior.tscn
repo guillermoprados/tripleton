@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj2newyl4yn83"]
+
+[ext_resource type="Script" path="res://scripts/behaviors/bear_behavior.gd" id="1_3d1dr"]
+
+[node name="behavior" type="Node"]
+script = ExtResource("1_3d1dr")

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TokenEnemy" load_steps=4 format=3 uid="uid://dxct4ukary6br"]
 
 [ext_resource type="Script" path="res://resources/token_enemy_data.gd" id="1_fw8ou"]
-[ext_resource type="PackedScene" uid="uid://cj2newyl4yn83" path="res://scenes/objects/tokens/enemies/enemy_behavior.tscn" id="1_xh065"]
+[ext_resource type="PackedScene" uid="uid://cj2newyl4yn83" path="res://scenes/objects/tokens/behaviors/bear_behavior.tscn" id="1_xh065"]
 [ext_resource type="PackedScene" uid="uid://bnsnrbwc6xd7k" path="res://scenes/objects/tokens/enemies/bear.tscn" id="2_5cs4y"]
 
 [resource]
