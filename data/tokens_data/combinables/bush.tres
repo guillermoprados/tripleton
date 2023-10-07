@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://yclnnytw230n"]
 
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="1_0nb23"]
-[ext_resource type="Script" path="res://resources/token_combinable.gd" id="1_lae51"]
+[ext_resource type="Script" path="res://resources/token_combinable_data.gd" id="1_lae51"]
 [ext_resource type="PackedScene" uid="uid://du28juuf5qsld" path="res://scenes/objects/tokens/combinables/bush.tscn" id="2_3exmo"]
 
 [resource]
