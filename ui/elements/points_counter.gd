@@ -2,8 +2,8 @@ extends Control
 
 class_name PointsCounter
 
-var label:Label
-var icon:TextureRect
+@export var label:Label
+@export var icon:TextureRect
 
 var display_points: float = 0
 var total_points: int = 0
@@ -30,8 +30,6 @@ var current_scale_state:ScaleState = ScaleState.INCREASE
 var increment_rate: float = 0.0  # This will be our constant increment rate
 
 func _ready() -> void:
-	label = $Label
-	icon = $Icon
 	original_font_color = label.modulate  
 	if icon_texture:
 		icon.texture = icon_texture

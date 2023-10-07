@@ -1,0 +1,114 @@
+[gd_scene load_steps=2 format=3 uid="uid://sa1kbmcs2338"]
+
+[ext_resource type="PackedScene" uid="uid://eaia0816n1hc" path="res://ui/elements/points_counter.tscn" id="1_btk1v"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="PlayingState" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PointsContainer" type="MarginContainer" parent="PlayingState"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+
+[node name="GamePoints" parent="PlayingState/PointsContainer" instance=ExtResource("1_btk1v")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayingState"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+
+[node name="GameGold" parent="PlayingState/MarginContainer" node_paths=PackedStringArray("icon") instance=ExtResource("1_btk1v")]
+layout_mode = 2
+icon = NodePath("../../PointsContainer/GamePoints/HBoxContainer/Icon")
+
+[node name="GameOverState" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="GameOverState"]
+custom_minimum_size = Vector2(400, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -20.0
+offset_right = 43.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="GameOverState/PanelContainer"]
+layout_mode = 2
+color = Color(0.258824, 0.458824, 0.533333, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOverState/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverState/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 7.14
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="HBoxContainer" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer/CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Points:"
+
+[node name="Label3" type="Label" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "000"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Button" type="Button" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Play Again"
+
+[node name="Button2" type="Button" parent="GameOverState/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Exit
+"
