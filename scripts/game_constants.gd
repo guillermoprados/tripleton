@@ -47,6 +47,7 @@ enum UIPlayState {
 	NONE,
 	INTRO,
 	PLAYING,
+	PAUSE,
 	GAME_OVER
 }
 

@@ -2,7 +2,7 @@ extends UIPlayStateBaseScreen
 
 class_name GameOverStateUI 
 
-func playing_state() -> Constants.UIPlayState:
+func current_type() -> Constants.UIPlayState:
 	return Constants.UIPlayState.GAME_OVER
 
 func _on_state_enter() -> void:

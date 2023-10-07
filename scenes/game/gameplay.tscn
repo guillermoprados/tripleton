@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://scripts/game_states/state_intro.gd" id="9_o86f4"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
-[ext_resource type="PackedScene" uid="uid://6pgaxl6wvy6v" path="res://ui/screens/gameplay_ui.tscn" id="11_ha0hn"]
 [ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="11_m4oe4"]
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="12_td8ws"]
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="13_cokf0"]
@@ -18,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="15_mktlm"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="16_v6svl"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
+[ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
 
 [node name="Gameplay" type="Node2D"]
 
@@ -81,12 +81,7 @@ state_id = 3
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
-[node name="UICanvas" type="CanvasLayer" parent="."]
+[node name="UI" parent="." instance=ExtResource("18_65b04")]
 
-[node name="gameplay_ui" parent="UICanvas" instance=ExtResource("11_ha0hn")]
-
-[connection signal="accumulated_reward_update" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_accumulated_reward_update"]
-[connection signal="show_floating_reward" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_show_floating_reward"]
-[connection signal="show_message" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_show_message"]
 [connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
