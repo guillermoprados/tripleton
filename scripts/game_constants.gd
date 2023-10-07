@@ -1,5 +1,7 @@
 extends Node
 
+class_name  Constants
+
 enum TokenType {
 	NORMAL,
 	CHEST,
@@ -8,10 +10,10 @@ enum TokenType {
 }
 
 enum EnemyType {
-	PENGUIN,
-	CRAB,
+	BEAR,
 	ARMADILLO,
-	MOLE
+	MOLE,
+	CRAB
 }
 
 enum HighlightMode {
@@ -49,3 +51,5 @@ const INVALID_CELL = Vector2(-1,-1)
 const IS_DEBUG_MODE = true
 
 const GROUP_ENEMIES = "enemies"
+
+const token_predefined_size: Vector2 = Vector2(128, 128)

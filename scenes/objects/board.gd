@@ -70,11 +70,15 @@ func __clear_board() -> void:
 	
 # Set the token for a specific cell
 func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
+	
+	if token.data.type == Constants.TokenType.ENEMY:
+		subscribe_to_enemy_signals(token.behavior)
+	
 	cell_tokens_ids[cell_index.x][cell_index.y] = token.id
 	placed_tokens[cell_index] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_index).position
-	
+
 func clear_token(cell_index: Vector2) -> void:
 	# Update the matrix value to EMPTY_CELL
 	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
@@ -82,9 +86,33 @@ func clear_token(cell_index: Vector2) -> void:
 	# Remove the token instance from the scene if it exists in the dictionary
 	if placed_tokens.has(cell_index):
 		var token:Token = placed_tokens[cell_index]
+		if token.data.type == Constants.TokenType.ENEMY:
+			unsuscribe_to_enemy(token.behavior)
 		token.queue_free()  # Safely remove the token from the scene
 		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
 
+func subscribe_to_enemy_signals(token:EnemyTokenBehavior) -> void:
+	token.move_in_board.connect(self.move_token_from_to)
+	pass
+	
+func unsuscribe_to_enemy(token:EnemyTokenBehavior) -> void:
+	token.move_in_board.disconnect(self.move_token_from_to)
+	pass 
+	
+func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2):
+	assert(cell_tokens_ids[cell_index_to.x][cell_index_to.y] == Constants.EMPTY_CELL, "cannot move to here!")
+	assert(cell_tokens_ids[cell_index_from.x][cell_index_from.y] != Constants.EMPTY_CELL, "cannot move empty token!")
+	
+	cell_tokens_ids[cell_index_to.x][cell_index_to.y] = cell_tokens_ids[cell_index_from.x][cell_index_from.y]
+	placed_tokens[cell_index_to] = placed_tokens[cell_index_from]
+	
+	placed_tokens[cell_index_from].position = get_cell_at_position(cell_index_to).position
+	
+	cell_tokens_ids[cell_index_from.x][cell_index_from.y] = Constants.EMPTY_CELL
+	placed_tokens.erase(cell_index_from)
+	
+	
+	
 func get_token_at_cell(cell_index: Vector2) -> Token:
 	return placed_tokens[cell_index]
 

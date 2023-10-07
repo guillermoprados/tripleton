@@ -1,5 +1,5 @@
 extends TokenData
 
-class_name TokenEnemy
+class_name TokenEnemyData
 
 @export var enemy_type : Constants.EnemyType
