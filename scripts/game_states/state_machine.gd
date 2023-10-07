@@ -14,19 +14,15 @@ func _ready() -> void:
 			node.set_active(false)
 	switch_state(current_state)
 
-func _process(delta:float)-> void:
-	if active_state:
-		active_state._process(delta)
-
 func switch_state(new_state:Constants.PlayingState)-> void:
 	if active_state:
-		print("leaving state: "+ __state_name(active_state.state_id))
+		print(" x state: "+ __state_name(active_state.state_id))
 		active_state.set_active(false)
 	
 	active_state = states[new_state]
 	
 	if active_state:
-		print("entering state: "+ __state_name(active_state.state_id))
+		print(" > state: "+ __state_name(active_state.state_id))
 		active_state.set_active(true)
 
 func __state_name(state:Constants.PlayingState) -> String:

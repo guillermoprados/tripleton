@@ -28,4 +28,4 @@ func _on_state_entered() -> void:
 # override in states
 func _on_state_exited() -> void:
 	pass
-	
+

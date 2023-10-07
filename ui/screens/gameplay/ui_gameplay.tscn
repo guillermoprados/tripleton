@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://sa1kbmcs2338"]
+
+[ext_resource type="Script" path="res://ui/screens/gameplay/ui_gameplay.gd" id="1_2v4ou"]
+[ext_resource type="PackedScene" uid="uid://cn8xpyhtpgsxd" path="res://ui/screens/gameplay/playing_screen.tscn" id="2_jg3y5"]
+[ext_resource type="PackedScene" uid="uid://bc7j5cxy8meu3" path="res://ui/screens/gameplay/game_over_screen.tscn" id="3_vohmp"]
+[ext_resource type="PackedScene" uid="uid://blomxb3bkqiyb" path="res://ui/screens/gameplay/intro_state_screen.tscn" id="4_xrbtq"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_2v4ou")
+
+[node name="PlayingState" parent="." instance=ExtResource("2_jg3y5")]
+
+[node name="GameOverState" parent="." instance=ExtResource("3_vohmp")]
+
+[node name="IntroState" parent="." instance=ExtResource("4_xrbtq")]

@@ -6,18 +6,18 @@
 [ext_resource type="Script" path="res://scripts/game_info.gd" id="3_8dctr"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
+[ext_resource type="Script" path="res://scripts/game_states/state_intro.gd" id="9_o86f4"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
-[ext_resource type="Script" path="res://scenes/game/state_machine.gd" id="10_mhtrr"]
-[ext_resource type="Script" path="res://scenes/game/state_intro.gd" id="11_14lxr"]
+[ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="PackedScene" uid="uid://6pgaxl6wvy6v" path="res://ui/screens/gameplay_ui.tscn" id="11_ha0hn"]
 [ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="11_m4oe4"]
-[ext_resource type="Script" path="res://scenes/game/state_player_turn.gd" id="12_0351f"]
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="12_td8ws"]
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="13_cokf0"]
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="14_se4fc"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="15_mktlm"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="16_v6svl"]
-[ext_resource type="Script" path="res://scenes/game/state_enemies_turn.gd" id="17_hhqrf"]
+[ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 
 [node name="Gameplay" type="Node2D"]
 
@@ -57,16 +57,16 @@ position = Vector2(113, 186)
 position = Vector2(424, 181)
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("10_mhtrr")
+script = ExtResource("8_umy6w")
 
 [node name="IntroState" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
-script = ExtResource("11_14lxr")
+script = ExtResource("9_o86f4")
 state_id = 1
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell", "game_manager", "board")]
-script = ExtResource("12_0351f")
+script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
 save_token_cell = NodePath("../../SaveTokenCell")
 spawn_token_cell = NodePath("../../SpawnTokenCell")
@@ -76,7 +76,7 @@ game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
-script = ExtResource("17_hhqrf")
+script = ExtResource("17_7v2y8")
 state_id = 3
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")

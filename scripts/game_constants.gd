@@ -43,6 +43,13 @@ enum MessageType {
 	ERROR
 }
 
+enum UIPlayState {
+	NONE,
+	INTRO,
+	PLAYING,
+	GAME_OVER
+}
+
 
 const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
 const INVALID_TOKEN_ID = ""
