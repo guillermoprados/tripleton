@@ -120,7 +120,7 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	#remove the chest
 	board.clear_token(cell_index)
 	
-	var chest_data: TokenChest = token.data
+	var chest_data: TokenChestData = token.data
 	var prize_data:TokenPrize = chest_data.get_random_prize()
 	var prize_instance:Token = game_manager.instantiate_new_token(prize_data, Vector2.ZERO, null)
 	place_token_at_cell(prize_instance, cell_index)

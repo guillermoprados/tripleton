@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://resources/token_combinable.gd" id="1_8iguc"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="1_klpdv"]
-[ext_resource type="PackedScene" uid="uid://bp7pugj5uta4l" path="res://scenes/objects/tokens/tree.tscn" id="3_8otxv"]
+[ext_resource type="PackedScene" uid="uid://bp7pugj5uta4l" path="res://scenes/objects/tokens/combinables/tree.tscn" id="3_8otxv"]
 
 [resource]
 script = ExtResource("1_8iguc")
 next_token = ExtResource("1_klpdv")
-id = "tree"
 sprite_scene = ExtResource("3_8otxv")
 type = 0
 reward_type = 2
 reward_value = 60
+id = "tree"

@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://resources/token_combinable.gd" id="1_61o1a"]
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="1_txdi8"]
-[ext_resource type="PackedScene" uid="uid://bn6ghnvdsftlm" path="res://scenes/objects/tokens/lamp.tscn" id="2_ipk7m"]
+[ext_resource type="PackedScene" uid="uid://bn6ghnvdsftlm" path="res://scenes/objects/tokens/combinables/lamp.tscn" id="2_ipk7m"]
 
 [resource]
 script = ExtResource("1_61o1a")
 next_token = ExtResource("1_txdi8")
-id = "lamp"
 sprite_scene = ExtResource("2_ipk7m")
 type = 0
 reward_type = 2
 reward_value = 40
+id = "lamp"

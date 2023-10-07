@@ -1,6 +1,6 @@
 extends TokenCombinable
 
-class_name TokenChest
+class_name TokenChestData
 
 @export var prizes: Array[TokenData]
 
