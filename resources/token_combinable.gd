@@ -1,6 +1,6 @@
 extends TokenData
 
-class_name TokenCombinable
+class_name TokenCombinableData
 
 @export var next_token: TokenData
 

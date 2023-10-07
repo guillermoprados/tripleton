@@ -182,9 +182,9 @@ func highlight_combination(combination:Combination) -> void:
 func combine_tokens(combination: Combination) -> Token:
 	
 	var initial_token:Token = board.get_token_at_cell(combination.initial_cell())
-	var initial_token_data:TokenCombinable = initial_token.data
+	var initial_token_data:TokenCombinableData = initial_token.data
 	
-	var next_token_data:TokenCombinable = initial_token_data.next_token
+	var next_token_data:TokenCombinableData = initial_token_data.next_token
 	
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token

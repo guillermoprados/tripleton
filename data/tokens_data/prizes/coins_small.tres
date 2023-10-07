@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="TokenPrize" load_steps=3 format=3 uid="uid://qec4gvk44reh"]
+[gd_resource type="Resource" script_class="TokenPrizeData" load_steps=3 format=3 uid="uid://qec4gvk44reh"]
 
 [ext_resource type="Script" path="res://resources/token_prize_data.gd" id="1_lilkf"]
 [ext_resource type="PackedScene" uid="uid://bs2q2cvx7yrwn" path="res://scenes/objects/tokens/prizes/coins_small.tscn" id="2_8ttvh"]
 
 [resource]
 script = ExtResource("1_lilkf")
-id = "coins_small"
 sprite_scene = ExtResource("2_8ttvh")
 type = 2
 reward_type = 1
 reward_value = 10
+id = "coins_small"
