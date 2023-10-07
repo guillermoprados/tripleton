@@ -1,5 +1,7 @@
 extends EnemyTokenBehavior
 
+class_name MoleBehavior
+
 func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_random_empty_cell(cell_tokens_ids) 
 		if next_empty_cell != Constants.INVALID_CELL:

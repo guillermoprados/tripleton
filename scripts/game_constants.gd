@@ -11,7 +11,7 @@ enum TokenType {
 
 enum EnemyType {
 	BEAR,
-	ARMADILLO,
+	ROLLER,
 	MOLE,
 	CRAB
 }

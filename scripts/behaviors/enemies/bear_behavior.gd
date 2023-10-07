@@ -1,5 +1,7 @@
 extends EnemyTokenBehavior
 
+class_name BearBehavior
+
 func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_next_empty_cell(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
