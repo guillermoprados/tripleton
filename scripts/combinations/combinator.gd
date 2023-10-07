@@ -23,10 +23,10 @@ static func __evaluate_combination(initial_token: TokenData, combination: Combin
 	
 	combination.evaluated = true
 
-	if not initial_token is TokenCombinable:
+	if not initial_token is TokenCombinableData:
 		return
 		
-	var evaluating_token: TokenCombinable = initial_token
+	var evaluating_token: TokenCombinableData = initial_token
 	var level:int = 0
 	
 	while evaluating_token.has_next_token():

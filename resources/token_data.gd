@@ -4,10 +4,13 @@ class_name TokenData
 
 @export var sprite_scene: PackedScene
 
-@export var type: Constants.TokenType
+@export var behavior: PackedScene
 
 @export var reward_type: Constants.RewardType
 @export var reward_value: int = 0
+
+func type() -> Constants.TokenType:
+	return Constants.TokenType.NORMAL
 
 func validate() -> void:
 	# Check ID
@@ -18,3 +21,6 @@ func validate() -> void:
 	
 	# Check sprite_scene
 	assert(sprite_scene != null, "sprite_scene cannot be null.")
+
+	# Check behavior
+	# assert(behavior != null, "sprite_scene cannot be null.")

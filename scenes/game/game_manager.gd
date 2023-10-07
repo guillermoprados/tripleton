@@ -33,12 +33,13 @@ func _on_screen_size_changed() -> void:
 	board.clear_highlights()
 
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
-	var instance:Token = get_token_instance(token_data)
-	instance.set_size(board.cell_size)
+	var token:Token = get_token_instance(token_data)
+	
+	token.set_size(board.cell_size)
 	if parent:
-		parent.add_child(instance)
-	instance.position = position
-	return instance
+		parent.add_child(token)
+	token.position = position
+	return token
 
 func sum_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
 	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position

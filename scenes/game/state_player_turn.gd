@@ -18,17 +18,33 @@ var saved_token: Token
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
-	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
-	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
-	
 	combinator.reset_combinations(board.rows, board.columns)
-	
-	create_floating_token()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
 	pass
+
+# override in states	
+func _on_state_entered() -> void:
+	
+	create_floating_token()
+	
+	save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
+	save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
+	save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
+	
+	board.enabled_interaction = true
+
+# override in states
+func _on_state_exited() -> void:
+	
+	floating_token = null
+	
+	save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
+	save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
+	save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
+	
+	board.enabled_interaction = false
 
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
@@ -64,6 +80,7 @@ func __on_scroll_timer_timeout() -> void:
 	is_scroll_in_progress = false
 
 func create_floating_token() -> void:
+	print("Create floating token")
 	var random_token_data:TokenData = game_manager.get_random_token_data()
 	floating_token = game_manager.instantiate_new_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
@@ -84,29 +101,32 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 	if board.is_cell_empty(index):
 		remove_child(floating_token)
 		place_token_at_cell(floating_token, index)
-		create_floating_token()
+		finish_player_turn()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
-		if cell_token.data.type == Constants.TokenType.CHEST:
+		if cell_token.type == Constants.TokenType.CHEST:
 			open_chest(cell_token, index)
-		elif cell_token.data.type == Constants.TokenType.PRIZE:
+		elif cell_token.type == Constants.TokenType.PRIZE:
 			collect_reward(cell_token, index)
 		else:
 			game_manager.show_game_message("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
+func finish_player_turn() -> void:
+	switch_state.emit(Constants.PlayingState.ENEMIES)
+	
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
 	floating_token.position = spawn_token_cell.position
 	#remove the chest
 	board.clear_token(cell_index)
 	
-	var chest_data: TokenChest = token.data
-	var prize_data:TokenPrize = chest_data.get_random_prize()
+	var chest_data: TokenChestData = token.data
+	var prize_data:TokenPrizeData = chest_data.get_random_prize()
 	var prize_instance:Token = game_manager.instantiate_new_token(prize_data, Vector2.ZERO, null)
 	place_token_at_cell(prize_instance, cell_index)
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
-	var prize_data: TokenPrize = token.data
+	var prize_data: TokenPrizeData = token.data
 	game_manager.sum_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	board.clear_token(cell_index)	
 
@@ -162,9 +182,9 @@ func highlight_combination(combination:Combination) -> void:
 func combine_tokens(combination: Combination) -> Token:
 	
 	var initial_token:Token = board.get_token_at_cell(combination.initial_cell())
-	var initial_token_data:TokenCombinable = initial_token.data
+	var initial_token_data:TokenCombinableData = initial_token.data
 	
-	var next_token_data:TokenCombinable = initial_token_data.next_token
+	var next_token_data:TokenCombinableData = initial_token_data.next_token
 	
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token

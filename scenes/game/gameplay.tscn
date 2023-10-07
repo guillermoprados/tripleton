@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=19 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -17,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="14_se4fc"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="15_mktlm"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="16_v6svl"]
+[ext_resource type="Script" path="res://scenes/game/state_enemies_turn.gd" id="17_hhqrf"]
 
 [node name="Gameplay" type="Node2D"]
 
@@ -71,6 +72,12 @@ save_token_cell = NodePath("../../SaveTokenCell")
 spawn_token_cell = NodePath("../../SpawnTokenCell")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_m4oe4"), ExtResource("12_td8ws"), ExtResource("13_cokf0"), ExtResource("14_se4fc"), ExtResource("15_mktlm"), ExtResource("16_v6svl")])
 state_id = 2
+game_manager = NodePath("../../GameManager")
+board = NodePath("../../Board")
+
+[node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
+script = ExtResource("17_hhqrf")
+state_id = 3
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 

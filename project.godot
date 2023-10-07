@@ -15,10 +15,6 @@ run/main_scene="res://scenes/game/gameplay.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
 config/icon="res://icon.svg"
 
-[autoload]
-
-Constants="*res://scripts/constants.gd"
-
 [debug]
 
 gdscript/warnings/untyped_declaration=2

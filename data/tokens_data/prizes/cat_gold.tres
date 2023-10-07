@@ -1,12 +1,11 @@
-[gd_resource type="Resource" script_class="TokenPrize" load_steps=3 format=3 uid="uid://bf3hfptwixrqq"]
+[gd_resource type="Resource" script_class="TokenPrizeData" load_steps=3 format=3 uid="uid://bf3hfptwixrqq"]
 
-[ext_resource type="Script" path="res://resources/token_prize.gd" id="1_ejd44"]
+[ext_resource type="Script" path="res://resources/token_prize_data.gd" id="1_ejd44"]
 [ext_resource type="PackedScene" uid="uid://de1nf16qnkxsf" path="res://scenes/objects/tokens/prizes/cat_normal.tscn" id="2_cdgx8"]
 
 [resource]
 script = ExtResource("1_ejd44")
-id = "cat_white"
 sprite_scene = ExtResource("2_cdgx8")
-type = 2
 reward_type = 2
 reward_value = 200
+id = "cat_white"
