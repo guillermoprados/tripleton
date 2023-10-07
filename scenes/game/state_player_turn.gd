@@ -121,12 +121,12 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	board.clear_token(cell_index)
 	
 	var chest_data: TokenChestData = token.data
-	var prize_data:TokenPrize = chest_data.get_random_prize()
+	var prize_data:TokenPrizeData = chest_data.get_random_prize()
 	var prize_instance:Token = game_manager.instantiate_new_token(prize_data, Vector2.ZERO, null)
 	place_token_at_cell(prize_instance, cell_index)
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
-	var prize_data: TokenPrize = token.data
+	var prize_data: TokenPrizeData = token.data
 	game_manager.sum_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	board.clear_token(cell_index)	
 

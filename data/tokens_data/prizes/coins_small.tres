@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TokenPrize" load_steps=3 format=3 uid="uid://qec4gvk44reh"]
 
-[ext_resource type="Script" path="res://resources/token_prize.gd" id="1_lilkf"]
+[ext_resource type="Script" path="res://resources/token_prize_data.gd" id="1_lilkf"]
 [ext_resource type="PackedScene" uid="uid://bs2q2cvx7yrwn" path="res://scenes/objects/tokens/prizes/coins_small.tscn" id="2_8ttvh"]
 
 [resource]
