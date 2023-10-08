@@ -4,6 +4,7 @@ class_name StateBase
 
 var is_active: bool = false
 
+#used by states to require the machine to switch states
 signal switch_state(next_state:Constants.PlayingState)
 
 @export var state_id:Constants.PlayingState

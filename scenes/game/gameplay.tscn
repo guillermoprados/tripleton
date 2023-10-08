@@ -1,9 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=18 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="Resource" uid="uid://cnj7k31nxfag8" path="res://data/levels/level_0.tres" id="3_4t22s"]
-[ext_resource type="Script" path="res://scripts/game_info.gd" id="3_8dctr"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
@@ -21,15 +20,12 @@
 
 [node name="Gameplay" type="Node2D"]
 
-[node name="GameInfo" type="Node" parent="."]
-script = ExtResource("3_8dctr")
-level_config = ExtResource("3_4t22s")
-
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "game_info")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "gameplay_ui")]
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
-game_info = NodePath("../GameInfo")
+level_config = ExtResource("3_4t22s")
+gameplay_ui = NodePath("../UI")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -83,5 +79,9 @@ board = NodePath("../../Board")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
 
+[connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
+[connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
+[connection signal="show_floating_reward" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_floating_reward"]
+[connection signal="show_message" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_message"]

@@ -8,8 +8,8 @@
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_2v4ou")
 
-[node name="PlayingState" parent="." instance=ExtResource("2_jg3y5")]
+[node name="PlayingScreen" parent="." instance=ExtResource("2_jg3y5")]
 
-[node name="GameOverState" parent="." instance=ExtResource("3_vohmp")]
+[node name="GameOverScreen" parent="." instance=ExtResource("3_vohmp")]
 
-[node name="IntroState" parent="." instance=ExtResource("4_xrbtq")]
+[node name="IntroScreen" parent="." instance=ExtResource("4_xrbtq")]

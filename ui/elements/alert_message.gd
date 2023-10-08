@@ -7,6 +7,7 @@ class_name TimeoutMessage
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	show_timer.timeout.connect(hide_message)
+	hide_message()
 	
 func hide_message() -> void:
 	message_label.text = ""

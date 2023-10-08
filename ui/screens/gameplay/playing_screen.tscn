@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cn8xpyhtpgsxd"]
+[gd_scene load_steps=6 format=3 uid="uid://cn8xpyhtpgsxd"]
 
 [ext_resource type="Script" path="res://ui/screens/gameplay/playing_screen.gd" id="1_nvgr1"]
 [ext_resource type="PackedScene" uid="uid://eaia0816n1hc" path="res://ui/elements/points_counter.tscn" id="1_sukhm"]
 [ext_resource type="PackedScene" uid="uid://cf4lf5wwylon3" path="res://ui/elements/award_points.tscn" id="2_gvtgo"]
 [ext_resource type="PackedScene" uid="uid://c44h4sg0gmt80" path="res://ui/elements/alert_message.tscn" id="3_ggyc1"]
+[ext_resource type="Texture2D" uid="uid://c7quwxjqttue5" path="res://images/tokens/coins_small.png" id="4_ud8tr"]
 
 [node name="PlayingState" type="Control" node_paths=PackedStringArray("alert_message", "points_label", "gold_label")]
 layout_mode = 3
@@ -12,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_nvgr1")
 alert_message = NodePath("TopButtons/TopInfoContainer/AlertMessage")
 points_label = NodePath("TopButtons/TopInfoContainer/HBoxContainer/GamePoints")
@@ -35,15 +37,16 @@ theme_override_constants/margin_bottom = 20
 [node name="HBoxContainer" type="HBoxContainer" parent="TopButtons/TopInfoContainer"]
 layout_mode = 2
 
-[node name="GameGold" parent="TopButtons/TopInfoContainer/HBoxContainer" instance=ExtResource("1_sukhm")]
+[node name="GamePoints" parent="TopButtons/TopInfoContainer/HBoxContainer" instance=ExtResource("1_sukhm")]
 layout_mode = 2
 
 [node name="Expanding" type="Control" parent="TopButtons/TopInfoContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GamePoints" parent="TopButtons/TopInfoContainer/HBoxContainer" instance=ExtResource("1_sukhm")]
+[node name="GameGold" parent="TopButtons/TopInfoContainer/HBoxContainer" instance=ExtResource("1_sukhm")]
 layout_mode = 2
+icon_texture = ExtResource("4_ud8tr")
 
 [node name="AlertMessage" parent="TopButtons/TopInfoContainer" instance=ExtResource("3_ggyc1")]
 layout_mode = 2

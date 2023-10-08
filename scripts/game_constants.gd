@@ -43,7 +43,7 @@ enum MessageType {
 	ERROR
 }
 
-enum UIPlayState {
+enum UIPlayScreenId {
 	NONE,
 	INTRO,
 	PLAYING,

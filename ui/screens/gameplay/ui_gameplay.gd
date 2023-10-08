@@ -2,38 +2,67 @@ extends CanvasLayer
 
 class_name GameplayUI
 
-var current_state: Constants.UIPlayState = Constants.UIPlayState.NONE
-var state_uis: Dictionary = {}
-var active_ui: UIPlayStateBaseScreen
+var available_uis: Dictionary = {}
+var active_ui: UIPlayScreenIdBaseScreen
 
 func _ready() -> void:
 	for node in get_children():
-		if node is UIPlayStateBaseScreen:
-			state_uis[node.state_id] = node
+		if node is UIPlayScreenIdBaseScreen:
+			available_uis[node.id] = node
 			node.hide()
 
-func switch_state(new_state:Constants.UIPlayState)-> void:
-	if active_ui:
-		print(" xx state: "+ __state_name(active_ui.state_id))
-		active_ui.show_screen()
+func switch_ui(show_ui:Constants.UIPlayScreenId)-> void:
+	print(" >> show ui: "+ __state_name(show_ui))
 	
-	active_ui = state_uis[new_state]
+	if active_ui and show_ui == active_ui.id:
+		return
 	
 	if active_ui:
-		print(" >> state: "+ __state_name(active_ui.state_id))
+		print(" close ui: "+ __state_name(active_ui.id))
 		active_ui.hide_screen()
+		active_ui = null
+	
+	if available_uis.has(show_ui):
+		active_ui = available_uis[show_ui]
+	
+	if active_ui:
+		print(" show ui: "+ __state_name(active_ui.id))
+		active_ui.show_screen()
 
-func __state_name(state:Constants.UIPlayState) -> String:
-	match state:
-		Constants.UIPlayState.NONE:
+func __state_name(id:Constants.UIPlayScreenId) -> String:
+	match id:
+		Constants.UIPlayScreenId.NONE:
 			return "None"
-		Constants.UIPlayState.INTRO:
+		Constants.UIPlayScreenId.INTRO:
 			return "Intro UI"
-		Constants.UIPlayState.PLAYING:
+		Constants.UIPlayScreenId.PLAYING:
 			return "Playing UI"
-		Constants.UIPlayState.GAME_OVER:
+		Constants.UIPlayScreenId.GAME_OVER:
 			return "Game Over UI"
-		Constants.UIPlayState.PAUSE:
+		Constants.UIPlayScreenId.PAUSE:
 			return "Paused UI"
 		_:
 			return "I DONT KNOW"
+
+
+func _on_game_manager_gold_updated(value):
+	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
+		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
+		playing_ui.accumulated_gold_update(value)
+
+func _on_game_manager_points_updated(value):
+	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
+		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
+		playing_ui.accumulated_points_update(value)
+
+
+func _on_player_turn_state_show_floating_reward(type, value, position):
+	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
+		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
+		playing_ui.show_floating_reward(type, value, position)
+
+
+func _on_player_turn_state_show_message(message, type, time):
+	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
+		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
+		playing_ui.show_message(message, type, time)
