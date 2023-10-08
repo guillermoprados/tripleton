@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://c44h4sg0gmt80"]
+
+[ext_resource type="Script" path="res://ui/elements/alert_message.gd" id="1_r0q5n"]
+
+[node name="AlertMessage" type="Control" node_paths=PackedStringArray("message_label", "show_timer")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_r0q5n")
+message_label = NodePath("MarginContainer/message")
+show_timer = NodePath("timer")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_left = -20.0
+offset_top = 74.0
+offset_right = 680.0
+offset_bottom = 140.0
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="message" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Some Message"
+horizontal_alignment = 1
+
+[node name="timer" type="Timer" parent="."]

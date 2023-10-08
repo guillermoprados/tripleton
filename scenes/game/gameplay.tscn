@@ -1,35 +1,33 @@
-[gd_scene load_steps=19 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=20 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="Resource" uid="uid://cnj7k31nxfag8" path="res://data/levels/level_0.tres" id="3_4t22s"]
-[ext_resource type="Script" path="res://scripts/game_info.gd" id="3_8dctr"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
+[ext_resource type="Script" path="res://scripts/game_states/state_intro.gd" id="9_o86f4"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
-[ext_resource type="Script" path="res://scenes/game/state_machine.gd" id="10_mhtrr"]
-[ext_resource type="Script" path="res://scenes/game/state_intro.gd" id="11_14lxr"]
-[ext_resource type="PackedScene" uid="uid://6pgaxl6wvy6v" path="res://ui/screens/gameplay_ui.tscn" id="11_ha0hn"]
+[ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="11_m4oe4"]
-[ext_resource type="Script" path="res://scenes/game/state_player_turn.gd" id="12_0351f"]
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="12_td8ws"]
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="13_cokf0"]
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="14_se4fc"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="15_mktlm"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="16_v6svl"]
-[ext_resource type="Script" path="res://scenes/game/state_enemies_turn.gd" id="17_hhqrf"]
+[ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
+[ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
+[ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
+[ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
 
 [node name="Gameplay" type="Node2D"]
 
-[node name="GameInfo" type="Node" parent="."]
-script = ExtResource("3_8dctr")
-level_config = ExtResource("3_4t22s")
-
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "game_info")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "gameplay_ui")]
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
-game_info = NodePath("../GameInfo")
+level_config = ExtResource("3_4t22s")
+gameplay_ui = NodePath("../UI")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -56,37 +54,41 @@ position = Vector2(113, 186)
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(424, 181)
 
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource("10_mhtrr")
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
+script = ExtResource("8_umy6w")
+game_manager = NodePath("../GameManager")
+board = NodePath("../Board")
 
 [node name="IntroState" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
-script = ExtResource("11_14lxr")
-state_id = 1
+script = ExtResource("9_o86f4")
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell", "game_manager", "board")]
-script = ExtResource("12_0351f")
+script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
 save_token_cell = NodePath("../../SaveTokenCell")
 spawn_token_cell = NodePath("../../SpawnTokenCell")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_m4oe4"), ExtResource("12_td8ws"), ExtResource("13_cokf0"), ExtResource("14_se4fc"), ExtResource("15_mktlm"), ExtResource("16_v6svl")])
-state_id = 2
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
-script = ExtResource("17_hhqrf")
-state_id = 3
+script = ExtResource("17_7v2y8")
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
-[node name="UICanvas" type="CanvasLayer" parent="."]
+[node name="CheckState" type="Node" parent="StateMachine"]
+script = ExtResource("17_uph22")
 
-[node name="gameplay_ui" parent="UICanvas" instance=ExtResource("11_ha0hn")]
+[node name="GameOverState" type="Node" parent="StateMachine"]
+script = ExtResource("18_34rgb")
 
-[connection signal="accumulated_reward_update" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_accumulated_reward_update"]
-[connection signal="show_floating_reward" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_show_floating_reward"]
-[connection signal="show_message" from="GameManager" to="UICanvas/gameplay_ui" method="_on_game_manager_show_message"]
+[node name="UI" parent="." instance=ExtResource("18_65b04")]
+
+[connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
+[connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
+[connection signal="show_floating_reward" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_floating_reward"]
+[connection signal="show_message" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_message"]

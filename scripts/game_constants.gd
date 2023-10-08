@@ -34,13 +34,23 @@ enum PlayingState {
 	INTRO,
 	PLAYER,
 	ENEMIES,
-	PAUSED
+	CHECK,
+	PAUSED,
+	GAME_OVER
 }
 
 enum MessageType {
 	INFO,
 	NORMAL,
 	ERROR
+}
+
+enum UIPlayScreenId {
+	NONE,
+	INTRO,
+	PLAYING,
+	PAUSE,
+	GAME_OVER
 }
 
 

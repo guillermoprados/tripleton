@@ -2,6 +2,9 @@ extends StateBase
 
 class_name  StatePlayerTurn
 
+signal show_message(message:String, type:Constants.MessageType, time:float)
+signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
+
 @export var combinator: Combinator
 @export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
@@ -16,6 +19,9 @@ var is_scroll_in_progress: bool = false
 var floating_token: Token
 var saved_token: Token
 
+func state_id() -> Constants.PlayingState:
+	return Constants.PlayingState.PLAYER
+	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	combinator.reset_combinations(board.rows, board.columns)
@@ -26,6 +32,8 @@ func _process(delta:float) -> void:
 
 # override in states	
 func _on_state_entered() -> void:
+	
+	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
 	create_floating_token()
 	
@@ -109,10 +117,10 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 		elif cell_token.type == Constants.TokenType.PRIZE:
 			collect_reward(cell_token, index)
 		else:
-			game_manager.show_game_message("Cannot place token", Constants.MessageType.ERROR, .5); #localize
+			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
 func finish_player_turn() -> void:
-	switch_state.emit(Constants.PlayingState.ENEMIES)
+	state_finished.emit(id)
 	
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
@@ -127,7 +135,8 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data
-	game_manager.sum_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
+	show_rewards(prize_data.reward_type, prize_data.reward_value,cell_index)
+	sum_rewards(prize_data.reward_type, prize_data.reward_value)
 	board.clear_token(cell_index)	
 
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
@@ -190,10 +199,38 @@ func combine_tokens(combination: Combination) -> Token:
 		next_token_data = next_token_data.next_token
 		
 	var combined_token : Token = game_manager.instantiate_new_token(next_token_data, Vector2.ZERO, null)
-	
+
+	var awarded_gold:int = 0
+	var awarded_points:int = 0	
 	for cell_index in combination.combinable_cells:
 		var token:Token = board.get_token_at_cell(cell_index)
-		game_manager.sum_rewards(token.data.reward_type, token.data.reward_value, cell_index)
+		if token.data.reward_type == Constants.RewardType.GOLD:
+			awarded_gold += token.data.reward_value
+		elif token.data.reward_type == Constants.RewardType.POINTS:
+			awarded_points += token.data.reward_value
+		show_rewards(token.data.reward_type, token.data.reward_value, cell_index)
 		board.clear_token(cell_index)
-					
+	
+	if awarded_gold > 0:
+		sum_rewards(Constants.RewardType.GOLD, awarded_gold)
+	if awarded_points > 0:
+		sum_rewards(Constants.RewardType.POINTS, awarded_points)
+		
 	return combined_token
+
+func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
+	
+	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
+	var reward_position: Vector2 = board.position + cell_position
+	reward_position.x += board.cell_size.x / 2 
+	reward_position.y += board.cell_size.y / 4 
+		
+	show_floating_reward.emit(type, value, reward_position)
+
+func sum_rewards(type:Constants.RewardType, value:int) -> void:
+	if type == Constants.RewardType.GOLD:
+		game_manager.add_gold(value)
+	elif type == Constants.RewardType.POINTS:
+		game_manager.add_points(value)
+	else:
+		assert( false, "what are you trying to add??")	

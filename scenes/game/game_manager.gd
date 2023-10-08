@@ -2,18 +2,25 @@ extends Node
 
 class_name GameManager
 
-signal show_message(message:String, type:Constants.MessageType, time:float)
-signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
-signal accumulated_reward_update(type:Constants.RewardType, value:int)
+signal gold_updated(value:int)
+signal points_updated(value:int)
 
 @export var token_scene: PackedScene
 @export var board:Board
-@export var game_info:GameInfo
+@export var level_config:LevelConfig
+
+@export var gameplay_ui:GameplayUI
+
+var points: int
+var gold: int
+
+# list of token data
+var tokens_pool: RandomResourcePool
 
 func _ready() -> void:
 	
-	board.configure(game_info.rows, game_info.columns)
-	set_difficulty_tokens(game_info.next_difficulty())
+	board.configure(level_config.rows, level_config.columns)
+	set_difficulty_tokens(next_difficulty())
 	
 	# Connect the screen size changed signal to a function
 	get_tree().root.size_changed.connect(_on_screen_size_changed)
@@ -41,28 +48,6 @@ func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) 
 	token.position = position
 	return token
 
-func sum_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
-	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
-	var reward_position: Vector2 = board.position + cell_position
-	reward_position.x += board.cell_size.x / 2 
-	reward_position.y += board.cell_size.y / 4 
-		
-	show_floating_reward.emit(type, value, reward_position)
-		
-	if type == Constants.RewardType.GOLD:
-		game_info.gold += value
-		accumulated_reward_update.emit(type, game_info.gold)
-	elif type == Constants.RewardType.POINTS:
-		game_info.points += value
-		accumulated_reward_update.emit(type, game_info.points)
-	else: 
-		assert("trying to add 0 points??")
-		
-func show_game_message(message:String, type:Constants.MessageType, time:float) -> void:
-	show_message.emit(message, type, time)
-
-# list of token data
-var tokens_pool: RandomResourcePool
 
 func set_difficulty_tokens(difficulty: GameDifficulty) -> void:
 	tokens_pool = RandomResourcePool.new(difficulty.items)
@@ -77,7 +62,7 @@ func get_random_token_data() -> TokenData:
 	
 	# If list is empty, emit the difficulty_depleted signal
 	if tokens_pool.is_empty():
-		assert("next difficulty")
+		assert( false, "next difficulty")
 	
 	return token_data
 
@@ -87,3 +72,14 @@ func get_token_instance(token_data: TokenData) -> Token:
 	token_instance.set_data(token_data)
 	
 	return token_instance
+
+func next_difficulty() -> GameDifficulty:
+	return level_config.difficulties[0] 
+
+func add_gold(value:int) -> void:
+	gold += value
+	gold_updated.emit(gold)
+	
+func add_points(value:int) -> void:
+	points += value
+	points_updated.emit(points)
