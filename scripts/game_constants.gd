@@ -34,7 +34,9 @@ enum PlayingState {
 	INTRO,
 	PLAYER,
 	ENEMIES,
-	PAUSED
+	CHECK,
+	PAUSED,
+	GAME_OVER
 }
 
 enum MessageType {

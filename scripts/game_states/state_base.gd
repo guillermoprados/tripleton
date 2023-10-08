@@ -2,25 +2,27 @@ extends Node
 
 class_name StateBase
 
-var is_active: bool = false
-
 #used by states to require the machine to switch states
 signal switch_state(next_state:Constants.PlayingState)
+signal state_finished(id:Constants.PlayingState)
 
-@export var state_id:Constants.PlayingState
+var id:Constants.PlayingState:
+	get:
+		return state_id()
 
-@export var game_manager:GameManager
-@export var board: Board
+func state_id() -> Constants.PlayingState:
+	return Constants.PlayingState.NONE
 
-func set_active(value:bool) -> void:
-	is_active = value
-	
-	if is_active:
-		_on_state_entered()
-		set_process(true)
-	else:
-		_on_state_exited()
-		set_process(false)
+var game_manager:GameManager
+var board: Board
+
+func enable_state() -> void:
+	set_process(true)
+	_on_state_entered()
+
+func disable_state() -> void:
+	_on_state_exited()
+	set_process(false)
 
 # override in states	
 func _on_state_entered() -> void:

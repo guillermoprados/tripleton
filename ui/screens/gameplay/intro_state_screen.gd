@@ -2,7 +2,7 @@ extends UIPlayScreenIdBaseScreen
 
 class_name IntroStateUI 
 
-func current_type() -> Constants.UIPlayScreenId:
+func screen_id() -> Constants.UIPlayScreenId:
 	return Constants.UIPlayScreenId.INTRO
 
 func _on_screen_enter() -> void:

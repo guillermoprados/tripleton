@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=20 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -16,6 +16,8 @@
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="15_mktlm"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="16_v6svl"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
+[ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
+[ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
 [ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
 
 [node name="Gameplay" type="Node2D"]
@@ -52,12 +54,13 @@ position = Vector2(113, 186)
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(424, 181)
 
-[node name="StateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("8_umy6w")
+game_manager = NodePath("../GameManager")
+board = NodePath("../Board")
 
 [node name="IntroState" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("9_o86f4")
-state_id = 1
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
@@ -67,15 +70,19 @@ combinator = NodePath("../../Combinator")
 save_token_cell = NodePath("../../SaveTokenCell")
 spawn_token_cell = NodePath("../../SpawnTokenCell")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_m4oe4"), ExtResource("12_td8ws"), ExtResource("13_cokf0"), ExtResource("14_se4fc"), ExtResource("15_mktlm"), ExtResource("16_v6svl")])
-state_id = 2
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("17_7v2y8")
-state_id = 3
 game_manager = NodePath("../../GameManager")
 board = NodePath("../../Board")
+
+[node name="CheckState" type="Node" parent="StateMachine"]
+script = ExtResource("17_uph22")
+
+[node name="GameOverState" type="Node" parent="StateMachine"]
+script = ExtResource("18_34rgb")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
 

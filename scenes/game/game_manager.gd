@@ -62,7 +62,7 @@ func get_random_token_data() -> TokenData:
 	
 	# If list is empty, emit the difficulty_depleted signal
 	if tokens_pool.is_empty():
-		assert("next difficulty")
+		assert( false, "next difficulty")
 	
 	return token_data
 

@@ -2,6 +2,9 @@ extends StateBase
 
 class_name StateEnemiesTurn
 
+func state_id() -> Constants.PlayingState:
+	return Constants.PlayingState.ENEMIES
+	
 var number_of_pending_actions : int
 
 var enemies: Dictionary
@@ -30,4 +33,4 @@ func _process(delta:float) -> void:
 		finish_enemies_turn()
 	
 func finish_enemies_turn() -> void:
-	switch_state.emit(Constants.PlayingState.PLAYER)
+	state_finished.emit(id)

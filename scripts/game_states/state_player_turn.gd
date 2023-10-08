@@ -19,6 +19,9 @@ var is_scroll_in_progress: bool = false
 var floating_token: Token
 var saved_token: Token
 
+func state_id() -> Constants.PlayingState:
+	return Constants.PlayingState.PLAYER
+	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	combinator.reset_combinations(board.rows, board.columns)
@@ -117,7 +120,7 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
 func finish_player_turn() -> void:
-	switch_state.emit(Constants.PlayingState.ENEMIES)
+	state_finished.emit(id)
 	
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
@@ -230,4 +233,4 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 	elif type == Constants.RewardType.POINTS:
 		game_manager.add_points(value)
 	else:
-		assert("what are you trying to add??")	
+		assert( false, "what are you trying to add??")	

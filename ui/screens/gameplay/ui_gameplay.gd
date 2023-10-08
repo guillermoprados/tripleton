@@ -8,11 +8,13 @@ var active_ui: UIPlayScreenIdBaseScreen
 func _ready() -> void:
 	for node in get_children():
 		if node is UIPlayScreenIdBaseScreen:
+			print("adding "+ __state_name(node.id))
 			available_uis[node.id] = node
 			node.hide()
+	print("available_uis: "+str(available_uis.size()))
 
 func switch_ui(show_ui:Constants.UIPlayScreenId)-> void:
-	print(" >> show ui: "+ __state_name(show_ui))
+	print("enabling: "+__state_name(show_ui))
 	
 	if active_ui and show_ui == active_ui.id:
 		return
@@ -24,7 +26,9 @@ func switch_ui(show_ui:Constants.UIPlayScreenId)-> void:
 	
 	if available_uis.has(show_ui):
 		active_ui = available_uis[show_ui]
-	
+	else:
+		assert(false, "cannot find "+__state_name(show_ui))
+		
 	if active_ui:
 		print(" show ui: "+ __state_name(active_ui.id))
 		active_ui.show_screen()

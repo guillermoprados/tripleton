@@ -7,7 +7,7 @@ class_name PlayingStateUI
 @export var gold_label:PointsCounter
 @export var award_points_scene: PackedScene
 
-func current_type() -> Constants.UIPlayScreenId:
+func screen_id() -> Constants.UIPlayScreenId:
 	return Constants.UIPlayScreenId.PLAYING
 
 func _on_screen_enter() -> void:

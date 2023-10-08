@@ -4,9 +4,9 @@ class_name UIPlayScreenIdBaseScreen
 
 var id:Constants.UIPlayScreenId:
 	get:
-		return current_type()
+		return screen_id()
 
-func current_type() -> Constants.UIPlayScreenId:
+func screen_id() -> Constants.UIPlayScreenId:
 	return Constants.UIPlayScreenId.NONE
 
 func show_screen() -> void:
