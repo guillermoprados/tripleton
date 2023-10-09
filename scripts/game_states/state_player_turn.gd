@@ -24,7 +24,7 @@ func state_id() -> Constants.PlayingState:
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	combinator.reset_combinations(board.rows, board.columns)
+	pass
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
@@ -32,6 +32,8 @@ func _process(delta:float) -> void:
 
 # override in states	
 func _on_state_entered() -> void:
+	
+	combinator.reset_combinations(board.rows, board.columns)
 	
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
@@ -88,7 +90,6 @@ func __on_scroll_timer_timeout() -> void:
 	is_scroll_in_progress = false
 
 func create_floating_token() -> void:
-	print("Create floating token")
 	var random_token_data:TokenData = game_manager.get_random_token_data()
 	floating_token = game_manager.instantiate_new_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)

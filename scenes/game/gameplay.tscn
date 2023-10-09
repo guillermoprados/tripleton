@@ -59,24 +59,18 @@ script = ExtResource("8_umy6w")
 game_manager = NodePath("../GameManager")
 board = NodePath("../Board")
 
-[node name="IntroState" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
+[node name="IntroState" type="Node" parent="StateMachine"]
 script = ExtResource("9_o86f4")
-game_manager = NodePath("../../GameManager")
-board = NodePath("../../Board")
 
-[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell", "game_manager", "board")]
+[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
 save_token_cell = NodePath("../../SaveTokenCell")
 spawn_token_cell = NodePath("../../SpawnTokenCell")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_m4oe4"), ExtResource("12_td8ws"), ExtResource("13_cokf0"), ExtResource("14_se4fc"), ExtResource("15_mktlm"), ExtResource("16_v6svl")])
-game_manager = NodePath("../../GameManager")
-board = NodePath("../../Board")
 
-[node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("game_manager", "board")]
+[node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")
-game_manager = NodePath("../../GameManager")
-board = NodePath("../../Board")
 
 [node name="CheckState" type="Node" parent="StateMachine"]
 script = ExtResource("17_uph22")
