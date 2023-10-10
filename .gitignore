@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 .DS_Store
+android/tripleton.apk
+android/tripleton.apk.idsig
