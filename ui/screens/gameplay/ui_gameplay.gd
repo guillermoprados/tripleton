@@ -14,7 +14,6 @@ func _ready() -> void:
 	print("available_uis: "+str(available_uis.size()))
 
 func switch_ui(show_ui:Constants.UIPlayScreenId)-> void:
-	print("enabling: "+__state_name(show_ui))
 	
 	if active_ui and show_ui == active_ui.id:
 		return

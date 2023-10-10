@@ -10,6 +10,8 @@ var active_state: StateBase
 @export var board: Board
 
 func _ready() -> void:
+	assert(board, "please assign the board")
+	assert(game_manager, "please assign the game_manager")
 	for node in get_children():
 		if node is StateBase:
 			states[node.id] = node
@@ -56,5 +58,10 @@ func __state_name(state:Constants.PlayingState) -> String:
 			return "EnemiesState"
 		Constants.PlayingState.PAUSED:
 			return "PausedState"
+		Constants.PlayingState.CHECK:
+			return "CheckState"
+		Constants.PlayingState.GAME_OVER:
+			return "GameOverState"
 		_:
-			return "I DONT KNOW"
+			assert(false, "trying to change to state that I don't know")
+			return "I don't know"
