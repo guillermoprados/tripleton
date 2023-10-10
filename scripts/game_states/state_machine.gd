@@ -60,6 +60,8 @@ func __state_name(state:Constants.PlayingState) -> String:
 			return "PausedState"
 		Constants.PlayingState.CHECK:
 			return "CheckState"
+		Constants.PlayingState.GAME_OVER:
+			return "GameOverState"
 		_:
 			assert(false, "trying to change to state that I don't know")
 			return "I don't know"
