@@ -32,7 +32,7 @@ func _process(delta:float) -> void:
 	pass
 
 # Method to set the size of the AnimatedSprite
-func set_size(new_size: Vector2) -> void:
+func adjust_size(new_size: Vector2) -> void:
 	token_size = new_size
 	self.scale = new_size / token_predefined_size
 

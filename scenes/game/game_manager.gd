@@ -18,31 +18,12 @@ var gold: int
 var tokens_pool: RandomResourcePool
 
 func _ready() -> void:
-	
-	board.configure(level_config.rows, level_config.columns)
 	set_difficulty_tokens(next_difficulty())
 	
-	# Connect the screen size changed signal to a function
-	get_tree().root.size_changed.connect(_on_screen_size_changed)
-	_on_screen_size_changed()
-	
-	
-func _on_screen_size_changed() -> void:
-	var screen_size:Vector2 = get_viewport().get_visible_rect().size
-	var board_size:Vector2 = board.board_size
-	var board_pos:Vector2 = Vector2(
-		(screen_size.x - board_size.x) / 2,
-		(screen_size.y - board_size.y) / 2
-	)
-	board.position = board_pos
-	# if floating_token:
-	#	floating_token.position = board.position
-	board.clear_highlights()
-
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
 	var token:Token = get_token_instance(token_data)
 	
-	token.set_size(board.cell_size)
+	token.adjust_size(Constants.CELL_SIZE)
 	if parent:
 		parent.add_child(token)
 	token.position = position

@@ -4,13 +4,9 @@ signal board_cell_moved(index:Vector2)
 signal board_cell_selected(index:Vector2)
 
 @export var cell_scene: PackedScene
-@export var default_rows: int = 5
-@export var default_columns: int = 5
+@export var rows: int = 7
+@export var columns: int = 7
 
-var board_size: Vector2 = Vector2.ZERO # Store the cell size for external access
-var rows: int
-var columns: int
-var cell_size: Vector2 = Vector2.ZERO  # Store the cell size for external access
 var cell_tokens_ids: Array = []  # The matrix of string values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
@@ -18,19 +14,18 @@ var cells_matrix: Array = [] # The cells matrix so we can access them directly
 var enabled_interaction: bool = false
 
 func _ready() -> void:
-	rows = default_rows
-	columns = default_columns
-	configure(rows, columns)	
+	configure()	
 	
 func _process(delta:float) -> void:
 	pass
 
-func configure(rows: int, columns: int) -> void:
+func configure() -> void:
+	
 	__clear_board()
 	
-	self.rows = rows
-	self.columns = columns
-	
+	var centered_x:float = (Constants.CELL_SIZE.x * columns) / 2
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	position.x = position.x - (columns * (Constants.CELL_SIZE.x/ 2))
 	for row in range(rows):
 		var row_tokens: Array = []
 		var row_cells: Array = []  # This will store the cell references for this row
@@ -43,17 +38,12 @@ func configure(rows: int, columns: int) -> void:
 			cell_instance.cell_exited.connect(self._on_cell_exited)
 			cell_instance.cell_selected.connect(self._on_cell_selected)
 			
-			if cell_size == Vector2.ZERO:  # Only assign cell_size once
-				cell_size = cell_instance.size()
-	
-			cell_instance.position = Vector2(col * cell_size.x, row * cell_size.y)
+			cell_instance.position = Vector2(col * Constants.CELL_SIZE.x, row * Constants.CELL_SIZE.y)
 			cell_instance.cell_index = Vector2(row, col)
 			add_child(cell_instance)
 			row_cells.append(cell_instance)
 		cell_tokens_ids.append(row_tokens)
 		cells_matrix.append(row_cells)  # Storing the row of cells into the matrix
-	
-	board_size = Vector2(columns * cell_size.x, rows * cell_size.y)
 
 func __clear_board() -> void:
 	# Clear cell instances
