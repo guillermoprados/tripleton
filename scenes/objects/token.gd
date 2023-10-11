@@ -2,10 +2,7 @@ extends Node2D
 
 class_name Token
 
-@export var token_predefined_size: Vector2 = Vector2(128, 128)  # default size, you can adjust it in the editor
-
 var floating: bool
-var token_size: Vector2 = token_predefined_size
 
 var id:String:
 	get:
@@ -33,8 +30,7 @@ func _process(delta:float) -> void:
 
 # Method to set the size of the AnimatedSprite
 func adjust_size(new_size: Vector2) -> void:
-	token_size = new_size
-	self.scale = new_size / token_predefined_size
+	self.scale = new_size / Constants.TOKEN_SPRITE_SIZE
 
 func set_data(token_data:TokenData) -> void:
 	id = token_data.id

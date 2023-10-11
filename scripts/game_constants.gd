@@ -65,4 +65,4 @@ const GROUP_ENEMIES = "enemies"
 const CELL_SIZE:Vector2 = Vector2(80,80)
 
 # TODO resize to 64
-const token_predefined_size: Vector2 = Vector2(128, 128)
+const TOKEN_SPRITE_SIZE: Vector2 = Vector2(128, 128)
