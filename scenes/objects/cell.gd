@@ -18,6 +18,7 @@ var cell_index:Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	adjust_size(Constants.CELL_SIZE)
 	$BackColor.color = base_color
 	$HighLightColor.color = transparent_color
 	
@@ -41,9 +42,9 @@ func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void
 		# You can adapt your touch handling logic as needed
 	# Add more conditions for other types of input events if necessary
 
-func size() -> Vector2:
-	return $BackColor.get_size()
-
+func adjust_size(new_size: Vector2) -> void:
+	self.scale = new_size / Constants.CELL_SPRITE_SIZE
+	
 func highlight(mode: Constants.HighlightMode, valid: bool) -> void:
 	match mode:
 		Constants.HighlightMode.NONE:

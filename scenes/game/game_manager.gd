@@ -22,8 +22,6 @@ func _ready() -> void:
 	
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
 	var token:Token = get_token_instance(token_data)
-	
-	token.adjust_size(Constants.CELL_SIZE)
 	if parent:
 		parent.add_child(token)
 	token.position = position

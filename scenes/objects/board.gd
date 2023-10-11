@@ -4,8 +4,8 @@ signal board_cell_moved(index:Vector2)
 signal board_cell_selected(index:Vector2)
 
 @export var cell_scene: PackedScene
-@export var rows: int = 7
-@export var columns: int = 7
+@export var rows: int = 6
+@export var columns: int = 6
 
 var cell_tokens_ids: Array = []  # The matrix of string values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
