@@ -18,7 +18,7 @@ var gold: int
 var tokens_pool: RandomResourcePool
 
 func _ready() -> void:
-	set_tokens_set(next_set())
+	pass
 	
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
 	var token:Token = get_token_instance(token_data)
@@ -31,17 +31,21 @@ func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) 
 func set_tokens_set(token_set: TokensSet) -> void:
 	tokens_pool = RandomResourcePool.new(token_set.items)
 
+func next_set() -> TokensSet:
+	return level_config.tokens_sets.pop_front()
+	
 func get_random_token_data() -> TokenData:
 	
+	# If list is empty, emit the difficulty_depleted signal
+	# im gonna fix this later to make this more lindo
+	if not tokens_pool || tokens_pool.is_empty():
+		set_tokens_set(next_set())
+		
 	# Assert if list is empty
 	assert(!tokens_pool.is_empty(), "TokenInstanceProvider: No more tokens left.")
 	
 	# Pop the first item in the items_data and get the data from it
 	var token_data:TokenData = tokens_pool.pop_item()
-	
-	# If list is empty, emit the difficulty_depleted signal
-	if tokens_pool.is_empty():
-		assert( false, "next set please!")
 	
 	return token_data
 
@@ -51,9 +55,6 @@ func get_token_instance(token_data: TokenData) -> Token:
 	token_instance.set_data(token_data)
 	
 	return token_instance
-
-func next_set() -> TokensSet:
-	return level_config.tokens_sets[0]
 
 func add_gold(value:int) -> void:
 	gold += value

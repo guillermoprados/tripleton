@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="LevelConfig" load_steps=3 format=3 uid="uid://bja78jwbx6iou"]
+[gd_resource type="Resource" script_class="LevelConfig" load_steps=4 format=3 uid="uid://bja78jwbx6iou"]
 
 [ext_resource type="Script" path="res://resources/level_config.gd" id="1_fb5fe"]
 [ext_resource type="Resource" uid="uid://dvpgcrqwtxsbi" path="res://data/tokens_sets/initial.tres" id="2_4dj86"]
+[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy.tres" id="3_ubmmf"]
 
 [resource]
 script = ExtResource("1_fb5fe")
-tokens_sets = Array[Resource("res://resources/game_difficulty.gd")]([ExtResource("2_4dj86")])
+tokens_sets = Array[Resource("res://resources/game_difficulty.gd")]([ExtResource("2_4dj86"), ExtResource("3_ubmmf")])
