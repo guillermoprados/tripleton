@@ -46,13 +46,13 @@ mouse_filter = 2
 color = Color(0.219608, 0.776471, 0.866667, 1)
 
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
-position = Vector2(304, 485)
+position = Vector2(360, 485)
 
 [node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
-position = Vector2(113, 186)
+position = Vector2(162, 263)
 
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
-position = Vector2(424, 181)
+position = Vector2(480, 269)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("8_umy6w")

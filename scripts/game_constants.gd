@@ -62,4 +62,8 @@ const IS_DEBUG_MODE = true
 
 const GROUP_ENEMIES = "enemies"
 
-const token_predefined_size: Vector2 = Vector2(128, 128)
+const CELL_SIZE:Vector2 = Vector2(90,90)
+
+# TODO resize to 64
+const TOKEN_SPRITE_SIZE: Vector2 = Vector2(128, 128)
+const CELL_SPRITE_SIZE: Vector2 = Vector2(64, 64) 

@@ -97,7 +97,7 @@ func create_floating_token() -> void:
 func _on_board_board_cell_moved(index:Vector2) -> void:
 	current_cell_index = index
 	spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
-	var cell_size:Vector2 = board.cell_size
+	var cell_size:Vector2 = Constants.CELL_SIZE
 	if board.is_cell_empty(index):
 		var token_position:Vector2 = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		floating_token.position = token_position
@@ -223,8 +223,8 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 	
 	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
 	var reward_position: Vector2 = board.position + cell_position
-	reward_position.x += board.cell_size.x / 2 
-	reward_position.y += board.cell_size.y / 4 
+	reward_position.x += Constants.CELL_SIZE.x / 2 
+	reward_position.y += Constants.CELL_SIZE.y / 4 
 		
 	show_floating_reward.emit(type, value, reward_position)
 
