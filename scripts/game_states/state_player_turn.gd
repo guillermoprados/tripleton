@@ -12,7 +12,7 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 var current_cell_index: Vector2
 
 # for debugging purposes
-@export var scroll_tokens:Array[TokenData]
+@export var scroll_tokens:Array[TokenData] = []
 var current_scroll_item: int = 0
 var is_scroll_in_progress: bool = false
 

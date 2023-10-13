@@ -6,7 +6,8 @@ enum TokenType {
 	NORMAL,
 	CHEST,
 	PRIZE,
-	ENEMY
+	ENEMY,
+	WILDCARD
 }
 
 enum EnemyType {
