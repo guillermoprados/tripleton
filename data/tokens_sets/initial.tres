@@ -17,5 +17,6 @@ amount = 3
 
 [resource]
 script = ExtResource("1_uu8ed")
-maxPoints = 5000
+name = "initial"
+maxPoints = 500
 items = Array[ExtResource("2_27n8g")]([SubResource("Resource_mqxdk"), SubResource("Resource_044ps")])

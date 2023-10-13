@@ -6,9 +6,9 @@
 
 [resource]
 script = ExtResource("2_k453m")
+behavior = ExtResource("1_lw4bp")
 enemy_type = 1
 sprite_scene = ExtResource("3_cutmf")
-behavior = ExtResource("1_lw4bp")
 reward_type = 0
 reward_value = 0
 id = "roller"
