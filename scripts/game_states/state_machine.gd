@@ -8,6 +8,7 @@ var active_state: StateBase
 
 @export var game_manager:GameManager
 @export var board: Board
+@export var print_debug: bool = false
 
 func _ready() -> void:
 	assert(board, "please assign the board")
@@ -24,13 +25,15 @@ func _ready() -> void:
 
 func switch_state(new_state:Constants.PlayingState)-> void:
 	if active_state:
-		print(" x state: "+ __state_name(active_state.id))
+		if print_debug:
+			print(" x state: "+ __state_name(active_state.id))
 		active_state.disable_state()
 	
 	active_state = states[new_state]
 	
 	if active_state:
-		print(" > state: "+ __state_name(active_state.id))
+		if print_debug:
+			print(" > state: "+ __state_name(active_state.id))
 		active_state.enable_state()
 
 func handle_state_finished(state:Constants.PlayingState) -> void:

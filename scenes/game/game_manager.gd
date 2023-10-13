@@ -32,8 +32,15 @@ func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) 
 
 func set_next_tokens_set(config:LevelConfig) -> void:
 	print(">> Finished current token set with "+str(points)+" points")
-	var _tokens_set = level_config.tokens_sets.pop_front()
+	var _tokens_set: TokensSet
+	if level_config.tokens_sets.size() > 1:
+		_tokens_set = level_config.tokens_sets.pop_front()
+	else:
+		_tokens_set = level_config.tokens_sets[0]
+		print(">> We ran out of token sets.. gonna need to repeat the last one "+_tokens_set.name)
+		
 	print(">> Setting Token Set "+_tokens_set.name)
+	
 	tokens_pool.add_items(_tokens_set.items, true)	
 	
 func get_random_token_data() -> TokenData:

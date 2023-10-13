@@ -5,13 +5,13 @@ class_name GameplayUI
 var available_uis: Dictionary = {}
 var active_ui: UIPlayScreenIdBaseScreen
 
+@export var console_log : bool
+
 func _ready() -> void:
 	for node in get_children():
 		if node is UIPlayScreenIdBaseScreen:
-			print("adding "+ __state_name(node.id))
 			available_uis[node.id] = node
 			node.hide()
-	print("available_uis: "+str(available_uis.size()))
 
 func switch_ui(show_ui:Constants.UIPlayScreenId)-> void:
 	
@@ -19,17 +19,19 @@ func switch_ui(show_ui:Constants.UIPlayScreenId)-> void:
 		return
 	
 	if active_ui:
-		print(" close ui: "+ __state_name(active_ui.id))
+		if console_log:
+			print(" x close ui: "+ __state_name(active_ui.id))
 		active_ui.hide_screen()
 		active_ui = null
 	
 	if available_uis.has(show_ui):
 		active_ui = available_uis[show_ui]
 	else:
-		assert(false, "cannot find "+__state_name(show_ui))
+		assert(false, " x cannot find "+__state_name(show_ui))
 		
 	if active_ui:
-		print(" show ui: "+ __state_name(active_ui.id))
+		if console_log:
+			print(" > show ui: "+ __state_name(active_ui.id))
 		active_ui.show_screen()
 
 func __state_name(id:Constants.UIPlayScreenId) -> String:

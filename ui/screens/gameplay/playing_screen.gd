@@ -26,10 +26,8 @@ func show_floating_reward(type:Constants.RewardType, value:int, position:Vector2
 	award_instance.show_points(value)
 
 func accumulated_gold_update(value:int) -> void:
-	print("add gold!"+str(value))
 	gold_label.update_points(value)
 		
 func accumulated_points_update(value:int) -> void:
-	print("add points!"+str(value))
 	points_label.update_points(value)
 	
