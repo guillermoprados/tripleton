@@ -3,7 +3,7 @@
 [ext_resource type="Resource" uid="uid://bjadbhv7bs0km" path="res://data/tokens_data/chests/chest_diamond.tres" id="1_0v0tv"]
 [ext_resource type="Resource" uid="uid://csfyt1yyd14ki" path="res://data/tokens_data/prizes/cat_white.tres" id="1_fxvwu"]
 [ext_resource type="PackedScene" uid="uid://bcs4r0bgkes0w" path="res://scenes/objects/tokens/chests/chest_gold.tscn" id="2_prwim"]
-[ext_resource type="Script" path="res://resources/token_chest_data.gd" id="3_6q8vy"]
+[ext_resource type="Script" path="res://resources/tokens/token_chest_data.gd" id="3_6q8vy"]
 [ext_resource type="Resource" uid="uid://bf3hfptwixrqq" path="res://data/tokens_data/prizes/cat_gold.tres" id="3_eucdn"]
 
 [resource]
