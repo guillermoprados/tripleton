@@ -8,4 +8,4 @@ script = ExtResource("1_7y41m")
 sprite_scene = ExtResource("2_4ky15")
 reward_type = 0
 reward_value = 0
-id = "wildcard"
+id = "WILDCARD"

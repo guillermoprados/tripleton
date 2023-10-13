@@ -54,6 +54,7 @@ enum UIPlayScreenId {
 	GAME_OVER
 }
 
+const WILDCARD_ID = "WILDCARD"
 
 const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
 const INVALID_TOKEN_ID = ""
