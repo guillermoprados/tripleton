@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="TokensSet" load_steps=19 format=3 uid="uid://dy6o8mv4xtnud"]
+
+[ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="1_4nynq"]
+[ext_resource type="Script" path="res://resources/pool_item_resource.gd" id="2_3qrel"]
+[ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="3_465ah"]
+[ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="4_6jnem"]
+[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="5_cr842"]
+[ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="6_b76d0"]
+[ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="7_cab7s"]
+[ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/bear.tres" id="7_ya5fy"]
+[ext_resource type="Script" path="res://resources/game_difficulty.gd" id="8_7vdx4"]
+[ext_resource type="Resource" uid="uid://bepyna61derk1" path="res://data/tokens_data/enemies/roller.tres" id="9_jvxbu"]
+
+[sub_resource type="Resource" id="Resource_vq2sn"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("1_4nynq")
+amount = 10
+
+[sub_resource type="Resource" id="Resource_3wg5y"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("3_465ah")
+amount = 3
+
+[sub_resource type="Resource" id="Resource_b2grr"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("4_6jnem")
+amount = 10
+
+[sub_resource type="Resource" id="Resource_bob65"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("5_cr842")
+amount = 3
+
+[sub_resource type="Resource" id="Resource_ct5qy"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("6_b76d0")
+amount = 1
+
+[sub_resource type="Resource" id="Resource_efpf3"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("7_cab7s")
+amount = 1
+
+[sub_resource type="Resource" id="Resource_ogfqo"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("7_ya5fy")
+amount = 6
+
+[sub_resource type="Resource" id="Resource_twajm"]
+script = ExtResource("2_3qrel")
+item_resource = ExtResource("9_jvxbu")
+amount = 4
+
+[resource]
+script = ExtResource("8_7vdx4")
+name = "medium"
+maxPoints = 1000
+items = Array[ExtResource("2_3qrel")]([SubResource("Resource_vq2sn"), SubResource("Resource_3wg5y"), SubResource("Resource_b2grr"), SubResource("Resource_bob65"), SubResource("Resource_ct5qy"), SubResource("Resource_efpf3"), SubResource("Resource_ogfqo"), SubResource("Resource_twajm")])

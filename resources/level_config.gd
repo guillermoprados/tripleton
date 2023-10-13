@@ -2,7 +2,11 @@ extends Resource
 
 class_name  LevelConfig
 
-@export var rows: int = 0
-@export var columns: int = 0
+@export var name: String
+@export var tokens_sets: Array[TokensSet] = []
 
-@export var difficulties: Array[GameDifficulty] = []
+func validate() -> void :
+	for set in tokens_sets:
+		assert(name, "Plase assign a name")
+		assert(set, "There are empty sets assigned to this config:"+name)
+		set.validate()
