@@ -4,8 +4,6 @@ class_name TokenData
 
 @export var sprite_scene: PackedScene
 
-@export var behavior: PackedScene
-
 @export var reward_type: Constants.RewardType
 @export var reward_value: int = 0
 

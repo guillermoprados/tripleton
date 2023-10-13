@@ -38,6 +38,6 @@ func set_data(token_data:TokenData) -> void:
 	var sprite_instance:AnimatedSprite2D = token_data.sprite_scene.instantiate()
 	add_child(sprite_instance)
 	
-	if data.behavior:
+	if data.type() == Constants.TokenType.ENEMY:
 		behavior = token_data.behavior.instantiate()
 		add_child(behavior)
