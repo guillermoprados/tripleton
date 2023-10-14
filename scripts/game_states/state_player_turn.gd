@@ -173,7 +173,11 @@ func place_token_at_cell(token:Token, cell_index: Vector2) -> void:
 		var combination : Combination = combinator.get_combinations_for_cell(cell_index)
 		if combination.is_valid():
 			token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
-		
+		else: 
+			var next_token_data: TokenData = token.data.next_token
+			token = game_manager.instantiate_new_token(next_token_data, floating_token.position, null)
+			floating_token.queue_free()
+
 	assert(token, "trying to set a null token")
 	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
