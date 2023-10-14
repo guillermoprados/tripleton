@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenWildcardData" load_steps=4 format=3 uid="uid://dd41fj2ikombg"]
+
+[ext_resource type="Script" path="res://resources/tokens/token_wildcard.gd" id="1_7y41m"]
+[ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/combinables/rock.tres" id="1_o35uj"]
+[ext_resource type="PackedScene" uid="uid://dykxirfdd2dpo" path="res://scenes/objects/tokens/misc/wildcard.tscn" id="2_4ky15"]
+
+[resource]
+script = ExtResource("1_7y41m")
+next_token = ExtResource("1_o35uj")
+sprite_scene = ExtResource("2_4ky15")
+reward_type = 0
+reward_value = 0
+id = "WILDCARD"
