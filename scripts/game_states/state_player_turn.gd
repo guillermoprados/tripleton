@@ -269,7 +269,8 @@ func __check_wildcard_combination_at(cell_index:Vector2) -> void:
 					
 		var copied_token = board.get_token_at_cell(pos)
 		
-		# this will never happen.. but anyway..
+		# this will never happen because it requires two wildcards in the board
+		# .. but anyway..
 		if copied_token.type == Constants.TokenType.WILDCARD:
 			continue
 		

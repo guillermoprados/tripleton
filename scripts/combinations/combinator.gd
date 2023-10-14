@@ -11,7 +11,7 @@ func reset_combinations(rows:int, columns:int) -> void:
 
 func clear_evaluated_combination(cell_index:Vector2):
 	if combinations[cell_index].evaluated:
-		combinations[cell_index].evaluated = false
+		combinations[cell_index] = Combination.new(cell_index)
 # This is the method that starts the search of a combination
 func search_combinations_for_cell(placed_token: TokenData, cell_index: Vector2, board_token_ids: Array, recursive_levels:bool) -> Combination:
 	if !combinations[cell_index].evaluated:
