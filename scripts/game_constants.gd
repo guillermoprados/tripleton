@@ -57,7 +57,6 @@ enum UIPlayScreenId {
 const WILDCARD_ID = "WILDCARD"
 
 const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
-const INVALID_TOKEN_ID = ""
 const EMPTY_CELL = ""
 const INVALID_CELL = Vector2(-1,-1)
 const IS_DEBUG_MODE = true

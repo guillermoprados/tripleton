@@ -166,9 +166,14 @@ func __swap_floating_token(cell_index: Vector2) -> void:
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)
 
-
-
 func place_token_at_cell(token:Token, cell_index: Vector2) -> void:
+	
+	if token.type == Constants.TokenType.WILDCARD:
+		#I need to replace the token
+		var combination : Combination = combinator.get_combinations_for_cell(cell_index)
+		if combination.is_valid():
+			token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
+		
 	assert(token, "trying to set a null token")
 	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
@@ -180,6 +185,9 @@ func place_token_at_cell(token:Token, cell_index: Vector2) -> void:
 		place_token_at_cell(combined_token, combination.cell_index)
 	
 func check_recursive_combination(token:Token, cell_index:Vector2) -> Combination:
+	if token.type == Constants.TokenType.WILDCARD:
+		__check_wildcard_combination_at(cell_index)
+	
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
 
 func check_single_combination(token:Token, cell_index:Vector2) -> Combination:
@@ -201,19 +209,17 @@ func combine_tokens(combination: Combination) -> Token:
 		
 	var combined_token : Token = game_manager.instantiate_new_token(next_token_data, Vector2.ZERO, null)
 
-	var awarded_gold:int = 0
 	var awarded_points:int = 0	
 	for cell_index in combination.combinable_cells:
 		var token:Token = board.get_token_at_cell(cell_index)
 		if token.data.reward_type == Constants.RewardType.GOLD:
-			awarded_gold += token.data.reward_value
+			assert("Please do not reward with gold in combinations")
+			# awarded_gold += token.data.reward_value
 		elif token.data.reward_type == Constants.RewardType.POINTS:
 			awarded_points += token.data.reward_value
-		show_rewards(token.data.reward_type, token.data.reward_value, cell_index)
+			show_rewards(token.data.reward_type, token.data.reward_value, cell_index)
 		board.clear_token(cell_index)
 	
-	if awarded_gold > 0:
-		sum_rewards(Constants.RewardType.GOLD, awarded_gold)
 	if awarded_points > 0:
 		sum_rewards(Constants.RewardType.POINTS, awarded_points)
 		
@@ -235,3 +241,55 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 		game_manager.add_points(value)
 	else:
 		assert( false, "what are you trying to add??")	
+
+func __check_wildcard_combination_at(cell_index:Vector2) -> void:
+	
+	var bigger_combination: Combination = null
+	var bigger_points:int
+	
+	var check_positions:Array[Vector2] = []
+	
+	# top
+	if cell_index.y > 0:
+		check_positions.append(Vector2(cell_index.x, cell_index.y - 1))
+	# down
+	if cell_index.y < board.rows - 1:
+		check_positions.append(Vector2(cell_index.x, cell_index.y + 1))
+	# left
+	if cell_index.x > 0:
+		check_positions.append(Vector2(cell_index.x - 1, cell_index.y))
+	# right
+	if cell_index.x < board.rows - 1:
+		check_positions.append(Vector2(cell_index.x + 1, cell_index.y))
+	
+	for pos in check_positions:
+		
+		if board.is_cell_empty(pos):
+			continue
+					
+		var copied_token = board.get_token_at_cell(pos)
+		
+		# this will never happen.. but anyway..
+		if copied_token.type == Constants.TokenType.WILDCARD:
+			continue
+		
+		combinator.clear_evaluated_combination(cell_index)
+		
+		var combination : Combination = check_recursive_combination(copied_token, cell_index)
+			
+		if combination.is_valid():
+			var current_points:int = 0
+			
+			for cell in combination.combinable_cells:
+				if board.is_cell_empty(cell):
+					continue
+				var token:Token = board.get_token_at_cell(cell)
+				if token.data.reward_type == Constants.RewardType.POINTS:
+					current_points += token.data.reward_value
+			if current_points > bigger_points:
+				bigger_combination = combination
+
+	if bigger_combination:
+		combinator.replace_combination_at_cell(bigger_combination, cell_index)
+
+	

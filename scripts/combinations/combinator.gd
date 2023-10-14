@@ -9,6 +9,9 @@ func reset_combinations(rows:int, columns:int) -> void:
 			var cell_index:Vector2 = Vector2(row_index, col_index)
 			combinations[cell_index] = Combination.new(cell_index)
 
+func clear_evaluated_combination(cell_index:Vector2):
+	if combinations[cell_index].evaluated:
+		combinations[cell_index].evaluated = false
 # This is the method that starts the search of a combination
 func search_combinations_for_cell(placed_token: TokenData, cell_index: Vector2, board_token_ids: Array, recursive_levels:bool) -> Combination:
 	if !combinations[cell_index].evaluated:
@@ -17,6 +20,10 @@ func search_combinations_for_cell(placed_token: TokenData, cell_index: Vector2, 
 
 func get_combinations_for_cell(cell_index: Vector2) -> Combination:
 	return combinations[cell_index]
+	
+# this is only useful for wildcards
+func replace_combination_at_cell(combination:Combination, cell_index:Vector2) -> void:
+	combinations[cell_index] = combination
 
 # The primary evaluation method
 static func __evaluate_combination(initial_token: TokenData, combination: Combination, board_tokens_ids: Array, recursive_levels:bool) -> void:
