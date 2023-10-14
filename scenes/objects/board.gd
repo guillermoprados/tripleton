@@ -61,6 +61,8 @@ func __clear_board() -> void:
 # Set the token for a specific cell
 func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	
+	assert(cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL, "there is a token already here!")
+	
 	if token.type == Constants.TokenType.ENEMY:
 		subscribe_to_enemy_signals(token.behavior)
 	
