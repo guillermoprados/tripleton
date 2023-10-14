@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="11_fywov"]
-[ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="12_20n7r"]
+[ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/bear.tres" id="12_rswxc"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
@@ -64,7 +64,7 @@ script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
 save_token_cell = NodePath("../../SaveTokenCell")
 spawn_token_cell = NodePath("../../SpawnTokenCell")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("10_cubgl"), ExtResource("11_fywov"), ExtResource("12_20n7r")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("10_cubgl"), ExtResource("11_fywov"), ExtResource("12_rswxc")])
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")
