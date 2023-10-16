@@ -8,15 +8,16 @@ signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
 @export var token_scene: PackedScene
+
 @export var board:Board
 @export var level_config:LevelConfig
-
-@export var gameplay_ui:GameplayUI
-
 @export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
 
 @export var combinator: Combinator
+
+@export var gameplay_ui:GameplayUI
+
 
 var floating_token: Token
 var saved_token: Token
@@ -33,7 +34,7 @@ func _ready() -> void:
 	pass
 
 func __set_next_tokens_set(config:LevelConfig) -> void:
-	print(">> Finished current token set with "+str(points)+" points")
+	
 	var _tokens_set: TokensSet
 	if level_config.tokens_sets.size() > 1:
 		_tokens_set = level_config.tokens_sets.pop_front()
@@ -41,8 +42,6 @@ func __set_next_tokens_set(config:LevelConfig) -> void:
 		_tokens_set = level_config.tokens_sets[0]
 		print(">> We ran out of token sets.. gonna need to repeat the last one "+_tokens_set.name)
 		
-	print(">> Setting Token Set "+_tokens_set.name)
-	
 	tokens_pool.add_items(_tokens_set.items, true)	
 		
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
@@ -90,7 +89,7 @@ func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	if floating_token.type == Constants.TokenType.WILDCARD:
 		# this is esential to ensure the combination on that cell is 
 		# being replaced with the wildcard
-		__replace_wildcard_combinations_at(cell_index)
+		__check_wildcard_combinations_at(cell_index)
 	
 func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	if saved_token:
@@ -111,6 +110,7 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
 	var replace_token : Token = null
 	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
+	assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
 	if combination.is_valid():
 		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
 	else: 
@@ -120,9 +120,6 @@ func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
 	return replace_token
 		
 func place_token_on_board(token:Token, cell_index: Vector2) -> void:
-	
-	assert(token, "trying to set a null token")
-	
 	if token.type == Constants.TokenType.WILDCARD:
 		token = __replace_wildcard_token(token, cell_index)
 
@@ -158,6 +155,7 @@ func combine_tokens(combination: Combination) -> Token:
 	var combined_token : Token = instantiate_new_token(next_token_data, Vector2.ZERO, null)
 
 	var awarded_points:int = 0	
+	
 	for cell_index in combination.combinable_cells:
 		var token:Token = board.get_token_at_cell(cell_index)
 		if token.data.reward_type == Constants.RewardType.GOLD:
@@ -181,7 +179,11 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 	else:
 		assert( false, "what are you trying to add??")	
 
-func __replace_wildcard_combinations_at(cell_index:Vector2) -> void:
+func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
+	
+	if combinator.get_combinations_for_cell(cell_index).wildcard_evaluated:
+		print("already evaluated")
+		return
 	
 	var bigger_combination: Combination = null
 	var bigger_points:int
@@ -232,7 +234,7 @@ func __replace_wildcard_combinations_at(cell_index:Vector2) -> void:
 	if bigger_combination:
 		combinator.replace_combination_at_cell(bigger_combination, cell_index)
 
-	
+	combinator.get_combinations_for_cell(cell_index).wildcard_evaluated = true
 	
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back

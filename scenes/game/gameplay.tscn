@@ -19,15 +19,15 @@
 
 [node name="Gameplay" type="Node2D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "gameplay_ui", "save_token_cell", "spawn_token_cell", "combinator")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "save_token_cell", "spawn_token_cell", "combinator", "gameplay_ui")]
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
 level_config = ExtResource("3_ivw4l")
-gameplay_ui = NodePath("../UI")
 save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
 combinator = NodePath("../Combinator")
+gameplay_ui = NodePath("../UI")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
