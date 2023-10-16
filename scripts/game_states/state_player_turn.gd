@@ -69,7 +69,7 @@ func _input(event:InputEvent) -> void:
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			var next_token_instance:Token = game_manager.instantiate_new_token(next_token_data, game_manager.floating_token.position, self)
+			var next_token_instance:Token = game_manager.instantiate_new_token(next_token_data, game_manager.floating_token.position, game_manager)
 			game_manager.floating_token.queue_free()
 			game_manager.floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)

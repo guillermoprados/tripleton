@@ -29,16 +29,8 @@ func _ready() -> void:
 	tokens_pool = RandomResourcePool.new()
 	level_config.validate()
 	pass
-	
-func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
-	var token:Token = get_token_instance(token_data)
-	if parent:
-		parent.add_child(token)
-	token.position = position
-	return token
 
-
-func set_next_tokens_set(config:LevelConfig) -> void:
+func __set_next_tokens_set(config:LevelConfig) -> void:
 	print(">> Finished current token set with "+str(points)+" points")
 	var _tokens_set: TokensSet
 	if level_config.tokens_sets.size() > 1:
@@ -50,13 +42,22 @@ func set_next_tokens_set(config:LevelConfig) -> void:
 	print(">> Setting Token Set "+_tokens_set.name)
 	
 	tokens_pool.add_items(_tokens_set.items, true)	
+		
+func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
+	var token_instance: Token = token_scene.instantiate() as Token
+	token_instance.set_data(token_data)
 	
-func get_random_token_data() -> TokenData:
+	if parent:
+		parent.add_child(token_instance)
+	token_instance.position = position
+	return token_instance
+
+func __get_random_token_data() -> TokenData:
 	
 	# If list is empty, emit the difficulty_depleted signal
 	# im gonna fix this later to make this more lindo
 	if tokens_pool.is_empty():
-		set_next_tokens_set(level_config)
+		__set_next_tokens_set(level_config)
 		
 	# Assert if list is empty
 	assert(!tokens_pool.is_empty(), "TokenInstanceProvider: No more tokens left.")
@@ -65,13 +66,6 @@ func get_random_token_data() -> TokenData:
 	var token_data:TokenData = tokens_pool.pop_item()
 	
 	return token_data
-
-func get_token_instance(token_data: TokenData) -> Token:
-	# Instantiate and return the chosen token instance
-	var token_instance: Token = token_scene.instantiate() as Token
-	token_instance.set_data(token_data)
-	
-	return token_instance
 
 func add_gold(value:int) -> void:
 	gold += value
@@ -82,7 +76,8 @@ func add_points(value:int) -> void:
 	points_updated.emit(points)
 
 func create_floating_token() -> void:
-	var random_token_data:TokenData = get_random_token_data()
+	assert (!floating_token, "trying to create a floating token when there is already one")
+	var random_token_data:TokenData = __get_random_token_data()
 	floating_token = instantiate_new_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 
