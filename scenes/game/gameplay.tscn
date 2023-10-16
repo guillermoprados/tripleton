@@ -19,11 +19,14 @@
 
 [node name="Gameplay" type="Node2D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "gameplay_ui")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "save_token_cell", "spawn_token_cell", "combinator", "gameplay_ui")]
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
 level_config = ExtResource("3_ivw4l")
+save_token_cell = NodePath("../SaveTokenCell")
+spawn_token_cell = NodePath("../SpawnTokenCell")
+combinator = NodePath("../Combinator")
 gameplay_ui = NodePath("../UI")
 
 [node name="Combinator" type="Node" parent="."]
@@ -59,11 +62,9 @@ board = NodePath("../Board")
 [node name="IntroState" type="Node" parent="StateMachine"]
 script = ExtResource("9_o86f4")
 
-[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell")]
+[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-save_token_cell = NodePath("../../SaveTokenCell")
-spawn_token_cell = NodePath("../../SpawnTokenCell")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("10_cubgl"), ExtResource("11_fywov"), ExtResource("12_rswxc")])
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
@@ -79,7 +80,7 @@ script = ExtResource("18_34rgb")
 
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
+[connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
+[connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
 [connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
-[connection signal="show_floating_reward" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_floating_reward"]
-[connection signal="show_message" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_message"]

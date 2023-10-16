@@ -2,6 +2,7 @@ class_name Combination extends RefCounted
 
 # Member variables
 var evaluated : bool = false
+var wildcard_evaluated: bool = false
 var cell_index : Vector2
 var combinable_cells : Array = []
 var last_level_reached : int = 0	

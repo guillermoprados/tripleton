@@ -61,13 +61,14 @@ func _on_game_manager_points_updated(value):
 		playing_ui.accumulated_points_update(value)
 
 
-func _on_player_turn_state_show_floating_reward(type, value, position):
+func _on_game_manager_show_floating_reward(type, value, position):
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.show_floating_reward(type, value, position)
 
 
-func _on_player_turn_state_show_message(message, type, time):
+func _on_game_manager_show_message(message, type, time):
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.show_message(message, type, time)
+
