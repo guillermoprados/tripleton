@@ -16,15 +16,18 @@ func _on_state_entered() -> void:
 	stucked_enemies = []
 	enemies = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for key in enemies:
-		enemies[key].behavior.action_finished.connect(self._on_enemy_action_finished)
-		enemies[key].behavior.stuck_in_cell.connect(self._on_stucked_enemy)
 		number_of_pending_actions += 1
+		enemies[key].behavior.action_finished.connect(self._on_enemy_action_finished)
+		enemies[key].behavior.move_from_cell_to_cell.connect(self._on_enemy_movement)
+		enemies[key].behavior.stuck_in_cell.connect(self._on_stucked_enemy)
+		
 		enemies[key].behavior.execute_action(key, board.cell_tokens_ids)
 		
 # override in states
 func _on_state_exited() -> void:
 	for key in enemies:
 		enemies[key].behavior.action_finished.disconnect(self._on_enemy_action_finished)
+		enemies[key].behavior.move_from_cell_to_cell.disconnect(self._on_enemy_movement)
 		enemies[key].behavior.stuck_in_cell.disconnect(self._on_stucked_enemy)
 	enemies = {}
 
@@ -50,6 +53,9 @@ func check_dead_enemies() -> void:
 		# here verify if the graves can be combined
 		pass
 	
+func _on_enemy_movement(from_cell:Vector2, to_cell:Vector2, transition_time:float) -> void:
+	game_manager.move_token_in_board(from_cell, to_cell, transition_time)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
 	if stucked_enemies.size() > 0:
@@ -59,6 +65,7 @@ func _process(delta:float) -> void:
 	
 func finish_enemies_turn() -> void:
 	state_finished.emit(id)
+
 
 enum CellType {
 	EMPTY,

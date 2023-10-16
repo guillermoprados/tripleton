@@ -90,7 +90,10 @@ func move_floating_token_to_cell(cell_index:Vector2) -> void:
 		# this is esential to ensure the combination on that cell is 
 		# being replaced with the wildcard
 		__check_wildcard_combinations_at(cell_index)
-	
+
+func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
+	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
+
 func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	if saved_token:
 		var floating_pos:Vector2 = floating_token.position
@@ -120,6 +123,7 @@ func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
 	return replace_token
 		
 func place_token_on_board(token:Token, cell_index: Vector2) -> void:
+	
 	if token.type == Constants.TokenType.WILDCARD:
 		token = __replace_wildcard_token(token, cell_index)
 
@@ -261,4 +265,3 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 	reward_position.y += Constants.CELL_SIZE.y / 4 
 		
 	show_floating_reward.emit(type, value, reward_position)
-
