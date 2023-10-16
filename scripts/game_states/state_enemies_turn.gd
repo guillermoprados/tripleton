@@ -48,6 +48,7 @@ func check_dead_enemies() -> void:
 	#here verify if the graves are combining now
 	for cell_index in to_verify_combinations:
 		# here verify if the graves can be combined
+		pass
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:

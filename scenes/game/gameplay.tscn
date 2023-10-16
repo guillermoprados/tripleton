@@ -19,12 +19,15 @@
 
 [node name="Gameplay" type="Node2D"]
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "gameplay_ui")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "gameplay_ui", "save_token_cell", "spawn_token_cell", "combinator")]
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
 level_config = ExtResource("3_ivw4l")
 gameplay_ui = NodePath("../UI")
+save_token_cell = NodePath("../SaveTokenCell")
+spawn_token_cell = NodePath("../SpawnTokenCell")
+combinator = NodePath("../Combinator")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -59,11 +62,9 @@ board = NodePath("../Board")
 [node name="IntroState" type="Node" parent="StateMachine"]
 script = ExtResource("9_o86f4")
 
-[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator", "save_token_cell", "spawn_token_cell")]
+[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-save_token_cell = NodePath("../../SaveTokenCell")
-spawn_token_cell = NodePath("../../SpawnTokenCell")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("10_cubgl"), ExtResource("11_fywov"), ExtResource("12_rswxc")])
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
