@@ -81,7 +81,7 @@ func create_floating_token() -> void:
 	floating_token = instantiate_new_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 
-func swap_floating_token(cell_index: Vector2) -> void:
+func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	if saved_token:
 		var floating_pos:Vector2 = floating_token.position
 		var switch_token:Token = floating_token
@@ -92,37 +92,44 @@ func swap_floating_token(cell_index: Vector2) -> void:
 	else:
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
+		floating_token = null
 		create_floating_token()
+	# reset combinations because we're caching them
+	combinator.reset_combinations(board.rows, board.columns)	
+
+func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
+	var replace_token : Token = null
+	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
+	if combination.is_valid():
+		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
+	else: 
+		var next_token_data: TokenData = old_token.data.next_token
+		replace_token = instantiate_new_token(next_token_data, floating_token.position, null)
+	
+	return replace_token
 		
-func place_token_at_cell(token:Token, cell_index: Vector2) -> void:
+func place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	
 	if token.type == Constants.TokenType.WILDCARD:
-		#I need to replace the token
-		var combination : Combination = combinator.get_combinations_for_cell(cell_index)
-		if combination.is_valid():
-			token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
-		else: 
-			var next_token_data: TokenData = token.data.next_token
-			token = instantiate_new_token(next_token_data, floating_token.position, null)
-			floating_token.queue_free()
+		token = __replace_wildcard_token(token, cell_index)
 
 	assert(token, "trying to set a null token")
 	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
 	assert(board.get_token_at_cell(cell_index), "placed token is empty")
 	board.clear_highlights()
-	var combination:Combination = check_single_combination(token, cell_index)
+	var combination:Combination = check_combination_single_level(token, cell_index)
 	if combination.is_valid():
 		var combined_token:Token = combine_tokens(combination)
-		place_token_at_cell(combined_token, combination.cell_index)
+		place_token_on_board(combined_token, combination.cell_index)
 	
-func check_recursive_combination(token:Token, cell_index:Vector2) -> Combination:
+func check_combination_all_levels(token:Token, cell_index:Vector2) -> Combination:
 	if token.type == Constants.TokenType.WILDCARD:
 		__check_wildcard_combination_at(cell_index)
 	
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
 
-func check_single_combination(token:Token, cell_index:Vector2) -> Combination:
+func check_combination_single_level(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, false)
 
 # move to board
@@ -201,7 +208,7 @@ func __check_wildcard_combination_at(cell_index:Vector2) -> void:
 		
 		combinator.clear_evaluated_combination(cell_index)
 		
-		var combination : Combination = check_recursive_combination(copied_token, cell_index)
+		var combination : Combination = check_combination_all_levels(copied_token, cell_index)
 			
 		if combination.is_valid():
 			var current_points:int = 0
@@ -229,7 +236,7 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	var chest_data: TokenChestData = token.data
 	var prize_data:TokenPrizeData = chest_data.get_random_prize()
 	var prize_instance:Token = instantiate_new_token(prize_data, Vector2.ZERO, null)
-	place_token_at_cell(prize_instance, cell_index)
+	place_token_on_board(prize_instance, cell_index)
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data

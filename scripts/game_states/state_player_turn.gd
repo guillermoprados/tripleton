@@ -74,7 +74,7 @@ func _input(event:InputEvent) -> void:
 			game_manager.floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
-			var combination:Combination = game_manager.check_recursive_combination(game_manager.floating_token, current_cell_index)
+			var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
 			if combination.is_valid():
 				game_manager.highlight_combination(combination)
 			is_scroll_in_progress = true
@@ -91,14 +91,14 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	if board.is_cell_empty(index):
 		var token_position:Vector2 = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
 		game_manager.floating_token.position = token_position
-		var combination:Combination = game_manager.check_recursive_combination(game_manager.floating_token, current_cell_index)
+		var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
 		if combination.is_valid():
 			game_manager.highlight_combination(combination)
 		
 func _on_board_board_cell_selected(index:Vector2) -> void:
 	if board.is_cell_empty(index):
 		game_manager.remove_child(game_manager.floating_token)
-		game_manager.place_token_at_cell(game_manager.floating_token, index)
+		game_manager.place_token_on_board(game_manager.floating_token, index)
 		finish_player_turn()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
@@ -123,10 +123,7 @@ func _on_save_token_cell_exited(cell_index: Vector2) -> void:
 	pass
 	
 func _on_save_token_cell_selected(cell_index: Vector2) -> void:
-	game_manager.swap_floating_token(cell_index)
-	# reset combinations because we're caching them
-	combinator.reset_combinations(board.rows, board.columns)	
-
+	game_manager.swap_floating_and_saved_token(cell_index)
 
 func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
 	
