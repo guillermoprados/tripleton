@@ -2,9 +2,6 @@ extends StateBase
 
 class_name  StatePlayerTurn
 
-signal show_message(message:String, type:Constants.MessageType, time:float)
-signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
-
 @export var combinator: Combinator
 
 var current_cell_index: Vector2
@@ -96,6 +93,7 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 			highlight_combination(combination)
 		
 func _on_board_board_cell_selected(index:Vector2) -> void:
+	
 	if board.is_cell_empty(index):
 		game_manager.remove_child(game_manager.floating_token)
 		game_manager.place_token_on_board(game_manager.floating_token, index)
@@ -105,11 +103,9 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 		if cell_token.type == Constants.TokenType.CHEST:
 			game_manager.open_chest(cell_token, index)
 		elif cell_token.type == Constants.TokenType.PRIZE:
-			var prize_data: TokenPrizeData = cell_token.data
-			show_rewards(prize_data.reward_type, prize_data.reward_value,index)
 			game_manager.collect_reward(cell_token, index)
 		else:
-			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
+			game_manager.show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
 func finish_player_turn() -> void:
 	state_finished.emit(id)
@@ -124,15 +120,6 @@ func _on_save_token_cell_exited(cell_index: Vector2) -> void:
 	
 func _on_save_token_cell_selected(cell_index: Vector2) -> void:
 	game_manager.swap_floating_and_saved_token(cell_index)
-
-func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
-	
-	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
-	var reward_position: Vector2 = board.position + cell_position
-	reward_position.x += Constants.CELL_SIZE.x / 2 
-	reward_position.y += Constants.CELL_SIZE.y / 4 
-		
-	show_floating_reward.emit(type, value, reward_position)
 
 func highlight_combination(combination:Combination) -> void:
 	for cell_index in combination.combinable_cells:

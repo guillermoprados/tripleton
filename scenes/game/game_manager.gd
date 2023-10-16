@@ -4,6 +4,8 @@ class_name GameManager
 
 signal gold_updated(value:int)
 signal points_updated(value:int)
+signal show_message(message:String, type:Constants.MessageType, time:float)
+signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
 @export var token_scene: PackedScene
 @export var board:Board
@@ -163,8 +165,7 @@ func combine_tokens(combination: Combination) -> Token:
 			# awarded_gold += token.data.reward_value
 		elif token.data.reward_type == Constants.RewardType.POINTS:
 			awarded_points += token.data.reward_value
-			# separate the combination and the rewards
-			# show_rewards(token.data.reward_type, token.data.reward_value, cell_index)
+			show_rewards(token.data.reward_type, token.data.reward_value, cell_index)
 		board.clear_token(cell_index)
 	
 	if awarded_points > 0:
@@ -246,5 +247,16 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data
+	show_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	sum_rewards(prize_data.reward_type, prize_data.reward_value)
 	board.clear_token(cell_index)
+
+func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
+	
+	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
+	var reward_position: Vector2 = board.position + cell_position
+	reward_position.x += Constants.CELL_SIZE.x / 2 
+	reward_position.y += Constants.CELL_SIZE.y / 4 
+		
+	show_floating_reward.emit(type, value, reward_position)
+

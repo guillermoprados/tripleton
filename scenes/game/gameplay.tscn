@@ -80,7 +80,7 @@ script = ExtResource("18_34rgb")
 
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
+[connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
+[connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
 [connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
-[connection signal="show_floating_reward" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_floating_reward"]
-[connection signal="show_message" from="StateMachine/PlayerTurnState" to="UI" method="_on_player_turn_state_show_message"]
