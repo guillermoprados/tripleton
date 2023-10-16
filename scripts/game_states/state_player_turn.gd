@@ -76,7 +76,7 @@ func _input(event:InputEvent) -> void:
 			board.clear_highlights()
 			var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
 			if combination.is_valid():
-				game_manager.highlight_combination(combination)
+				highlight_combination(combination)
 			is_scroll_in_progress = true
 			var timer:SceneTreeTimer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
@@ -93,7 +93,7 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 		game_manager.floating_token.position = token_position
 		var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
 		if combination.is_valid():
-			game_manager.highlight_combination(combination)
+			highlight_combination(combination)
 		
 func _on_board_board_cell_selected(index:Vector2) -> void:
 	if board.is_cell_empty(index):
@@ -133,3 +133,7 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 	reward_position.y += Constants.CELL_SIZE.y / 4 
 		
 	show_floating_reward.emit(type, value, reward_position)
+
+func highlight_combination(combination:Combination) -> void:
+	for cell_index in combination.combinable_cells:
+		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)

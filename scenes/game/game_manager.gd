@@ -110,14 +110,17 @@ func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
 		
 func place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	
+	assert(token, "trying to set a null token")
+	
 	if token.type == Constants.TokenType.WILDCARD:
 		token = __replace_wildcard_token(token, cell_index)
 
-	assert(token, "trying to set a null token")
-	combinator.reset_combinations(board.rows, board.columns)
 	board.set_token_at_cell(token, cell_index)
-	assert(board.get_token_at_cell(cell_index), "placed token is empty")
 	board.clear_highlights()
+
+	assert(board.get_token_at_cell(cell_index), "placed token is empty")
+
+	combinator.reset_combinations(board.rows, board.columns)
 	var combination:Combination = check_combination_single_level(token, cell_index)
 	if combination.is_valid():
 		var combined_token:Token = combine_tokens(combination)
@@ -133,10 +136,6 @@ func check_combination_single_level(token:Token, cell_index:Vector2) -> Combinat
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, false)
 
 # move to board
-func highlight_combination(combination:Combination) -> void:
-	for cell_index in combination.combinable_cells:
-		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
-		
 func combine_tokens(combination: Combination) -> Token:
 	
 	var initial_token:Token = board.get_token_at_cell(combination.initial_cell())
@@ -230,9 +229,9 @@ func __check_wildcard_combination_at(cell_index:Vector2) -> void:
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
 	floating_token.position = spawn_token_cell.position
+	
 	#remove the chest
 	board.clear_token(cell_index)
-	
 	var chest_data: TokenChestData = token.data
 	var prize_data:TokenPrizeData = chest_data.get_random_prize()
 	var prize_instance:Token = instantiate_new_token(prize_data, Vector2.ZERO, null)
