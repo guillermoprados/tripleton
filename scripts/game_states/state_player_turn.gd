@@ -87,10 +87,10 @@ func __on_scroll_timer_timeout() -> void:
 func _on_board_board_cell_moved(index:Vector2) -> void:
 	current_cell_index = index
 	game_manager.spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
-	var cell_size:Vector2 = Constants.CELL_SIZE
+	
 	if board.is_cell_empty(index):
-		var token_position:Vector2 = board.position + Vector2(index.y * cell_size.x, index.x * cell_size.y)
-		game_manager.floating_token.position = token_position
+		game_manager.move_floating_token_to_cell(index)
+		
 		var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
 		if combination.is_valid():
 			highlight_combination(combination)
