@@ -31,6 +31,7 @@ var tokens_pool: RandomResourcePool
 
 func _ready() -> void:
 	tokens_pool = RandomResourcePool.new()
+	level_config = level_config.duplicate()
 	level_config.validate()
 	pass
 
