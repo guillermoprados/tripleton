@@ -76,10 +76,10 @@ script = ExtResource("17_7v2y8")
 [node name="CheckState" type="Node" parent="StateMachine"]
 script = ExtResource("17_uph22")
 
-[node name="GameOverState" type="Node" parent="StateMachine"]
-script = ExtResource("18_34rgb")
-
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
+
+[node name="GameOverState" type="Node" parent="UI"]
+script = ExtResource("18_34rgb")
 
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]

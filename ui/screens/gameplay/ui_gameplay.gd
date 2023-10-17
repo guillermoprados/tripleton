@@ -6,12 +6,20 @@ var available_uis: Dictionary = {}
 var active_ui: UIPlayScreenIdBaseScreen
 
 @export var console_log : bool
+@export var screen_fader: ScreenFader
 
 func _ready() -> void:
 	for node in get_children():
 		if node is UIPlayScreenIdBaseScreen:
 			available_uis[node.id] = node
 			node.hide()
+	fade_to_transparent()
+
+func fade_to_black() -> void:
+	screen_fader.fade_in(1)
+
+func fade_to_transparent() -> void:
+	screen_fader.fade_out(1)
 
 func switch_ui(show_ui:Constants.UIPlayScreenId)-> void:
 	
