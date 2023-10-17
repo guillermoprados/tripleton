@@ -113,8 +113,8 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
 	var replace_token : Token = null
 	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
-	assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
 	if combination.is_valid():
+		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
 		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
 	else: 
 		var next_token_data: TokenData = old_token.data.next_token
@@ -149,26 +149,31 @@ func replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 	combinator.reset_combinations(board.rows, board.columns)
 	
 func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
+	
+	var merged_cells : Array = []
+	
 	for cell_index in cells:
-		# once the combination was made, the next one can be empty
-		if board.is_cell_empty(cell_index):
+	
+		# multiple cells can be part of the same combination, so we don't want 
+		# to merge them again
+		if cell_index in merged_cells:
 			continue
-		
+			
 		var token:Token = board.get_token_at_cell(cell_index)
 		var combination:Combination = check_combination_single_level(token, cell_index)
 		if combination.is_valid():
-			
 			var merge_position:Vector2
-			
 			if merge_type == Constants.MergeType.BY_LAST_CREATED:
-				merge_position = __get_last_created_token_position(cells)
+				merge_position = __get_last_created_token_position(combination.combinable_cells)
 			else:
 				merge_position = combination.initial_cell()
-				
+			
+			merged_cells.append_array(combination.combinable_cells)
 			var combined_token:Token = combine_tokens(combination)
 			
 			place_token_on_board(combined_token, merge_position)
-
+			
+			
 func __get_last_created_token_position(cells: Array) -> Vector2:
 	# Ensure the cells array is not empty.
 	assert(cells.size() > 0, "Cells array is empty. Cannot get last created token.")
@@ -319,3 +324,7 @@ func set_dead_enemy(cell_index:Vector2) -> void:
 	var next_token_data: TokenData = enemy_token.data.next_token
 	var grave_token:Token = instantiate_new_token(next_token_data, cell_index, null)
 	replace_token_on_board(grave_token, cell_index)
+
+func can_place_more_tokens() -> bool:
+	var board_free_cells : int = board.get_number_of_empty_cells()
+	return board_free_cells > 0

@@ -13,4 +13,4 @@ next_token = ExtResource("2_q0c4y")
 sprite_scene = ExtResource("3_cutmf")
 reward_type = 0
 reward_value = 0
-id = "enemy"
+id = "roller"

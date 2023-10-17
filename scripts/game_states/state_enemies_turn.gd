@@ -6,31 +6,42 @@ func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.ENEMIES
 	
 var number_of_pending_actions : int
+var check_stucked_enemies: bool
+var merge_graves: bool
+var highlight_groups: bool
 var stucked_enemies : Array[Vector2]
-
-var enemies: Dictionary
 
 # override in states	
 func _on_state_entered() -> void:
 	number_of_pending_actions = 0
+	check_stucked_enemies = true
+	merge_graves = false # will be set only if there are dead enemies
+	highlight_groups = true
 	stucked_enemies = []
-	enemies = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for key in enemies:
-		number_of_pending_actions += 1
-		enemies[key].behavior.action_finished.connect(self._on_enemy_action_finished)
-		enemies[key].behavior.move_from_cell_to_cell.connect(self._on_enemy_movement)
-		enemies[key].behavior.stuck_in_cell.connect(self._on_stucked_enemy)
 		enemies[key].unhighlight_token()
+		number_of_pending_actions += 1
+		__bind_enemy_actions(enemies[key])
 		enemies[key].behavior.execute_action(key, board.cell_tokens_ids)
 		
 # override in states
 func _on_state_exited() -> void:
+	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for key in enemies:
-		enemies[key].behavior.action_finished.disconnect(self._on_enemy_action_finished)
-		enemies[key].behavior.move_from_cell_to_cell.disconnect(self._on_enemy_movement)
-		enemies[key].behavior.stuck_in_cell.disconnect(self._on_stucked_enemy)
+		__unbind_enemy_actions(enemies[key])
 	enemies = {}
 
+func __bind_enemy_actions(token:Token) -> void:
+	token.behavior.action_finished.connect(self._on_enemy_action_finished)
+	token.behavior.move_from_cell_to_cell.connect(self._on_enemy_movement)
+	token.behavior.stuck_in_cell.connect(self._on_stucked_enemy)
+
+func __unbind_enemy_actions(token:Token) -> void:
+	token.behavior.action_finished.disconnect(self._on_enemy_action_finished)
+	token.behavior.move_from_cell_to_cell.disconnect(self._on_enemy_movement)
+	token.behavior.stuck_in_cell.disconnect(self._on_stucked_enemy)
+	
 func _on_enemy_action_finished() -> void:
 	number_of_pending_actions -= 1
 
@@ -42,28 +53,64 @@ func _on_enemy_movement(from_cell:Vector2, to_cell:Vector2, transition_time:floa
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
-	if number_of_pending_actions == 0:
-		finish_enemies_turn()
 	
-func finish_enemies_turn() -> void:
-	var simplified_board_info:Array = __convert_board_to_array(board)
+	if number_of_pending_actions > 0:
+		return
 	
-	__highlight_last_in_groups(simplified_board_info)
+	if check_stucked_enemies:
+		__transform_dead_enemies()
+		check_stucked_enemies = false
+		return
+	
+	if merge_graves:
+		__merge_graves()
+		merge_graves = false
+	
+	if highlight_groups:
+		__highlight_groups()
+		highlight_groups = false
+		return
 			
+	finish_enemies_turn()
+
+func __transform_dead_enemies() -> void:
 	if stucked_enemies.size() > 0:
-		__check_dead_enemies(simplified_board_info)
+		var simplified_board_info:Array = __convert_board_to_array(board, game_manager.can_place_more_tokens())	
+		merge_graves = __check_dead_enemies(simplified_board_info)	
+		
+func __merge_graves() -> void:
+	var graves:Array = board.get_tokens_with_id(Constants.GRAVE_ID).keys()
+	game_manager.check_and_do_board_combinations(graves, Constants.MergeType.BY_LAST_CREATED)
 	
+func __highlight_groups() -> void:
+	var simplified_board_info:Array = __convert_board_to_array(board, game_manager.can_place_more_tokens())
+	__highlight_last_in_groups(simplified_board_info)
+	
+func finish_enemies_turn() -> void:	
 	state_finished.emit(id)
 
-func __check_dead_enemies(simplified_board:Array) -> void:
-	var check_graves:bool = false
+func __check_dead_enemies(simplified_board:Array) -> bool:
+	var dead_enemies:bool = false
+	var can_place_more_tokens:bool = game_manager.can_place_more_tokens()
+	
 	for cell_index in stucked_enemies:
 		if not __can_reach_empty_cell(cell_index, simplified_board):
-			game_manager.set_dead_enemy(cell_index)
-			check_graves = true
-	if check_graves:		
-		game_manager.check_and_do_board_combinations(stucked_enemies, Constants.MergeType.BY_LAST_CREATED)			
-
+			var enemy_token:Token = board.get_token_at_cell(cell_index)
+			var should_kill_enemy : bool = false
+			# jumping enemies are not considered here, since they always can reach empty cells
+			if (enemy_token.data as TokenEnemyData).enemy_type == Constants.EnemyType.MOLE:
+				if !can_place_more_tokens:
+					should_kill_enemy = true
+			else:
+				should_kill_enemy = true
+			
+			if should_kill_enemy:
+				game_manager.set_dead_enemy(cell_index)
+				dead_enemies = true
+				__unbind_enemy_actions(enemy_token)
+	
+	return dead_enemies
+	
 func __highlight_last_in_groups(simplified_board:Array) -> void:
 	
 	var groups = __find_enclosed_groups(simplified_board)
@@ -73,10 +120,10 @@ func __highlight_last_in_groups(simplified_board:Array) -> void:
 			var last_enemy : Token = __find_last_created(group)
 			last_enemy.highlight_token() 
 
-enum CellType {
-	EMPTY,
+enum PathCellType {
+	PATH,
 	ENEMY,
-	OTHER
+	WALL
 }
 
 func __can_reach_empty_cell(start_pos: Vector2, board: Array) -> bool:
@@ -113,17 +160,17 @@ func __can_reach_empty_cell(start_pos: Vector2, board: Array) -> bool:
 			visited[next_pos] = true
 			
 			# Check the type of cell at next_pos
-			if board[next_pos.x][next_pos.y] == CellType.EMPTY:
+			if board[next_pos.x][next_pos.y] == PathCellType.PATH:
 				# Found an empty cell
 				return true
-			elif board[next_pos.x][next_pos.y] == CellType.ENEMY:
+			elif board[next_pos.x][next_pos.y] == PathCellType.ENEMY:
 				# Add enemy cell to the queue for further exploration
 				queue.append(next_pos)
 	
 	# No path found to an empty cell
 	return false
 
-func __convert_board_to_array(board: Board) -> Array:
+func __convert_board_to_array(board: Board, can_place_more_tokens:bool) -> Array:
 	var converted_board = []
 	
 	# Iterating through all cells in the board
@@ -135,16 +182,20 @@ func __convert_board_to_array(board: Board) -> Array:
 			
 			# Check if the cell is empty
 			if board.is_cell_empty(cell_index):
-				row.append(CellType.EMPTY)
+				row.append(PathCellType.PATH)
 				continue
 			
 			# Check if there's a token at the cell
 			var token = board.get_token_at_cell(cell_index)
 			
+			#mole enemies are like paths
 			if token and token.type == Constants.TokenType.ENEMY:
-				row.append(CellType.ENEMY)
+				if (token.data as TokenEnemyData).enemy_type == Constants.EnemyType.MOLE and can_place_more_tokens:
+					row.append(PathCellType.PATH)
+				else:
+					row.append(PathCellType.ENEMY)
 			else:
-				row.append(CellType.OTHER)
+				row.append(PathCellType.WALL)
 		
 		# Append the row to the converted_board
 		converted_board.append(row)
@@ -163,7 +214,7 @@ func __find_enclosed_groups(board: Array) -> Array:
 	
 	for i in range(board.size()):
 		for j in range(board[i].size()):
-			if board[i][j] == CellType.ENEMY and not visited[i][j]:
+			if board[i][j] == PathCellType.ENEMY and not visited[i][j]:
 				var current_group = []
 				__fill_group(i, j, board, visited, current_group)
 				if current_group.size():
@@ -172,12 +223,12 @@ func __find_enclosed_groups(board: Array) -> Array:
 	return groups
 
 func __fill_group(i: int, j: int, board: Array, visited: Array, current_group: Array) -> void:
-	if i < 0 or j < 0 or i >= board.size() or j >= board[i].size() or visited[i][j] or board[i][j] == CellType.OTHER:
+	if i < 0 or j < 0 or i >= board.size() or j >= board[i].size() or visited[i][j] or board[i][j] == PathCellType.WALL:
 		return
 
 	visited[i][j] = true
 
-	if board[i][j] == CellType.ENEMY:
+	if board[i][j] == PathCellType.ENEMY:
 		current_group.append(Vector2(i, j))
 		
 	__fill_group(i-1, j, board, visited, current_group)
