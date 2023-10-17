@@ -164,7 +164,7 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 		if combination.is_valid():
 			var merge_position:Vector2
 			if merge_type == Constants.MergeType.BY_LAST_CREATED:
-				merge_position = __get_last_created_token_position(cells)
+				merge_position = __get_last_created_token_position(combination.combinable_cells)
 			else:
 				merge_position = combination.initial_cell()
 			
