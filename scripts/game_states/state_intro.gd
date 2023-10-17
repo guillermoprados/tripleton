@@ -10,7 +10,7 @@ func _on_state_entered() -> void:
 # override in states
 func _on_state_exited() -> void:
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.INTRO)
-	pass
+	game_manager.gameplay_ui.fade_to_transparent()
 
 func _process(delta:float) -> void:
 	state_finished.emit(id)
