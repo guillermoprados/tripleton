@@ -5,10 +5,11 @@ class_name BearBehavior
 func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_next_empty_cell(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
-			move_in_board.emit(current_cell, next_empty_cell, .2)
+			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2)
 			# animate and then emit finish
 			action_finished.emit()
 		else:
+			stuck_in_cell.emit(current_cell)
 			action_finished.emit()
 		
 func find_next_empty_cell(current_cell:Vector2, cell_tokens_ids: Array) -> Vector2:

@@ -33,6 +33,9 @@ static func __evaluate_combination(initial_token: TokenData, combination: Combin
 	if not initial_token is TokenCombinableData:
 		return
 		
+	if initial_token.type() == Constants.TokenType.ENEMY:
+		return
+		
 	var evaluating_token: TokenCombinableData = initial_token
 	var level:int = 0
 	
