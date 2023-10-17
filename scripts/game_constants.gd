@@ -63,11 +63,11 @@ const WILDCARD_ID = "WILDCARD"
 const GRAVE_ID = "GRAVE"
 
 const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
+const MIN_LANDSCAPE_TOKENS = 3
+const MAX_LANDSCAPE_TOKENS = 13
 const EMPTY_CELL = ""
 const INVALID_CELL = Vector2(-1,-1)
 const IS_DEBUG_MODE = true
-
-const GROUP_ENEMIES = "enemies"
 
 const CELL_SIZE:Vector2 = Vector2(90,90)
 

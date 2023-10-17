@@ -2,6 +2,7 @@ extends Node
 
 class_name GameManager
 
+signal tokens_pool_depleted()
 signal gold_updated(value:int)
 signal points_updated(value:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
@@ -44,6 +45,12 @@ func __set_next_tokens_set(config:LevelConfig) -> void:
 		
 	tokens_pool.add_items(_tokens_set.items, true)	
 		
+func set_tokens_set(token_set:TokensSet) -> void:
+	tokens_pool.add_items(token_set.items, true)
+
+func clear_tokens_pool()-> void:
+	tokens_pool.clear()
+		
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
 	var token_instance: Token = token_scene.instantiate() as Token
 	token_instance.set_data(token_data)
@@ -55,8 +62,7 @@ func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) 
 
 func __get_random_token_data() -> TokenData:
 	
-	# If list is empty, emit the difficulty_depleted signal
-	# im gonna fix this later to make this more lindo
+	# not entirely proud of this
 	if tokens_pool.is_empty():
 		__set_next_tokens_set(level_config)
 		
