@@ -19,11 +19,25 @@ var behavior: TokenBehavior:
 		return _behavior
 	set(value):
 		_behavior = value
+
+var _sprite: AnimatedSprite2D
+
+var sprite: AnimatedSprite2D:
+	get: 
+		return _sprite
+	set(value):
+		_sprite = value
 	
 var data:TokenData
 
+var created_at:float
+
+func _init():
+	created_at = Time.get_unix_time_from_system()
+	
 func _ready() -> void:
 	adjust_size(Constants.CELL_SIZE)
+	unhighlight_token()
 
 func _process(delta:float) -> void:
 	pass
@@ -35,9 +49,16 @@ func adjust_size(new_size: Vector2) -> void:
 func set_data(token_data:TokenData) -> void:
 	id = token_data.id
 	data = token_data
-	var sprite_instance:AnimatedSprite2D = token_data.sprite_scene.instantiate()
-	add_child(sprite_instance)
+	
+	sprite = token_data.sprite_scene.instantiate()
+	add_child(sprite)
 	
 	if data.type() == Constants.TokenType.ENEMY:
 		behavior = token_data.behavior.instantiate()
 		add_child(behavior)
+
+func highlight_token() -> void:
+	sprite.modulate = Color.RED
+
+func unhighlight_token() -> void:
+	sprite.modulate = Color.WHITE
