@@ -37,21 +37,15 @@ func _on_enemy_action_finished() -> void:
 func _on_stucked_enemy(cell_index:Vector2) -> void:
 	stucked_enemies.append(cell_index)
 	
-func check_dead_enemies() -> void:
+func __check_dead_enemies() -> void:
 	var simplified_board_info:Array = __convert_board_to_array(board)
-	var to_verify_combinations:Array[Vector2] = [] 
+	var check_graves:bool = false
 	for cell_index in stucked_enemies:
 		if not __can_reach_empty_cell(cell_index, simplified_board_info):
-			var enemy_token: Token = board.get_token_at_cell(cell_index)
-			var next_token_data: TokenData = enemy_token.data.next_token
-			var grave_token:Token = game_manager.instantiate_new_token(next_token_data, cell_index, null)
-			board.clear_token(cell_index)
-			board.set_token_at_cell(grave_token, cell_index)
-			to_verify_combinations.append(cell_index)
-	#here verify if the graves are combining now
-	for cell_index in to_verify_combinations:
-		# here verify if the graves can be combined
-		pass
+			game_manager.set_dead_enemy(cell_index)
+			check_graves = true
+	if check_graves:		
+		game_manager.check_and_do_board_combinations(stucked_enemies)			
 	
 func _on_enemy_movement(from_cell:Vector2, to_cell:Vector2, transition_time:float) -> void:
 	game_manager.move_token_in_board(from_cell, to_cell, transition_time)
@@ -59,7 +53,8 @@ func _on_enemy_movement(from_cell:Vector2, to_cell:Vector2, transition_time:floa
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
 	if stucked_enemies.size() > 0:
-		check_dead_enemies()
+		__check_dead_enemies()
+		
 	if number_of_pending_actions == 0:
 		finish_enemies_turn()
 	

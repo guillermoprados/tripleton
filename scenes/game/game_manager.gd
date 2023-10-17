@@ -122,7 +122,7 @@ func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
 	
 	return replace_token
 		
-func place_token_on_board(token:Token, cell_index: Vector2) -> void:
+func place_token_on_board(token:Token, cell_index: Vector2, check_combinations:bool) -> void:
 	
 	if token.type == Constants.TokenType.WILDCARD:
 		token = __replace_wildcard_token(token, cell_index)
@@ -133,12 +133,22 @@ func place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	assert(board.get_token_at_cell(cell_index), "placed token is empty")
 
 	combinator.reset_combinations(board.rows, board.columns)
-	var combination:Combination = check_combination_single_level(token, cell_index)
-	if combination.is_valid():
-		var combined_token:Token = combine_tokens(combination)
-		place_token_on_board(combined_token, combination.cell_index)
-
-
+	
+	if check_combinations:
+		check_and_do_board_combinations([cell_index])
+		
+func check_and_do_board_combinations(cells:Array) -> void:
+	for cell_index in cells:
+		# once the combination was made, the next one can be empty
+		if board.is_cell_empty(cell_index):
+			continue
+		
+		var token:Token = board.get_token_at_cell(cell_index)
+		var combination:Combination = check_combination_single_level(token, cell_index)
+		if combination.is_valid():
+			var combined_token:Token = combine_tokens(combination)
+			place_token_on_board(combined_token, combination.cell_index, true)
+	
 func check_combination_all_levels(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
 
@@ -249,7 +259,7 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	var chest_data: TokenChestData = token.data
 	var prize_data:TokenPrizeData = chest_data.get_random_prize()
 	var prize_instance:Token = instantiate_new_token(prize_data, Vector2.ZERO, null)
-	place_token_on_board(prize_instance, cell_index)
+	place_token_on_board(prize_instance, cell_index, true)
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data
@@ -265,3 +275,10 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 	reward_position.y += Constants.CELL_SIZE.y / 4 
 		
 	show_floating_reward.emit(type, value, reward_position)
+
+func set_dead_enemy(cell_index:Vector2) -> void:
+	var enemy_token: Token = board.get_token_at_cell(cell_index)
+	var next_token_data: TokenData = enemy_token.data.next_token
+	var grave_token:Token = instantiate_new_token(next_token_data, cell_index, null)
+	board.clear_token(cell_index)
+	place_token_on_board(grave_token, cell_index, false)

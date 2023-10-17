@@ -96,7 +96,7 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 	
 	if board.is_cell_empty(index):
 		game_manager.remove_child(game_manager.floating_token)
-		game_manager.place_token_on_board(game_manager.floating_token, index)
+		game_manager.place_token_on_board(game_manager.floating_token, index, true)
 		finish_player_turn()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
