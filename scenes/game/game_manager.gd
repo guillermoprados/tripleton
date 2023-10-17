@@ -137,10 +137,12 @@ func place_token_on_board(token:Token, cell_index: Vector2) -> void:
 
 func replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 	
+	var old_token_date:float = board.get_token_at_cell(cell_index).created_at
 	board.clear_token(cell_index)
 	
 	if token:
 		board.set_token_at_cell(token, cell_index)
+		token.created_at = old_token_date
 	
 	board.clear_highlights()
 
