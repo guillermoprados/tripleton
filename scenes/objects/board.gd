@@ -61,7 +61,7 @@ func __clear_board() -> void:
 # Set the token for a specific cell
 func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	
-	assert(cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL, "there is a token already here!")
+	assert(cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL, "there is a token already here!" + str(cell_index))
 	
 	cell_tokens_ids[cell_index.x][cell_index.y] = token.id
 	placed_tokens[cell_index] = token
@@ -69,14 +69,15 @@ func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	token.position = get_cell_at_position(cell_index).position
 
 func clear_token(cell_index: Vector2) -> void:
-	# Update the matrix value to EMPTY_CELL
-	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
-	
 	# Remove the token instance from the scene if it exists in the dictionary
 	if placed_tokens.has(cell_index):
 		var token:Token = placed_tokens[cell_index]
 		token.queue_free()  # Safely remove the token from the scene
 		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
+		
+	# Update the matrix value to EMPTY_CELL
+	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
+	
 
 func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float):
 	assert(cell_index_from != cell_index_to, "cannot move to the same cell") 
@@ -151,5 +152,12 @@ func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
 	var filtered_tokens = {}
 	for key in placed_tokens:
 		if placed_tokens[key].type == type:
+			filtered_tokens[key] = placed_tokens[key]
+	return filtered_tokens
+	
+func get_tokens_with_id(id:String) -> Dictionary:
+	var filtered_tokens = {}
+	for key in placed_tokens:
+		if placed_tokens[key].id == id:
 			filtered_tokens[key] = placed_tokens[key]
 	return filtered_tokens

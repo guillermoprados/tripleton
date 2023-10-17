@@ -60,6 +60,7 @@ enum UIPlayScreenId {
 }
 
 const WILDCARD_ID = "WILDCARD"
+const GRAVE_ID = "GRAVE"
 
 const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
 const EMPTY_CELL = ""
