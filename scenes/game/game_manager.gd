@@ -156,7 +156,7 @@ func check_and_do_board_combinations(cells:Array) -> void:
 		var combination:Combination = check_combination_single_level(token, cell_index)
 		if combination.is_valid():
 			var combined_token:Token = combine_tokens(combination)
-			place_token_on_board(combined_token, last_played_position)
+			place_token_on_board(combined_token, combination.initial_cell())
 	
 func check_combination_all_levels(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
