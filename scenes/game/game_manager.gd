@@ -133,7 +133,7 @@ func place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	assert(board.get_token_at_cell(cell_index), "placed token is empty")
 
 	combinator.reset_combinations(board.rows, board.columns)
-	check_and_do_board_combinations([cell_index])
+	check_and_do_board_combinations([cell_index], Constants.MergeType.BY_INITIAL_CELL)
 
 func replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 	
@@ -146,7 +146,7 @@ func replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 
 	combinator.reset_combinations(board.rows, board.columns)
 	
-func check_and_do_board_combinations(cells:Array) -> void:
+func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
 	for cell_index in cells:
 		# once the combination was made, the next one can be empty
 		if board.is_cell_empty(cell_index):
@@ -155,9 +155,39 @@ func check_and_do_board_combinations(cells:Array) -> void:
 		var token:Token = board.get_token_at_cell(cell_index)
 		var combination:Combination = check_combination_single_level(token, cell_index)
 		if combination.is_valid():
+			
+			var merge_position:Vector2
+			
+			if merge_type == Constants.MergeType.BY_LAST_CREATED:
+				merge_position = __get_last_created_token_position(cells)
+			else:
+				merge_position = combination.initial_cell()
+				
 			var combined_token:Token = combine_tokens(combination)
-			place_token_on_board(combined_token, combination.initial_cell())
-	
+			
+			place_token_on_board(combined_token, merge_position)
+
+func __get_last_created_token_position(cells: Array) -> Vector2:
+	# Ensure the cells array is not empty.
+	assert(cells.size() > 0, "Cells array is empty. Cannot get last created token.")
+
+	var last_created_position: Vector2 = cells[0]
+	var last_token = board.get_token_at_cell(last_created_position)
+	var last_created_time: float = last_token.created_at
+
+	for cell_index in cells:
+		var current_token = board.get_token_at_cell(cell_index)
+		var current_created_time = current_token.created_at
+
+		# Update the latest created token details if the current token is newer.
+		if current_created_time > last_created_time:
+			last_created_position = cell_index
+			last_created_time = current_created_time
+
+	return last_created_position
+
+		
+
 func check_combination_all_levels(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
 

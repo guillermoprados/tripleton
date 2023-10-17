@@ -22,6 +22,11 @@ var behavior: TokenBehavior:
 	
 var data:TokenData
 
+var created_at:float
+
+func _init():
+	created_at = Time.get_unix_time_from_system()
+	
 func _ready() -> void:
 	adjust_size(Constants.CELL_SIZE)
 

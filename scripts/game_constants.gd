@@ -40,6 +40,11 @@ enum PlayingState {
 	GAME_OVER
 }
 
+enum MergeType {
+	BY_INITIAL_CELL,
+	BY_LAST_CREATED
+}
+
 enum MessageType {
 	INFO,
 	NORMAL,

@@ -45,7 +45,7 @@ func __check_dead_enemies() -> void:
 			game_manager.set_dead_enemy(cell_index)
 			check_graves = true
 	if check_graves:		
-		game_manager.check_and_do_board_combinations(stucked_enemies)			
+		game_manager.check_and_do_board_combinations(stucked_enemies, Constants.MergeType.BY_LAST_CREATED)			
 	
 func _on_enemy_movement(from_cell:Vector2, to_cell:Vector2, transition_time:float) -> void:
 	game_manager.move_token_in_board(from_cell, to_cell, transition_time)
