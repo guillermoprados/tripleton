@@ -57,8 +57,10 @@ func finish_enemies_turn() -> void:
 
 func __check_dead_enemies(simplified_board:Array) -> void:
 	var check_graves:bool = false
+	var can_place_more_tokens:bool = game_manager.can_place_more_tokens()
 	for cell_index in stucked_enemies:
-		if not __can_reach_empty_cell(cell_index, simplified_board):
+		# jumping enemies are not considered here, since they always can reach empty cells
+		if !can_place_more_tokens or not __can_reach_empty_cell(cell_index, simplified_board):
 			game_manager.set_dead_enemy(cell_index)
 			check_graves = true
 	if check_graves:		
@@ -73,10 +75,10 @@ func __highlight_last_in_groups(simplified_board:Array) -> void:
 			var last_enemy : Token = __find_last_created(group)
 			last_enemy.highlight_token() 
 
-enum CellType {
-	EMPTY,
+enum PathCellType {
+	PATH,
 	ENEMY,
-	OTHER
+	WALL
 }
 
 func __can_reach_empty_cell(start_pos: Vector2, board: Array) -> bool:
@@ -113,10 +115,10 @@ func __can_reach_empty_cell(start_pos: Vector2, board: Array) -> bool:
 			visited[next_pos] = true
 			
 			# Check the type of cell at next_pos
-			if board[next_pos.x][next_pos.y] == CellType.EMPTY:
+			if board[next_pos.x][next_pos.y] == PathCellType.PATH:
 				# Found an empty cell
 				return true
-			elif board[next_pos.x][next_pos.y] == CellType.ENEMY:
+			elif board[next_pos.x][next_pos.y] == PathCellType.ENEMY:
 				# Add enemy cell to the queue for further exploration
 				queue.append(next_pos)
 	
@@ -135,16 +137,20 @@ func __convert_board_to_array(board: Board) -> Array:
 			
 			# Check if the cell is empty
 			if board.is_cell_empty(cell_index):
-				row.append(CellType.EMPTY)
+				row.append(PathCellType.PATH)
 				continue
 			
 			# Check if there's a token at the cell
 			var token = board.get_token_at_cell(cell_index)
 			
+			#mole enemies are like paths
 			if token and token.type == Constants.TokenType.ENEMY:
-				row.append(CellType.ENEMY)
+				if (token.data as TokenEnemyData).enemy_type != Constants.EnemyType.MOLE:
+					row.append(PathCellType.PATH)
+				else:
+					row.append(PathCellType.ENEMY)
 			else:
-				row.append(CellType.OTHER)
+				row.append(PathCellType.WALL)
 		
 		# Append the row to the converted_board
 		converted_board.append(row)
@@ -163,7 +169,7 @@ func __find_enclosed_groups(board: Array) -> Array:
 	
 	for i in range(board.size()):
 		for j in range(board[i].size()):
-			if board[i][j] == CellType.ENEMY and not visited[i][j]:
+			if board[i][j] == PathCellType.ENEMY and not visited[i][j]:
 				var current_group = []
 				__fill_group(i, j, board, visited, current_group)
 				if current_group.size():
@@ -172,12 +178,12 @@ func __find_enclosed_groups(board: Array) -> Array:
 	return groups
 
 func __fill_group(i: int, j: int, board: Array, visited: Array, current_group: Array) -> void:
-	if i < 0 or j < 0 or i >= board.size() or j >= board[i].size() or visited[i][j] or board[i][j] == CellType.OTHER:
+	if i < 0 or j < 0 or i >= board.size() or j >= board[i].size() or visited[i][j] or board[i][j] == PathCellType.WALL:
 		return
 
 	visited[i][j] = true
 
-	if board[i][j] == CellType.ENEMY:
+	if board[i][j] == PathCellType.ENEMY:
 		current_group.append(Vector2(i, j))
 		
 	__fill_group(i-1, j, board, visited, current_group)

@@ -98,6 +98,12 @@ func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_ti
 func get_token_at_cell(cell_index: Vector2) -> Token:
 	return placed_tokens[cell_index]
 
+func get_number_of_empty_cells() -> int:
+	var total_cells:int = rows * columns
+	# Subtract the count of placed tokens
+	var empty_cells:int = total_cells - placed_tokens.size()
+	return empty_cells
+	
 # Get the cell scene at a given position
 func get_cell_at_position(cell_index: Vector2) -> Node:
 	if cell_index.x < rows and cell_index.y < columns:

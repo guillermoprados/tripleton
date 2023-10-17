@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=20 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -13,6 +13,8 @@
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="11_fywov"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/bear.tres" id="12_rswxc"]
 [ext_resource type="Resource" uid="uid://bepyna61derk1" path="res://data/tokens_data/enemies/roller.tres" id="13_5gvru"]
+[ext_resource type="Resource" uid="uid://bwy3cxsp2mutl" path="res://data/tokens_data/enemies/mole.tres" id="14_sm2hd"]
+[ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="15_jk4yu"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
@@ -66,7 +68,7 @@ script = ExtResource("9_o86f4")
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("10_cubgl"), ExtResource("11_fywov"), ExtResource("12_rswxc"), ExtResource("13_5gvru")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("10_cubgl"), ExtResource("11_fywov"), ExtResource("12_rswxc"), ExtResource("13_5gvru"), ExtResource("14_sm2hd"), ExtResource("15_jk4yu")])
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")

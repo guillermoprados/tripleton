@@ -319,3 +319,7 @@ func set_dead_enemy(cell_index:Vector2) -> void:
 	var next_token_data: TokenData = enemy_token.data.next_token
 	var grave_token:Token = instantiate_new_token(next_token_data, cell_index, null)
 	replace_token_on_board(grave_token, cell_index)
+
+func can_place_more_tokens() -> bool:
+	var board_free_cells : int = board.get_number_of_empty_cells()
+	return board_free_cells > 0
