@@ -6,10 +6,13 @@ var _resource_item_pool: Array = []
 
 func add_items(items: Array[PoolItemResource], should_clear:bool) -> void:
 	if should_clear:
-		_resource_item_pool.clear()
+		clear()
 	
 	populate_and_shuffle_pool(items)
-	
+
+func clear() -> void:
+	_resource_item_pool.clear()
+
 func populate_and_shuffle_pool(items: Array[PoolItemResource]) -> void:
 	for item in items:
 		for _i in range(item.amount):

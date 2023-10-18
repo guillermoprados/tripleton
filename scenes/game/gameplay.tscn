@@ -1,11 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=21 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
-[ext_resource type="Resource" uid="uid://bja78jwbx6iou" path="res://data/levels/basic.tres" id="3_ivw4l"]
+[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy.tres" id="3_kt2g7"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
+[ext_resource type="Resource" uid="uid://c61d577qbnsn1" path="res://data/tokens_sets/landscape.tres" id="9_e3s0g"]
 [ext_resource type="Script" path="res://scripts/game_states/state_intro.gd" id="9_o86f4"]
 [ext_resource type="Resource" uid="uid://dd41fj2ikombg" path="res://data/tokens_data/misc/wildcard.tres" id="10_cubgl"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
@@ -26,7 +27,7 @@
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
-level_config = ExtResource("3_ivw4l")
+tokens_sets = Array[Resource("res://resources/tokens_set.gd")]([ExtResource("3_kt2g7")])
 save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
 combinator = NodePath("../Combinator")
@@ -64,6 +65,7 @@ board = NodePath("../Board")
 
 [node name="IntroState" type="Node" parent="StateMachine"]
 script = ExtResource("9_o86f4")
+landscape_tokens = ExtResource("9_e3s0g")
 
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
@@ -73,11 +75,11 @@ scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("1
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")
 
-[node name="CheckState" type="Node" parent="StateMachine"]
-script = ExtResource("17_uph22")
-
 [node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")
+
+[node name="CheckState" type="Node" parent="StateMachine"]
+script = ExtResource("17_uph22")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
 
@@ -87,3 +89,4 @@ script = ExtResource("18_34rgb")
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
 [connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
 [connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
+[connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]

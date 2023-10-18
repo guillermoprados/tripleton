@@ -70,7 +70,7 @@ layout_mode = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="Button" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="PlayAgain" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "Play Again"
 
@@ -78,3 +78,5 @@ text = "Play Again"
 layout_mode = 2
 text = "Exit
 "
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PlayAgain" to="." method="_on_play_again_pressed"]

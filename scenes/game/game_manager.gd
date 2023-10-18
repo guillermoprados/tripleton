@@ -2,6 +2,7 @@ extends Node
 
 class_name GameManager
 
+signal tokens_pool_depleted()
 signal gold_updated(value:int)
 signal points_updated(value:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
@@ -10,13 +11,15 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var token_scene: PackedScene
 
 @export var board:Board
-@export var level_config:LevelConfig
+@export var tokens_sets:Array[TokensSet]
 @export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
 
 @export var combinator: Combinator
 
 @export var gameplay_ui:GameplayUI
+
+var current_tokens_set:TokensSet
 
 var last_played_position:Vector2
 var floating_token: Token
@@ -25,25 +28,18 @@ var saved_token: Token
 var points: int
 var gold: int
 
-# list of token data
-var tokens_pool: RandomResourcePool
-
 func _ready() -> void:
-	tokens_pool = RandomResourcePool.new()
-	level_config.validate()
+	__set_next_tokens_set()
 	pass
 
-func __set_next_tokens_set(config:LevelConfig) -> void:
-	
-	var _tokens_set: TokensSet
-	if level_config.tokens_sets.size() > 1:
-		_tokens_set = level_config.tokens_sets.pop_front()
+func __set_next_tokens_set() -> void:
+	if tokens_sets.size() > 1:
+		current_tokens_set = tokens_sets.pop_front()
 	else:
-		_tokens_set = level_config.tokens_sets[0]
-		print(">> We ran out of token sets.. gonna need to repeat the last one "+_tokens_set.name)
-		
-	tokens_pool.add_items(_tokens_set.items, true)	
-		
+		current_tokens_set = tokens_sets[0]
+		print(">> We ran out of token sets.. gonna need to repeat the last one")
+	print(">> current token set: " + current_tokens_set.name)		
+	
 func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
 	var token_instance: Token = token_scene.instantiate() as Token
 	token_instance.set_data(token_data)
@@ -52,21 +48,6 @@ func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) 
 		parent.add_child(token_instance)
 	token_instance.position = position
 	return token_instance
-
-func __get_random_token_data() -> TokenData:
-	
-	# If list is empty, emit the difficulty_depleted signal
-	# im gonna fix this later to make this more lindo
-	if tokens_pool.is_empty():
-		__set_next_tokens_set(level_config)
-		
-	# Assert if list is empty
-	assert(!tokens_pool.is_empty(), "TokenInstanceProvider: No more tokens left.")
-	
-	# Pop the first item in the items_data and get the data from it
-	var token_data:TokenData = tokens_pool.pop_item()
-	
-	return token_data
 
 func add_gold(value:int) -> void:
 	gold += value
@@ -78,7 +59,7 @@ func add_points(value:int) -> void:
 
 func create_floating_token() -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")
-	var random_token_data:TokenData = __get_random_token_data()
+	var random_token_data:TokenData = current_tokens_set.get_random_token_data()
 	floating_token = instantiate_new_token(random_token_data, spawn_token_cell.position, self)
 	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
 

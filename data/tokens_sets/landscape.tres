@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="TokensSet" load_steps=10 format=3 uid="uid://c61d577qbnsn1"]
+
+[ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="1_y0fbb"]
+[ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="3_0i0a1"]
+[ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="4_4rimx"]
+[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="5_ynq72"]
+[ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/bear.tres" id="6_2fxuq"]
+[ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="6_ryd83"]
+[ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="8_oj2co"]
+[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="9_wvc63"]
+[ext_resource type="Script" path="res://resources/tokens_set.gd" id="10_3wa0e"]
+
+[resource]
+script = ExtResource("10_3wa0e")
+name = "landscape"
+common = Array[Resource("res://resources/token_data.gd")]([ExtResource("3_0i0a1"), ExtResource("1_y0fbb"), ExtResource("4_4rimx")])
+uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("5_ynq72"), ExtResource("6_ryd83")])
+rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("9_wvc63"), ExtResource("8_oj2co")])
+scarce = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_2fxuq")])
+unique = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_2fxuq")])
