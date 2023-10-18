@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_61o1a")
 next_token = ExtResource("1_txdi8")
+id = "lamp"
 sprite_scene = ExtResource("2_ipk7m")
 reward_type = 2
 reward_value = 40
-id = "lamp"
