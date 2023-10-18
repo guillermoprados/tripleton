@@ -65,31 +65,45 @@ func create_floating_token() -> void:
 
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	
-	if floating_token.type == Constants.TokenType.ACTION:
-		__move_floatin_action_token(cell_index)
-	else:	 
-		__move_floating_normal_token(cell_index)
-
-func __move_floatin_action_token(cell_index:Vector2):
-	pass
-
-func __move_floating_normal_token(cell_index:Vector2) -> void:
-	
 	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
 	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
-	
 	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
-	floating_token.position = token_position
+		
+	if floating_token.type == Constants.TokenType.ACTION:
+		__move_floatin_action_token(cell_index, token_position)
+	else:	 
+		__move_floating_normal_token(cell_index, token_position)
+
+func __move_floatin_action_token(cell_index:Vector2, on_board_position:Vector2):
+	pass
+
+func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2) -> void:
+	if not board.is_cell_empty(cell_index):
+		__set_invalid_floating_normal_token_position(cell_index, on_board_position)
+	else:
+		__set_valid_floating_normal_token_position(cell_index, on_board_position)
+
+func __set_invalid_floating_normal_token_position(cell_index:Vector2, position:Vector2):
+	position = position - (Constants.CELL_SIZE / 3)
+	floating_token.position = position
+	board.highligh_cell(cell_index, Constants.HighlightMode.INVALID)
+
+func __set_valid_floating_normal_token_position(cell_index:Vector2, position:Vector2):
 	
+	floating_token.position = position
+
 	if floating_token.type == Constants.TokenType.WILDCARD:
 		# this is esential to ensure the combination on that cell is 
 		# being replaced with the wildcard
 		__check_wildcard_combinations_at(cell_index)
 
 	var combination:Combination = check_combination_all_levels(floating_token, cell_index)
-	
+
 	if combination.is_valid():
-		highlight_combination(combination)
+		board.highlight_combination(combination)
+	else:
+		board.highligh_cell(cell_index, Constants.HighlightMode.VALID)
+	
 
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
@@ -330,8 +344,4 @@ func can_place_more_tokens() -> bool:
 func execute_token_action(token:Token, cell_index:Vector2) -> void:
 	assert (token.type == Constants.TokenType.ACTION, "cannot use an action on a non token action")
 	print("ACTIOON")
-	
-func highlight_combination(combination:Combination) -> void:
-	for cell_index in combination.combinable_cells:
-		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION)
 

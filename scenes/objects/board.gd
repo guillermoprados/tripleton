@@ -135,9 +135,13 @@ func clear_highlights() -> void:
 		for cell in row:
 			cell.clear_highlight()
 			
-func set_hovering_on_cell(cell_index: Vector2, mode:Constants.HighlightMode) -> void:
+func highligh_cell(cell_index: Vector2, mode:Constants.HighlightMode) -> void:
 	get_cell_at_position(cell_index).highlight(mode)
-			
+
+func highlight_combination(combination:Combination) -> void:
+	for cell_index in combination.combinable_cells:
+		get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION)
+		
 func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
 	var filtered_tokens = {}
 	for key in placed_tokens:
