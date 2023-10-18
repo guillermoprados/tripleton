@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5l75rl5i0s6m"]
+
+[ext_resource type="Texture2D" uid="uid://dse4mdy1jy2wf" path="res://images/tokens/move.png" id="1_4i0gh"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4i0gh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(63, 63)
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"

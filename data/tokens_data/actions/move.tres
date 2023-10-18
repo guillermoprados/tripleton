@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="TokenActionData" load_steps=3 format=3 uid="uid://cj8xmxh73qauy"]
+
+[ext_resource type="Script" path="res://resources/tokens/token_action.gd" id="1_s0pjp"]
+[ext_resource type="PackedScene" uid="uid://b5l75rl5i0s6m" path="res://scenes/objects/tokens/actions/move.tscn" id="2_40hih"]
+
+[resource]
+script = ExtResource("1_s0pjp")
+id = "move"
+sprite_scene = ExtResource("2_40hih")
+reward_type = 0
+reward_value = 0
