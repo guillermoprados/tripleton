@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("1_pfuao")
 next_token = ExtResource("1_v3fp0")
+id = "grass"
 sprite_scene = ExtResource("3_70em2")
 reward_type = 2
 reward_value = 10
-id = "grass"

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dauwjwugmfsff"]
+
+[ext_resource type="Texture2D" uid="uid://se83co8l7xww" path="res://images/tokens/small_house.png" id="1_usdwr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_usdwr")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(64, 64)
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"

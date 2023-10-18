@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("1_lilkf")
+id = "coins_small"
 sprite_scene = ExtResource("2_8ttvh")
 reward_type = 1
 reward_value = 10
-id = "coins_small"
