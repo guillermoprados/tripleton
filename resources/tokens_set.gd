@@ -10,6 +10,8 @@ class_name TokensSet
 @export var scarce: Array[TokenData] = [] 
 @export var unique: Array[TokenData] = [] 
 
+@export var bad_token:TokenData # used for invalid actions
+
 var validated : bool
 
 func validate()  -> void:
@@ -19,6 +21,7 @@ func validate()  -> void:
 	assert(rare.size() > 0, name + ": rare array should not be empty")
 	assert(scarce.size() > 0, name + ": scarce array should not be empty")
 	assert(unique.size() > 0, name + ": unique array should not be empty")
+	assert(bad_token, name + ": plase set a bad token")
 	validated = true
 	
 func get_random_token_data() -> TokenData:

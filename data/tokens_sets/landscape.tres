@@ -18,3 +18,4 @@ uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("5_ynq7
 rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("9_wvc63"), ExtResource("8_oj2co")])
 scarce = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_2fxuq")])
 unique = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_2fxuq")])
+bad_token = ExtResource("8_oj2co")

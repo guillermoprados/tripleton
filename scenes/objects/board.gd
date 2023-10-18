@@ -106,7 +106,7 @@ func get_number_of_empty_cells() -> int:
 	return empty_cells
 	
 # Get the cell scene at a given position
-func get_cell_at_position(cell_index: Vector2) -> Node:
+func get_cell_at_position(cell_index: Vector2) -> BoardCell:
 	if cell_index.x < rows and cell_index.y < columns:
 		return cells_matrix[cell_index.x][cell_index.y]
 	return null  # Return null if the position is out of bounds
@@ -118,13 +118,12 @@ func is_cell_empty(cell_index: Vector2) -> bool:
 func _on_cell_entered(cell_index: Vector2) -> void:
 	if not enabled_interaction:
 		return
-	set_hovering_on_cell(cell_index)
 	board_cell_moved.emit(cell_index)
 	
 func _on_cell_exited(cell_index: Vector2) -> void:
 	if not enabled_interaction:
 		return
-	pass
+	
 	
 func _on_cell_selected(cell_index: Vector2) -> void:
 	if not enabled_interaction:
@@ -134,20 +133,11 @@ func _on_cell_selected(cell_index: Vector2) -> void:
 func clear_highlights() -> void:
 	for row in cells_matrix:
 		for cell in row:
-			cell.highlight(Constants.HighlightMode.NONE, true)
+			cell.clear_highlight()
 			
-func set_hovering_on_cell(cell_index: Vector2) -> void:
-	clear_highlights()
-
-	var can_place_token:bool = is_cell_empty(cell_index)
-
-	for row in cells_matrix:
-		for cell in row:
-			if cell.cell_index == cell_index:
-				cell.highlight(Constants.HighlightMode.HOVER, can_place_token)
-			elif cell.cell_index.x == cell_index.x or cell.cell_index.y == cell_index.y:
-				cell.highlight(Constants.HighlightMode.SAME_LINE, can_place_token)
-
+func set_hovering_on_cell(cell_index: Vector2, mode:Constants.HighlightMode) -> void:
+	get_cell_at_position(cell_index).highlight(mode)
+			
 func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
 	var filtered_tokens = {}
 	for key in placed_tokens:

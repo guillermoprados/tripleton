@@ -61,9 +61,23 @@ func create_floating_token() -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")
 	var random_token_data:TokenData = current_tokens_set.get_random_token_data()
 	floating_token = instantiate_new_token(random_token_data, spawn_token_cell.position, self)
-	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
+	spawn_token_cell.highlight(Constants.HighlightMode.VALID)
 
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
+	
+	if floating_token.type == Constants.TokenType.ACTION:
+		__move_floatin_action_token(cell_index)
+	else:	 
+		__move_floating_normal_token(cell_index)
+
+func __move_floatin_action_token(cell_index:Vector2):
+	pass
+
+func __move_floating_normal_token(cell_index:Vector2) -> void:
+	
+	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
+	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
+	
 	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
 	floating_token.position = token_position
 	
@@ -71,6 +85,11 @@ func move_floating_token_to_cell(cell_index:Vector2) -> void:
 		# this is esential to ensure the combination on that cell is 
 		# being replaced with the wildcard
 		__check_wildcard_combinations_at(cell_index)
+
+	var combination:Combination = check_combination_all_levels(floating_token, cell_index)
+	
+	if combination.is_valid():
+		highlight_combination(combination)
 
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
@@ -91,24 +110,12 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
-func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
-	var replace_token : Token = null
-	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
-	if combination.is_valid():
-		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
-		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
-	else: 
-		var next_token_data: TokenData = old_token.data.next_token
-		replace_token = instantiate_new_token(next_token_data, floating_token.position, null)
-	
-	return replace_token
-		
 func place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	last_played_position = cell_index;
 	
 	if token.type == Constants.TokenType.WILDCARD:
 		token = __replace_wildcard_token(token, cell_index)
-
+	
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
 	assert(board.get_token_at_cell(cell_index), "placed token is empty")
@@ -128,6 +135,17 @@ func replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 	board.clear_highlights()
 
 	combinator.reset_combinations(board.rows, board.columns)
+	
+func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
+	var replace_token : Token = null
+	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
+	if combination.is_valid():
+		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
+		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
+	else: 
+		replace_token = instantiate_new_token(current_tokens_set.bad_token, floating_token.position, null)
+	
+	return replace_token
 	
 func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
 	
@@ -175,7 +193,6 @@ func __get_last_created_token_position(cells: Array) -> Vector2:
 	return last_created_position
 
 		
-
 func check_combination_all_levels(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
 
@@ -309,3 +326,12 @@ func set_dead_enemy(cell_index:Vector2) -> void:
 func can_place_more_tokens() -> bool:
 	var board_free_cells : int = board.get_number_of_empty_cells()
 	return board_free_cells > 0
+
+func execute_token_action(token:Token, cell_index:Vector2) -> void:
+	assert (token.type == Constants.TokenType.ACTION, "cannot use an action on a non token action")
+	print("ACTIOON")
+	
+func highlight_combination(combination:Combination) -> void:
+	for cell_index in combination.combinable_cells:
+		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION)
+

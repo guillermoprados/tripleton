@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="TokensSet" load_steps=10 format=3 uid="uid://c4mpxlybdjkrs"]
+[gd_resource type="Resource" script_class="TokensSet" load_steps=11 format=3 uid="uid://c4mpxlybdjkrs"]
 
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="1_32u82"]
+[ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="1_bbj55"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="3_88c0o"]
 [ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="4_bjjk4"]
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="5_pedmm"]
@@ -18,3 +19,4 @@ uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("3_88c0
 rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("7_nmgrr"), ExtResource("6_ie1cv")])
 scarce = Array[Resource("res://resources/token_data.gd")]([ExtResource("7_gwqnd")])
 unique = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_npg6p")])
+bad_token = ExtResource("1_bbj55")

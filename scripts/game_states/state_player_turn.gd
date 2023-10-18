@@ -4,8 +4,6 @@ class_name  StatePlayerTurn
 
 @export var combinator: Combinator
 
-var current_cell_index: Vector2
-
 # for debugging purposes
 @export var scroll_tokens:Array[TokenData] = []
 var current_scroll_item: int = 0
@@ -71,9 +69,6 @@ func _input(event:InputEvent) -> void:
 			game_manager.floating_token = next_token_instance
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
-			var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
-			if combination.is_valid():
-				highlight_combination(combination)
 			is_scroll_in_progress = true
 			var timer:SceneTreeTimer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
@@ -82,16 +77,11 @@ func __on_scroll_timer_timeout() -> void:
 	is_scroll_in_progress = false
 	
 func _on_board_board_cell_moved(index:Vector2) -> void:
-	current_cell_index = index
-	game_manager.spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
+	# I need this line because there is non sense on having other linked events 
+	game_manager.spawn_token_cell.clear_highlight()
+	board.clear_highlights()
+	game_manager.move_floating_token_to_cell(index)	
 	
-	if board.is_cell_empty(index):
-		game_manager.move_floating_token_to_cell(index)
-		
-		var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
-		if combination.is_valid():
-			highlight_combination(combination)
-		
 func _on_board_board_cell_selected(index:Vector2) -> void:
 	
 	if board.is_cell_empty(index):
@@ -111,16 +101,12 @@ func finish_player_turn() -> void:
 	state_finished.emit(id)
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
-	game_manager.save_token_cell.highlight(Constants.HighlightMode.HOVER, true)
+	game_manager.save_token_cell.highlight(Constants.HighlightMode.VALID)
 	pass
 	
 func _on_save_token_cell_exited(cell_index: Vector2) -> void:
-	game_manager.save_token_cell.highlight(Constants.HighlightMode.NONE, true)
+	game_manager.save_token_cell.highlight(Constants.HighlightMode.NONE)
 	pass
 	
 func _on_save_token_cell_selected(cell_index: Vector2) -> void:
 	game_manager.swap_floating_and_saved_token(cell_index)
-
-func highlight_combination(combination:Combination) -> void:
-	for cell_index in combination.combinable_cells:
-		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)

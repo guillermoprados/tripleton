@@ -20,8 +20,9 @@ enum EnemyType {
 
 enum HighlightMode {
 	NONE,
-	HOVER,
-	SAME_LINE,
+	VALID,
+	WARNING,
+	INVALID,
 	COMBINATION
 }
 
