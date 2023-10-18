@@ -20,18 +20,16 @@ func _on_state_exited() -> void:
 func _process(delta:float) -> void:
 	if create_landscape:
 		__create_landscape()
-		game_manager.clear_tokens_pool()
 		create_landscape = false
 	else:
 		state_finished.emit(id)
 
 func __create_landscape() -> void:
 	randomize()
-	game_manager.set_tokens_set(landscape_tokens)
 	var rand_num = get_random_between(Constants.MIN_LANDSCAPE_TOKENS, Constants.MAX_LANDSCAPE_TOKENS)
 	for i in range(rand_num + 1):  # +1 to make it inclusive of the random number
 		var random_cell:Vector2 = get_random_position(board.rows, board.columns)
-		var random_token_data:TokenData = game_manager.__get_random_token_data()
+		var random_token_data:TokenData = landscape_tokens.get_random_token_data()
 		var random_token = game_manager.instantiate_new_token(random_token_data, Vector2.ZERO, null)
 		if board.is_cell_empty(random_cell):
 			board.set_token_at_cell(random_token, random_cell)

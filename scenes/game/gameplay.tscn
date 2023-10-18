@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
-[ext_resource type="Resource" uid="uid://bja78jwbx6iou" path="res://data/levels/basic.tres" id="3_ivw4l"]
+[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy.tres" id="3_kt2g7"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
@@ -27,7 +27,7 @@
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
-level_config = ExtResource("3_ivw4l")
+tokens_sets = Array[Resource("res://resources/tokens_set.gd")]([ExtResource("3_kt2g7")])
 save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
 combinator = NodePath("../Combinator")
