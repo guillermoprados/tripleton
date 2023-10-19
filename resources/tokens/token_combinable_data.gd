@@ -1,4 +1,4 @@
-extends TokenData
+extends TokenPrizeData
 
 class_name TokenCombinableData
 

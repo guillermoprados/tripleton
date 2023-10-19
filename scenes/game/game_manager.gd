@@ -21,7 +21,6 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 
 var current_tokens_set:TokensSet
 
-var last_played_position:Vector2
 var floating_token: Token
 var saved_token: Token
 
@@ -139,11 +138,19 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
-func place_token_on_board(token:Token, cell_index: Vector2) -> void:
-	last_played_position = cell_index;
+func place_floating_token_at(cell_index:Vector2) -> void:
 	
-	if token.type == Constants.TokenType.WILDCARD:
-		token = __replace_wildcard_token(token, cell_index)
+	remove_child(floating_token)
+	
+	if floating_token.type == Constants.TokenType.WILDCARD:
+		floating_token = __get_replace_wildcard_token(cell_index)
+	elif floating_token.type == Constants.TokenType.ACTION:
+		floating_token = __get_bad_movement_token()
+	
+	__place_token_on_board(floating_token, cell_index)
+	
+
+func __place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
@@ -165,17 +172,20 @@ func replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 
 	combinator.reset_combinations(board.rows, board.columns)
 	
-func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
+func __get_replace_wildcard_token(cell_index:Vector2) -> Token:
 	var replace_token : Token = null
 	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
 	if combination.is_valid():
 		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
 		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
 	else: 
-		replace_token = instantiate_new_token(current_tokens_set.bad_token, floating_token.position, null)
+		replace_token = __get_bad_movement_token()
 	
 	return replace_token
-	
+
+func __get_bad_movement_token() -> Token:
+	return instantiate_new_token(current_tokens_set.bad_token, Vector2.ZERO, null)
+
 func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
 	
 	var merged_cells : Array = []
@@ -199,7 +209,7 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 			merged_cells.append_array(combination.combinable_cells)
 			var combined_token:Token = combine_tokens(combination)
 			
-			place_token_on_board(combined_token, merge_position)
+			__place_token_on_board(combined_token, merge_position)
 			
 			
 func __get_last_created_token_position(cells: Array) -> Vector2:

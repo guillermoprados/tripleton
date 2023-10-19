@@ -10,7 +10,7 @@
 script = ExtResource("1_1wkvs")
 prizes = Array[Resource("res://resources/token_data.gd")]([ExtResource("2_7f6n6"), ExtResource("3_t5n5j")])
 next_token = ExtResource("1_m2cjs")
-id = "chest_bronze"
-sprite_scene = ExtResource("5_ajach")
 reward_type = 2
 reward_value = 200
+id = "chest_bronze"
+sprite_scene = ExtResource("5_ajach")

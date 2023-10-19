@@ -7,5 +7,3 @@
 script = ExtResource("1_s0pjp")
 id = "move"
 sprite_scene = ExtResource("2_40hih")
-reward_type = 0
-reward_value = 0

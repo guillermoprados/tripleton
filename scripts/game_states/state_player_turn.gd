@@ -85,15 +85,16 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 func _on_board_board_cell_selected(index:Vector2) -> void:
 	
 	if board.is_cell_empty(index):
-		game_manager.remove_child(game_manager.floating_token)
-		game_manager.place_token_on_board(game_manager.floating_token, index)
+		game_manager.place_floating_token_at(index)
 		finish_player_turn()
 	else:
 		var cell_token:Token = board.get_token_at_cell(index)
 		if cell_token.type == Constants.TokenType.CHEST:
 			game_manager.open_chest(cell_token, index)
-		elif cell_token.type == Constants.TokenType.PRIZE:
+		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
 			game_manager.collect_reward(cell_token, index)
+		elif cell_token.type == Constants.TokenType.ACTION:
+			game_manager.execute_token_action(cell_token, index)
 		else:
 			game_manager.show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
