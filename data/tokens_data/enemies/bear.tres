@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TokenEnemyData" load_steps=5 format=3 uid="uid://dxct4ukary6br"]
 
 [ext_resource type="Script" path="res://resources/tokens/token_enemy_data.gd" id="1_fw8ou"]
-[ext_resource type="PackedScene" uid="uid://cj2newyl4yn83" path="res://scenes/objects/tokens/behaviors/bear_behavior.tscn" id="1_xh065"]
+[ext_resource type="PackedScene" uid="uid://cj2newyl4yn83" path="res://scenes/objects/tokens/behaviors/enemies/bear_behavior.tscn" id="1_xh065"]
 [ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="2_0rrbu"]
 [ext_resource type="PackedScene" uid="uid://bnsnrbwc6xd7k" path="res://scenes/objects/tokens/enemies/bear.tscn" id="2_5cs4y"]
 
@@ -12,5 +12,6 @@ enemy_type = 0
 next_token = ExtResource("2_0rrbu")
 reward_type = 0
 reward_value = 0
+collectable = false
 id = "bear"
 sprite_scene = ExtResource("2_5cs4y")

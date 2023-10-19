@@ -18,6 +18,14 @@ enum EnemyType {
 	CRAB
 }
 
+enum ActionType {
+	MOVE,
+	LEVEL_UP,
+	REMOVE,
+	BOMB,
+	SWIRL
+}
+
 enum CellHighlight {
 	NONE,
 	VALID,

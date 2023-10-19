@@ -12,5 +12,6 @@ prizes = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_fxvwu"
 next_token = ExtResource("1_0v0tv")
 reward_type = 2
 reward_value = 500
+collectable = false
 id = "chest_gold"
 sprite_scene = ExtResource("2_prwim")

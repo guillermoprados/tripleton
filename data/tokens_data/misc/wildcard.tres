@@ -7,5 +7,6 @@
 script = ExtResource("1_7y41m")
 reward_type = 0
 reward_value = 0
+collectable = false
 id = "WILDCARD"
 sprite_scene = ExtResource("2_4ky15")

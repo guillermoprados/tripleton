@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctgnp8ql2fhmv"]
+
+[ext_resource type="Script" path="res://scenes/objects/tokens/behaviors/actions/move_action.gd" id="1_g0dht"]
+
+[node name="action" type="Node"]
+script = ExtResource("1_g0dht")
