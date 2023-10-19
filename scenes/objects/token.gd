@@ -4,6 +4,7 @@ class_name Token
 
 @export var color_highlight_last : Color = Color(1, 0.5, 0.5, 1)
 @export var color_highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var color_highlight_transparent : Color = Color(1, 1, 1, 0.5)
 
 var floating: bool
 
@@ -70,4 +71,6 @@ func highlight(mode:Constants.TokenHighlight) -> void:
 			sprite.modulate = color_highlight_invalid
 		Constants.TokenHighlight.LAST:
 			sprite.modulate = color_highlight_last
+		Constants.TokenHighlight.TRANSPARENT:
+			sprite.modulate = color_highlight_transparent
 		

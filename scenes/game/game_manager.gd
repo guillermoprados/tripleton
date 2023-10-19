@@ -69,45 +69,48 @@ func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
 	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
 	if floating_token.type == Constants.TokenType.ACTION:
-		__move_floatin_action_token(cell_index, token_position)
+		__move_floating_action_token(cell_index, token_position)
 	else:	 
 		__move_floating_normal_token(cell_index, token_position)
 
 func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2) -> void:
-	if not board.is_cell_empty(cell_index):
-		__set_invalid_floating_normal_token_position(cell_index, on_board_position)
+	
+	if board.is_cell_empty(cell_index):
+		
+		floating_token.position = on_board_position
+		floating_token.unhighlight()
+		
+		var is_wildcard = floating_token.type == Constants.TokenType.WILDCARD
+		
+		if is_wildcard:
+			# this is esential to ensure the combination on that cell is 
+			# being replaced with the wildcard
+			__check_wildcard_combinations_at(cell_index)
+
+		var combination:Combination = check_combination_all_levels(floating_token, cell_index)
+
+		if combination.is_valid():
+			board.highlight_combination(combination)
+		elif is_wildcard:
+			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
+		else:
+			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
+			
 	else:
-		__set_valid_floating_normal_token_position(cell_index, on_board_position)
-
-func __set_invalid_floating_normal_token_position(cell_index:Vector2, position:Vector2):
-	floating_token.highlight(Constants.TokenHighlight.INVALID)
-	board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
-
-func __set_valid_floating_normal_token_position(cell_index:Vector2, position:Vector2):
+		
+		floating_token.highlight(Constants.TokenHighlight.INVALID)
+		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 	
-	floating_token.position = position
-	floating_token.unhighlight()
+func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2):
 	
-	var is_wildcard = floating_token.type == Constants.TokenType.WILDCARD
+	floating_token.position = on_board_position
 	
-	if is_wildcard:
-		# this is esential to ensure the combination on that cell is 
-		# being replaced with the wildcard
-		__check_wildcard_combinations_at(cell_index)
-
-	var combination:Combination = check_combination_all_levels(floating_token, cell_index)
-
-	if combination.is_valid():
-		board.highlight_combination(combination)
-	elif is_wildcard:
+	if board.is_cell_empty(cell_index):
 		board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
+		floating_token.unhighlight()
 	else:
 		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-	
-func __move_floatin_action_token(cell_index:Vector2, on_board_position:Vector2):
-	
-	pass
-
+		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
 
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)

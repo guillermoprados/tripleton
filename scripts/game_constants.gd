@@ -30,6 +30,7 @@ enum TokenHighlight {
 	NONE,
 	LAST,
 	INVALID,
+	TRANSPARENT
 }
 
 enum RewardType {
