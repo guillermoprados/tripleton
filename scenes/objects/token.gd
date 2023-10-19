@@ -17,6 +17,7 @@ var type:Constants.TokenType:
 		return data.type()		
 
 var behavior: TokenBehavior
+var action: TokenAction
 
 var sprite: AnimatedSprite2D
 	
@@ -44,11 +45,12 @@ func set_data(token_data:TokenData) -> void:
 	sprite = token_data.sprite_scene.instantiate()
 	add_child(sprite)
 	
-	if data.type() == Constants.TokenType.ENEMY:
-		for child in sprite.get_children():
-			if child is TokenBehavior:
-				behavior = child
-		assert(behavior, "token "+id+" does not have a behavior!")
+	for child in sprite.get_children():
+		if child is TokenBehavior:
+			behavior = child
+		if child is TokenAction:
+			action = child
+	
 
 func unhighlight() -> void:
 	highlight(Constants.TokenHighlight.NONE)

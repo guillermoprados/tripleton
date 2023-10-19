@@ -101,16 +101,19 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 	
 func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2):
-	
-	floating_token.position = on_board_position
-	
 	if board.is_cell_empty(cell_index):
+		floating_token.position = on_board_position
 		board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
-		floating_token.unhighlight()
-	else:
+		floating_token.unhighlight()	
+	elif floating_token.action.is_valid_action():
+		floating_token.position = on_board_position
 		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
+	else:
+		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
+		floating_token.highlight(Constants.TokenHighlight.INVALID)
 
+	
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
 
@@ -138,8 +141,31 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
-func place_floating_token_at(cell_index:Vector2) -> void:
+func board_cell_selected(cell_index:Vector2) -> bool:
 	
+	var placed : bool = false
+	
+	if board.is_cell_empty(cell_index):
+		__place_floating_token_at(cell_index)
+		placed = true
+	elif floating_token.type == Constants.TokenType.ACTION:
+		if floating_token.action.is_valid_action():
+			__execute_floating_token_action(cell_index)
+			placed = true
+		else:
+			show_message.emit("Cannot invalid movement", Constants.MessageType.ERROR, .5);
+	else:
+		var cell_token:Token = board.get_token_at_cell(cell_index)
+		if cell_token.type == Constants.TokenType.CHEST:
+			open_chest(cell_token, cell_index)
+		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
+			collect_reward(cell_token, cell_index)
+		else:
+			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
+
+	return placed	
+
+func __place_floating_token_at(cell_index: Vector2) -> void:
 	remove_child(floating_token)
 	
 	if floating_token.type == Constants.TokenType.WILDCARD:
@@ -149,7 +175,6 @@ func place_floating_token_at(cell_index:Vector2) -> void:
 	
 	__place_token_on_board(floating_token, cell_index)
 	
-
 func __place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	
 	board.set_token_at_cell(token, cell_index)
@@ -367,10 +392,10 @@ func can_place_more_tokens() -> bool:
 	var board_free_cells : int = board.get_number_of_empty_cells()
 	return board_free_cells > 0
 
-func execute_floating_token_action(cell_index:Vector2) -> void:
-	execute_token_action(floating_token, cell_index)
+func __execute_floating_token_action(cell_index:Vector2) -> void:
+	__execute_token_action(floating_token, cell_index)
 	
-func execute_token_action(token:Token, cell_index:Vector2) -> void:
+func __execute_token_action(token:Token, cell_index:Vector2) -> void:
 	assert (token.type == Constants.TokenType.ACTION, "cannot use an action on a non token action")
-	print("ACTIOON")
+	token.action.execute_action(cell_index, board.cell_tokens_ids)
 
