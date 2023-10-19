@@ -73,9 +73,6 @@ func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	else:	 
 		__move_floating_normal_token(cell_index, token_position)
 
-func __move_floatin_action_token(cell_index:Vector2, on_board_position:Vector2):
-	pass
-
 func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2) -> void:
 	if not board.is_cell_empty(cell_index):
 		__set_invalid_floating_normal_token_position(cell_index, on_board_position)
@@ -83,8 +80,6 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 		__set_valid_floating_normal_token_position(cell_index, on_board_position)
 
 func __set_invalid_floating_normal_token_position(cell_index:Vector2, position:Vector2):
-	position = position - (Constants.CELL_SIZE / 3)
-	floating_token.position = position
 	floating_token.highlight(Constants.TokenHighlight.INVALID)
 	board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 
@@ -93,7 +88,9 @@ func __set_valid_floating_normal_token_position(cell_index:Vector2, position:Vec
 	floating_token.position = position
 	floating_token.unhighlight()
 	
-	if floating_token.type == Constants.TokenType.WILDCARD:
+	var is_wildcard = floating_token.type == Constants.TokenType.WILDCARD
+	
+	if is_wildcard:
 		# this is esential to ensure the combination on that cell is 
 		# being replaced with the wildcard
 		__check_wildcard_combinations_at(cell_index)
@@ -102,13 +99,27 @@ func __set_valid_floating_normal_token_position(cell_index:Vector2, position:Vec
 
 	if combination.is_valid():
 		board.highlight_combination(combination)
+	elif is_wildcard:
+		board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
 	else:
 		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 	
+func __move_floatin_action_token(cell_index:Vector2, on_board_position:Vector2):
+	
+	pass
+
 
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
 
+func move_floating_token_to_swap_cell() -> void:
+	board.clear_highlights()
+	floating_token.unhighlight()
+	var swap_position:Vector2 = save_token_cell.position
+	if saved_token != null:
+		swap_position = swap_position - (Constants.CELL_SIZE / 3)
+	floating_token.position = swap_position
+	
 func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	if saved_token:
 		var floating_pos:Vector2 = floating_token.position

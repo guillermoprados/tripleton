@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=17 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
+[ext_resource type="Resource" uid="uid://dd41fj2ikombg" path="res://data/tokens_data/misc/wildcard.tres" id="12_isnxd"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
@@ -69,7 +70,7 @@ landscape_tokens = ExtResource("9_e3s0g")
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("12_isnxd")])
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")
