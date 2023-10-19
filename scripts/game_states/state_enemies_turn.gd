@@ -20,7 +20,7 @@ func _on_state_entered() -> void:
 	stucked_enemies = []
 	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for key in enemies:
-		enemies[key].unhighlight_token()
+		enemies[key].unhighlight()
 		number_of_pending_actions += 1
 		__bind_enemy_actions(enemies[key])
 		enemies[key].behavior.execute_action(key, board.cell_tokens_ids)
@@ -118,7 +118,7 @@ func __highlight_last_in_groups(simplified_board:Array) -> void:
 	for group in groups:
 		if group.size() > Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION - 1:
 			var last_enemy : Token = __find_last_created(group)
-			last_enemy.highlight_token() 
+			last_enemy.highlight(Constants.TokenHighlight.LAST) 
 
 enum PathCellType {
 	PATH,

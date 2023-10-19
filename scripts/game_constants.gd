@@ -18,12 +18,18 @@ enum EnemyType {
 	CRAB
 }
 
-enum HighlightMode {
+enum CellHighlight {
 	NONE,
 	VALID,
 	WARNING,
 	INVALID,
 	COMBINATION
+}
+
+enum TokenHighlight {
+	NONE,
+	LAST,
+	INVALID,
 }
 
 enum RewardType {

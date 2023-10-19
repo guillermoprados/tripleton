@@ -61,14 +61,13 @@ func create_floating_token() -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")
 	var random_token_data:TokenData = current_tokens_set.get_random_token_data()
 	floating_token = instantiate_new_token(random_token_data, spawn_token_cell.position, self)
-	spawn_token_cell.highlight(Constants.HighlightMode.VALID)
+	spawn_token_cell.highlight(Constants.CellHighlight.VALID)
 
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	
 	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
 	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
 	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
-		
 	if floating_token.type == Constants.TokenType.ACTION:
 		__move_floatin_action_token(cell_index, token_position)
 	else:	 
@@ -86,12 +85,14 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 func __set_invalid_floating_normal_token_position(cell_index:Vector2, position:Vector2):
 	position = position - (Constants.CELL_SIZE / 3)
 	floating_token.position = position
-	board.highligh_cell(cell_index, Constants.HighlightMode.INVALID)
+	floating_token.highlight(Constants.TokenHighlight.INVALID)
+	board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 
 func __set_valid_floating_normal_token_position(cell_index:Vector2, position:Vector2):
 	
 	floating_token.position = position
-
+	floating_token.unhighlight()
+	
 	if floating_token.type == Constants.TokenType.WILDCARD:
 		# this is esential to ensure the combination on that cell is 
 		# being replaced with the wildcard
@@ -102,7 +103,7 @@ func __set_valid_floating_normal_token_position(cell_index:Vector2, position:Vec
 	if combination.is_valid():
 		board.highlight_combination(combination)
 	else:
-		board.highligh_cell(cell_index, Constants.HighlightMode.VALID)
+		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 	
 
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:

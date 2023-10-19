@@ -45,17 +45,17 @@ func adjust_size(new_size: Vector2) -> void:
 	self.scale = new_size / Constants.CELL_SPRITE_SIZE
 	
 func clear_highlight() -> void:
-	highlight(Constants.HighlightMode.NONE)
+	highlight(Constants.CellHighlight.NONE)
 	
-func highlight(mode: Constants.HighlightMode) -> void:
+func highlight(mode: Constants.CellHighlight) -> void:
 	match mode:
-		Constants.HighlightMode.NONE:
+		Constants.CellHighlight.NONE:
 			$HighLightColor.color = highlihgt_none
-		Constants.HighlightMode.VALID:
+		Constants.CellHighlight.VALID:
 			$HighLightColor.color = highlight_valid
-		Constants.HighlightMode.INVALID:
+		Constants.CellHighlight.INVALID:
 			$HighLightColor.color = highlight_invalid
-		Constants.HighlightMode.WARNING:
+		Constants.CellHighlight.WARNING:
 			$HighLightColor.color = highlight_warning
-		Constants.HighlightMode.COMBINATION:
+		Constants.CellHighlight.COMBINATION:
 			$HighLightColor.color = highlight_combination

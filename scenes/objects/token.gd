@@ -2,6 +2,9 @@ extends Node2D
 
 class_name Token
 
+@export var color_highlight_last : Color = Color(1, 0.5, 0.5, 1)
+@export var color_highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
+
 var floating: bool
 
 var id:String:
@@ -37,7 +40,6 @@ func _init():
 	
 func _ready() -> void:
 	adjust_size(Constants.CELL_SIZE)
-	unhighlight_token()
 
 func _process(delta:float) -> void:
 	pass
@@ -57,8 +59,15 @@ func set_data(token_data:TokenData) -> void:
 		behavior = token_data.behavior.instantiate()
 		add_child(behavior)
 
-func highlight_token() -> void:
-	sprite.modulate = Color.RED
-
-func unhighlight_token() -> void:
-	sprite.modulate = Color.WHITE
+func unhighlight() -> void:
+	highlight(Constants.TokenHighlight.NONE)
+	
+func highlight(mode:Constants.TokenHighlight) -> void:
+	match mode:
+		Constants.TokenHighlight.NONE:
+			sprite.modulate = Color.WHITE
+		Constants.TokenHighlight.INVALID:
+			sprite.modulate = color_highlight_invalid
+		Constants.TokenHighlight.LAST:
+			sprite.modulate = color_highlight_last
+		
