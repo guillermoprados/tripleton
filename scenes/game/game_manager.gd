@@ -367,6 +367,9 @@ func can_place_more_tokens() -> bool:
 	var board_free_cells : int = board.get_number_of_empty_cells()
 	return board_free_cells > 0
 
+func execute_floating_token_action(cell_index:Vector2) -> void:
+	execute_token_action(floating_token, cell_index)
+	
 func execute_token_action(token:Token, cell_index:Vector2) -> void:
 	assert (token.type == Constants.TokenType.ACTION, "cannot use an action on a non token action")
 	print("ACTIOON")

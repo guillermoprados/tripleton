@@ -1,16 +1,14 @@
 extends TokenBehavior
 
+class_name ActionMove
+
 enum MOVE_DIRECTION {
 	UP,
 	DOWN,
 	LEFT,
 	RIGHT
 }
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	print("I am an action!")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func execute_behavior_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
+	print("action!!")
+	
