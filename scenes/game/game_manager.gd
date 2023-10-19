@@ -312,8 +312,9 @@ func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
 				if token.data.reward_type == Constants.RewardType.POINTS:
 					current_points += token.data.reward_value
 			if current_points > bigger_points:
+				bigger_points = current_points
 				bigger_combination = combination
-
+				
 	if bigger_combination:
 		combinator.replace_combination_at_cell(bigger_combination, cell_index)
 
