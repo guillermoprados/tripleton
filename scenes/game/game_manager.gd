@@ -58,16 +58,25 @@ func create_floating_token(token_data:TokenData) -> void:
 		token_data = current_tokens_set.get_random_token_data()
 	floating_token = instantiate_new_token(token_data)
 	add_child(floating_token)
+	__bind_token_events(floating_token)
 	floating_token.position = spawn_token_cell.position
 	spawn_token_cell.highlight(Constants.CellHighlight.VALID)
 	
 func discard_floating_token() -> void:
 	assert (floating_token, "trying to discard a non existing token token when there is already one")
+	__unbind_token_events(floating_token)
 	floating_token.queue_free()
 	floating_token = null
 
+func __bind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.move_from_cell_to_cell.connect(move_token_in_board)
+		
+func __unbind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.move_from_cell_to_cell.disconnect(move_token_in_board)
+		
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
-	
 	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
 	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
 	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
@@ -145,19 +154,21 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
-func board_cell_selected(cell_index:Vector2) -> bool:
-	
+func place_floating_token(cell_index:Vector2) -> bool:
 	var placed : bool = false
-	
-	# acá.. ver como ejecuto la acción
-	
 	if board.is_cell_empty(cell_index):
 		__place_floating_token_at(cell_index)
 		placed = true
-	elif floating_token.type == Constants.TokenType.ACTION:
+	else:
+		__special_cell_selected_actions(cell_index)
+		placed = false
+	return placed		
+	
+func __special_cell_selected_actions(cell_index:Vector2) -> void:
+	if floating_token.type == Constants.TokenType.ACTION:
 		if floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids):
 			__execute_floating_token_action(cell_index)
-			placed = true
+			board.clear_highlights()
 		else:
 			show_message.emit("Cannot invalid movement", Constants.MessageType.ERROR, .5);
 	else:
@@ -168,8 +179,6 @@ func board_cell_selected(cell_index:Vector2) -> bool:
 			collect_reward(cell_token, cell_index)
 		else:
 			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
-
-	return placed	
 
 func __place_floating_token_at(cell_index: Vector2) -> void:
 	remove_child(floating_token)

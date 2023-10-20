@@ -100,7 +100,7 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	game_manager.move_floating_token_to_cell(index)	
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
-	if game_manager.board_cell_selected(index):
+	if game_manager.place_floating_token(index):
 		finish_player_turn()	
 	
 func finish_player_turn() -> void:
