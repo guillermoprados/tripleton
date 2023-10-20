@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="TokensSet" load_steps=11 format=3 uid="uid://c4mpxlybdjkrs"]
+[gd_resource type="Resource" script_class="TokensSet" load_steps=13 format=3 uid="uid://c4mpxlybdjkrs"]
 
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass.tres" id="1_32u82"]
 [ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="1_bbj55"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/bush.tres" id="3_88c0o"]
 [ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="4_bjjk4"]
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/lamp.tres" id="5_pedmm"]
+[ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="6_fklel"]
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="6_ie1cv"]
 [ext_resource type="Resource" uid="uid://dd41fj2ikombg" path="res://data/tokens_data/misc/wildcard.tres" id="6_npg6p"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/bear.tres" id="7_gwqnd"]
+[ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="7_h4yem"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/tree.tres" id="7_nmgrr"]
 [ext_resource type="Script" path="res://resources/tokens_set.gd" id="9_6hwbh"]
 
@@ -16,7 +18,7 @@ script = ExtResource("9_6hwbh")
 name = "easy"
 common = Array[Resource("res://resources/token_data.gd")]([ExtResource("4_bjjk4"), ExtResource("1_32u82")])
 uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("3_88c0o"), ExtResource("5_pedmm")])
-rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("7_nmgrr"), ExtResource("6_ie1cv")])
+rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("7_nmgrr"), ExtResource("6_ie1cv"), ExtResource("6_fklel"), ExtResource("7_h4yem")])
 scarce = Array[Resource("res://resources/token_data.gd")]([ExtResource("7_gwqnd")])
 unique = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_npg6p")])
 bad_token = ExtResource("1_bbj55")

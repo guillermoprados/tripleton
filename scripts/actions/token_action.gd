@@ -5,11 +5,16 @@ class_name TokenAction
 signal action_finished()	
 signal move_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_time:float)
 signal swap_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_time:float)
+signal remove_token_from_cell(cell:Vector2)
 
 func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
 	assert(false, "this is must be implemented in child")
 	return false
 
+func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector2]:
+	assert(false, "this is must be implemented in child")
+	return []
+	
 func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 	assert(false, "this is must implemented in child")
 

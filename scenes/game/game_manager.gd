@@ -71,10 +71,12 @@ func discard_floating_token() -> void:
 func __bind_token_events(token:Token) -> void:
 	if token.type == Constants.TokenType.ACTION:
 		token.action.move_from_cell_to_cell.connect(move_token_in_board)
+		token.action.remove_token_from_cell.connect(remove_token_from_board)
 		
 func __unbind_token_events(token:Token) -> void:
 	if token.type == Constants.TokenType.ACTION:
 		token.action.move_from_cell_to_cell.disconnect(move_token_in_board)
+		token.action.remove_token_from_cell.disconnect(remove_token_from_board)
 		
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
@@ -121,14 +123,19 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 	elif floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids):
 		floating_token.position = on_board_position
 		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
+		for cell in floating_token.action.affected_cells(cell_index, board.cell_tokens_ids):
+			board.highligh_cell(cell, Constants.CellHighlight.WARNING)
+		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
 	else:
 		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 		floating_token.highlight(Constants.TokenHighlight.INVALID)
 
-	
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
+
+func remove_token_from_board(cell_index_from:Vector2) -> void:
+	board.clear_token(cell_index_from)
 
 func move_floating_token_to_swap_cell() -> void:
 	board.clear_highlights()

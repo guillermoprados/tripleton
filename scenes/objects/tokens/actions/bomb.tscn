@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmw85221ay06i"]
+
+[ext_resource type="Texture2D" uid="uid://q6a7fpitr5al" path="res://images/tokens/bomb.png" id="1_11cnu"]
+[ext_resource type="Script" path="res://scripts/actions/action_bomb.gd" id="2_a5jj2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_11cnu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(63, 63)
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"
+
+[node name="ActionBomb" type="Node" parent="."]
+script = ExtResource("2_a5jj2")

@@ -36,6 +36,11 @@ func __get_next_cell(current_cell:Vector2, direction:MoveDirection) -> Vector2:
 		MoveDirection.RIGHT:
 			next_cell.y += 1
 	return next_cell
+
+func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector2]:
+	var cells:Array[Vector2] = []
+	cells.append(__get_next_cell(current_cell, move_direction))
+	return cells
 	
 func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
 	var valid : bool = false

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TokenActionData" load_steps=3 format=3 uid="uid://bi56svpdbw0wm"]
+
+[ext_resource type="Script" path="res://resources/tokens/token_action_data.gd" id="1_6xwja"]
+[ext_resource type="PackedScene" uid="uid://bmw85221ay06i" path="res://scenes/objects/tokens/actions/bomb.tscn" id="2_yu7dl"]
+
+[resource]
+script = ExtResource("1_6xwja")
+action_type = 3
+id = "bomb"
+sprite_scene = ExtResource("2_yu7dl")
