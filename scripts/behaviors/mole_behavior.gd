@@ -2,15 +2,15 @@ extends TokenBehavior
 
 class_name MoleBehavior
 
-func execute_behavior_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
+func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_random_empty_cell(cell_tokens_ids) 
 		if next_empty_cell != Constants.INVALID_CELL:
 			move_from_cell_to_cell.emit(current_cell, next_empty_cell, 0)
 			# animate and then emit finish
-			behaviour_action_finished.emit()
+			behaviour_finished.emit()
 		else:
 			stuck_in_cell.emit(current_cell)
-			behaviour_action_finished.emit()
+			behaviour_finished.emit()
 		
 func find_random_empty_cell(cell_tokens_ids: Array) -> Vector2:
 	var empty_cells: Array = []

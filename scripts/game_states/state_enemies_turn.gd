@@ -23,7 +23,7 @@ func _on_state_entered() -> void:
 		enemies[key].unhighlight()
 		number_of_pending_actions += 1
 		__bind_enemy_actions(enemies[key])
-		enemies[key].behavior.execute_behavior_action(key, board.cell_tokens_ids)
+		enemies[key].behavior.execute_behavior(key, board.cell_tokens_ids)
 		
 # override in states
 func _on_state_exited() -> void:
@@ -33,16 +33,16 @@ func _on_state_exited() -> void:
 	enemies = {}
 
 func __bind_enemy_actions(token:Token) -> void:
-	token.behavior.behaviour_action_finished.connect(self._on_enemy_behaviour_action_finished)
+	token.behavior.behaviour_finished.connect(self._on_enemy_behaviour_finished)
 	token.behavior.move_from_cell_to_cell.connect(self._on_enemy_movement)
 	token.behavior.stuck_in_cell.connect(self._on_stucked_enemy)
 
 func __unbind_enemy_actions(token:Token) -> void:
-	token.behavior.behaviour_action_finished.disconnect(self._on_enemy_behaviour_action_finished)
+	token.behavior.behaviour_finished.disconnect(self._on_enemy_behaviour_finished)
 	token.behavior.move_from_cell_to_cell.disconnect(self._on_enemy_movement)
 	token.behavior.stuck_in_cell.disconnect(self._on_stucked_enemy)
 	
-func _on_enemy_behaviour_action_finished() -> void:
+func _on_enemy_behaviour_finished() -> void:
 	number_of_pending_actions -= 1
 
 func _on_stucked_enemy(cell_index:Vector2) -> void:

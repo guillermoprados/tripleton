@@ -105,7 +105,7 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 		floating_token.position = on_board_position
 		board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
 		floating_token.unhighlight()	
-	elif floating_token.action.is_valid_action():
+	elif floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids):
 		floating_token.position = on_board_position
 		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
@@ -149,7 +149,7 @@ func board_cell_selected(cell_index:Vector2) -> bool:
 		__place_floating_token_at(cell_index)
 		placed = true
 	elif floating_token.type == Constants.TokenType.ACTION:
-		if floating_token.action.is_valid_action():
+		if floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids):
 			__execute_floating_token_action(cell_index)
 			placed = true
 		else:

@@ -2,15 +2,15 @@ extends TokenBehavior
 
 class_name RollerBehavior
 
-func execute_behavior_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
+func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_random_empty_cell_in_line(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
 			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2)
 			# animate and then emit finish
-			behaviour_action_finished.emit()
+			behaviour_finished.emit()
 		else:
 			stuck_in_cell.emit(current_cell)
-			behaviour_action_finished.emit()
+			behaviour_finished.emit()
 		
 func find_continuous_empty_cell_in_line(current_cell: Vector2, cell_tokens_ids: Array, direction: Vector2) -> Array[Vector2]:
 	var continuous_empty_cells: Array[Vector2] = []

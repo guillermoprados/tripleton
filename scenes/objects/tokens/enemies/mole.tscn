@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ctdukcd4g3y26"]
 
 [ext_resource type="Texture2D" uid="uid://cxpceak1pli1g" path="res://images/tokens/destroyer.png" id="1_78x54"]
-[ext_resource type="Script" path="res://scripts/behaviors/enemies/mole_behavior.gd" id="2_w270q"]
+[ext_resource type="Script" path="res://scripts/behaviors/mole_behavior.gd" id="2_w270q"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
 animations = [{
