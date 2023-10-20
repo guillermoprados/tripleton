@@ -4,6 +4,9 @@ class_name  StatePlayerTurn
 
 @export var combinator: Combinator
 
+var executed_actions = false
+var actions_finished = false
+
 # for debugging purposes
 @export var scroll_tokens:Array[TokenData] = []
 var current_scroll_item: int = 0
@@ -18,7 +21,8 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
-	pass
+	if executed_actions and actions_finished:
+		finish_player_turn()
 
 # override in states	
 func _on_state_entered() -> void:
@@ -27,7 +31,9 @@ func _on_state_entered() -> void:
 	
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
-	game_manager.create_floating_token()
+	game_manager.create_floating_token(null)
+	
+	__bind_token_events(game_manager.floating_token)
 	
 	game_manager.save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
@@ -38,7 +44,9 @@ func _on_state_entered() -> void:
 # override in states
 func _on_state_exited() -> void:
 	
-	game_manager.floating_token = null
+	__unbind_token_events(game_manager.floating_token)
+	
+	game_manager.discard_floating_token()
 	
 	game_manager.save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
@@ -46,6 +54,14 @@ func _on_state_exited() -> void:
 	
 	board.enabled_interaction = false
 
+func __bind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.action_finished.connect(finish_player_turn)
+	
+func __unbind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.action_finished.disconnect(finish_player_turn)
+	
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
 		return
@@ -64,9 +80,10 @@ func _input(event:InputEvent) -> void:
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			var next_token_instance:Token = game_manager.instantiate_new_token(next_token_data, game_manager.floating_token.position, game_manager)
-			game_manager.floating_token.queue_free()
-			game_manager.floating_token = next_token_instance
+			__unbind_token_events(game_manager.floating_token)
+			game_manager.discard_floating_token()
+			game_manager.create_floating_token(next_token_data)
+			__bind_token_events(game_manager.floating_token)
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
 			is_scroll_in_progress = true
