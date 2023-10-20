@@ -2,10 +2,11 @@ extends Node
 
 class_name TokenAction
 
-signal action_finished()	
 signal move_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_time:float)
 signal swap_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_time:float)
-signal remove_token_from_cell(cell:Vector2)
+signal destroy_token_at_cell(cell:Vector2)
+signal set_to_bad_action(cell:Vector2)
+signal action_finished()	
 
 func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
 	assert(false, "this is must be implemented in child")

@@ -39,21 +39,33 @@ func __get_next_cell(current_cell:Vector2, direction:MoveDirection) -> Vector2:
 
 func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector2]:
 	var cells:Array[Vector2] = []
-	cells.append(__get_next_cell(current_cell, move_direction))
+	
+	if cell_tokens_ids[current_cell.x][current_cell.y] == Constants.EMPTY_CELL:
+		cells.append(current_cell)
+	else:
+		cells.append(__get_next_cell(current_cell, move_direction))
+		
 	return cells
 	
 func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
-	var valid : bool = false
+	
+	# this will turn the token into rock
+	if cell_tokens_ids[action_cell.x][action_cell.y] == Constants.EMPTY_CELL:
+		return true
 	
 	var next_cell = __get_next_cell(action_cell, move_direction)
 	
 	if is_valid_cell(next_cell, cell_tokens_ids):
-		valid = cell_tokens_ids[next_cell.x][next_cell.y] == Constants.EMPTY_CELL
+		return cell_tokens_ids[next_cell.x][next_cell.y] == Constants.EMPTY_CELL
 	
-	return valid
+	return false
 
 func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
-	move_from_cell_to_cell.emit(current_cell, __get_next_cell(current_cell, move_direction), .2)
+	# this will turn the token into rock
+	if cell_tokens_ids[current_cell.x][current_cell.y] != Constants.EMPTY_CELL:
+		move_from_cell_to_cell.emit(current_cell, __get_next_cell(current_cell, move_direction), .2)
+	else:
+		set_to_bad_action.emit(current_cell)
 	action_finished.emit()
 
 	
