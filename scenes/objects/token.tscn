@@ -4,3 +4,5 @@
 
 [node name="Token" type="Node2D"]
 script = ExtResource("1_1b322")
+color_highlight_last = Color(0.670588, 0.4, 0.239216, 1)
+color_highlight_invalid = Color(0.890196, 0, 0.203922, 1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=17 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -8,14 +8,10 @@
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
 [ext_resource type="Resource" uid="uid://c61d577qbnsn1" path="res://data/tokens_sets/landscape.tres" id="9_e3s0g"]
 [ext_resource type="Script" path="res://scripts/game_states/state_intro.gd" id="9_o86f4"]
-[ext_resource type="Resource" uid="uid://dd41fj2ikombg" path="res://data/tokens_data/misc/wildcard.tres" id="10_cubgl"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
-[ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gate.tres" id="11_fywov"]
-[ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/bear.tres" id="12_rswxc"]
-[ext_resource type="Resource" uid="uid://bepyna61derk1" path="res://data/tokens_data/enemies/roller.tres" id="13_5gvru"]
-[ext_resource type="Resource" uid="uid://bwy3cxsp2mutl" path="res://data/tokens_data/enemies/mole.tres" id="14_sm2hd"]
-[ext_resource type="Resource" uid="uid://c1nnadhnmgk42" path="res://data/tokens_data/combinables/bamboo.tres" id="15_jk4yu"]
+[ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
+[ext_resource type="Resource" uid="uid://dd41fj2ikombg" path="res://data/tokens_data/misc/wildcard.tres" id="12_isnxd"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
@@ -54,9 +50,13 @@ position = Vector2(360, 485)
 
 [node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(162, 263)
+highlight_valid = Color(0.5, 1, 0.5, 1)
+highlight_invalid = Color(1, 0.5, 0.5, 1)
 
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(480, 269)
+highlight_valid = Color(0.5, 1, 0.5, 1)
+highlight_invalid = Color(1, 0.5, 0.5, 1)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("8_umy6w")
@@ -70,7 +70,7 @@ landscape_tokens = ExtResource("9_e3s0g")
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("10_cubgl"), ExtResource("11_fywov"), ExtResource("12_rswxc"), ExtResource("13_5gvru"), ExtResource("14_sm2hd"), ExtResource("15_jk4yu")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("12_isnxd")])
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")

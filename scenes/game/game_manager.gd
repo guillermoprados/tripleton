@@ -21,7 +21,6 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 
 var current_tokens_set:TokensSet
 
-var last_played_position:Vector2
 var floating_token: Token
 var saved_token: Token
 
@@ -40,13 +39,9 @@ func __set_next_tokens_set() -> void:
 		print(">> We ran out of token sets.. gonna need to repeat the last one")
 	print(">> current token set: " + current_tokens_set.name)		
 	
-func instantiate_new_token(token_data:TokenData, position:Vector2, parent:Node) -> Token:
+func instantiate_new_token(token_data:TokenData) -> Token:
 	var token_instance: Token = token_scene.instantiate() as Token
 	token_instance.set_data(token_data)
-	
-	if parent:
-		parent.add_child(token_instance)
-	token_instance.position = position
 	return token_instance
 
 func add_gold(value:int) -> void:
@@ -57,24 +52,92 @@ func add_points(value:int) -> void:
 	points += value
 	points_updated.emit(points)
 
-func create_floating_token() -> void:
+func create_floating_token(token_data:TokenData) -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")
-	var random_token_data:TokenData = current_tokens_set.get_random_token_data()
-	floating_token = instantiate_new_token(random_token_data, spawn_token_cell.position, self)
-	spawn_token_cell.highlight(Constants.HighlightMode.HOVER, true)
-
-func move_floating_token_to_cell(cell_index:Vector2) -> void:
-	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
-	floating_token.position = token_position
+	if not token_data:
+		token_data = current_tokens_set.get_random_token_data()
+	floating_token = instantiate_new_token(token_data)
+	add_child(floating_token)
+	__bind_token_events(floating_token)
+	floating_token.position = spawn_token_cell.position
+	spawn_token_cell.highlight(Constants.CellHighlight.VALID)
 	
-	if floating_token.type == Constants.TokenType.WILDCARD:
-		# this is esential to ensure the combination on that cell is 
-		# being replaced with the wildcard
-		__check_wildcard_combinations_at(cell_index)
+func discard_floating_token() -> void:
+	assert (floating_token, "trying to discard a non existing token token when there is already one")
+	__unbind_token_events(floating_token)
+	floating_token.queue_free()
+	floating_token = null
 
+func __bind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.move_from_cell_to_cell.connect(move_token_in_board)
+		
+func __unbind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.move_from_cell_to_cell.disconnect(move_token_in_board)
+		
+func move_floating_token_to_cell(cell_index:Vector2) -> void:
+	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
+	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
+	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
+	if floating_token.type == Constants.TokenType.ACTION:
+		__move_floating_action_token(cell_index, token_position)
+	else:	 
+		__move_floating_normal_token(cell_index, token_position)
+
+func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2) -> void:
+	
+	if board.is_cell_empty(cell_index):
+		
+		floating_token.position = on_board_position
+		floating_token.unhighlight()
+		
+		var is_wildcard = floating_token.type == Constants.TokenType.WILDCARD
+		
+		if is_wildcard:
+			# this is esential to ensure the combination on that cell is 
+			# being replaced with the wildcard
+			__check_wildcard_combinations_at(cell_index)
+
+		var combination:Combination = check_combination_all_levels(floating_token, cell_index)
+
+		if combination.is_valid():
+			board.highlight_combination(combination)
+		elif is_wildcard:
+			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
+		else:
+			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
+			
+	else:
+		
+		floating_token.highlight(Constants.TokenHighlight.INVALID)
+		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
+	
+func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2):
+	if board.is_cell_empty(cell_index):
+		floating_token.position = on_board_position
+		board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
+		floating_token.unhighlight()	
+	elif floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids):
+		floating_token.position = on_board_position
+		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
+		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
+	else:
+		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
+		floating_token.highlight(Constants.TokenHighlight.INVALID)
+
+	
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
 
+func move_floating_token_to_swap_cell() -> void:
+	board.clear_highlights()
+	floating_token.unhighlight()
+	var swap_position:Vector2 = save_token_cell.position
+	if saved_token != null:
+		swap_position = swap_position - (Constants.CELL_SIZE / 3)
+	floating_token.position = swap_position
+	
 func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	if saved_token:
 		var floating_pos:Vector2 = floating_token.position
@@ -87,28 +150,52 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
 		floating_token = null
-		create_floating_token()
+		create_floating_token(null)
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
-func __replace_wildcard_token(old_token:Token, cell_index:Vector2) -> Token:
-	var replace_token : Token = null
-	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
-	if combination.is_valid():
-		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
-		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
-	else: 
-		var next_token_data: TokenData = old_token.data.next_token
-		replace_token = instantiate_new_token(next_token_data, floating_token.position, null)
+func place_floating_token(cell_index:Vector2) -> bool:
+	var placed : bool = false
+	if board.is_cell_empty(cell_index):
+		__place_floating_token_at(cell_index)
+		placed = true
+	else:
+		__special_cell_selected_actions(cell_index)
+		placed = false
+	return placed		
 	
-	return replace_token
-		
-func place_token_on_board(token:Token, cell_index: Vector2) -> void:
-	last_played_position = cell_index;
-	
-	if token.type == Constants.TokenType.WILDCARD:
-		token = __replace_wildcard_token(token, cell_index)
+func __special_cell_selected_actions(cell_index:Vector2) -> void:
+	if floating_token.type == Constants.TokenType.ACTION:
+		if floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids):
+			__execute_floating_token_action(cell_index)
+			board.clear_highlights()
+		else:
+			show_message.emit("Cannot invalid movement", Constants.MessageType.ERROR, .5);
+	else:
+		var cell_token:Token = board.get_token_at_cell(cell_index)
+		if cell_token.type == Constants.TokenType.CHEST:
+			open_chest(cell_token, cell_index)
+		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
+			collect_reward(cell_token, cell_index)
+		else:
+			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
 
+func __place_floating_token_at(cell_index: Vector2) -> void:
+	remove_child(floating_token)
+	
+	if floating_token.type == Constants.TokenType.WILDCARD:
+		floating_token = __get_replace_wildcard_token(cell_index)
+	elif floating_token.type == Constants.TokenType.ACTION:
+		floating_token = __get_bad_movement_token()
+	
+	floating_token.hide() #will be deleted on players turn end
+	
+	var duplicated_token = instantiate_new_token(floating_token.data)
+	
+	__place_token_on_board(duplicated_token, cell_index)
+	
+func __place_token_on_board(token:Token, cell_index: Vector2) -> void:
+	
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
 	assert(board.get_token_at_cell(cell_index), "placed token is empty")
@@ -129,6 +216,20 @@ func replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 
 	combinator.reset_combinations(board.rows, board.columns)
 	
+func __get_replace_wildcard_token(cell_index:Vector2) -> Token:
+	var replace_token : Token = null
+	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
+	if combination.is_valid():
+		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
+		replace_token = board.get_token_at_cell(combination.combinable_cells[1]) # skip the first one
+	else: 
+		replace_token = __get_bad_movement_token()
+	
+	return replace_token
+
+func __get_bad_movement_token() -> Token:
+	return instantiate_new_token(current_tokens_set.bad_token)
+
 func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
 	
 	var merged_cells : Array = []
@@ -152,7 +253,7 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 			merged_cells.append_array(combination.combinable_cells)
 			var combined_token:Token = combine_tokens(combination)
 			
-			place_token_on_board(combined_token, merge_position)
+			__place_token_on_board(combined_token, merge_position)
 			
 			
 func __get_last_created_token_position(cells: Array) -> Vector2:
@@ -175,7 +276,6 @@ func __get_last_created_token_position(cells: Array) -> Vector2:
 	return last_created_position
 
 		
-
 func check_combination_all_levels(token:Token, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
 
@@ -193,7 +293,7 @@ func combine_tokens(combination: Combination) -> Token:
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
 		
-	var combined_token : Token = instantiate_new_token(next_token_data, Vector2.ZERO, null)
+	var combined_token : Token = instantiate_new_token(next_token_data)
 
 	var awarded_points:int = 0	
 	
@@ -269,8 +369,9 @@ func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
 				if token.data.reward_type == Constants.RewardType.POINTS:
 					current_points += token.data.reward_value
 			if current_points > bigger_points:
+				bigger_points = current_points
 				bigger_combination = combination
-
+				
 	if bigger_combination:
 		combinator.replace_combination_at_cell(bigger_combination, cell_index)
 
@@ -283,7 +384,7 @@ func open_chest(token:Token, cell_index: Vector2) -> void:
 	#remove the chest
 	var chest_data: TokenChestData = token.data
 	var prize_data:TokenPrizeData = chest_data.get_random_prize()
-	var prize_instance:Token = instantiate_new_token(prize_data, Vector2.ZERO, null)
+	var prize_instance:Token = instantiate_new_token(prize_data)
 	replace_token_on_board(prize_instance, cell_index)
 	
 func collect_reward(token:Token, cell_index: Vector2) -> void:
@@ -303,9 +404,17 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 func set_dead_enemy(cell_index:Vector2) -> void:
 	var enemy_token: Token = board.get_token_at_cell(cell_index)
 	var next_token_data: TokenData = enemy_token.data.next_token
-	var grave_token:Token = instantiate_new_token(next_token_data, cell_index, null)
+	var grave_token:Token = instantiate_new_token(next_token_data)
 	replace_token_on_board(grave_token, cell_index)
 
 func can_place_more_tokens() -> bool:
 	var board_free_cells : int = board.get_number_of_empty_cells()
 	return board_free_cells > 0
+
+func __execute_floating_token_action(cell_index:Vector2) -> void:
+	__execute_token_action(floating_token, cell_index)
+	
+func __execute_token_action(token:Token, cell_index:Vector2) -> void:
+	assert (token.type == Constants.TokenType.ACTION, "cannot use an action on a non token action")
+	token.action.execute_action(cell_index, board.cell_tokens_ids)
+

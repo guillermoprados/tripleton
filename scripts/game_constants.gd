@@ -7,7 +7,8 @@ enum TokenType {
 	CHEST,
 	PRIZE,
 	ENEMY,
-	WILDCARD
+	WILDCARD,
+	ACTION
 }
 
 enum EnemyType {
@@ -17,11 +18,27 @@ enum EnemyType {
 	CRAB
 }
 
-enum HighlightMode {
+enum ActionType {
+	MOVE,
+	LEVEL_UP,
+	REMOVE,
+	BOMB,
+	SWIRL
+}
+
+enum CellHighlight {
 	NONE,
-	HOVER,
-	SAME_LINE,
+	VALID,
+	WARNING,
+	INVALID,
 	COMBINATION
+}
+
+enum TokenHighlight {
+	NONE,
+	LAST,
+	INVALID,
+	TRANSPARENT
 }
 
 enum RewardType {

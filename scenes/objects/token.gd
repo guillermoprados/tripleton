@@ -2,6 +2,10 @@ extends Node2D
 
 class_name Token
 
+@export var color_highlight_last : Color = Color(1, 0.5, 0.5, 1)
+@export var color_highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var color_highlight_transparent : Color = Color(1, 1, 1, 0.5)
+
 var floating: bool
 
 var id:String:
@@ -12,21 +16,10 @@ var type:Constants.TokenType:
 	get:
 		return data.type()		
 
-var _behavior: TokenBehavior
+var behavior: TokenBehavior
+var action: TokenAction
 
-var behavior: TokenBehavior:
-	get: 
-		return _behavior
-	set(value):
-		_behavior = value
-
-var _sprite: AnimatedSprite2D
-
-var sprite: AnimatedSprite2D:
-	get: 
-		return _sprite
-	set(value):
-		_sprite = value
+var sprite: AnimatedSprite2D
 	
 var data:TokenData
 
@@ -37,7 +30,6 @@ func _init():
 	
 func _ready() -> void:
 	adjust_size(Constants.CELL_SIZE)
-	unhighlight_token()
 
 func _process(delta:float) -> void:
 	pass
@@ -53,12 +45,24 @@ func set_data(token_data:TokenData) -> void:
 	sprite = token_data.sprite_scene.instantiate()
 	add_child(sprite)
 	
-	if data.type() == Constants.TokenType.ENEMY:
-		behavior = token_data.behavior.instantiate()
-		add_child(behavior)
+	for child in sprite.get_children():
+		if child is TokenBehavior:
+			behavior = child
+		if child is TokenAction:
+			action = child
+	
 
-func highlight_token() -> void:
-	sprite.modulate = Color.RED
-
-func unhighlight_token() -> void:
-	sprite.modulate = Color.WHITE
+func unhighlight() -> void:
+	highlight(Constants.TokenHighlight.NONE)
+	
+func highlight(mode:Constants.TokenHighlight) -> void:
+	match mode:
+		Constants.TokenHighlight.NONE:
+			sprite.modulate = Color.WHITE
+		Constants.TokenHighlight.INVALID:
+			sprite.modulate = color_highlight_invalid
+		Constants.TokenHighlight.LAST:
+			sprite.modulate = color_highlight_last
+		Constants.TokenHighlight.TRANSPARENT:
+			sprite.modulate = color_highlight_transparent
+		

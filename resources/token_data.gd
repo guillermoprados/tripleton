@@ -6,9 +6,6 @@ class_name TokenData
 
 @export var sprite_scene: PackedScene
 
-@export var reward_type: Constants.RewardType
-@export var reward_value: int = 0
-
 func type() -> Constants.TokenType:
 	return Constants.TokenType.NORMAL
 

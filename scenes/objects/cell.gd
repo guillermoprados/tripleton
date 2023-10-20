@@ -9,18 +9,17 @@ signal cell_selected(index:Vector2)
 var cell_index:Vector2
 
 @export var base_color : Color = Color(0.5, 0.5, 0.5, 1)
-@export var transparent_color : Color = Color(1, 1, 1, 0)
-@export var highlight_strong_valid : Color = Color(0.5, 1, 0.5, 1)
-@export var highlight_strong_invalid : Color = Color(1, 0.5, 0.5, 1)
-@export var highlight_light_valid : Color = Color(0.75, 1, 0.75, 1)
-@export var highlight_light_invalid : Color = Color(1, 0.75, 0.75, 1)
+@export var highlihgt_none : Color = Color(1, 1, 1, 0)
+@export var highlight_valid : Color = Color(0.5, 1, 0.5, 1)
+@export var highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var highlight_warning : Color = Color(1, 0.5, 0.5, 1)
 @export var highlight_combination : Color = Color(0.5, 0.5, 1, 1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	adjust_size(Constants.CELL_SIZE)
 	$BackColor.color = base_color
-	$HighLightColor.color = transparent_color
+	$HighLightColor.color = highlihgt_none
 	
 func _on_mouse_entered() -> void:
 	cell_entered.emit(cell_index)
@@ -45,13 +44,18 @@ func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void
 func adjust_size(new_size: Vector2) -> void:
 	self.scale = new_size / Constants.CELL_SPRITE_SIZE
 	
-func highlight(mode: Constants.HighlightMode, valid: bool) -> void:
+func clear_highlight() -> void:
+	highlight(Constants.CellHighlight.NONE)
+	
+func highlight(mode: Constants.CellHighlight) -> void:
 	match mode:
-		Constants.HighlightMode.NONE:
-			$HighLightColor.color = transparent_color
-		Constants.HighlightMode.HOVER:
-			$HighLightColor.color = highlight_strong_valid if valid else highlight_strong_invalid
-		Constants.HighlightMode.SAME_LINE:
-			$HighLightColor.color = highlight_light_valid if valid else highlight_light_invalid
-		Constants.HighlightMode.COMBINATION:
+		Constants.CellHighlight.NONE:
+			$HighLightColor.color = highlihgt_none
+		Constants.CellHighlight.VALID:
+			$HighLightColor.color = highlight_valid
+		Constants.CellHighlight.INVALID:
+			$HighLightColor.color = highlight_invalid
+		Constants.CellHighlight.WARNING:
+			$HighLightColor.color = highlight_warning
+		Constants.CellHighlight.COMBINATION:
 			$HighLightColor.color = highlight_combination

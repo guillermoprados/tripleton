@@ -4,7 +4,8 @@ class_name  StatePlayerTurn
 
 @export var combinator: Combinator
 
-var current_cell_index: Vector2
+var executed_actions = false
+var actions_finished = false
 
 # for debugging purposes
 @export var scroll_tokens:Array[TokenData] = []
@@ -20,7 +21,8 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:
-	pass
+	if executed_actions and actions_finished:
+		finish_player_turn()
 
 # override in states	
 func _on_state_entered() -> void:
@@ -29,7 +31,9 @@ func _on_state_entered() -> void:
 	
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
-	game_manager.create_floating_token()
+	game_manager.create_floating_token(null)
+	
+	__bind_token_events(game_manager.floating_token)
 	
 	game_manager.save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
@@ -40,7 +44,9 @@ func _on_state_entered() -> void:
 # override in states
 func _on_state_exited() -> void:
 	
-	game_manager.floating_token = null
+	__unbind_token_events(game_manager.floating_token)
+	
+	game_manager.discard_floating_token()
 	
 	game_manager.save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
@@ -48,6 +54,14 @@ func _on_state_exited() -> void:
 	
 	board.enabled_interaction = false
 
+func __bind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.action_finished.connect(finish_player_turn)
+	
+func __unbind_token_events(token:Token) -> void:
+	if token.type == Constants.TokenType.ACTION:
+		token.action.action_finished.disconnect(finish_player_turn)
+	
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
 		return
@@ -66,14 +80,12 @@ func _input(event:InputEvent) -> void:
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			var next_token_instance:Token = game_manager.instantiate_new_token(next_token_data, game_manager.floating_token.position, game_manager)
-			game_manager.floating_token.queue_free()
-			game_manager.floating_token = next_token_instance
+			__unbind_token_events(game_manager.floating_token)
+			game_manager.discard_floating_token()
+			game_manager.create_floating_token(next_token_data)
+			__bind_token_events(game_manager.floating_token)
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
-			var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
-			if combination.is_valid():
-				highlight_combination(combination)
 			is_scroll_in_progress = true
 			var timer:SceneTreeTimer = get_tree().create_timer(0.1)
 			timer.connect("timeout", self.__on_scroll_timer_timeout)
@@ -82,45 +94,24 @@ func __on_scroll_timer_timeout() -> void:
 	is_scroll_in_progress = false
 	
 func _on_board_board_cell_moved(index:Vector2) -> void:
-	current_cell_index = index
-	game_manager.spawn_token_cell.highlight(Constants.HighlightMode.NONE, true)
+	# I need this line because there is non sense on having other linked events 
+	game_manager.spawn_token_cell.clear_highlight()
+	board.clear_highlights()
+	game_manager.move_floating_token_to_cell(index)	
 	
-	if board.is_cell_empty(index):
-		game_manager.move_floating_token_to_cell(index)
-		
-		var combination:Combination = game_manager.check_combination_all_levels(game_manager.floating_token, current_cell_index)
-		if combination.is_valid():
-			highlight_combination(combination)
-		
 func _on_board_board_cell_selected(index:Vector2) -> void:
+	if game_manager.place_floating_token(index):
+		finish_player_turn()	
 	
-	if board.is_cell_empty(index):
-		game_manager.remove_child(game_manager.floating_token)
-		game_manager.place_token_on_board(game_manager.floating_token, index)
-		finish_player_turn()
-	else:
-		var cell_token:Token = board.get_token_at_cell(index)
-		if cell_token.type == Constants.TokenType.CHEST:
-			game_manager.open_chest(cell_token, index)
-		elif cell_token.type == Constants.TokenType.PRIZE:
-			game_manager.collect_reward(cell_token, index)
-		else:
-			game_manager.show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
-
 func finish_player_turn() -> void:
 	state_finished.emit(id)
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
-	game_manager.save_token_cell.highlight(Constants.HighlightMode.HOVER, true)
-	pass
+	game_manager.move_floating_token_to_swap_cell()
+	game_manager.save_token_cell.highlight(Constants.CellHighlight.VALID)
 	
 func _on_save_token_cell_exited(cell_index: Vector2) -> void:
-	game_manager.save_token_cell.highlight(Constants.HighlightMode.NONE, true)
-	pass
+	game_manager.save_token_cell.highlight(Constants.CellHighlight.NONE)
 	
 func _on_save_token_cell_selected(cell_index: Vector2) -> void:
 	game_manager.swap_floating_and_saved_token(cell_index)
-
-func highlight_combination(combination:Combination) -> void:
-	for cell_index in combination.combinable_cells:
-		board.get_cell_at_position(cell_index).highlight(Constants.HighlightMode.COMBINATION, true)
