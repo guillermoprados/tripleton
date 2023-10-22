@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=19 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -13,6 +13,7 @@
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
 [ext_resource type="Resource" uid="uid://dd41fj2ikombg" path="res://data/tokens_data/misc/wildcard.tres" id="12_isnxd"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="13_mgra2"]
+[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="15_uulqy"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
@@ -75,6 +76,7 @@ scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("1
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")
+grave_data = ExtResource("15_uulqy")
 
 [node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")

@@ -7,13 +7,8 @@ var _name:String
 var id:String:
 	get:
 		if not _name:
-			_name = get_name_from_path(get_path())
+			_name = Utils.get_name_from_resource(self)
 		return _name
-
-func get_name_from_path(path: String) -> String:
-	var filename = path.get_file()
-	var name = filename.get_basename()
-	return name
 	
 @export var sprite_scene: PackedScene
 
