@@ -13,5 +13,4 @@ next_token = ExtResource("1_m2cjs")
 reward_type = 2
 reward_value = 200
 collectable = false
-id = "chest_bronze"
 sprite_scene = ExtResource("5_ajach")

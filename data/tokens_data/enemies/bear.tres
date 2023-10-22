@@ -11,5 +11,4 @@ next_token = ExtResource("2_0rrbu")
 reward_type = 0
 reward_value = 0
 collectable = false
-id = "bear"
 sprite_scene = ExtResource("2_5cs4y")

@@ -10,5 +10,4 @@ next_token = ExtResource("1_gdjdq")
 reward_type = 2
 reward_value = 100
 collectable = false
-id = "big_gate"
 sprite_scene = ExtResource("3_b7uyd")

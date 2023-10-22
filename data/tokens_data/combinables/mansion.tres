@@ -10,5 +10,4 @@ next_token = ExtResource("1_irpth")
 reward_type = 2
 reward_value = 100
 collectable = false
-id = "mansion"
 sprite_scene = ExtResource("3_fnj4h")
