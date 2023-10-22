@@ -136,7 +136,6 @@ func destroy_token_at_cell(cell_index:Vector2) -> void:
 		return
 	
 	var token:Token = board.get_token_at_cell(cell_index)
-	print(str(token.type))
 	if token.type == Constants.TokenType.ENEMY:
 		set_dead_enemy(cell_index)
 	elif token.type == Constants.TokenType.CHEST or token.type == Constants.TokenType.PRIZE:
