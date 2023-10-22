@@ -12,7 +12,6 @@
 
 [resource]
 script = ExtResource("10_3wa0e")
-name = "landscape"
 common = Array[Resource("res://resources/token_data.gd")]([ExtResource("3_0i0a1"), ExtResource("1_y0fbb"), ExtResource("4_4rimx")])
 uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("5_ynq72"), ExtResource("6_ryd83")])
 rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("9_wvc63"), ExtResource("8_oj2co")])

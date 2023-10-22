@@ -2,8 +2,6 @@ extends Resource
 
 class_name TokensSet
 
-@export var name:String
-
 @export var common: Array[TokenData] = []
 @export var uncommon: Array[TokenData] = []
 @export var rare: Array[TokenData] = [] 
@@ -13,8 +11,15 @@ class_name TokensSet
 @export var bad_token:TokenData # used for invalid actions
 
 var validated : bool
+var name: String
 
+func get_name_from_path(path: String) -> String:
+	var filename = path.get_file()
+	var name = filename.get_basename()
+	return name
+	
 func validate()  -> void:
+	name = get_name_from_path(get_path())
 	assert(name, "name of set should be set")
 	assert(common.size() > 0, name + ": common array should not be empty")
 	assert(uncommon.size() > 0, name + ": uncommon array should not be empty")
