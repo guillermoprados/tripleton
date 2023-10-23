@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://kccdpfen1pu7"]
 
-[ext_resource type="Resource" uid="uid://dr1essp2ygykf" path="res://data/tokens_data/combinables/grass/small_house.tres" id="1_x55br"]
+[ext_resource type="Resource" uid="uid://dr1essp2ygykf" path="res://data/tokens_data/combinables/grass/3_small_house.tres" id="1_x55br"]
 [ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_f70pt"]
 [ext_resource type="PackedScene" uid="uid://bp7pugj5uta4l" path="res://scenes/objects/tokens/combinables/tree.tscn" id="3_m4twu"]
 

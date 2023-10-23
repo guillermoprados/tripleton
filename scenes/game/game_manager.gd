@@ -16,13 +16,14 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var combinator: Combinator
 @export var gameplay_ui:GameplayUI
 
-@export var ordered_dinasties:Array[Dinasty]
+var dinasties_path : String = "res://data/dinasties/"
 
 var dinasty_index : int = -1
 var current_dinasty:Dinasty
 var current_tokens_set: TokensSet:
 	get:
 		return current_dinasty.tokens
+var dinasties_names:Array
 		
 var floating_token: Token
 var saved_token: Token
@@ -31,6 +32,7 @@ var points: int
 var gold: int
 
 func _enter_tree() -> void:
+	dinasties_names = Utils.get_files_names_at_path(dinasties_path)
 	__go_to_next_dinasty(0)
 
 func _ready() -> void:
@@ -38,7 +40,7 @@ func _ready() -> void:
 
 func __go_to_next_dinasty(overflown_points:int) -> void:
 	dinasty_index += 1
-	current_dinasty = ordered_dinasties[dinasty_index]
+	current_dinasty = ResourceLoader.load(dinasties_path + dinasties_names[dinasty_index])
 	current_dinasty.earned_points = overflown_points	
 	print("entering: "+current_dinasty.name)
 
