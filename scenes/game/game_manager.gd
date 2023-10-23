@@ -11,34 +11,37 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var token_scene: PackedScene
 
 @export var board:Board
-@export var tokens_sets:Array[TokensSet]
 @export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
-
 @export var combinator: Combinator
-
 @export var gameplay_ui:GameplayUI
 
-var current_tokens_set:TokensSet
+@export var ordered_dinasties:Array[Dinasty]
 
+var dinasty_index : int = -1
+var current_dinasty:Dinasty
+var current_tokens_set: TokensSet:
+	get:
+		return current_dinasty.tokens
+		
 var floating_token: Token
 var saved_token: Token
 
 var points: int
 var gold: int
 
+func _enter_tree() -> void:
+	__go_to_next_dinasty(0)
+
 func _ready() -> void:
-	__set_next_tokens_set()
 	pass
 
-func __set_next_tokens_set() -> void:
-	if tokens_sets.size() > 1:
-		current_tokens_set = tokens_sets.pop_front()
-	else:
-		current_tokens_set = tokens_sets[0]
-		print(">> We ran out of token sets.. gonna need to repeat the last one")
-	print(">> current token set: " + current_tokens_set.name)		
-	
+func __go_to_next_dinasty(overflown_points:int) -> void:
+	dinasty_index += 1
+	current_dinasty = ordered_dinasties[dinasty_index]
+	current_dinasty.earned_points = overflown_points	
+	print("entering: "+current_dinasty.name)
+
 func instantiate_new_token(token_data:TokenData) -> Token:
 	var token_instance: Token = token_scene.instantiate() as Token
 	token_instance.set_data(token_data)
@@ -51,6 +54,14 @@ func add_gold(value:int) -> void:
 func add_points(value:int) -> void:
 	points += value
 	points_updated.emit(points)
+	__add_dinasty_points(value)
+
+func __add_dinasty_points(points:int) -> void:
+	current_dinasty.earned_points += points
+	print(str(current_dinasty.earned_points) + "/" + str(current_dinasty.total_points))
+	if current_dinasty.earned_points > current_dinasty.total_points:
+		__go_to_next_dinasty(current_dinasty.total_points - current_dinasty.earned_points)
+
 
 func create_floating_token(token_data:TokenData) -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")
