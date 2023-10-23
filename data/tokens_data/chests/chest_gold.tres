@@ -13,4 +13,5 @@ next_token = ExtResource("1_0v0tv")
 reward_type = 2
 reward_value = 500
 collectable = false
+available_from_dinasty = 0
 sprite_scene = ExtResource("2_prwim")

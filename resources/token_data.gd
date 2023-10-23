@@ -9,7 +9,9 @@ var id:String:
 		if not _name:
 			_name = Utils.get_name_from_resource(self)
 		return _name
-	
+
+@export var available_from_dinasty:int = 0
+
 @export var sprite_scene: PackedScene
 
 func type() -> Constants.TokenType:

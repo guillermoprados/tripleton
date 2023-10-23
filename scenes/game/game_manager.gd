@@ -62,6 +62,8 @@ func __add_dinasty_points(points:int) -> void:
 	if current_dinasty.earned_points > current_dinasty.total_points:
 		__go_to_next_dinasty(current_dinasty.total_points - current_dinasty.earned_points)
 
+	## add a available_from_dinasty int to token data, and merge to chest or next token depending on it
+
 
 func create_floating_token(token_data:TokenData) -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")

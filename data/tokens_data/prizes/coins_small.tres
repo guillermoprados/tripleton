@@ -8,4 +8,5 @@ script = ExtResource("1_lilkf")
 reward_type = 1
 reward_value = 10
 collectable = true
+available_from_dinasty = 0
 sprite_scene = ExtResource("2_8ttvh")
