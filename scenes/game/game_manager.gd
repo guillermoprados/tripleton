@@ -63,7 +63,6 @@ func add_points(value:int) -> void:
 	
 func __add_dinasty_points(points:int) -> void:
 	current_dinasty.earned_points += points
-	print(str(current_dinasty.earned_points) + "/" + str(current_dinasty.total_points))
 	if current_dinasty.earned_points >= current_dinasty.total_points:
 		var overflow : int = current_dinasty.earned_points - current_dinasty.total_points
 		__go_to_next_dinasty(overflow)
