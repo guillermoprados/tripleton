@@ -11,6 +11,7 @@ signal board_cell_selected(index:Vector2)
 var cell_tokens_ids: Array = []  # The matrix of string values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
+var floor_matrix: Array = []
 
 var enabled_interaction: bool = false
 
@@ -59,6 +60,16 @@ func __clear_board() -> void:
 		placed_tokens[token_pos].queue_free()
 	placed_tokens.clear()
 	
+	__clear_floor_matrix()
+
+func __clear_floor_matrix():
+	# Initialize the floor_matrix with default FloorType.PATH values
+	for row in range(rows):
+		var row_values = []
+		for col in range(columns):
+			row_values.append(Constants.FloorType.PATH)
+		floor_matrix.append(row_values)
+		
 # Set the token for a specific cell
 func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	
@@ -68,8 +79,15 @@ func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	placed_tokens[cell_index] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_index).position
-
+	
+	floor_matrix[cell_index.x][cell_index.y] = token.floor_type
+		
+func update_floor_background() -> void:
+	tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.PATH, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, true)
+	tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.GRASS, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
+	
 func clear_token(cell_index: Vector2) -> void:
+	
 	# Remove the token instance from the scene if it exists in the dictionary
 	if placed_tokens.has(cell_index):
 		var token:Token = placed_tokens[cell_index]
@@ -78,8 +96,22 @@ func clear_token(cell_index: Vector2) -> void:
 		
 	# Update the matrix value to EMPTY_CELL
 	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
-	
+	floor_matrix[cell_index.x][cell_index.y] = Constants.FloorType.PATH
 
+func get_cells_with_floor_type(type: Constants.FloorType, inverted:bool) -> Array[Vector2i]:
+	var matching_cells: Array[Vector2i] = []
+
+	for row in range(rows):
+		for col in range(columns):
+			if floor_matrix[row][col] == type:
+				if inverted:
+					matching_cells.append(Vector2i(col, row))
+				else:
+					matching_cells.append(Vector2i(row, col))
+					
+	return matching_cells
+
+	
 func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float):
 	assert(cell_index_from != cell_index_to, "cannot move to the same cell") 
 	assert(cell_tokens_ids[cell_index_from.x][cell_index_from.y] != Constants.EMPTY_CELL, "cannot move from "+str(cell_index_from)+ " empty token?")
@@ -100,6 +132,16 @@ func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_ti
 func get_token_at_cell(cell_index: Vector2) -> Token:
 	return placed_tokens[cell_index]
 
+func get_empty_cells() -> Array[Vector2i]:
+	var empty_cells: Array[Vector2i] = []
+
+	for row in range(rows):
+		for col in range(columns):
+			if cell_tokens_ids[row][col] == Constants.EMPTY_CELL:
+				empty_cells.append(Vector2i(row, col))
+
+	return empty_cells
+	
 func get_number_of_empty_cells() -> int:
 	var total_cells:int = rows * columns
 	# Subtract the count of placed tokens

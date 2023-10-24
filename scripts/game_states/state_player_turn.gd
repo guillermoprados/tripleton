@@ -27,6 +27,8 @@ func _process(delta:float) -> void:
 # override in states	
 func _on_state_entered() -> void:
 	
+	board.update_floor_background()
+	
 	combinator.reset_combinations(board.rows, board.columns)
 	
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
@@ -43,6 +45,8 @@ func _on_state_entered() -> void:
 
 # override in states
 func _on_state_exited() -> void:
+	
+	board.update_floor_background()
 	
 	__unbind_token_events(game_manager.floating_token)
 	
