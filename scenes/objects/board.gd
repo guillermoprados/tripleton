@@ -87,12 +87,6 @@ func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	
 	floor_matrix[cell_index.x][cell_index.y] = token.floor_type
 	
-	
-func update_floor_background() -> void:
-	# tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.PATH, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, true)
-	# tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.GRASS, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
-	pass 
-	
 func clear_token(cell_index: Vector2) -> void:
 	
 	# Remove the token instance from the scene if it exists in the dictionary
@@ -104,6 +98,12 @@ func clear_token(cell_index: Vector2) -> void:
 	# Update the matrix value to EMPTY_CELL
 	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
 	floor_matrix[cell_index.x][cell_index.y] = Constants.FloorType.PATH
+
+	var update_cells:Array[Vector2i] = []
+	update_cells.append_array(__get_floor_sub_cells(cell_index))
+	tilemap.set_cells_terrain_connect(0, update_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, true)
+	
+	
 
 func __get_floor_sub_cells(cell_index: Vector2) -> Array[Vector2i]:
 	var sub_cells:Array[Vector2i] = []
