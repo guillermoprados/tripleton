@@ -6,6 +6,7 @@ signal board_cell_selected(index:Vector2)
 @export var cell_scene: PackedScene
 @export var rows: int = 6
 @export var columns: int = 6
+@export var tilemap: TileMap
 
 var cell_tokens_ids: Array = []  # The matrix of string values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values

@@ -4,7 +4,7 @@
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_k5nn6"]
 texture = ExtResource("1_ykdqp")
-texture_region_size = Vector2i(80, 80)
+texture_region_size = Vector2i(90, 90)
 0:0/0 = 0
 0:0/0/terrain_set = 0
 0:0/0/terrain = 0
@@ -244,7 +244,7 @@ texture_region_size = Vector2i(80, 80)
 5:5/0/terrains_peering_bit/top_right_corner = 2
 
 [resource]
-tile_size = Vector2i(80, 80)
+tile_size = Vector2i(90, 90)
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "back"
 terrain_set_0/terrain_0/color = Color(1, 1, 1, 1)
