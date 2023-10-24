@@ -80,11 +80,18 @@ func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	add_child(token)
 	token.position = get_cell_at_position(cell_index).position
 	
-	floor_matrix[cell_index.x][cell_index.y] = token.floor_type
-		
+	if token.floor_type == Constants.FloorType.GRASS:
+		var update_cells:Array[Vector2i] = []
+		update_cells.append(Vector2i(cell_index.x, cell_index.y))
+		tilemap.set_cells_terrain_connect(0, [], Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
+	
+	# floor_matrix[cell_index.x][cell_index.y] = token.floor_type
+	
+	
 func update_floor_background() -> void:
-	tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.PATH, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, true)
-	tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.GRASS, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
+	# tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.PATH, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, true)
+	# tilemap.set_cells_terrain_connect(0, get_cells_with_floor_type(Constants.FloorType.GRASS, true), Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
+	pass 
 	
 func clear_token(cell_index: Vector2) -> void:
 	
