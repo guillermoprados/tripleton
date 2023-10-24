@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Dinasty" load_steps=3 format=3 uid="uid://b20sjjtmherem"]
+
+[ext_resource type="Script" path="res://resources/dinasty.gd" id="1_blswr"]
+[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy.tres" id="2_tgjbl"]
+
+[resource]
+script = ExtResource("1_blswr")
+name = "Xang Xu 2"
+total_points = 800
+tokens = ExtResource("2_tgjbl")

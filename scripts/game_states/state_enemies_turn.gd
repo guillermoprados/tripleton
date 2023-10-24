@@ -2,6 +2,8 @@ extends StateBase
 
 class_name StateEnemiesTurn
 
+@export var grave_data:TokenData
+
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.ENEMIES
 	
@@ -13,6 +15,7 @@ var stucked_enemies : Array[Vector2]
 
 # override in states	
 func _on_state_entered() -> void:
+	assert(grave_data, "Grave Data needed to merge graves")
 	number_of_pending_actions = 0
 	check_stucked_enemies = true
 	merge_graves = false # will be set only if there are dead enemies
@@ -79,7 +82,7 @@ func __transform_dead_enemies() -> void:
 		merge_graves = __check_dead_enemies(simplified_board_info)	
 		
 func __merge_graves() -> void:
-	var graves:Array = board.get_tokens_with_id(Constants.GRAVE_ID).keys()
+	var graves:Array = board.get_tokens_with_id(grave_data.id).keys()
 	game_manager.check_and_do_board_combinations(graves, Constants.MergeType.BY_LAST_CREATED)
 	
 func __highlight_groups() -> void:

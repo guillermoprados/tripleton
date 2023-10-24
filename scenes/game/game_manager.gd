@@ -4,41 +4,51 @@ class_name GameManager
 
 signal tokens_pool_depleted()
 signal gold_updated(value:int)
-signal points_updated(value:int)
+signal points_updated(updated_points:int, dinasty_points: int, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
+signal dinasty_changed(name:String, max_points:int, overflow:int)
 
 @export var token_scene: PackedScene
 
 @export var board:Board
-@export var tokens_sets:Array[TokensSet]
 @export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
-
 @export var combinator: Combinator
-
 @export var gameplay_ui:GameplayUI
+@export var default_chest: TokenData
 
-var current_tokens_set:TokensSet
+var dinasties_path : String = "res://data/dinasties/"
 
+var dinasty_index : int = -1
+var current_dinasty:Dinasty
+var current_tokens_set: TokensSet:
+	get:
+		return current_dinasty.tokens
+var dinasties_names:Array
+		
 var floating_token: Token
 var saved_token: Token
 
 var points: int
 var gold: int
 
+func _enter_tree() -> void:
+	dinasties_names = Utils.get_files_names_at_path(dinasties_path)
+	assert(default_chest, "plase set the default chest for combinations")
+	
 func _ready() -> void:
-	__set_next_tokens_set()
+	# remember there is an intro state, probably you
+	# want to do wharever you want to do there
 	pass
 
-func __set_next_tokens_set() -> void:
-	if tokens_sets.size() > 1:
-		current_tokens_set = tokens_sets.pop_front()
-	else:
-		current_tokens_set = tokens_sets[0]
-		print(">> We ran out of token sets.. gonna need to repeat the last one")
-	print(">> current token set: " + current_tokens_set.name)		
-	
+func __go_to_next_dinasty(overflow:int) -> void:
+	dinasty_index += 1
+	current_dinasty = ResourceLoader.load(dinasties_path + dinasties_names[dinasty_index]) as Dinasty
+	print("change dinasty: "+str(current_dinasty.name)+" points: "+str(current_dinasty.total_points))
+	current_dinasty.earned_points = overflow
+	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points)
+
 func instantiate_new_token(token_data:TokenData) -> Token:
 	var token_instance: Token = token_scene.instantiate() as Token
 	token_instance.set_data(token_data)
@@ -50,8 +60,15 @@ func add_gold(value:int) -> void:
 	
 func add_points(value:int) -> void:
 	points += value
-	points_updated.emit(points)
-
+	__add_dinasty_points(value)
+	points_updated.emit(value, current_dinasty.earned_points, points)
+	
+func __add_dinasty_points(points:int) -> void:
+	current_dinasty.earned_points += points
+	if current_dinasty.earned_points >= current_dinasty.total_points:
+		var overflow : int = current_dinasty.earned_points - current_dinasty.total_points
+		__go_to_next_dinasty(overflow)
+		
 func create_floating_token(token_data:TokenData) -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")
 	if not token_data:
@@ -306,6 +323,9 @@ func combine_tokens(combination: Combination) -> Token:
 	
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
+	
+	if next_token_data.available_from_dinasty > dinasty_index:
+		next_token_data = default_chest
 		
 	var combined_token : Token = instantiate_new_token(next_token_data)
 

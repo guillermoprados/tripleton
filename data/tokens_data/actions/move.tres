@@ -6,5 +6,5 @@
 [resource]
 script = ExtResource("1_s0pjp")
 action_type = 0
-id = "move"
+available_from_dinasty = 3
 sprite_scene = ExtResource("2_40hih")

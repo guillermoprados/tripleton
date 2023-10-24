@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cn8xpyhtpgsxd"]
+[gd_scene load_steps=8 format=3 uid="uid://cn8xpyhtpgsxd"]
 
 [ext_resource type="Script" path="res://ui/screens/gameplay/playing_screen.gd" id="1_nvgr1"]
 [ext_resource type="PackedScene" uid="uid://eaia0816n1hc" path="res://ui/elements/points_counter.tscn" id="1_sukhm"]
@@ -6,7 +6,13 @@
 [ext_resource type="PackedScene" uid="uid://c44h4sg0gmt80" path="res://ui/elements/alert_message.tscn" id="3_ggyc1"]
 [ext_resource type="Texture2D" uid="uid://c7quwxjqttue5" path="res://images/tokens/coins_small.png" id="4_ud8tr"]
 
-[node name="PlayingState" type="Control" node_paths=PackedStringArray("alert_message", "points_label", "gold_label")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oooi6"]
+bg_color = Color(0.466667, 0.466667, 0.466667, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mfbcl"]
+bg_color = Color(0.290196, 0.768627, 0.054902, 1)
+
+[node name="PlayingState" type="Control" node_paths=PackedStringArray("alert_message", "points_label", "gold_label", "dinasty_label", "dinasty_progress")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +25,8 @@ alert_message = NodePath("TopButtons/TopInfoContainer/AlertMessage")
 points_label = NodePath("TopButtons/TopInfoContainer/HBoxContainer/GamePoints")
 gold_label = NodePath("TopButtons/TopInfoContainer/HBoxContainer/GameGold")
 award_points_scene = ExtResource("2_gvtgo")
+dinasty_label = NodePath("TopButtons/TopInfoContainer/HBoxContainer/Expanding/Label")
+dinasty_progress = NodePath("TopButtons/TopInfoContainer/HBoxContainer/Expanding/ProgressBar")
 
 [node name="TopButtons" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -40,9 +48,21 @@ layout_mode = 2
 [node name="GamePoints" parent="TopButtons/TopInfoContainer/HBoxContainer" instance=ExtResource("1_sukhm")]
 layout_mode = 2
 
-[node name="Expanding" type="Control" parent="TopButtons/TopInfoContainer/HBoxContainer"]
+[node name="Expanding" type="VBoxContainer" parent="TopButtons/TopInfoContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="TopButtons/TopInfoContainer/HBoxContainer/Expanding"]
+layout_mode = 2
+text = "Dinasty name"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="TopButtons/TopInfoContainer/HBoxContainer/Expanding"]
+custom_minimum_size = Vector2(2.08165e-12, 20)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_oooi6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mfbcl")
+show_percentage = false
 
 [node name="GameGold" parent="TopButtons/TopInfoContainer/HBoxContainer" instance=ExtResource("1_sukhm")]
 layout_mode = 2

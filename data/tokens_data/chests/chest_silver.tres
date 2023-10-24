@@ -13,5 +13,5 @@ next_token = ExtResource("1_bulp6")
 reward_type = 2
 reward_value = 400
 collectable = false
-id = "chest_silver"
+available_from_dinasty = 0
 sprite_scene = ExtResource("2_iaikq")

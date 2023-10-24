@@ -2,8 +2,6 @@ extends Resource
 
 class_name TokensSet
 
-@export var name:String
-
 @export var common: Array[TokenData] = []
 @export var uncommon: Array[TokenData] = []
 @export var rare: Array[TokenData] = [] 
@@ -13,6 +11,13 @@ class_name TokensSet
 @export var bad_token:TokenData # used for invalid actions
 
 var validated : bool
+
+var _name: String
+var name: String:
+	get:
+		if not _name:
+			_name = Utils.get_name_from_resource(self)
+		return _name
 
 func validate()  -> void:
 	assert(name, "name of set should be set")

@@ -8,19 +8,28 @@ func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.INTRO
 
 var create_landscape:bool
+var prepare_playing_ui:bool
+var prepare_first_dinasty:bool
 	
 func _on_state_entered() -> void:
 	create_landscape = true
+	prepare_playing_ui = true
+	prepare_first_dinasty = true
 	
 # override in states
 func _on_state_exited() -> void:
-	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.INTRO)
 	game_manager.gameplay_ui.fade_to_transparent()
 
 func _process(delta:float) -> void:
 	if create_landscape:
 		__create_landscape()
 		create_landscape = false
+	elif prepare_playing_ui:
+		game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
+		prepare_playing_ui = false
+	elif prepare_first_dinasty:
+		__set_first_dinasty()
+		prepare_first_dinasty = false
 	else:
 		state_finished.emit(id)
 
@@ -33,6 +42,10 @@ func __create_landscape() -> void:
 		var random_token = game_manager.instantiate_new_token(random_token_data)
 		if board.is_cell_empty(random_cell):
 			board.set_token_at_cell(random_token, random_cell)
+
+func __set_first_dinasty() -> void:
+	# I know, I'll call a private method but I know what I'm doing
+	game_manager.__go_to_next_dinasty(0)
 
 func get_random_between(min_val: int, max_val: int) -> int:
 	return min_val + randi() % (max_val - min_val + 1)
