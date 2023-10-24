@@ -16,6 +16,7 @@ signal dinasty_changed(name:String, max_points:int, overflow:int)
 @export var spawn_token_cell: BoardCell
 @export var combinator: Combinator
 @export var gameplay_ui:GameplayUI
+@export var default_chest: TokenData
 
 var dinasties_path : String = "res://data/dinasties/"
 
@@ -34,7 +35,8 @@ var gold: int
 
 func _enter_tree() -> void:
 	dinasties_names = Utils.get_files_names_at_path(dinasties_path)
-
+	assert(default_chest, "plase set the default chest for combinations")
+	
 func _ready() -> void:
 	# remember there is an intro state, probably you
 	# want to do wharever you want to do there
@@ -67,10 +69,6 @@ func __add_dinasty_points(points:int) -> void:
 		var overflow : int = current_dinasty.earned_points - current_dinasty.total_points
 		__go_to_next_dinasty(overflow)
 		
-	
-	## add a available_from_dinasty int to token data, and merge to chest or next token depending on it
-
-
 func create_floating_token(token_data:TokenData) -> void:
 	assert (!floating_token, "trying to create a floating token when there is already one")
 	if not token_data:
@@ -325,6 +323,9 @@ func combine_tokens(combination: Combination) -> Token:
 	
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
+	
+	if next_token_data.available_from_dinasty > dinasty_index:
+		next_token_data = default_chest
 		
 	var combined_token : Token = instantiate_new_token(next_token_data)
 
