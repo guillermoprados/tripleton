@@ -82,10 +82,10 @@ func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	
 	if token.floor_type == Constants.FloorType.GRASS:
 		var update_cells:Array[Vector2i] = []
-		update_cells.append(Vector2i(cell_index.x, cell_index.y))
-		tilemap.set_cells_terrain_connect(0, [], Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
+		update_cells.append_array(__get_floor_sub_cells(cell_index))
+		tilemap.set_cells_terrain_connect(0, update_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
 	
-	# floor_matrix[cell_index.x][cell_index.y] = token.floor_type
+	floor_matrix[cell_index.x][cell_index.y] = token.floor_type
 	
 	
 func update_floor_background() -> void:
@@ -104,6 +104,21 @@ func clear_token(cell_index: Vector2) -> void:
 	# Update the matrix value to EMPTY_CELL
 	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
 	floor_matrix[cell_index.x][cell_index.y] = Constants.FloorType.PATH
+
+func __get_floor_sub_cells(cell_index: Vector2) -> Array[Vector2i]:
+	var sub_cells:Array[Vector2i] = []
+
+	var start_row = cell_index.y * 3
+	var end_row = start_row + 3
+	var start_col = cell_index.x * 3
+	var end_col = start_col + 3
+
+	for row in range(start_row, end_row):
+		for col in range(start_col, end_col):
+			if not (cell_index as Vector2i == Vector2i(1, 1) and (row % 3 == 1) and (col % 3 == 1)):
+				sub_cells.append(Vector2i(row, col))
+
+	return sub_cells
 
 func get_cells_with_floor_type(type: Constants.FloorType, inverted:bool) -> Array[Vector2i]:
 	var matching_cells: Array[Vector2i] = []
