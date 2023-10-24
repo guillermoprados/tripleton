@@ -84,6 +84,7 @@ script = ExtResource("17_uph22")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
 
+[connection signal="dinasty_changed" from="GameManager" to="UI" method="_on_game_manager_dinasty_changed"]
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]

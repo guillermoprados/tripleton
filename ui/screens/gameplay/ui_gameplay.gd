@@ -59,17 +59,22 @@ func __state_name(id:Constants.UIPlayScreenId) -> String:
 		_:
 			return "I DONT KNOW"
 
+func _on_game_manager_dinasty_changed(name, max_points, overflow):
+	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
+		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
+		playing_ui.set_dinasty(name, max_points, overflow)
+
 func _on_game_manager_gold_updated(value):
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.accumulated_gold_update(value)
 
-func _on_game_manager_points_updated(value):
+func _on_game_manager_points_updated(updated_points:int, dinasty_points: int, total_points:int):
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
-		playing_ui.accumulated_points_update(value)
-
-
+		playing_ui.accumulated_points_update(total_points)
+		playing_ui.set_dinasty_progress(dinasty_points)
+		
 func _on_game_manager_show_floating_reward(type, value, position):
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
@@ -84,3 +89,5 @@ func _on_game_manager_show_message(message, type, time):
 
 func _on_game_over_screen_play_again():
 	play_again.emit()
+
+

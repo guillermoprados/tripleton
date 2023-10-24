@@ -4,9 +4,10 @@ class_name GameManager
 
 signal tokens_pool_depleted()
 signal gold_updated(value:int)
-signal points_updated(value:int)
+signal points_updated(updated_points:int, dinasty_points: int, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
+signal dinasty_changed(name:String, max_points:int, overflow:int)
 
 @export var token_scene: PackedScene
 
@@ -33,16 +34,17 @@ var gold: int
 
 func _enter_tree() -> void:
 	dinasties_names = Utils.get_files_names_at_path(dinasties_path)
-	__go_to_next_dinasty(0)
 
 func _ready() -> void:
+	# remember there is an intro state, probably you
+	# want to do wharever you want to do there
 	pass
 
 func __go_to_next_dinasty(overflown_points:int) -> void:
 	dinasty_index += 1
-	current_dinasty = ResourceLoader.load(dinasties_path + dinasties_names[dinasty_index])
+	current_dinasty = ResourceLoader.load(dinasties_path + dinasties_names[dinasty_index]) as Dinasty
 	current_dinasty.earned_points = overflown_points	
-	print("entering: "+current_dinasty.name)
+	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points, overflown_points)
 
 func instantiate_new_token(token_data:TokenData) -> Token:
 	var token_instance: Token = token_scene.instantiate() as Token
@@ -55,15 +57,16 @@ func add_gold(value:int) -> void:
 	
 func add_points(value:int) -> void:
 	points += value
-	points_updated.emit(points)
 	__add_dinasty_points(value)
-
+	points_updated.emit(value, points, current_dinasty.earned_points)
+	
 func __add_dinasty_points(points:int) -> void:
 	current_dinasty.earned_points += points
 	print(str(current_dinasty.earned_points) + "/" + str(current_dinasty.total_points))
 	if current_dinasty.earned_points > current_dinasty.total_points:
-		__go_to_next_dinasty(current_dinasty.total_points - current_dinasty.earned_points)
-
+		var overflow : int = current_dinasty.total_points - current_dinasty.earned_points
+		__go_to_next_dinasty(overflow)
+	
 	## add a available_from_dinasty int to token data, and merge to chest or next token depending on it
 
 
