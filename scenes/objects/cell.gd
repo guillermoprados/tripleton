@@ -18,7 +18,6 @@ var cell_index:Vector2
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	adjust_size(Constants.CELL_SIZE)
-	$BackColor.color = base_color
 	$HighLightColor.color = highlihgt_none
 	
 func _on_mouse_entered() -> void:

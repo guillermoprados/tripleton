@@ -1,8 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://dlrmlfrpnrkcu"]
+[gd_scene load_steps=4 format=3 uid="uid://dlrmlfrpnrkcu"]
 
 [ext_resource type="Script" path="res://scenes/objects/board.gd" id="1_dbrbv"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="3_6rpbb"]
+[ext_resource type="TileSet" uid="uid://bbloyaahqup7b" path="res://tiles/board_tile_set.tres" id="3_vkylf"]
 
 [node name="board" type="Node2D"]
 script = ExtResource("1_dbrbv")
 cell_scene = ExtResource("3_6rpbb")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("3_vkylf")
+cell_quadrant_size = 80
+format = 2
+layer_0/name = "back"
+layer_0/tile_data = PackedInt32Array(9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 65536, 0, 65545, 65536, 0, 65546, 65536, 0, 65547, 65536, 0, 65548, 0, 0, 65549, 0, 0, 65550, 65536, 0, 131081, 65536, 0, 131082, 65536, 0, 131083, 0, 0, 131084, 65536, 0, 131085, 0, 0, 131086, 65536, 0, 196622, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 262158, 0, 0, 262157, 0, 0, 262156, 0, 0, 262155, 0, 0, 262154, 0, 0, 262153, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0)

@@ -14,11 +14,6 @@ highlight_invalid = Color(1, 0.501961, 0.501961, 0.501961)
 highlight_warning = Color(0.835294, 0.639216, 0.2, 0.615686)
 highlight_combination = Color(0.501961, 0.501961, 1, 0.576471)
 
-[node name="BackColor" type="ColorRect" parent="."]
-offset_right = 64.0
-offset_bottom = 64.0
-mouse_filter = 2
-
 [node name="HighLightColor" type="ColorRect" parent="."]
 offset_right = 64.0
 offset_bottom = 64.0
