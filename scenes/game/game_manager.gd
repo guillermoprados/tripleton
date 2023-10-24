@@ -40,11 +40,12 @@ func _ready() -> void:
 	# want to do wharever you want to do there
 	pass
 
-func __go_to_next_dinasty(overflown_points:int) -> void:
+func __go_to_next_dinasty(overflow:int) -> void:
 	dinasty_index += 1
 	current_dinasty = ResourceLoader.load(dinasties_path + dinasties_names[dinasty_index]) as Dinasty
-	current_dinasty.earned_points = overflown_points	
-	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points, overflown_points)
+	print("change dinasty: "+str(current_dinasty.name)+" points: "+str(current_dinasty.total_points))
+	current_dinasty.earned_points = overflow
+	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points)
 
 func instantiate_new_token(token_data:TokenData) -> Token:
 	var token_instance: Token = token_scene.instantiate() as Token
@@ -58,14 +59,15 @@ func add_gold(value:int) -> void:
 func add_points(value:int) -> void:
 	points += value
 	__add_dinasty_points(value)
-	points_updated.emit(value, points, current_dinasty.earned_points)
+	points_updated.emit(value, current_dinasty.earned_points, points)
 	
 func __add_dinasty_points(points:int) -> void:
 	current_dinasty.earned_points += points
 	print(str(current_dinasty.earned_points) + "/" + str(current_dinasty.total_points))
-	if current_dinasty.earned_points > current_dinasty.total_points:
-		var overflow : int = current_dinasty.total_points - current_dinasty.earned_points
+	if current_dinasty.earned_points >= current_dinasty.total_points:
+		var overflow : int = current_dinasty.earned_points - current_dinasty.total_points
 		__go_to_next_dinasty(overflow)
+		
 	
 	## add a available_from_dinasty int to token data, and merge to chest or next token depending on it
 

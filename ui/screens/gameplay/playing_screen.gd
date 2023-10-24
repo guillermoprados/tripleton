@@ -33,11 +33,15 @@ func accumulated_gold_update(value:int) -> void:
 func accumulated_points_update(value:int) -> void:
 	points_label.update_points(value)
 	
-func set_dinasty(name:String, max_points:int, overflow:int) -> void:
+func set_dinasty(name:String, max_points:int) -> void:
 	dinasty_progress.value = 0
 	dinasty_label.text = name
 	dinasty_progress.max_value = max_points
-	dinasty_progress.value = overflow
+	print("set progress max: " + str(dinasty_progress.max_value))
 	
 func set_dinasty_progress(value:int) -> void:
 	dinasty_progress.value = value
+	print("got : " + str(value))
+	print("update progress: " + str(dinasty_progress.value))
+	print("of progress max: " + str(dinasty_progress.max_value))
+	

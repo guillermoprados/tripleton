@@ -59,10 +59,10 @@ func __state_name(id:Constants.UIPlayScreenId) -> String:
 		_:
 			return "I DONT KNOW"
 
-func _on_game_manager_dinasty_changed(name, max_points, overflow):
+func _on_game_manager_dinasty_changed(name, max_points):
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
-		playing_ui.set_dinasty(name, max_points, overflow)
+		playing_ui.set_dinasty(name, max_points)
 
 func _on_game_manager_gold_updated(value):
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:

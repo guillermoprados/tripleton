@@ -6,5 +6,5 @@
 [resource]
 script = ExtResource("1_euo4v")
 name = "Xang Xu 4"
-total_points = 700
+total_points = 2000
 tokens = ExtResource("2_50t8o")
