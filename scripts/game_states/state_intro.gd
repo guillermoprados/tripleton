@@ -3,6 +3,7 @@ extends StateBase
 class_name StateIntro
 
 @export var landscape_tokens:TokensSet
+@export var prefill_landscape: bool
 
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.INTRO
@@ -12,7 +13,7 @@ var prepare_playing_ui:bool
 var prepare_first_dinasty:bool
 	
 func _on_state_entered() -> void:
-	create_landscape = true
+	create_landscape = prefill_landscape
 	prepare_playing_ui = true
 	prepare_first_dinasty = true
 	

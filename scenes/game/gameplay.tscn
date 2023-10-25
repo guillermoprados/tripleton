@@ -68,6 +68,7 @@ board = NodePath("../Board")
 [node name="IntroState" type="Node" parent="StateMachine"]
 script = ExtResource("9_o86f4")
 landscape_tokens = ExtResource("9_e3s0g")
+prefill_landscape = true
 
 [node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")

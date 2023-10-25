@@ -17,6 +17,9 @@ var id:String:
 func type() -> Constants.TokenType:
 	return Constants.TokenType.NORMAL
 
+func floor_type() -> Constants.FloorType:
+	return Constants.FloorType.GRASS
+
 func validate() -> void:
 	# Check ID
 	assert(id != null, "ID cannot be null.")

@@ -47,6 +47,12 @@ enum RewardType {
 	POINTS,
 }
 
+enum FloorType {
+	PATH,
+	GRASS,
+	FOUNDATIONS
+}
+
 enum PlayingState {
 	NONE,
 	INTRO,
@@ -75,6 +81,11 @@ enum UIPlayScreenId {
 	PAUSE,
 	GAME_OVER
 }
+
+const TILESET_TERRAIN_BOARD_SET = 0
+const TILESET_TERRAIN_BACK = 0
+const TILESET_TERRAIN_PATH = 1
+const TILESET_TERRAIN_OUT = 2
 
 const MIN_REQUIRED_TOKENS_FOR_COMBINATION = 3 
 const MIN_LANDSCAPE_TOKENS = 3

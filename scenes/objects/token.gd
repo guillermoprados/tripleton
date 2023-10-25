@@ -14,7 +14,11 @@ var id:String:
 
 var type:Constants.TokenType:
 	get:
-		return data.type()		
+		return data.type()	
+		
+var floor_type:Constants.FloorType:
+	get:
+		return data.floor_type()		
 
 var behavior: TokenBehavior
 var action: TokenAction
