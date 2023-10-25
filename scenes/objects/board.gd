@@ -101,7 +101,7 @@ func clear_token(cell_index: Vector2) -> void:
 
 	var update_cells:Array[Vector2i] = []
 	update_cells.append_array(__get_floor_sub_cells(cell_index))
-	tilemap.set_cells_terrain_connect(0, update_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, true)
+	tilemap.set_cells_terrain_connect(0, update_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, false)
 	
 #TODO move all tiles functionality to the map
 func change_back_texture(texture:CompressedTexture2D) -> void:
