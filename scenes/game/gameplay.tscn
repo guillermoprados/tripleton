@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=20 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
+[ext_resource type="Resource" uid="uid://cibwmy6rhqq7s" path="res://data/dinasties/ordered_dinasties.tres" id="3_8sd6d"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="3_potqp"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
 [ext_resource type="PackedScene" uid="uid://cs3h2jmbb6qk7" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
@@ -25,6 +26,7 @@
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
+dinasties = ExtResource("3_8sd6d")
 save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
 combinator = NodePath("../Combinator")

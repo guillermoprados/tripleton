@@ -12,13 +12,13 @@ signal dinasty_changed(name:String, max_points:int, overflow:int)
 @export var token_scene: PackedScene
 
 @export var board:Board
+@export var dinasties : DinastyMap
 @export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
 @export var combinator: Combinator
 @export var gameplay_ui:GameplayUI
 @export var default_chest: TokenData
 
-var dinasties_path : String = "res://data/dinasties/"
 
 var dinasty_index : int = -1
 var current_dinasty:Dinasty
@@ -34,7 +34,7 @@ var points: int
 var gold: int
 
 func _enter_tree() -> void:
-	dinasties_names = Utils.get_files_names_at_path(dinasties_path)
+	assert(dinasties, "cannot load dinasties")
 	assert(default_chest, "plase set the default chest for combinations")
 	
 func _ready() -> void:
@@ -44,7 +44,7 @@ func _ready() -> void:
 
 func __go_to_next_dinasty(overflow:int) -> void:
 	dinasty_index += 1
-	current_dinasty = ResourceLoader.load(dinasties_path + dinasties_names[dinasty_index]) as Dinasty
+	current_dinasty = dinasties.ordered_dinasties[dinasty_index]
 	print("change dinasty: "+str(current_dinasty.name)+" points: "+str(current_dinasty.total_points))
 	current_dinasty.earned_points = overflow
 	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points)
