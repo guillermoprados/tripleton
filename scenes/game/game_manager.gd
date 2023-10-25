@@ -47,6 +47,7 @@ func __go_to_next_dinasty(overflow:int) -> void:
 	current_dinasty = dinasties.ordered_dinasties[dinasty_index]
 	print("change dinasty: "+str(current_dinasty.name)+" points: "+str(current_dinasty.total_points))
 	current_dinasty.earned_points = overflow
+	# board.change_back_texture(current_dinasty.map_texture)
 	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points)
 
 func instantiate_new_token(token_data:TokenData) -> Token:
