@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce3akh1xsh3wm"
-path="res://.godot/imported/board_map-export.png-d614f1fc016f919b4d5cb40572e3a9bf.ctex"
+uid="uid://b62025drf7py7"
+path="res://.godot/imported/first_era.png-422a6f1e9fbe124dc30d0204fb900e15.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asesprite/board_map-export.png"
-dest_files=["res://.godot/imported/board_map-export.png-d614f1fc016f919b4d5cb40572e3a9bf.ctex"]
+source_file="res://asesprite/first_era.png"
+dest_files=["res://.godot/imported/first_era.png-422a6f1e9fbe124dc30d0204fb900e15.ctex"]
 
 [params]
 
