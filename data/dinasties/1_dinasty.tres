@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="Dinasty" load_steps=3 format=3 uid="uid://b20sjjtmherem"]
+[gd_resource type="Resource" script_class="Dinasty" load_steps=4 format=3 uid="uid://b20sjjtmherem"]
 
 [ext_resource type="Script" path="res://resources/dinasty.gd" id="1_blswr"]
+[ext_resource type="Texture2D" uid="uid://d042wyre78ego" path="res://asesprite/board_map.png" id="1_lis5e"]
 [ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy.tres" id="2_tgjbl"]
 
 [resource]
@@ -8,3 +9,4 @@ script = ExtResource("1_blswr")
 name = "Xang Xu 2"
 total_points = 800
 tokens = ExtResource("2_tgjbl")
+map_texture = ExtResource("1_lis5e")
