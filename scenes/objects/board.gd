@@ -110,14 +110,14 @@ func change_back_texture(texture:CompressedTexture2D) -> void:
 func __get_floor_sub_cells(cell_index: Vector2) -> Array[Vector2i]:
 	var sub_cells:Array[Vector2i] = []
 
-	var start_row = cell_index.y * 3
-	var end_row = start_row + 3
-	var start_col = cell_index.x * 3
-	var end_col = start_col + 3
+	var start_row = cell_index.y * 2
+	var end_row = start_row + 2
+	var start_col = cell_index.x * 2
+	var end_col = start_col + 2
 
 	for row in range(start_row, end_row):
 		for col in range(start_col, end_col):
-			if not (cell_index as Vector2i == Vector2i(1, 1) and (row % 3 == 1) and (col % 3 == 1)):
+			if not (cell_index as Vector2i == Vector2i(1, 1) and (row % 2 == 1) and (col % 2 == 1)):
 				sub_cells.append(Vector2i(row, col))
 
 	return sub_cells

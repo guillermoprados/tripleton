@@ -94,7 +94,7 @@ const EMPTY_CELL = ""
 const INVALID_CELL = Vector2(-1,-1)
 const IS_DEBUG_MODE = true
 
-const CELL_SIZE:Vector2 = Vector2(90,90)
+const CELL_SIZE:Vector2 = Vector2(100,100)
 
 # TODO resize to 64
 const TOKEN_SPRITE_SIZE: Vector2 = Vector2(128, 128)
