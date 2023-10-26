@@ -22,12 +22,7 @@ func _process(delta:float) -> void:
 	pass
 
 func configure() -> void:
-	
 	__clear_board()
-	
-	var centered_x:float = (Constants.CELL_SIZE.x * columns) / 2
-	var screen_size:Vector2 = get_tree().root.content_scale_size
-	position.x = position.x - (columns * (Constants.CELL_SIZE.x/ 2))
 	for row in range(rows):
 		var row_tokens: Array = []
 		var row_cells: Array = []  # This will store the cell references for this row

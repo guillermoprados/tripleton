@@ -36,21 +36,8 @@ default_chest = ExtResource("3_potqp")
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -138.0
-offset_top = -67.0
-offset_right = 833.0
-offset_bottom = 1395.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.219608, 0.776471, 0.866667, 1)
-
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
-position = Vector2(360, 485)
+position = Vector2(72, 553)
 
 [node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(162, 263)
@@ -88,6 +75,9 @@ script = ExtResource("18_34rgb")
 script = ExtResource("17_uph22")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
 
 [connection signal="dinasty_changed" from="GameManager" to="UI" method="_on_game_manager_dinasty_changed"]
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
