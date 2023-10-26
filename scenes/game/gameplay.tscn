@@ -37,15 +37,15 @@ default_chest = ExtResource("3_potqp")
 script = ExtResource("10_dfvt2")
 
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
-position = Vector2(72, 553)
+position = Vector2(72, 713)
 
 [node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
-position = Vector2(162, 263)
+position = Vector2(170, 426)
 highlight_valid = Color(0.5, 1, 0.5, 1)
 highlight_invalid = Color(1, 0.5, 0.5, 1)
 
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
-position = Vector2(480, 269)
+position = Vector2(532, 441)
 highlight_valid = Color(0.5, 1, 0.5, 1)
 highlight_invalid = Color(1, 0.5, 0.5, 1)
 
@@ -75,9 +75,6 @@ script = ExtResource("18_34rgb")
 script = ExtResource("17_uph22")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
-
-[node name="TileMap" type="TileMap" parent="."]
-format = 2
 
 [connection signal="dinasty_changed" from="GameManager" to="UI" method="_on_game_manager_dinasty_changed"]
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
