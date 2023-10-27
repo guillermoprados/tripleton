@@ -17,7 +17,7 @@ var cell_index:Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	adjust_size(Constants.CELL_SIZE)
+	# adjust_size(Constants.CELL_SIZE)
 	$HighLightColor.color = highlihgt_none
 	
 func _on_mouse_entered() -> void:
@@ -39,9 +39,6 @@ func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void
 		# event.global_position is the global position on the screen
 		# You can adapt your touch handling logic as needed
 	# Add more conditions for other types of input events if necessary
-
-func adjust_size(new_size: Vector2) -> void:
-	self.scale = new_size / Constants.CELL_SPRITE_SIZE
 	
 func clear_highlight() -> void:
 	highlight(Constants.CellHighlight.NONE)

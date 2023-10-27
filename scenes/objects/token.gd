@@ -33,14 +33,9 @@ func _init():
 	created_at = Time.get_unix_time_from_system()
 	
 func _ready() -> void:
-	adjust_size(Constants.CELL_SIZE)
-
+	pass
 func _process(delta:float) -> void:
 	pass
-
-# Method to set the size of the AnimatedSprite
-func adjust_size(new_size: Vector2) -> void:
-	self.scale = new_size / Constants.TOKEN_SPRITE_SIZE
 
 func set_data(token_data:TokenData) -> void:
 	id = token_data.id
@@ -48,6 +43,7 @@ func set_data(token_data:TokenData) -> void:
 	
 	sprite = token_data.sprite_scene.instantiate()
 	add_child(sprite)
+	sprite.position = Constants.CELL_SIZE / 2
 	
 	for child in sprite.get_children():
 		if child is TokenBehavior:

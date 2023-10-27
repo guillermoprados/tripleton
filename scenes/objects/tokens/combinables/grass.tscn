@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://ogt5ls3c3342"]
 
-[ext_resource type="Texture2D" uid="uid://midd0g25x5rq" path="res://images/tokens/grass.png" id="1_dy3vf"]
+[ext_resource type="Texture2D" uid="uid://nxkmkny637j" path="res://images/tokens/grass_1.png" id="1_lw5r6"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_dy3vf")
+"texture": ExtResource("1_lw5r6")
 }],
 "loop": true,
 "name": &"idle",
@@ -14,6 +14,6 @@ animations = [{
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
-position = Vector2(65, 63)
+position = Vector2(2.08165e-12, 2.08165e-12)
 sprite_frames = SubResource("SpriteFrames_opgpc")
 animation = &"idle"

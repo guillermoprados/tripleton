@@ -96,10 +96,6 @@ const IS_DEBUG_MODE = true
 
 const CELL_SIZE:Vector2 = Vector2(100,100)
 
-# TODO resize to 64
-const TOKEN_SPRITE_SIZE: Vector2 = Vector2(128, 128)
-const CELL_SPRITE_SIZE: Vector2 = Vector2(64, 64) 
-
 const TOKEN_PROB_COMMON: float = 0.6
 const TOKEN_PROB_UNCOMMON: float = TOKEN_PROB_COMMON + 0.2 
 const TOKEN_PROB_RARE: float = TOKEN_PROB_UNCOMMON + 0.1 
