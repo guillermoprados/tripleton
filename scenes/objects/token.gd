@@ -42,8 +42,9 @@ func set_data(token_data:TokenData) -> void:
 	data = token_data
 	
 	sprite = token_data.sprite_scene.instantiate()
-	add_child(sprite)
-	sprite.position = Constants.CELL_SIZE / 2
+	$SpriteHolder.add_child(sprite)
+	$SpriteHolder.position.x = Constants.CELL_SIZE.x / 2
+	$SpriteHolder.position.y = Constants.CELL_SIZE.y - Constants.TOKEN_Y_DELTA
 	
 	for child in sprite.get_children():
 		if child is TokenBehavior:
