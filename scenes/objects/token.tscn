@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://gbg1fq05vnj5"]
+[gd_scene load_steps=3 format=3 uid="uid://gbg1fq05vnj5"]
 
 [ext_resource type="Script" path="res://scenes/objects/token.gd" id="1_1b322"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_xcvlr"]
 
-[node name="Token" type="Node2D"]
+[node name="Token" type="Node2D" node_paths=PackedStringArray("sprite_holder", "shadow")]
 script = ExtResource("1_1b322")
 color_highlight_last = Color(0.670588, 0.4, 0.239216, 1)
 color_highlight_invalid = Color(0.890196, 0, 0.203922, 1)
+sprite_holder = NodePath("SpriteHolder")
+shadow = NodePath("Shadow")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("2_xcvlr")
 
 [node name="SpriteHolder" type="Node2D" parent="."]

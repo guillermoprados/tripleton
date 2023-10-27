@@ -102,6 +102,10 @@ func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
 	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
 	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
+	
+	if not floating_token.floating:
+		floating_token.floating = true
+		
 	if floating_token.type == Constants.TokenType.ACTION:
 		__move_floating_action_token(cell_index, token_position)
 	else:	 
@@ -177,9 +181,12 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 		saved_token = switch_token
 		floating_token.position = floating_pos
 		saved_token.position = save_token_cell.position
+		saved_token.floating = false
+		floating_token.floating = true
 	else:
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
+		saved_token.floating = false
 		floating_token = null
 		create_floating_token(null)
 	# reset combinations because we're caching them
@@ -415,6 +422,7 @@ func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
 	floating_token.position = spawn_token_cell.position
+	floating_token.floating = false
 	
 	#remove the chest
 	var chest_data: TokenChestData = token.data

@@ -6,7 +6,23 @@ class_name Token
 @export var color_highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
 @export var color_highlight_transparent : Color = Color(1, 1, 1, 0.5)
 
-var floating: bool
+@export var sprite_holder:Node2D
+@export var shadow:Node2D
+
+
+var _floating: bool
+
+var floating: bool:
+	get:
+		return _floating
+	set (value):
+		_floating = value
+		if _floating:
+			sprite_holder.position.y = Constants.TOKEN_FLOATING_Y_POS
+			shadow.scale = Vector2(Constants.TOKEN_SHADOW_FLOATING_MULTIPLIER, Constants.TOKEN_SHADOW_FLOATING_MULTIPLIER)
+		else:
+			sprite_holder.position.y = Constants.TOKEN_PLACED_Y_POS
+			shadow.scale = Vector2(1, 1)
 
 var id:String:
 	get:
@@ -42,9 +58,12 @@ func set_data(token_data:TokenData) -> void:
 	data = token_data
 	
 	sprite = token_data.sprite_scene.instantiate()
-	$SpriteHolder.add_child(sprite)
-	$SpriteHolder.position.x = Constants.CELL_SIZE.x / 2
-	$SpriteHolder.position.y = Constants.CELL_SIZE.y - Constants.TOKEN_Y_DELTA
+	sprite_holder.add_child(sprite)
+	sprite_holder.position.x = Constants.CELL_SIZE.x / 2
+	sprite_holder.position.y = Constants.TOKEN_PLACED_Y_POS
+	shadow.position.x = Constants.CELL_SIZE.x / 2
+	shadow.position.y = Constants.TOKEN_SHADOW_Y_POS
+	
 	
 	for child in sprite.get_children():
 		if child is TokenBehavior:
@@ -52,7 +71,6 @@ func set_data(token_data:TokenData) -> void:
 		if child is TokenAction:
 			action = child
 	
-
 func unhighlight() -> void:
 	highlight(Constants.TokenHighlight.NONE)
 	
