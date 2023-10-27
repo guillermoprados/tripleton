@@ -8,11 +8,13 @@ class_name StateIntro
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.INTRO
 
+var position_game_objects:bool
 var create_landscape:bool
 var prepare_playing_ui:bool
 var prepare_first_dinasty:bool
 	
 func _on_state_entered() -> void:
+	position_game_objects = true
 	create_landscape = prefill_landscape
 	prepare_playing_ui = true
 	prepare_first_dinasty = true
@@ -22,6 +24,9 @@ func _on_state_exited() -> void:
 	game_manager.gameplay_ui.fade_to_transparent()
 
 func _process(delta:float) -> void:
+	if position_game_objects:
+		__position_game_objects()
+		position_game_objects = false
 	if create_landscape:
 		__create_landscape()
 		create_landscape = false
@@ -34,6 +39,19 @@ func _process(delta:float) -> void:
 	else:
 		state_finished.emit(id)
 
+func __position_game_objects() -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
+	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
+	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
+	
+	game_manager.spawn_token_cell.position = board.position
+	game_manager.spawn_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
+	
+	game_manager.save_token_cell.position = board.position
+	game_manager.save_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
+	game_manager.save_token_cell.position.x += board_size.x - Constants.CELL_SIZE.x
+	
 func __create_landscape() -> void:
 	randomize()
 	var rand_num = get_random_between(Constants.MIN_LANDSCAPE_TOKENS, Constants.MAX_LANDSCAPE_TOKENS)
