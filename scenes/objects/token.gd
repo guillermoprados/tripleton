@@ -6,8 +6,30 @@ class_name Token
 @export var color_highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
 @export var color_highlight_transparent : Color = Color(1, 1, 1, 0.5)
 
-var floating: bool
+@export var outline_shader:ShaderMaterial
+@export var sprite_holder:Node2D
+@export var shadow:Node2D
 
+var original_material:ShaderMaterial
+
+var _floating: bool
+
+var floating: bool:
+	get:
+		return _floating
+	set (value):
+		_floating = value
+		if _floating:
+			sprite_holder.position.y = Constants.TOKEN_FLOATING_Y_POS
+			shadow.scale = Vector2(Constants.TOKEN_SHADOW_FLOATING_MULTIPLIER, Constants.TOKEN_SHADOW_FLOATING_MULTIPLIER)
+			sprite.material = outline_shader
+			sprite.get_material().set_shader_parameter("line_color", Color(1.0, 1.0, 1.0))
+			sprite.get_material().set_shader_parameter("line_thickness", 4.0)  # Adjust the size as needed
+		else:
+			sprite_holder.position.y = Constants.TOKEN_PLACED_Y_POS
+			shadow.scale = Vector2(1, 1)
+			sprite.material = original_material
+			
 var id:String:
 	get:
 		return data.id
@@ -33,21 +55,22 @@ func _init():
 	created_at = Time.get_unix_time_from_system()
 	
 func _ready() -> void:
-	adjust_size(Constants.CELL_SIZE)
-
+	pass
 func _process(delta:float) -> void:
 	pass
-
-# Method to set the size of the AnimatedSprite
-func adjust_size(new_size: Vector2) -> void:
-	self.scale = new_size / Constants.TOKEN_SPRITE_SIZE
 
 func set_data(token_data:TokenData) -> void:
 	id = token_data.id
 	data = token_data
 	
 	sprite = token_data.sprite_scene.instantiate()
-	add_child(sprite)
+	original_material = sprite.material
+	sprite_holder.add_child(sprite)
+	sprite_holder.position.x = Constants.CELL_SIZE.x / 2
+	sprite_holder.position.y = Constants.TOKEN_PLACED_Y_POS
+	shadow.position.x = Constants.CELL_SIZE.x / 2
+	shadow.position.y = Constants.TOKEN_SHADOW_Y_POS
+	
 	
 	for child in sprite.get_children():
 		if child is TokenBehavior:
@@ -55,7 +78,6 @@ func set_data(token_data:TokenData) -> void:
 		if child is TokenAction:
 			action = child
 	
-
 func unhighlight() -> void:
 	highlight(Constants.TokenHighlight.NONE)
 	

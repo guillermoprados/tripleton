@@ -96,14 +96,17 @@ const IS_DEBUG_MODE = true
 
 const CELL_SIZE:Vector2 = Vector2(100,100)
 
-# TODO resize to 64
-const TOKEN_SPRITE_SIZE: Vector2 = Vector2(128, 128)
-const CELL_SPRITE_SIZE: Vector2 = Vector2(64, 64) 
-
 const TOKEN_PROB_COMMON: float = 0.6
 const TOKEN_PROB_UNCOMMON: float = TOKEN_PROB_COMMON + 0.2 
 const TOKEN_PROB_RARE: float = TOKEN_PROB_UNCOMMON + 0.1 
 const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08 
 
+# Game Objects positions
 const BOARD_BOTTOM_SEPARATION: float = 50
+
+const TOKEN_SHADOW_Y_POS: float = CELL_SIZE.y - 20
+const TOKEN_PLACED_Y_POS: float = CELL_SIZE.y - 25
+const TOKEN_FLOATING_Y_POS: float = CELL_SIZE.y - 45
+const TOKEN_SHADOW_FLOATING_MULTIPLIER: float = .6
+
 const BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER: float = 1.2
