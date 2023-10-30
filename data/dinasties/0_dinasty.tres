@@ -7,6 +7,6 @@
 [resource]
 script = ExtResource("1_ruk8f")
 name = "Xang Xu 1"
-total_points = 300
+total_points = 30000
 tokens = ExtResource("2_hke1h")
 map_texture = ExtResource("1_k31v0")
