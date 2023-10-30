@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://bauhbswb7qhrc"]
+[gd_scene load_steps=3 format=3 uid="uid://b2chc6ukjkgjl"]
 
-[ext_resource type="Texture2D" uid="uid://djkwf37oguskm" path="res://images/tokens/gate.png" id="1_ui5ac"]
+[ext_resource type="Texture2D" uid="uid://cf12huom4nutf" path="res://images/tokens/shimei_1.png" id="1_lov0w"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_ui5ac")
+"texture": ExtResource("1_lov0w")
 }],
 "loop": true,
 "name": &"idle",
@@ -14,6 +14,6 @@ animations = [{
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
-position = Vector2(0, -40)
+position = Vector2(0, -34)
 sprite_frames = SubResource("SpriteFrames_opgpc")
 animation = &"idle"
