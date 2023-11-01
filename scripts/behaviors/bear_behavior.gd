@@ -4,7 +4,7 @@ class_name BearBehavior
 
 @export var animator:EnemyAnimator
 
-const JUMP_ANIM_START_DELAY_TIME = 0.3
+const JUMP_ANIM_START_DELAY_TIME = 0.2
 
 func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_next_empty_cell(current_cell, cell_tokens_ids) 
