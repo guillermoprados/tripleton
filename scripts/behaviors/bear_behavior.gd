@@ -4,12 +4,13 @@ class_name BearBehavior
 
 @export var animator:EnemyAnimator
 
+const JUMP_ANIM_START_DELAY_TIME = 0.3
+
 func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_next_empty_cell(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
 			animator.jump()
-			await get_tree().create_timer(0.25).timeout
-			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2)
+			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2, JUMP_ANIM_START_DELAY_TIME)
 			# animate and then emit finish
 			behaviour_finished.emit()
 		else:

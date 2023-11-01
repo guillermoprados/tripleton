@@ -51,8 +51,8 @@ func _on_enemy_behaviour_finished() -> void:
 func _on_stucked_enemy(cell_index:Vector2) -> void:
 	stucked_enemies.append(cell_index)
 	
-func _on_enemy_movement(from_cell:Vector2, to_cell:Vector2, transition_time:float) -> void:
-	game_manager.move_token_in_board(from_cell, to_cell, transition_time)
+func _on_enemy_movement(from_cell:Vector2, to_cell:Vector2, transition_time:float, tween_start_delay:float) -> void:
+	game_manager.move_token_in_board(from_cell, to_cell, transition_time, tween_start_delay)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta:float) -> void:

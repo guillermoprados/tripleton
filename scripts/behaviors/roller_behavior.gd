@@ -5,7 +5,7 @@ class_name RollerBehavior
 func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_random_empty_cell_in_line(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
-			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2)
+			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2, 0)
 			# animate and then emit finish
 			behaviour_finished.emit()
 		else:
