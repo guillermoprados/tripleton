@@ -31,6 +31,10 @@ window/handheld/orientation=1
 
 project/assembly_name="Tripleton"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
+
 [importer_defaults]
 
 texture={
