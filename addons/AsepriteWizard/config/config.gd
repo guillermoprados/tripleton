@@ -60,8 +60,8 @@ func default_command() -> String:
 
 func is_command_or_control_pressed() -> String:
 	var command = _editor_settings.get(_COMMAND_KEY) if _editor_settings.has_setting(_COMMAND_KEY) else ""
-	return command if command != "" else default_command()
-
+	# return command if command != "" else default_command()
+	return "/Applications/Aseprite.app/Contents/MacOS/aseprite"
 
 #######################################################
 # PROJECT SETTINGS
