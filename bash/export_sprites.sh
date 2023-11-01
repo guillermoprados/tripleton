@@ -9,3 +9,5 @@ cd "$script_dir"
 
 #export token images
 aseprite -b ../asesprite/tokens.aseprite --save-as ../images/tokens/{slice}.png
+
+aseprite -b ../asesprite/monsters.aseprite --save-as ../images/monsters/{slice}.png
