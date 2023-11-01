@@ -138,8 +138,9 @@ func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_ti
 		placed_tokens[cell_index_from].position = get_cell_at_position(cell_index_to).position
 	else:
 		var tween = create_tween()
+		tween.set_ease(Tween.EASE_IN)
 		tween.tween_property(placed_tokens[cell_index_from], "position", get_cell_at_position(cell_index_to).position, tween_time)
-	
+		
 	cell_tokens_ids[cell_index_from.x][cell_index_from.y] = Constants.EMPTY_CELL
 	placed_tokens.erase(cell_index_from)
 	
