@@ -5,7 +5,7 @@ class_name MoleBehavior
 func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_random_empty_cell(cell_tokens_ids) 
 		if next_empty_cell != Constants.INVALID_CELL:
-			move_from_cell_to_cell.emit(current_cell, next_empty_cell, 0)
+			move_from_cell_to_cell.emit(current_cell, next_empty_cell, 0, 0)
 			# animate and then emit finish
 			behaviour_finished.emit()
 		else:

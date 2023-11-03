@@ -126,22 +126,27 @@ func get_cells_with_floor_type(type: Constants.FloorType, inverted:bool) -> Arra
 	return matching_cells
 
 	
-func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float):
+func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float):
 	assert(cell_index_from != cell_index_to, "cannot move to the same cell") 
 	assert(cell_tokens_ids[cell_index_from.x][cell_index_from.y] != Constants.EMPTY_CELL, "cannot move from "+str(cell_index_from)+ " empty token?")
 	assert(cell_tokens_ids[cell_index_to.x][cell_index_to.y] == Constants.EMPTY_CELL, "cannot move to "+str(cell_index_to))
 	
 	cell_tokens_ids[cell_index_to.x][cell_index_to.y] = cell_tokens_ids[cell_index_from.x][cell_index_from.y]
 	placed_tokens[cell_index_to] = placed_tokens[cell_index_from]
-	
-	if tween_time <= 0:
-		placed_tokens[cell_index_from].position = get_cell_at_position(cell_index_to).position
-	else:
-		var tween = create_tween()
-		tween.tween_property(placed_tokens[cell_index_from], "position", get_cell_at_position(cell_index_to).position, tween_time)
-	
 	cell_tokens_ids[cell_index_from.x][cell_index_from.y] = Constants.EMPTY_CELL
 	placed_tokens.erase(cell_index_from)
+	
+	if tween_delay > 0:
+		await get_tree().create_timer(tween_delay).timeout
+	
+	if tween_time <= 0:
+		placed_tokens[cell_index_to].position = get_cell_at_position(cell_index_to).position
+	else:
+		var tween = create_tween()
+		tween.set_ease(Tween.EASE_IN)
+		tween.tween_property(placed_tokens[cell_index_to], "position", get_cell_at_position(cell_index_to).position, tween_time)
+		
+	
 	
 func get_token_at_cell(cell_index: Vector2) -> Token:
 	return placed_tokens[cell_index]

@@ -1,23 +1,117 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnsnrbwc6xd7k"]
+[gd_scene load_steps=16 format=3 uid="uid://bnsnrbwc6xd7k"]
 
-[ext_resource type="Texture2D" uid="uid://wud1htu5x2k8" path="res://images/monsters/monokelo4.png" id="1_f4q5a"]
+[ext_resource type="Texture2D" uid="uid://wd2r3eyp2q2b" path="res://images/monsters/monokelo.png" id="1_p03lw"]
 [ext_resource type="Script" path="res://scripts/behaviors/bear_behavior.gd" id="2_frcaq"]
+[ext_resource type="Script" path="res://scenes/objects/tokens/enemies/enemy_animator.gd" id="2_yamyf"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkbn3"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(0, 0, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qq38"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(80, 0, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygjs0"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(160, 0, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwh5e"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(240, 0, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbtbi"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(0, 100, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkitl"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(80, 100, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lumur"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(160, 100, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uf760"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(240, 100, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d45u0"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(0, 200, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a28v"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(80, 200, 80, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uayf"]
+atlas = ExtResource("1_p03lw")
+region = Rect2(160, 200, 80, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1lcuh"]
 animations = [{
 "frames": [{
+"duration": 20.0,
+"texture": SubResource("AtlasTexture_dkbn3")
+}, {
 "duration": 1.0,
-"texture": ExtResource("1_f4q5a")
+"texture": SubResource("AtlasTexture_7qq38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ygjs0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwh5e")
 }],
 "loop": true,
 "name": &"idle",
-"speed": 5.0
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbtbi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkitl")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_lumur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uf760")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_d45u0")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_4a28v")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_1uayf")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 20.0
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+texture_filter = 1
 position = Vector2(0, -44)
-sprite_frames = SubResource("SpriteFrames_opgpc")
+sprite_frames = SubResource("SpriteFrames_1lcuh")
 animation = &"idle"
+script = ExtResource("2_yamyf")
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://images/monsters",
+"o_name": "",
+"only_visible": true,
+"op_exp": false,
+"source": "res://asesprite/monokelo.aseprite"
+}
 
-[node name="BearBehavior" type="Node" parent="."]
+[node name="BearBehavior" type="Node" parent="." node_paths=PackedStringArray("animator")]
 script = ExtResource("2_frcaq")
+animator = NodePath("..")
+
+[connection signal="animation_looped" from="." to="." method="_on_animation_looped"]

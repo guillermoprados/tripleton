@@ -150,8 +150,8 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 		board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
 
-func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float) -> void:
-	board.move_token_from_to(cell_index_from, cell_index_to, tween_time)
+func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float) -> void:
+	board.move_token_from_to(cell_index_from, cell_index_to, tween_time, tween_delay)
 
 func destroy_token_at_cell(cell_index:Vector2) -> void:
 	if board.is_cell_empty(cell_index):

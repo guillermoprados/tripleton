@@ -2,10 +2,15 @@ extends TokenBehavior
 
 class_name BearBehavior
 
+@export var animator:EnemyAnimator
+
+const JUMP_ANIM_START_DELAY_TIME = 0.2
+
 func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_next_empty_cell(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
-			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2)
+			animator.jump()
+			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2, JUMP_ANIM_START_DELAY_TIME)
 			# animate and then emit finish
 			behaviour_finished.emit()
 		else:
