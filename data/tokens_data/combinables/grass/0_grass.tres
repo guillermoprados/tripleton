@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/grass/1_bush.tres" id="1_dwwp4"]
 [ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_oxdm8"]
-[ext_resource type="PackedScene" uid="uid://ogt5ls3c3342" path="res://scenes/objects/tokens/combinables/grass.tscn" id="3_ei2tp"]
+[ext_resource type="PackedScene" uid="uid://ogt5ls3c3342" path="res://scenes/objects/tokens/trees/grass.tscn" id="3_7w2d5"]
 
 [resource]
 script = ExtResource("2_oxdm8")
@@ -11,4 +11,4 @@ reward_type = 2
 reward_value = 10
 collectable = false
 available_from_dinasty = 0
-sprite_scene = ExtResource("3_ei2tp")
+sprite_scene = ExtResource("3_7w2d5")

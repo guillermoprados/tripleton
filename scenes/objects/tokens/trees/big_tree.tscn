@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://co5j1p0ccw4fi"]
+
+[ext_resource type="Texture2D" uid="uid://4nhggd42q32l" path="res://images/tokens/big_tree_1.png" id="1_qo2ji"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_qo2ji")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(2, -48)
+sprite_frames = SubResource("SpriteFrames_opgpc")
+animation = &"idle"

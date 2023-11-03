@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://ekdffx62jure"]
+
+[ext_resource type="Resource" uid="uid://bg22fqe88vqtl" path="res://data/tokens_data/chests/chest_silver.tres" id="1_5j380"]
+[ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_4n8xw"]
+[ext_resource type="PackedScene" uid="uid://dxowwsvexw0ke" path="res://scenes/objects/tokens/combinables/big_gate.tscn" id="3_4rm3n"]
+
+[resource]
+script = ExtResource("2_4n8xw")
+next_token = ExtResource("1_5j380")
+reward_type = 2
+reward_value = 100
+collectable = false
+available_from_dinasty = 3
+sprite_scene = ExtResource("3_4rm3n")
