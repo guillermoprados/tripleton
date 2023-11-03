@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://gbg1fq05vnj5"]
+[gd_scene load_steps=5 format=3 uid="uid://gbg1fq05vnj5"]
 
 [ext_resource type="Script" path="res://scenes/objects/token.gd" id="1_1b322"]
+[ext_resource type="Material" uid="uid://c5iq56syb3pbt" path="res://materials/floating_material.tres" id="2_0qks1"]
 [ext_resource type="Material" uid="uid://cwsrbecdvvxuo" path="res://materials/outline_material.tres" id="2_gmfdl"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_xcvlr"]
 
@@ -8,6 +9,7 @@
 script = ExtResource("1_1b322")
 color_highlight_last = Color(0.670588, 0.4, 0.239216, 1)
 color_highlight_invalid = Color(0.890196, 0, 0.203922, 1)
+floating_shader = ExtResource("2_0qks1")
 outline_shader = ExtResource("2_gmfdl")
 sprite_holder = NodePath("SpriteHolder")
 shadow = NodePath("Shadow")

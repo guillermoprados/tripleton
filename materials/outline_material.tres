@@ -5,4 +5,4 @@
 [resource]
 shader = ExtResource("1_5mtdb")
 shader_parameter/line_color = Color(0, 0, 0, 1)
-shader_parameter/line_thickness = 0.0
+shader_parameter/line_thickness = 1.0
