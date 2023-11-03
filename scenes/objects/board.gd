@@ -196,6 +196,9 @@ func clear_highlights() -> void:
 	for row in cells_matrix:
 		for cell in row:
 			cell.clear_highlight()
+	for token_pos in placed_tokens.keys():
+		var token: Token = placed_tokens[token_pos]
+		token.clear_in_range()
 			
 func highligh_cell(cell_index: Vector2, mode:Constants.CellHighlight) -> void:
 	get_cell_at_position(cell_index).highlight(mode)
@@ -203,7 +206,11 @@ func highligh_cell(cell_index: Vector2, mode:Constants.CellHighlight) -> void:
 func highlight_combination(combination:Combination) -> void:
 	for cell_index in combination.combinable_cells:
 		get_cell_at_position(cell_index).highlight(Constants.CellHighlight.COMBINATION)
+		if placed_tokens.has(cell_index):
+			var token : Token = placed_tokens[cell_index]
+			token.set_in_range(cell_index)
 		
+
 func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
 	var filtered_tokens = {}
 	for key in placed_tokens:

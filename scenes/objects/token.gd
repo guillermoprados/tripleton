@@ -8,8 +8,10 @@ class_name Token
 
 @export var floating_shader:ShaderMaterial
 @export var outline_shader:ShaderMaterial
+
 @export var sprite_holder:Node2D
 @export var shadow:Node2D
+@export var in_range_tweener:InRangeTweener
 
 var _floating: bool
 
@@ -53,8 +55,6 @@ var created_at:float
 func _init():
 	created_at = Time.get_unix_time_from_system()
 	
-func _ready() -> void:
-	pass
 func _process(delta:float) -> void:
 	pass
 
@@ -90,4 +90,9 @@ func highlight(mode:Constants.TokenHighlight) -> void:
 			sprite.modulate = color_highlight_last
 		Constants.TokenHighlight.TRANSPARENT:
 			sprite.modulate = color_highlight_transparent
-		
+
+func set_in_range(cell:Vector2) -> void:
+	in_range_tweener.in_range_of_cell = cell
+	
+func clear_in_range() -> void:
+	in_range_tweener.in_range_of_cell = Constants.INVALID_CELL
