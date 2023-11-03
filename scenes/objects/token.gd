@@ -91,8 +91,8 @@ func highlight(mode:Constants.TokenHighlight) -> void:
 		Constants.TokenHighlight.TRANSPARENT:
 			sprite.modulate = color_highlight_transparent
 
-func set_in_range(cell:Vector2) -> void:
-	in_range_tweener.in_range_of_cell = cell
+func set_in_range(difference_pos:Vector2) -> void:
+	in_range_tweener.set_in_range_tweener(difference_pos)
 	
 func clear_in_range() -> void:
-	in_range_tweener.in_range_of_cell = Constants.INVALID_CELL
+	in_range_tweener.clear_in_range()

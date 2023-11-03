@@ -21,7 +21,7 @@ texture = ExtResource("2_xcvlr")
 
 [node name="SpriteHolder" type="Node2D" parent="."]
 
-[node name="InRangeTweener" type="Node" parent="." node_paths=PackedStringArray("sprite_holder", "shadow")]
+[node name="InRangeTweener" type="Node2D" parent="." node_paths=PackedStringArray("sprite_holder", "shadow")]
 script = ExtResource("5_1yd2m")
 sprite_holder = NodePath("../SpriteHolder")
 shadow = NodePath("../Shadow")

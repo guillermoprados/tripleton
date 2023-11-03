@@ -128,7 +128,7 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 		var combination:Combination = check_combination_all_levels(floating_token, cell_index)
 
 		if combination.is_valid():
-			board.highlight_combination(combination)
+			board.highlight_combination(cell_index, combination)
 		elif is_wildcard:
 			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
 		else:
