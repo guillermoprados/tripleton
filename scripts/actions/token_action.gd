@@ -6,7 +6,8 @@ signal move_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_tim
 signal swap_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_time:float)
 signal destroy_token_at_cell(cell:Vector2)
 signal set_to_bad_action(cell:Vector2)
-signal action_finished()	
+signal action_finished()
+signal disable_interactions()
 
 func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
 	assert(false, "this is must be implemented in child")

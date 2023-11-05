@@ -1,0 +1,95 @@
+[gd_scene load_steps=13 format=3 uid="uid://bfsbokyqcnf6x"]
+
+[ext_resource type="Texture2D" uid="uid://bswk275uqdx3n" path="res://images/aseprite/bomb_explosion.png" id="1_ui1u1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfv7v"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(0, 0, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vp2d6"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(100, 0, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdiyd"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(200, 0, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qa072"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(300, 0, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67sck"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(0, 128, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8x2d8"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(100, 128, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q55nh"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(200, 128, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxgpt"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(300, 128, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67dk4"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(0, 256, 100, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sin47"]
+atlas = ExtResource("1_ui1u1")
+region = Rect2(100, 256, 100, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kmync"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfv7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vp2d6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdiyd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qa072")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67sck")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_8x2d8")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_q55nh")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_vxgpt")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_67dk4")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_sin47")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="bomb_explosion" type="AnimatedSprite2D"]
+texture_filter = 1
+position = Vector2(3, -40)
+sprite_frames = SubResource("SpriteFrames_kmync")
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://images/aseprite",
+"o_name": "",
+"only_visible": false,
+"op_exp": true,
+"source": "res://asesprite/bomb_explosion.aseprite"
+}

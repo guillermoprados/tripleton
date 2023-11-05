@@ -52,16 +52,18 @@ func _on_state_exited() -> void:
 	game_manager.save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
 	game_manager.save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
 	
-	board.enabled_interaction = false
+	disable_interactions()
 
 func __bind_token_events(token:Token) -> void:
 	if token.type == Constants.TokenType.ACTION:
 		token.action.action_finished.connect(finish_player_turn)
+		token.action.disable_interactions.connect(disable_interactions)
 	
 func __unbind_token_events(token:Token) -> void:
 	if token.type == Constants.TokenType.ACTION:
 		token.action.action_finished.disconnect(finish_player_turn)
-	
+		token.action.disable_interactions.disconnect(disable_interactions)
+		
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
 		return
@@ -105,6 +107,9 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 	
 func finish_player_turn() -> void:
 	state_finished.emit(id)
+
+func disable_interactions() -> void:
+	board.enabled_interaction = false
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
 	game_manager.move_floating_token_to_swap_cell()

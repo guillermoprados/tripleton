@@ -2,16 +2,19 @@ extends TokenAction
 
 class_name ActionBomb
 
+@export var explosion_scene: PackedScene
+
 func __surrounding_cells(current_cell:Vector2) -> Array[Vector2]:
 	var surrounding_cells : Array[Vector2] = []
-	surrounding_cells.append(current_cell + Vector2(0, - 1))
-	surrounding_cells.append(current_cell + Vector2(1, - 1))
-	surrounding_cells.append(current_cell + Vector2(1, 0))
-	surrounding_cells.append(current_cell + Vector2(1, 1))
-	surrounding_cells.append(current_cell + Vector2(0, 1))
-	surrounding_cells.append(current_cell + Vector2(- 1, - 1))
-	surrounding_cells.append(current_cell + Vector2(- 1, 0))
-	surrounding_cells.append(current_cell + Vector2(- 1, 1))
+#   disabling for now surrounding cells
+#	surrounding_cells.append(current_cell + Vector2(0, - 1))
+#	surrounding_cells.append(current_cell + Vector2(1, - 1))
+#	surrounding_cells.append(current_cell + Vector2(1, 0))
+#	surrounding_cells.append(current_cell + Vector2(1, 1))
+#	surrounding_cells.append(current_cell + Vector2(0, 1))
+#	surrounding_cells.append(current_cell + Vector2(- 1, - 1))
+#	surrounding_cells.append(current_cell + Vector2(- 1, 0))
+#   surrounding_cells.append(current_cell + Vector2(- 1, 1))
 	return surrounding_cells
 	
 func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector2]:
@@ -32,7 +35,17 @@ func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 	var cells_to_destroy:Array[Vector2] = affected_cells(current_cell, cell_tokens_ids)
 	for cell in cells_to_destroy:
 		destroy_token_at_cell.emit(cell)
-	action_finished.emit()
-
 	
+	var bomb_sprite:AnimatedSprite2D = get_parent() as AnimatedSprite2D
+	bomb_sprite.hide()
+	
+	disable_interactions.emit()
+	
+	var explosion:AnimatedSprite2D = explosion_scene.instantiate() as AnimatedSprite2D
+	bomb_sprite.get_parent().add_child(explosion)
+	explosion.animation_looped.connect(animation_finished)
+	explosion.play()
+
+func animation_finished() -> void:
+	action_finished.emit()
 	
