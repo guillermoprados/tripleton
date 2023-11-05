@@ -2,78 +2,78 @@
 
 [ext_resource type="Texture2D" uid="uid://bswk275uqdx3n" path="res://images/aseprite/bomb_explosion.png" id="1_ui1u1"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sfv7v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0to22"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(0, 0, 100, 128)
+region = Rect2(0, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vp2d6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_au40y"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(100, 0, 100, 128)
+region = Rect2(128, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jdiyd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb5jf"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(200, 0, 100, 128)
+region = Rect2(256, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qa072"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jr7uw"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(300, 0, 100, 128)
+region = Rect2(384, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_67sck"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xeonh"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(0, 128, 100, 128)
+region = Rect2(0, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8x2d8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_86l7q"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(100, 128, 100, 128)
+region = Rect2(128, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q55nh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jknj"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(200, 128, 100, 128)
+region = Rect2(256, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vxgpt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_b84do"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(300, 128, 100, 128)
+region = Rect2(384, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_67dk4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w302d"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(0, 256, 100, 128)
+region = Rect2(0, 324, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sin47"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_oc02o"]
 atlas = ExtResource("1_ui1u1")
-region = Rect2(100, 256, 100, 128)
+region = Rect2(128, 324, 128, 162)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_kmync"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_cfsgm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sfv7v")
+"texture": SubResource("AtlasTexture_0to22")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vp2d6")
+"texture": SubResource("AtlasTexture_au40y")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jdiyd")
+"texture": SubResource("AtlasTexture_mb5jf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qa072")
+"texture": SubResource("AtlasTexture_jr7uw")
+}, {
+"duration": 1.6,
+"texture": SubResource("AtlasTexture_xeonh")
+}, {
+"duration": 1.8,
+"texture": SubResource("AtlasTexture_86l7q")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_4jknj")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_b84do")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_w302d")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_67sck")
-}, {
-"duration": 1.5,
-"texture": SubResource("AtlasTexture_8x2d8")
-}, {
-"duration": 1.5,
-"texture": SubResource("AtlasTexture_q55nh")
-}, {
-"duration": 1.5,
-"texture": SubResource("AtlasTexture_vxgpt")
-}, {
-"duration": 1.5,
-"texture": SubResource("AtlasTexture_67dk4")
-}, {
-"duration": 1.5,
-"texture": SubResource("AtlasTexture_sin47")
+"texture": SubResource("AtlasTexture_oc02o")
 }],
 "loop": true,
 "name": &"default",
@@ -82,14 +82,14 @@ animations = [{
 
 [node name="bomb_explosion" type="AnimatedSprite2D"]
 texture_filter = 1
-position = Vector2(3, -40)
-sprite_frames = SubResource("SpriteFrames_kmync")
+position = Vector2(0, -37)
+sprite_frames = SubResource("SpriteFrames_cfsgm")
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
 "o_ex_p": "",
 "o_folder": "res://images/aseprite",
 "o_name": "",
 "only_visible": false,
-"op_exp": true,
+"op_exp": false,
 "source": "res://asesprite/bomb_explosion.aseprite"
 }
