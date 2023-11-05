@@ -22,3 +22,15 @@ func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 
 func is_valid_cell(cell: Vector2, matrix: Array) -> bool:
 	return cell.x >= 0 and cell.y >= 0 and cell.x < matrix.size() and cell.y < matrix[0].size()
+
+func get_token() -> Token:
+	return __find_token_parent(self) as Token
+
+func __find_token_parent(node: Node) -> Node:
+	if not node:
+		return null
+	
+	if node is Token:
+		return node
+
+	return __find_token_parent(node.get_parent())

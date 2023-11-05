@@ -54,7 +54,7 @@ var created_at:float
 
 func _init():
 	created_at = Time.get_unix_time_from_system()
-	
+
 func _process(delta:float) -> void:
 	pass
 
@@ -65,17 +65,20 @@ func set_data(token_data:TokenData) -> void:
 	sprite = token_data.sprite_scene.instantiate()
 	sprite.material = outline_shader
 	sprite_holder.add_child(sprite)
-	sprite_holder.position.x = Constants.CELL_SIZE.x / 2
-	sprite_holder.position.y = Constants.TOKEN_PLACED_Y_POS
-	shadow.position.x = Constants.CELL_SIZE.x / 2
-	shadow.position.y = Constants.TOKEN_SHADOW_Y_POS
-	
+	sprite_holder.position = get_sprite_position()
+	shadow.position = get_shadow_position()
 	
 	for child in sprite.get_children():
 		if child is TokenBehavior:
 			behavior = child
 		if child is TokenAction:
 			action = child
+
+func get_sprite_position() -> Vector2:
+	return Vector2(Constants.CELL_SIZE.x / 2, Constants.TOKEN_PLACED_Y_POS)
+
+func get_shadow_position() -> Vector2:
+	return Vector2(Constants.CELL_SIZE.x / 2, Constants.TOKEN_SHADOW_Y_POS)
 	
 func unhighlight() -> void:
 	highlight(Constants.TokenHighlight.NONE)
@@ -96,3 +99,7 @@ func set_in_range(difference_pos:Vector2) -> void:
 	
 func clear_in_range() -> void:
 	in_range_tweener.clear_in_range()
+
+func hide_visuals() -> void:
+	sprite_holder.hide()
+	shadow.hide()
