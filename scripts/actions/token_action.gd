@@ -6,7 +6,8 @@ signal move_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_tim
 signal swap_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_time:float)
 signal destroy_token_at_cell(cell:Vector2)
 signal set_to_bad_action(cell:Vector2)
-signal action_finished()	
+signal action_finished()
+signal disable_interactions()
 
 func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
 	assert(false, "this is must be implemented in child")
@@ -21,3 +22,15 @@ func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 
 func is_valid_cell(cell: Vector2, matrix: Array) -> bool:
 	return cell.x >= 0 and cell.y >= 0 and cell.x < matrix.size() and cell.y < matrix[0].size()
+
+func get_token() -> Token:
+	return __find_token_parent(self) as Token
+
+func __find_token_parent(node: Node) -> Node:
+	if not node:
+		return null
+	
+	if node is Token:
+		return node
+
+	return __find_token_parent(node.get_parent())
