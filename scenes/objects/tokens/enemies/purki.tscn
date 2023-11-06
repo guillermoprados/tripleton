@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://b65sw285mprqv"]
+
+[ext_resource type="Script" path="res://scenes/objects/sprite_holder.gd" id="1_egrd2"]
+[ext_resource type="Script" path="res://scripts/behaviors/purki_behavior.gd" id="1_ogx3l"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_uf6s0"]
+[ext_resource type="Texture2D" uid="uid://8wh60y6uhjfk" path="res://images/tokens/gold_statue.png" id="3_b7nu2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uxdfb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_b7nu2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Purki" type="Node2D"]
+position = Vector2(-1, -44)
+script = ExtResource("1_egrd2")
+
+[node name="RollerBehavior" type="Node" parent="."]
+script = ExtResource("1_ogx3l")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 48)
+texture = ExtResource("2_uf6s0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_uxdfb")
