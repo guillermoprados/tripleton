@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcs4r0bgkes0w"]
 
-[ext_resource type="Script" path="res://scenes/objects/sprite_holder.gd" id="1_5ajt1"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_5ajt1"]
 [ext_resource type="Texture2D" uid="uid://dtiipamtjp2kr" path="res://images/tokens/chest_gold.png" id="1_gjdv1"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_207ne"]
 

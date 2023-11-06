@@ -1,19 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2chc6ukjkgjl"]
+[gd_scene load_steps=4 format=3 uid="uid://b2chc6ukjkgjl"]
 
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_dsyix"]
 [ext_resource type="Texture2D" uid="uid://cf12huom4nutf" path="res://images/tokens/shimei_1.png" id="1_lov0w"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_2seyo"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_lov0w")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="Shimei" type="Node2D"]
 position = Vector2(0, -34)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+script = ExtResource("1_dsyix")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("2_2seyo")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_lov0w")

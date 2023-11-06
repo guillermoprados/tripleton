@@ -1,22 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctdukcd4g3y26"]
+[gd_scene load_steps=5 format=3 uid="uid://ctdukcd4g3y26"]
 
 [ext_resource type="Texture2D" uid="uid://cxpceak1pli1g" path="res://images/tokens/destroyer.png" id="1_78x54"]
-[ext_resource type="Script" path="res://scenes/objects/sprite_holder.gd" id="1_dm0ej"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_dm0ej"]
 [ext_resource type="Script" path="res://scripts/behaviors/mole_behavior.gd" id="2_w270q"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="3_ghml5"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_qc55q"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_78x54")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[node name="AnimatedSprite2D" type="Node2D"]
+[node name="Mole" type="Node2D"]
 position = Vector2(0, -38)
 script = ExtResource("1_dm0ej")
 
@@ -27,5 +16,6 @@ script = ExtResource("2_w270q")
 position = Vector2(0, 37)
 texture = ExtResource("3_ghml5")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_qc55q")
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, 37)
+texture = ExtResource("1_78x54")

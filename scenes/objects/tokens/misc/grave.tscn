@@ -1,19 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkvkfwxgfolfc"]
+[gd_scene load_steps=4 format=3 uid="uid://bkvkfwxgfolfc"]
 
 [ext_resource type="Texture2D" uid="uid://c8xqraldc7qie" path="res://images/tokens/dead_panda.png" id="1_gfqy4"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_tf77r"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="1_w1e7v"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_gfqy4")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="Grave" type="Node2D"]
 position = Vector2(2, -40)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+script = ExtResource("1_tf77r")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("1_w1e7v")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_gfqy4")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bmw85221ay06i"]
 
-[ext_resource type="Script" path="res://scenes/objects/sprite_holder.gd" id="1_0k16i"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_0k16i"]
 [ext_resource type="Texture2D" uid="uid://q6a7fpitr5al" path="res://images/tokens/bomb.png" id="1_11cnu"]
 [ext_resource type="Script" path="res://scripts/actions/action_bomb.gd" id="2_a5jj2"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_btu65"]
@@ -19,6 +19,6 @@ texture = ExtResource("2_btu65")
 script = ExtResource("2_a5jj2")
 explosion_scene = ExtResource("3_qmqws")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(-2, -9)
 texture = ExtResource("1_11cnu")

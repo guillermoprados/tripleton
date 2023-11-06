@@ -1,19 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://dykxirfdd2dpo"]
+[gd_scene load_steps=4 format=3 uid="uid://dykxirfdd2dpo"]
 
 [ext_resource type="Texture2D" uid="uid://dhflobrixueks" path="res://images/tokens/jocker.png" id="1_a54y4"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_on5jj"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_xhxef"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_a54y4")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="Wildcard" type="Node2D"]
 position = Vector2(7, -35)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+script = ExtResource("1_on5jj")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("2_xhxef")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_a54y4")

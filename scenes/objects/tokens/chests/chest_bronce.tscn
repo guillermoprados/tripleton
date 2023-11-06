@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="1_lpntt"]
 [ext_resource type="Texture2D" uid="uid://cfiduv0tsvikn" path="res://images/tokens/chest_bronce.png" id="1_ox34n"]
-[ext_resource type="Script" path="res://scenes/objects/sprite_holder.gd" id="1_xna2k"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_xna2k"]
 
 [node name="ChestBronce" type="Node2D"]
 position = Vector2(-4, -27)
