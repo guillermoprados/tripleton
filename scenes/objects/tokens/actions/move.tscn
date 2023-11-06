@@ -1,23 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5l75rl5i0s6m"]
+[gd_scene load_steps=5 format=3 uid="uid://dig5os2ehk7je"]
 
 [ext_resource type="Texture2D" uid="uid://dse4mdy1jy2wf" path="res://images/tokens/move.png" id="1_4i0gh"]
+[ext_resource type="Script" path="res://scenes/objects/sprite_holder.gd" id="1_y5kh7"]
 [ext_resource type="Script" path="res://scripts/actions/action_move.gd" id="2_1hvlm"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_1iqv1"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_4i0gh")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="Move" type="Node2D"]
 position = Vector2(-5, -49)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+script = ExtResource("1_y5kh7")
 
 [node name="ActionMove" type="Node" parent="."]
 script = ExtResource("2_1hvlm")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(5, 56)
+texture = ExtResource("2_1iqv1")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(4, -3)
+texture = ExtResource("1_4i0gh")

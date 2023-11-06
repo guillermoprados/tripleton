@@ -1,19 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcs4r0bgkes0w"]
+[gd_scene load_steps=4 format=3 uid="uid://bcs4r0bgkes0w"]
 
+[ext_resource type="Script" path="res://scenes/objects/sprite_holder.gd" id="1_5ajt1"]
 [ext_resource type="Texture2D" uid="uid://dtiipamtjp2kr" path="res://images/tokens/chest_gold.png" id="1_gjdv1"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_207ne"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_gjdv1")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="ChestGold" type="Node2D"]
 position = Vector2(-4, -29)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+script = ExtResource("1_5ajt1")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("2_207ne")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_gjdv1")
