@@ -1,19 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://du28juuf5qsld"]
+[gd_scene load_steps=4 format=3 uid="uid://du28juuf5qsld"]
 
 [ext_resource type="Texture2D" uid="uid://br2nyi654p5hu" path="res://images/tokens/bush_1.png" id="1_ipn34"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_jgkbt"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_1rq47"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_ipn34")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+[node name="bush" type="Node2D"]
 position = Vector2(0, -28)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+script = ExtResource("1_jgkbt")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 27)
+texture = ExtResource("2_1rq47")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_ipn34")
