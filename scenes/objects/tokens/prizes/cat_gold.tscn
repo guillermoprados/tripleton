@@ -23,4 +23,5 @@ script = ExtResource("1_5pmw3")
 texture = ExtResource("2_15040")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -58)
 sprite_frames = SubResource("SpriteFrames_irqqd")

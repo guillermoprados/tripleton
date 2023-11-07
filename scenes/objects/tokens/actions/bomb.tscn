@@ -22,7 +22,7 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_0k16i")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(-1, 35)
+position = Vector2(2.08165e-12, 2)
 scale = Vector2(0.567901, 1)
 texture = ExtResource("2_btu65")
 
@@ -31,5 +31,5 @@ script = ExtResource("2_a5jj2")
 explosion_scene = ExtResource("3_qmqws")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(-2, -9)
+position = Vector2(-2, -40)
 sprite_frames = SubResource("SpriteFrames_kg4mb")

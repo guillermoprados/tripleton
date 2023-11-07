@@ -24,9 +24,9 @@ script = ExtResource("1_y5kh7")
 script = ExtResource("2_1hvlm")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(2.08165e-12, 56)
+position = Vector2(2.08165e-12, 2.08165e-12)
 texture = ExtResource("2_1iqv1")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(4, -3)
+position = Vector2(4, -43)
 sprite_frames = SubResource("SpriteFrames_rtih8")

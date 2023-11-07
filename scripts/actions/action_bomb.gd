@@ -4,8 +4,6 @@ class_name ActionBomb
 
 @export var explosion_scene: PackedScene
 
-const FIXED_Y_EXPLOSION_POSITON = 20
-
 func __surrounding_cells(current_cell:Vector2) -> Array[Vector2]:
 	var surrounding_cells : Array[Vector2] = []
 #   disabling for now surrounding cells
@@ -46,8 +44,6 @@ func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 	
 	var explosion:AnimatedSprite2D = explosion_scene.instantiate() as AnimatedSprite2D
 	token.sprite_holder.add_child(explosion)
-	explosion.position = token.sprite_holder.sprite.position
-	explosion.position.y = FIXED_Y_EXPLOSION_POSITON
 	explosion.animation_looped.connect(animation_finished)
 	explosion.play()
 

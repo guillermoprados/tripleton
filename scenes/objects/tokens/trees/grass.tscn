@@ -20,9 +20,10 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_05n2p")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(-0.499998, 21)
+position = Vector2(2.08165e-12, 2)
 scale = Vector2(0.876543, 1)
 texture = ExtResource("2_cngk0")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2.08165e-12, -17)
 sprite_frames = SubResource("SpriteFrames_7vqk7")

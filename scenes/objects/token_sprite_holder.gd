@@ -28,7 +28,7 @@ func set_floating() -> void:
 			
 func set_placed() -> void:
 	sprite.show()
-	sprite.position.y = sprite_original_position.y - Constants.TOKEN_PLACED_Y_POS
+	sprite.position.y = sprite_original_position.y
 	sprite.material = outline_shader
 	shadow.show()
 	shadow.scale = shadow_original_scale
@@ -58,8 +58,8 @@ func _ready():
 	assert(floating_shader, "cannot load floating shader")
 	assert(outline_shader, "cannot load outline shader")
 	
-	position = Vector2(Constants.CELL_SIZE.x / 2, Constants.CELL_SIZE.y)
+	position = Vector2(Constants.CELL_SIZE.x / 2, Constants.CELL_SIZE.y - Constants.TOKEN_SPRITE_HOLDER_Y)
 	sprite_original_position = sprite.position
-	shadow.position = Vector2(0, Constants.TOKEN_SHADOW_Y_POS)
+	shadow.position = Vector2(0, Constants.TOKEN_SHADOW_Y_POS + 2 ) # +2 because of the border
 	shadow_original_scale = shadow.scale
 	sprite.material = outline_shader
