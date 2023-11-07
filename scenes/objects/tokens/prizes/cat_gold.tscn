@@ -16,7 +16,7 @@ animations = [{
 }]
 
 [node name="cat_gold" type="Node2D"]
-position = Vector2(-2, -47)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_5pmw3")
 
 [node name="Shadow" type="Sprite2D" parent="."]

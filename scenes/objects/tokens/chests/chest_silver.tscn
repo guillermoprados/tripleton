@@ -16,7 +16,7 @@ animations = [{
 }]
 
 [node name="ChestSilver" type="Node2D"]
-position = Vector2(1, -23)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_oivt0")
 
 [node name="Shadow" type="Sprite2D" parent="."]

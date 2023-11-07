@@ -113,14 +113,13 @@ const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08
 # Game Objects positions
 const BOARD_BOTTOM_SEPARATION: float = 50
 
-const TOKEN_BOXED_Y_POS: float = CELL_SIZE.y - 50
-const TOKEN_PLACED_Y_POS: float = CELL_SIZE.y - 25
-const TOKEN_FLOATING_Y_POS: float = CELL_SIZE.y - 45
-const TOKEN_IN_RANGE_Y_POS: float = CELL_SIZE.y - 25
+const TOKEN_BOXED_Y_POS: float = 80
+const TOKEN_PLACED_Y_POS: float = 60
+const TOKEN_FLOATING_Y_POS: float = 85
+const TOKEN_IN_RANGE_Y_POS: float = 65
 
-const TOKEN_SHADOW_Y_POS: float = CELL_SIZE.y - 20
+const TOKEN_SHADOW_Y_POS: float = - 15
 const TOKEN_SHADOW_FLOATING_MULTIPLIER: float = .5
 const TOKEN_SHADOW_IN_RANGE_MULTIPLIER: float = .75
-
 
 const BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER: float = 1.2

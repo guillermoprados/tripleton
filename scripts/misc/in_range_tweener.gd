@@ -35,11 +35,7 @@ func set_in_range_tweener(difference_pos:Vector2) -> void:
 	holder_to_pos.x = difference_pos.y / 4
 	holder_to_pos.y = difference_pos.x / 4
 	holder_start_pos = holder_original_pos
-	holder_start_pos.y -= Constants.TOKEN_IN_RANGE_Y_POS 
 	sprite_holder.position = holder_start_pos
-	
-	#shadow_to_pos = holder_to_pos
-	#shadow.scale = Vector2.ONE * Constants.TOKEN_SHADOW_IN_RANGE_MULTIPLIER 
 	
 	tween_direction_to_target = true
 	

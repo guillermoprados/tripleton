@@ -16,10 +16,12 @@ animations = [{
 }]
 
 [node name="Shimei" type="Node2D"]
-position = Vector2(0, -34)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_dsyix")
 
 [node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 35.75)
+scale = Vector2(1, 0.5)
 texture = ExtResource("2_2seyo")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

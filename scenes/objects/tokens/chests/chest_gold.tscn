@@ -16,7 +16,7 @@ animations = [{
 }]
 
 [node name="ChestGold" type="Node2D"]
-position = Vector2(-4, -29)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_5ajt1")
 
 [node name="Shadow" type="Sprite2D" parent="."]

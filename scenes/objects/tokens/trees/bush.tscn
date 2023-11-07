@@ -16,11 +16,12 @@ animations = [{
 }]
 
 [node name="bush" type="Node2D"]
-position = Vector2(0, -28)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_jgkbt")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(0, 27)
+position = Vector2(-0.75, 32)
+scale = Vector2(0.895062, 1)
 texture = ExtResource("2_1rq47")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

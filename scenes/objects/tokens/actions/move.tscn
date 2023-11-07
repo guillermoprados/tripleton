@@ -17,14 +17,14 @@ animations = [{
 }]
 
 [node name="Move" type="Node2D"]
-position = Vector2(-5, -49)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_y5kh7")
 
 [node name="ActionMove" type="Node" parent="."]
 script = ExtResource("2_1hvlm")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(5, 56)
+position = Vector2(2.08165e-12, 56)
 texture = ExtResource("2_1iqv1")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

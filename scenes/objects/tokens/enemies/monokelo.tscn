@@ -98,7 +98,7 @@ animations = [{
 
 [node name="Monokelo" type="Node2D"]
 texture_filter = 1
-position = Vector2(0, -44)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_7kxf0")
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
@@ -115,11 +115,13 @@ script = ExtResource("2_tiuyb")
 animator = NodePath("../Sprite")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(0, 41)
+position = Vector2(-0.499997, 41)
+scale = Vector2(0.679012, 1)
 texture = ExtResource("3_sc5tg")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
+position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_n4etp")
 animation = &"idle"
 script = ExtResource("1_r6xwq")

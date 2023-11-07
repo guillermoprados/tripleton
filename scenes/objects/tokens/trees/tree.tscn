@@ -15,11 +15,13 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="AnimatedSprite2D" type="Node2D"]
-position = Vector2(2, -42)
+[node name="Tree" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_a35ds")
 
 [node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-5.25, 47.25)
+scale = Vector2(0.87037, 0.9)
 texture = ExtResource("2_nr5bj")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

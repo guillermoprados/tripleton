@@ -42,11 +42,11 @@ func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 	
 	assert(token, "for some reason the token cannot be found")
 	
-	token.hide_sprite()
+	token.set_status(Constants.TokenStatus.INVISIBLE)
 	
 	var explosion:AnimatedSprite2D = explosion_scene.instantiate() as AnimatedSprite2D
-	token.add_child(explosion)
-	explosion.position = token.get_sprite_position()
+	token.sprite_holder.add_child(explosion)
+	explosion.position = token.sprite_holder.sprite.position
 	explosion.position.y = FIXED_Y_EXPLOSION_POSITON
 	explosion.animation_looped.connect(animation_finished)
 	explosion.play()

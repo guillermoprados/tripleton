@@ -16,11 +16,12 @@ animations = [{
 }]
 
 [node name="Gate" type="Node2D"]
-position = Vector2(0, -38)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_nu2m8")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(0, 32)
+position = Vector2(-2.75, 40.25)
+scale = Vector2(0.944444, 0.7)
 texture = ExtResource("2_ifv3y")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

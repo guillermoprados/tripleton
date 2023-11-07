@@ -17,7 +17,7 @@ animations = [{
 }]
 
 [node name="Mole" type="Node2D"]
-position = Vector2(0, -38)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_dm0ej")
 
 [node name="MoleBehavior" type="Node" parent="."]

@@ -16,7 +16,7 @@ animations = [{
 }]
 
 [node name="Wildcard" type="Node2D"]
-position = Vector2(7, -35)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_on5jj")
 
 [node name="Shadow" type="Sprite2D" parent="."]

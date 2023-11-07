@@ -182,12 +182,12 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 		saved_token = switch_token
 		floating_token.position = floating_pos
 		saved_token.position = save_token_cell.position
-		saved_token.floating = false
-		floating_token.floating = true
+		saved_token.set_status(Constants.TokenStatus.BOXED)
+		floating_token.set_status(Constants.TokenStatus.FLOATING)
 	else:
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
-		saved_token.floating = false
+		saved_token.set_status(Constants.TokenStatus.BOXED)
 		floating_token = null
 		create_floating_token(null)
 	# reset combinations because we're caching them
@@ -423,7 +423,7 @@ func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
 func open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
 	floating_token.position = spawn_token_cell.position
-	floating_token.floating = false
+	floating_token.set_status(Constants.TokenStatus.BOXED)
 	
 	#remove the chest
 	var chest_data: TokenChestData = token.data

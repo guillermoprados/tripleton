@@ -17,7 +17,7 @@ animations = [{
 }]
 
 [node name="Purki" type="Node2D"]
-position = Vector2(-1, -44)
+position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_egrd2")
 
 [node name="RollerBehavior" type="Node" parent="."]
