@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7awoq742eivj"]
+[gd_scene load_steps=5 format=3 uid="uid://c7awoq742eivj"]
 
 [ext_resource type="Texture2D" uid="uid://baslpomni3bnn" path="res://images/tokens/gold_pile.png" id="1_6mcs5"]
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_r4614"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_8tljb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sj2li"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6mcs5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Gold" type="Node2D"]
 position = Vector2(2, -28)
@@ -11,5 +22,5 @@ script = ExtResource("1_r4614")
 [node name="Shadow" type="Sprite2D" parent="."]
 texture = ExtResource("2_8tljb")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_6mcs5")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_sj2li")

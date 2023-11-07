@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://ch1l8do3fkdc7"]
+[gd_scene load_steps=5 format=3 uid="uid://ch1l8do3fkdc7"]
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_oivt0"]
 [ext_resource type="Texture2D" uid="uid://ck13vimv2ke55" path="res://images/tokens/chest_silver.png" id="1_xjfqo"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_5ath7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iou5n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_xjfqo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="ChestSilver" type="Node2D"]
 position = Vector2(1, -23)
@@ -11,5 +22,5 @@ script = ExtResource("1_oivt0")
 [node name="Shadow" type="Sprite2D" parent="."]
 texture = ExtResource("2_5ath7")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_xjfqo")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_iou5n")

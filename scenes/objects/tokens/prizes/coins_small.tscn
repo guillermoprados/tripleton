@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bs2q2cvx7yrwn"]
+[gd_scene load_steps=5 format=3 uid="uid://bs2q2cvx7yrwn"]
 
 [ext_resource type="Texture2D" uid="uid://c7quwxjqttue5" path="res://images/tokens/coins_small.png" id="1_dv561"]
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_yeqef"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_x6gkp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bq773"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dv561")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="coins" type="Node2D"]
 position = Vector2(2, -29)
@@ -11,5 +22,5 @@ script = ExtResource("1_yeqef")
 [node name="Shadow" type="Sprite2D" parent="."]
 texture = ExtResource("2_x6gkp")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_dv561")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_bq773")

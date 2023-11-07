@@ -1,8 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bauhbswb7qhrc"]
+[gd_scene load_steps=5 format=3 uid="uid://bauhbswb7qhrc"]
 
 [ext_resource type="Texture2D" uid="uid://qdllrhioqhu7" path="res://images/tokens/gate_1.png" id="1_8bey7"]
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_nu2m8"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_ifv3y"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5idx1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8bey7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Gate" type="Node2D"]
 position = Vector2(0, -38)
@@ -12,5 +23,5 @@ script = ExtResource("1_nu2m8")
 position = Vector2(0, 32)
 texture = ExtResource("2_ifv3y")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_8bey7")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5idx1")

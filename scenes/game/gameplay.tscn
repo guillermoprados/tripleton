@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
 
 [node name="Gameplay" type="Node2D"]
+position = Vector2(0, 1)
 
 [node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "save_token_cell", "spawn_token_cell", "combinator", "gameplay_ui")]
 script = ExtResource("3_wjn15")

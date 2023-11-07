@@ -110,8 +110,9 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://asesprite/monokelo.aseprite"
 }
 
-[node name="BearBehavior" type="Node" parent="."]
+[node name="BearBehavior" type="Node" parent="." node_paths=PackedStringArray("animator")]
 script = ExtResource("2_tiuyb")
+animator = NodePath("../Sprite")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(0, 41)
