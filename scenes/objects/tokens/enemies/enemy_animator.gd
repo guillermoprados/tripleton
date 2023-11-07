@@ -4,6 +4,7 @@ class_name EnemyAnimator
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	animation_looped.connect(_on_animation_finished)
 	idle()
 	pass # Replace with function body.
 
@@ -19,7 +20,8 @@ func jump():
 func idle():
 	play("idle", )	
 
-func _on_animation_looped():
+func _on_animation_finished():
 	if animation == "jump":
 		idle()
+	
 	

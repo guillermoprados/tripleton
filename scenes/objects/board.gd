@@ -198,7 +198,8 @@ func clear_highlights() -> void:
 			cell.clear_highlight()
 	for token_pos in placed_tokens.keys():
 		var token: Token = placed_tokens[token_pos]
-		token.clear_in_range()
+		if token.is_in_range:
+			token.set_status(Constants.TokenStatus.PLACED)
 			
 func highligh_cell(cell_index: Vector2, mode:Constants.CellHighlight) -> void:
 	get_cell_at_position(cell_index).highlight(mode)

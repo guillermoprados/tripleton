@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://bf3hfptwixrqq" path="res://data/tokens_data/prizes/cat_gold.tres" id="1_kfs3q"]
 [ext_resource type="Script" path="res://resources/tokens/token_chest_data.gd" id="3_d2wu4"]
-[ext_resource type="PackedScene" uid="uid://dc8njfr3fgjof" path="res://scenes/objects/tokens/chests/chest_diamond.tscn" id="3_tppfy"]
+[ext_resource type="PackedScene" uid="uid://b3g8ckr0jpjvk" path="res://scenes/objects/tokens/chests/chest_diamond.tscn" id="3_tppfy"]
 
 [resource]
 script = ExtResource("3_d2wu4")

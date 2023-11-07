@@ -4,8 +4,6 @@ class_name ActionBomb
 
 @export var explosion_scene: PackedScene
 
-const FIXED_Y_EXPLOSION_POSITON = 20
-
 func __surrounding_cells(current_cell:Vector2) -> Array[Vector2]:
 	var surrounding_cells : Array[Vector2] = []
 #   disabling for now surrounding cells
@@ -42,12 +40,10 @@ func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 	
 	assert(token, "for some reason the token cannot be found")
 	
-	token.hide_visuals()
+	token.set_status(Constants.TokenStatus.INVISIBLE)
 	
 	var explosion:AnimatedSprite2D = explosion_scene.instantiate() as AnimatedSprite2D
-	token.add_child(explosion)
-	explosion.position = token.get_sprite_position()
-	explosion.position.y = FIXED_Y_EXPLOSION_POSITON
+	token.sprite_holder.add_child(explosion)
 	explosion.animation_looped.connect(animation_finished)
 	explosion.play()
 

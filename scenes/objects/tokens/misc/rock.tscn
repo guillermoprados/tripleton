@@ -1,19 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://qfkgnpnja2xb"]
+[gd_scene load_steps=5 format=3 uid="uid://qfkgnpnja2xb"]
 
 [ext_resource type="Texture2D" uid="uid://c3jwelei4b05c" path="res://images/tokens/stone.png" id="1_oahoe"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_y82xs"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_ftafo"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_hldns"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_oahoe")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"default",
 "speed": 5.0
 }]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
-position = Vector2(-3, -26)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+[node name="Rock" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_y82xs")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(2.08165e-12, 2)
+texture = ExtResource("2_ftafo")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -29)
+sprite_frames = SubResource("SpriteFrames_hldns")

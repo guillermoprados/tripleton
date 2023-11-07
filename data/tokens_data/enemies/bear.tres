@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://resources/tokens/token_enemy_data.gd" id="1_fw8ou"]
 [ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="2_0rrbu"]
-[ext_resource type="PackedScene" uid="uid://bnsnrbwc6xd7k" path="res://scenes/objects/tokens/enemies/bear.tscn" id="2_5cs4y"]
+[ext_resource type="PackedScene" uid="uid://bnsnrbwc6xd7k" path="res://scenes/objects/tokens/enemies/monokelo.tscn" id="2_5cs4y"]
 
 [resource]
 script = ExtResource("1_fw8ou")

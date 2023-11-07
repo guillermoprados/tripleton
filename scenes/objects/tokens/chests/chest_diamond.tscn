@@ -1,19 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://dc8njfr3fgjof"]
+[gd_scene load_steps=5 format=3 uid="uid://b3g8ckr0jpjvk"]
 
 [ext_resource type="Texture2D" uid="uid://bsr7aoepybrex" path="res://images/tokens/chest_platinum.png" id="1_m53t7"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_p3n6r"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_4j8vy"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_556sv"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_m53t7")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"default",
 "speed": 5.0
 }]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
-position = Vector2(4, -30)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+[node name="ChestDiamond" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_p3n6r")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+texture = ExtResource("2_4j8vy")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -28)
+sprite_frames = SubResource("SpriteFrames_556sv")

@@ -1,19 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://bp7pugj5uta4l"]
+[gd_scene load_steps=5 format=3 uid="uid://bp7pugj5uta4l"]
 
 [ext_resource type="Texture2D" uid="uid://cnrptmxb0kikr" path="res://images/tokens/tree_1.png" id="1_3kjy6"]
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_a35ds"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_nr5bj"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_opgpc"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_rotdv"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_3kjy6")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"default",
 "speed": 5.0
 }]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
-position = Vector2(2, -42)
-sprite_frames = SubResource("SpriteFrames_opgpc")
-animation = &"idle"
+[node name="Tree" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_a35ds")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(2.08165e-12, 2)
+scale = Vector2(0.87037, 0.9)
+texture = ExtResource("2_nr5bj")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, -44)
+sprite_frames = SubResource("SpriteFrames_rotdv")
