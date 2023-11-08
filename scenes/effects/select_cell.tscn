@@ -2,43 +2,43 @@
 
 [ext_resource type="Texture2D" uid="uid://bq6xjwpos2aem" path="res://images/aseprite/select_cell.png" id="1_sknyb"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8vpok"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_oi1l1"]
 atlas = ExtResource("1_sknyb")
 region = Rect2(0, 0, 100, 100)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vjdfg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkoi7"]
 atlas = ExtResource("1_sknyb")
 region = Rect2(100, 0, 100, 100)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8qo7q"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_am378"]
 atlas = ExtResource("1_sknyb")
 region = Rect2(200, 0, 100, 100)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_seky8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3psxs"]
 atlas = ExtResource("1_sknyb")
 region = Rect2(0, 100, 100, 100)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_giran"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5sx3p"]
 atlas = ExtResource("1_sknyb")
 region = Rect2(100, 100, 100, 100)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_7j6gq"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_0dfi2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8vpok")
+"texture": SubResource("AtlasTexture_oi1l1")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vjdfg")
+"texture": SubResource("AtlasTexture_gkoi7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8qo7q")
+"texture": SubResource("AtlasTexture_am378")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_seky8")
+"texture": SubResource("AtlasTexture_3psxs")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_giran")
+"texture": SubResource("AtlasTexture_5sx3p")
 }],
 "loop": true,
 "name": &"default",
@@ -50,13 +50,13 @@ animations = [{
 [node name="animation" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 position = Vector2(50, 49)
-sprite_frames = SubResource("SpriteFrames_7j6gq")
+sprite_frames = SubResource("SpriteFrames_0dfi2")
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
 "o_ex_p": "",
 "o_folder": "res://images/aseprite",
 "o_name": "",
 "only_visible": false,
-"op_exp": true,
+"op_exp": false,
 "source": "res://asesprite/select_cell.aseprite"
 }
