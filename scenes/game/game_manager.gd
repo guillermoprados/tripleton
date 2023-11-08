@@ -17,8 +17,8 @@ signal dinasty_changed(name:String, max_points:int, overflow:int)
 @export var spawn_token_cell: BoardCell
 @export var combinator: Combinator
 @export var gameplay_ui:GameplayUI
-@export var default_chest: TokenData
-
+@export var default_chest: TokenData # mmmmm
+@export var fx_manager : FxManager
 
 var dinasty_index : int = -1
 var current_dinasty:Dinasty
@@ -168,14 +168,10 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
-func place_floating_token(cell_index:Vector2) -> bool:
-	var placed : bool = false
-	
-	if floating_token.type == Constants.TokenType.ACTION:
-		__execute_floating_token_action(cell_index)
-	elif board.is_cell_empty(cell_index):
+func try_to_place_floating_token(cell_index:Vector2) -> void:
+	if board.is_cell_empty(cell_index):
 		__place_floating_token_at(cell_index)
-		placed = true
+		discard_floating_token()
 	else:
 		var cell_token:Token = board.get_token_at_cell(cell_index)
 		
@@ -185,8 +181,6 @@ func place_floating_token(cell_index:Vector2) -> bool:
 			collect_reward(cell_token, cell_index)
 		else:
 			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
-		
-	return placed
 
 func __place_floating_token_at(cell_index: Vector2) -> void:
 	remove_child(floating_token)
@@ -420,6 +414,10 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 		
 	show_floating_reward.emit(type, value, reward_position)
 
+# used by enemies!
+func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float) -> void:
+	board.move_token_from_to(cell_index_from, cell_index_to, tween_time, tween_delay)
+
 func set_dead_enemy(cell_index:Vector2) -> void:
 	var enemy_token: Token = board.get_token_at_cell(cell_index)
 	var next_token_data: TokenData = enemy_token.data.next_token
@@ -432,27 +430,39 @@ func can_place_more_tokens() -> bool:
 
 ## ACTIONS
 
-func __execute_floating_token_action(cell_index:Vector2) -> void:
-	
+func execute_floating_token_action(cell_index:Vector2) -> void:
+	var action_type:Constants.ActionType = floating_token.action.get_type()
 	var action_result_on_cell : Constants.ActionResult = floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids)
-		
 	match action_result_on_cell:
 		Constants.ActionResult.VALID:
-			# execute proper action
-			pass
+		
+			match action_type:
+				Constants.ActionType.BOMB:
+					__action_bomb(cell_index)
+				Constants.ActionType.MOVE:
+					pass
+					
 		Constants.ActionResult.NOT_VALID:
 			show_message.emit("Cannot invalid movement", Constants.MessageType.ERROR, .5);
 		Constants.ActionResult.WASTED:
 			set_bad_token_on_board(cell_index)
+			discard_floating_token()
 
-func action_bomb(cell_index:Vector2) -> void:
+func __get_token_sprite_absolute_pos(token:Token) -> Vector2:
+	return board.position + token.position + token.sprite_holder.position
+
+func __action_bomb(cell_index:Vector2) -> void:
+	
 	if board.is_cell_empty(cell_index):
 		set_bad_token_on_board(cell_index)
-	
-	var token:Token = board.get_token_at_cell(cell_index)
-	if token.type == Constants.TokenType.ENEMY:
-		set_dead_enemy(cell_index)
-	elif token.type == Constants.TokenType.CHEST or token.type == Constants.TokenType.PRIZE:
-		set_bad_token_on_board(cell_index)
 	else:
-		board.clear_token(cell_index)
+		var token:Token = board.get_token_at_cell(cell_index)
+		fx_manager.play_bomb_explosion(__get_token_sprite_absolute_pos(token))
+		if token.type == Constants.TokenType.ENEMY:
+			set_dead_enemy(cell_index)
+		elif token.type == Constants.TokenType.CHEST or token.type == Constants.TokenType.PRIZE:
+			set_bad_token_on_board(cell_index)
+		else:
+			board.clear_token(cell_index)
+	
+	discard_floating_token()
