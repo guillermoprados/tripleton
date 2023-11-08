@@ -2,8 +2,15 @@ extends TokenAction
 
 class_name ActionBomb
 
-@export var explosion_scene: PackedScene
-
+func get_type() -> Constants.ActionType:
+	return Constants.ActionType.BOMB
+		
+func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+	if cell_tokens_ids[action_cell.x][action_cell.y] != Constants.EMPTY_CELL:
+		return Constants.ActionResult.VALID
+	else:
+		return Constants.ActionResult.WASTED
+		
 func __surrounding_cells(current_cell:Vector2) -> Array[Vector2]:
 	var surrounding_cells : Array[Vector2] = []
 #   disabling for now surrounding cells
@@ -21,34 +28,11 @@ func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vecto
 	var cells : Array[Vector2] = []
 	
 	for surrounding_cell in __surrounding_cells(current_cell):
-		if is_valid_cell(surrounding_cell, cell_tokens_ids):
+		if __is_valid_cell(surrounding_cell, cell_tokens_ids):
 			cells.append(surrounding_cell)
 	
 	cells.append(current_cell)
 	
-	return cells
-	
-func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
-	return true
+	return cells	
 
-func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
-	var cells_to_destroy:Array[Vector2] = affected_cells(current_cell, cell_tokens_ids)
-	for cell in cells_to_destroy:
-		destroy_token_at_cell.emit(cell)
-	
-	var token:Token = get_token()
-	
-	assert(token, "for some reason the token cannot be found")
-	
-	token.set_status(Constants.TokenStatus.INVISIBLE)
-	
-	var explosion:AnimatedSprite2D = explosion_scene.instantiate() as AnimatedSprite2D
-	token.sprite_holder.add_child(explosion)
-	explosion.animation_looped.connect(animation_finished)
-	explosion.play()
-
-	disable_interactions.emit()
-
-func animation_finished() -> void:
-	action_finished.emit()
 	

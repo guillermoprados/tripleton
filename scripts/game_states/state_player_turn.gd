@@ -33,8 +33,6 @@ func _on_state_entered() -> void:
 	
 	game_manager.create_floating_token(null)
 	
-	__bind_token_events(game_manager.floating_token)
-	
 	game_manager.save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	game_manager.save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
@@ -44,8 +42,6 @@ func _on_state_entered() -> void:
 # override in states
 func _on_state_exited() -> void:
 	
-	__unbind_token_events(game_manager.floating_token)
-	
 	game_manager.discard_floating_token()
 	
 	game_manager.save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
@@ -53,16 +49,6 @@ func _on_state_exited() -> void:
 	game_manager.save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
 	
 	disable_interactions()
-
-func __bind_token_events(token:Token) -> void:
-	if token.type == Constants.TokenType.ACTION:
-		token.action.action_finished.connect(finish_player_turn)
-		token.action.disable_interactions.connect(disable_interactions)
-	
-func __unbind_token_events(token:Token) -> void:
-	if token.type == Constants.TokenType.ACTION:
-		token.action.action_finished.disconnect(finish_player_turn)
-		token.action.disable_interactions.disconnect(disable_interactions)
 		
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
@@ -82,10 +68,8 @@ func _input(event:InputEvent) -> void:
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			__unbind_token_events(game_manager.floating_token)
 			game_manager.discard_floating_token()
 			game_manager.create_floating_token(next_token_data)
-			__bind_token_events(game_manager.floating_token)
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
 			is_scroll_in_progress = true

@@ -19,11 +19,18 @@ enum EnemyType {
 }
 
 enum ActionType {
+	NONE,
 	MOVE,
 	LEVEL_UP,
 	REMOVE,
 	BOMB,
 	SWIRL
+}
+
+enum ActionResult {
+	VALID,
+	NOT_VALID,
+	WASTED
 }
 
 enum CellHighlight {

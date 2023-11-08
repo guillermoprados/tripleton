@@ -2,71 +2,46 @@ extends TokenAction
 
 class_name ActionMove
 
-enum MoveDirection {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-}
-
-var move_direction : MoveDirection
-
-func _ready():
-	move_direction = randi() % 4 as MoveDirection
+func get_type() -> Constants.ActionType:
+	return Constants.ActionType.MOVE
+		
+func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+	var result:Constants.ActionResult = Constants.ActionResult.NOT_VALID
 	
-	match move_direction:
-		MoveDirection.UP:
-			get_parent().rotation_degrees = 0  # Assuming default is facing up
-		MoveDirection.RIGHT:
-			get_parent().rotation_degrees = 90
-		MoveDirection.DOWN:
-			get_parent().rotation_degrees = 180
-		MoveDirection.LEFT:
-			get_parent().rotation_degrees = 270
+	if cell_tokens_ids[action_cell.x][action_cell.y] != Constants.EMPTY_CELL:
+		if affected_cells(action_cell, cell_tokens_ids).size() > 0:
+			result = Constants.ActionResult.VALID
+	else:
+		result = Constants.ActionResult.WASTED
+	
+	return result 
 
-func __get_next_cell(current_cell:Vector2, direction:MoveDirection) -> Vector2:
-	var next_cell = current_cell
-	match move_direction:
-		MoveDirection.UP:
-			next_cell.x -= 1
-		MoveDirection.DOWN:
-			next_cell.x += 1
-		MoveDirection.LEFT:
-			next_cell.y -= 1
-		MoveDirection.RIGHT:
-			next_cell.y += 1
-	return next_cell
-
+func __is_cell_suitable_to_move(to_move_cell:Vector2, cell_tokens_ids: Array):
+	return __is_valid_cell(to_move_cell, cell_tokens_ids) and cell_tokens_ids[to_move_cell.x][to_move_cell.y] == Constants.EMPTY_CELL
+		
 func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector2]:
 	var cells:Array[Vector2] = []
 	
-	if cell_tokens_ids[current_cell.x][current_cell.y] == Constants.EMPTY_CELL:
-		cells.append(current_cell)
-	else:
-		cells.append(__get_next_cell(current_cell, move_direction))
+	var up_cell = current_cell + Vector2(-1,0)
+	
+	if __is_cell_suitable_to_move(up_cell, cell_tokens_ids):
+		cells.append(up_cell)
 		
+	var down_cell = current_cell + Vector2(1,0)
+	
+	if __is_cell_suitable_to_move(down_cell, cell_tokens_ids):
+		cells.append(down_cell)
+	
+	var left_cell = current_cell + Vector2(0,-1)
+	
+	if __is_cell_suitable_to_move(left_cell, cell_tokens_ids):
+		cells.append(left_cell)
+	
+	var right_cell = current_cell + Vector2(0,1)
+	
+	if __is_cell_suitable_to_move(right_cell, cell_tokens_ids):
+		cells.append(right_cell)
+	
 	return cells
-	
-func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> bool:
-	
-	# this will turn the token into rock
-	if cell_tokens_ids[action_cell.x][action_cell.y] == Constants.EMPTY_CELL:
-		return true
-	
-	var next_cell = __get_next_cell(action_cell, move_direction)
-	
-	if is_valid_cell(next_cell, cell_tokens_ids):
-		return cell_tokens_ids[next_cell.x][next_cell.y] == Constants.EMPTY_CELL
-	
-	return false
-
-func execute_action(current_cell:Vector2, cell_tokens_ids: Array) -> void:
-	# this will turn the token into rock
-	if cell_tokens_ids[current_cell.x][current_cell.y] != Constants.EMPTY_CELL:
-		move_from_cell_to_cell.emit(current_cell, __get_next_cell(current_cell, move_direction), .2)
-	else:
-		set_to_bad_action.emit(current_cell)
-	action_finished.emit()
-
 	
 	
