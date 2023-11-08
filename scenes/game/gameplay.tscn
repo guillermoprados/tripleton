@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=23 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
 [ext_resource type="Script" path="res://scenes/game/fx_manager.gd" id="20_bux8w"]
 [ext_resource type="PackedScene" uid="uid://bfsbokyqcnf6x" path="res://scenes/effects/bomb_explosion.tscn" id="21_55vwk"]
+[ext_resource type="PackedScene" uid="uid://1rbab57s5yio" path="res://scenes/effects/select_cell.tscn" id="22_x53b4"]
 
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
@@ -80,9 +81,13 @@ script = ExtResource("17_uph22")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
 
-[node name="FxManager" type="Node2D" parent="."]
+[node name="FxManager" type="Node2D" parent="." node_paths=PackedStringArray("board")]
 script = ExtResource("20_bux8w")
+board = NodePath("../Board")
 fx_bomb_explosion_scene = ExtResource("21_55vwk")
+fx_select_cell_scene = ExtResource("22_x53b4")
+
+[node name="SelectCellAnims" type="Node2D" parent="FxManager"]
 
 [connection signal="dinasty_changed" from="GameManager" to="UI" method="_on_game_manager_dinasty_changed"]
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]

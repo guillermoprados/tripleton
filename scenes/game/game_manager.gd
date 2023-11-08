@@ -442,9 +442,6 @@ func can_place_more_tokens() -> bool:
 
 ## ACTIONS
 	
-func __get_token_sprite_absolute_pos(token:Token) -> Vector2:
-	return board.position + token.position + token.sprite_holder.position
-
 func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2) -> void:
 	
 	board.enabled_interaction = false
@@ -459,7 +456,8 @@ func __bomb_cell_action(cell_index:Vector2) -> void:
 	var token:Token = board.get_token_at_cell(cell_index)
 	assert(token, "There is no token to bomb here")
 	
-	fx_manager.play_bomb_explosion(__get_token_sprite_absolute_pos(token))
+	var pos:Vector2 = token.position + token.sprite_holder.position
+	fx_manager.play_bomb_explosion(pos)
 	
 	if token.type == Constants.TokenType.ENEMY:
 		set_dead_enemy(cell_index)
@@ -484,10 +482,12 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 		var callable : Callable = Callable(__move_token_action_cell_selected)
 		cell_board.cell_selected.connect(callable)
 		move_token_action_callables[move_cell_index] = callable
-
+		fx_manager.play_select_cell_animation(cell_board.position)
+		
 func __move_token_action_cell_selected(to:Vector2) -> void:
 	
 	board.clear_highlights()
+	fx_manager.stop_select_cell_anims()
 	
 	move_token_in_board(move_token_origin, to, 0.2, 0)
 	
