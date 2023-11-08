@@ -204,9 +204,9 @@ func __place_floating_token_at(cell_index: Vector2) -> void:
 	
 	var duplicated_token = instantiate_new_token(floating_token.data, Constants.TokenStatus.PLACED)
 	
-	discard_floating_token()
-	
 	__place_token_on_board(duplicated_token, cell_index)
+	
+	discard_floating_token()
 	
 func __place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	
@@ -446,10 +446,14 @@ func __get_token_sprite_absolute_pos(token:Token) -> Vector2:
 	return board.position + token.position + token.sprite_holder.position
 
 func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2) -> void:
+	
+	board.enabled_interaction = false
+	
 	match action_type:
 		Constants.ActionType.BOMB:
 			__bomb_cell_action(cell_index)
-			
+		Constants.ActionType.MOVE:
+			__move_token_action(cell_index)
 
 func __bomb_cell_action(cell_index:Vector2) -> void:
 	var token:Token = board.get_token_at_cell(cell_index)
@@ -463,5 +467,32 @@ func __bomb_cell_action(cell_index:Vector2) -> void:
 		set_bad_token_on_board(cell_index)
 	else:
 		board.clear_token(cell_index)
+	
+	discard_floating_token()
+
+var move_token_action_callables:Dictionary = {}
+var move_token_origin:Vector2
+
+func __move_token_action(cell_origin_index:Vector2) -> void:
+	
+	move_token_origin = cell_origin_index
+	
+	var move_token_cells : Array[Vector2] = floating_token.action.affected_cells(cell_origin_index, board.cell_tokens_ids) 
+	
+	for move_cell_index in move_token_cells:
+		var cell_board = board.get_cell_at_position(move_cell_index)
+		var callable : Callable = Callable(__move_token_action_cell_selected)
+		cell_board.cell_selected.connect(callable)
+		move_token_action_callables[move_cell_index] = callable
+
+func __move_token_action_cell_selected(to:Vector2) -> void:
+	
+	board.clear_highlights()
+	
+	move_token_in_board(move_token_origin, to, 0.2, 0)
+	
+	for cell in move_token_action_callables.keys():
+		board.get_cell_at_position(cell).cell_selected.disconnect(move_token_action_callables[cell])
+	move_token_action_callables.clear()
 	
 	discard_floating_token()

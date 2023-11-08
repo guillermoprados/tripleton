@@ -30,6 +30,10 @@ func _on_state_entered() -> void:
 	
 	board.enabled_interaction = true
 
+func _process(delta) -> void:
+	if not game_manager.floating_token:
+		state_finished.emit(id)
+		
 # override in states
 func _on_state_exited() -> void:
 	
@@ -42,7 +46,7 @@ func _on_state_exited() -> void:
 	board.board_cell_moved.disconnect(self._on_board_board_cell_moved)
 	board.board_cell_selected.disconnect(self._on_board_board_cell_selected)
 	
-	disable_interactions()
+	board.enabled_interaction = false
 		
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
@@ -81,12 +85,6 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
 	game_manager.try_to_place_floating_token(index)
-	
-	if not game_manager.floating_token:
-		state_finished.emit(id)
-	
-func disable_interactions() -> void:
-	board.enabled_interaction = false
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
 	game_manager.move_floating_token_to_swap_cell()

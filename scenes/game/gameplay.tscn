@@ -57,7 +57,6 @@ highlight_invalid = Color(1, 0.5, 0.5, 1)
 script = ExtResource("8_umy6w")
 game_manager = NodePath("../GameManager")
 board = NodePath("../Board")
-print_debug = true
 
 [node name="IntroState" type="Node" parent="StateMachine"]
 script = ExtResource("9_o86f4")
