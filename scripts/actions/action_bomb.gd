@@ -5,7 +5,7 @@ class_name ActionBomb
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.BOMB
 		
-func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	if cell_tokens_ids[action_cell.x][action_cell.y] != Constants.EMPTY_CELL:
 		return Constants.ActionResult.VALID
 	else:

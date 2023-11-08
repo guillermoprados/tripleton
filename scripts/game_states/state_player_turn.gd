@@ -25,6 +25,9 @@ func _on_state_entered() -> void:
 	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	game_manager.save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
 	
+	board.board_cell_moved.connect(self._on_board_board_cell_moved)
+	board.board_cell_selected.connect(self._on_board_board_cell_selected)
+	
 	board.enabled_interaction = true
 
 # override in states
@@ -35,6 +38,9 @@ func _on_state_exited() -> void:
 	game_manager.save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
 	game_manager.save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
+	
+	board.board_cell_moved.disconnect(self._on_board_board_cell_moved)
+	board.board_cell_selected.disconnect(self._on_board_board_cell_selected)
 	
 	disable_interactions()
 		
@@ -74,11 +80,8 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	game_manager.move_floating_token_to_cell(index)	
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
-	if game_manager.floating_token.type == Constants.TokenType.ACTION:
-		game_manager.set_action_token(game_manager.floating_token.data)
-	else:
-		game_manager.try_to_place_floating_token(index)
-		
+	game_manager.try_to_place_floating_token(index)
+	
 	if not game_manager.floating_token:
 		state_finished.emit(id)
 	

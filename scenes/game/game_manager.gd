@@ -130,9 +130,9 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2):
 	floating_token.position = on_board_position
 	
-	var action_result_on_cell : Constants.ActionResult = floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids)
+	var action_status : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
 		
-	match action_result_on_cell:
+	match action_status:
 		Constants.ActionResult.VALID:
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 			for cell in floating_token.action.affected_cells(cell_index, board.cell_tokens_ids):
@@ -170,10 +170,27 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	combinator.reset_combinations(board.rows, board.columns)	
 
 func try_to_place_floating_token(cell_index:Vector2) -> void:
-	if board.is_cell_empty(cell_index):
+	
+	var invalid_movement:bool = false
+	
+	if floating_token.type == Constants.TokenType.ACTION:
+			
+		var action_expected_result : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
+		match action_expected_result:
+			Constants.ActionResult.VALID:
+				action_token = instantiate_new_token(floating_token.data, Constants.TokenStatus.BOXED)
+				discard_floating_token()
+			Constants.ActionResult.NOT_VALID:
+				invalid_movement = true
+			Constants.ActionResult.WASTED:
+				set_bad_token_on_board(cell_index)
+				discard_floating_token()
+						
+	elif board.is_cell_empty(cell_index):
 		__place_floating_token_at(cell_index)
-		discard_floating_token()
+		
 	else:
+		
 		var cell_token:Token = board.get_token_at_cell(cell_index)
 		
 		if cell_token.type == Constants.TokenType.CHEST:
@@ -181,10 +198,10 @@ func try_to_place_floating_token(cell_index:Vector2) -> void:
 		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
 			collect_reward(cell_token, cell_index)
 		else:
-			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
-
-func set_action_token(token_data:TokenData) -> void:
-	action_token = instantiate_new_token(floating_token.data, Constants.TokenStatus.BOXED)
+			invalid_movement = true
+			
+	if invalid_movement:
+		show_message.emit("Invalid Movement", Constants.MessageType.ERROR, .5); #localize
 
 func __place_floating_token_at(cell_index: Vector2) -> void:
 	remove_child(floating_token)
@@ -194,9 +211,9 @@ func __place_floating_token_at(cell_index: Vector2) -> void:
 	elif floating_token.type == Constants.TokenType.ACTION:
 		floating_token = __get_bad_movement_token()
 	
-	floating_token.hide() #will be deleted on players turn end
-	
 	var duplicated_token = instantiate_new_token(floating_token.data, Constants.TokenStatus.PLACED)
+	
+	discard_floating_token()
 	
 	__place_token_on_board(duplicated_token, cell_index)
 	

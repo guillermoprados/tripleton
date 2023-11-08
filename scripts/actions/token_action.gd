@@ -6,7 +6,7 @@ func get_type() -> Constants.ActionType:
 	assert(false, "this is must be implemented in child")
 	return Constants.ActionType.NONE
 		
-func is_valid_action(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	assert(false, "this is must be implemented in child")
 	return Constants.ActionResult.NOT_VALID
 	
