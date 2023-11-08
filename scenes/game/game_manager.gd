@@ -29,6 +29,7 @@ var dinasties_names:Array
 		
 var floating_token: Token
 var saved_token: Token
+var action_token: Token
 
 var points: int
 var gold: int
@@ -181,6 +182,9 @@ func try_to_place_floating_token(cell_index:Vector2) -> void:
 			collect_reward(cell_token, cell_index)
 		else:
 			show_message.emit("Cannot place token", Constants.MessageType.ERROR, .5); #localize
+
+func set_action_token(token_data:TokenData) -> void:
+	action_token = instantiate_new_token(floating_token.data, Constants.TokenStatus.BOXED)
 
 func __place_floating_token_at(cell_index: Vector2) -> void:
 	remove_child(floating_token)

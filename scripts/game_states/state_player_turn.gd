@@ -4,9 +4,6 @@ class_name  StatePlayerTurn
 
 @export var combinator: Combinator
 
-var executed_actions = false
-var actions_finished = false
-
 # for debugging purposes
 @export var scroll_tokens:Array[TokenData] = []
 var current_scroll_item: int = 0
@@ -15,15 +12,6 @@ var is_scroll_in_progress: bool = false
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.PLAYER
 	
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta:float) -> void:
-	if executed_actions and actions_finished:
-		finish_player_turn()
-
 # override in states	
 func _on_state_entered() -> void:
 	
@@ -42,7 +30,7 @@ func _on_state_entered() -> void:
 # override in states
 func _on_state_exited() -> void:
 	
-	game_manager.discard_floating_token()
+	assert(game_manager.floating_token == null, "The floating token is still around")
 	
 	game_manager.save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
@@ -86,12 +74,14 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	game_manager.move_floating_token_to_cell(index)	
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
-	if game_manager.place_floating_token(index):
-		finish_player_turn()	
+	if game_manager.floating_token.type == Constants.TokenType.ACTION:
+		game_manager.set_action_token(game_manager.floating_token.data)
+	else:
+		game_manager.try_to_place_floating_token(index)
+		
+	if not game_manager.floating_token:
+		state_finished.emit(id)
 	
-func finish_player_turn() -> void:
-	state_finished.emit(id)
-
 func disable_interactions() -> void:
 	board.enabled_interaction = false
 	
