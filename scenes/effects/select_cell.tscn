@@ -49,7 +49,7 @@ animations = [{
 
 [node name="animation" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(50, 49)
+position = Vector2(2.08165e-12, 2.08165e-12)
 sprite_frames = SubResource("SpriteFrames_0dfi2")
 metadata/_aseprite_wizard_config_ = {
 "layer": "",

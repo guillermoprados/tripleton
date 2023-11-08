@@ -18,7 +18,7 @@ var cell_index:Vector2
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# adjust_size(Constants.CELL_SIZE)
-	$HighLightColor.color = highlihgt_none
+	$HighLightColor.modulate = highlihgt_none
 	
 func _on_mouse_entered() -> void:
 	cell_entered.emit(cell_index)
@@ -46,12 +46,12 @@ func clear_highlight() -> void:
 func highlight(mode: Constants.CellHighlight) -> void:
 	match mode:
 		Constants.CellHighlight.NONE:
-			$HighLightColor.color = highlihgt_none
+			$HighLightColor.modulate = highlihgt_none
 		Constants.CellHighlight.VALID:
-			$HighLightColor.color = highlight_valid
+			$HighLightColor.modulate = highlight_valid
 		Constants.CellHighlight.INVALID:
-			$HighLightColor.color = highlight_invalid
+			$HighLightColor.modulate = highlight_invalid
 		Constants.CellHighlight.WARNING:
-			$HighLightColor.color = highlight_warning
+			$HighLightColor.modulate = highlight_warning
 		Constants.CellHighlight.COMBINATION:
-			$HighLightColor.color = highlight_combination
+			$HighLightColor.modulate = highlight_combination

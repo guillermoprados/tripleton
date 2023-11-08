@@ -42,13 +42,14 @@ func _process(delta:float) -> void:
 func __position_game_objects() -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size
 	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
+	
 	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
 	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
 	
-	game_manager.spawn_token_cell.position = board.position
+	game_manager.spawn_token_cell.position = board.position + (Constants.CELL_SIZE / 2)
 	game_manager.spawn_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
 	
-	game_manager.save_token_cell.position = board.position
+	game_manager.save_token_cell.position = board.position + (Constants.CELL_SIZE / 2)
 	game_manager.save_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
 	game_manager.save_token_cell.position.x += board_size.x - Constants.CELL_SIZE.x
 	

@@ -86,9 +86,7 @@ func discard_floating_token() -> void:
 	floating_token = null
 	
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
-	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
-	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
-	var token_position:Vector2 = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y)
+	var token_position:Vector2 = board.position + board.get_cell_at_position(cell_index).position
 	
 	if floating_token.is_boxed:
 		floating_token.set_status(Constants.TokenStatus.FLOATING)
