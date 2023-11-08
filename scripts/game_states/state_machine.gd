@@ -41,7 +41,7 @@ func handle_state_finished(state:Constants.PlayingState) -> void:
 		Constants.PlayingState.INTRO:
 			switch_state(Constants.PlayingState.PLAYER)
 		Constants.PlayingState.PLAYER:
-			if game_manager.action_token:
+			if game_manager.user_action != Constants.ActionType.NONE:
 				switch_state(Constants.PlayingState.ACTION)
 			else:
 				switch_state(Constants.PlayingState.ENEMIES)

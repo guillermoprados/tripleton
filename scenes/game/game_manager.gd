@@ -29,7 +29,9 @@ var dinasties_names:Array
 		
 var floating_token: Token
 var saved_token: Token
-var action_token: Token
+
+var user_input_action: Constants.ActionType = Constants.ActionType.NONE
+var user_input_origin_cell: Vector2
 
 var points: int
 var gold: int
@@ -85,7 +87,7 @@ func discard_floating_token() -> void:
 	assert (floating_token, "trying to discard a non existing token token when there is already one")
 	floating_token.queue_free()
 	floating_token = null
-		
+	
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	var pos_x =  (cell_index.y * Constants.CELL_SIZE.x) - Constants.CELL_SIZE.x / 2
 	var pos_y =  (cell_index.x * Constants.CELL_SIZE.y) - Constants.CELL_SIZE.y / 2
@@ -174,18 +176,7 @@ func try_to_place_floating_token(cell_index:Vector2) -> void:
 	var invalid_movement:bool = false
 	
 	if floating_token.type == Constants.TokenType.ACTION:
-			
-		var action_expected_result : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
-		match action_expected_result:
-			Constants.ActionResult.VALID:
-				action_token = instantiate_new_token(floating_token.data, Constants.TokenStatus.BOXED)
-				discard_floating_token()
-			Constants.ActionResult.NOT_VALID:
-				invalid_movement = true
-			Constants.ActionResult.WASTED:
-				set_bad_token_on_board(cell_index)
-				discard_floating_token()
-						
+		__process_user_action(cell_index)	
 	elif board.is_cell_empty(cell_index):
 		__place_floating_token_at(cell_index)
 		
@@ -202,6 +193,18 @@ func try_to_place_floating_token(cell_index:Vector2) -> void:
 			
 	if invalid_movement:
 		show_message.emit("Invalid Movement", Constants.MessageType.ERROR, .5); #localize
+
+func __process_user_action(cell_index: Vector2) -> void:
+	var action_expected_result : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
+	match action_expected_result:
+		Constants.ActionResult.VALID:
+			__set_user_action(floating_token.action.get_type(), cell_index)
+			discard_floating_token()
+		Constants.ActionResult.NOT_VALID:
+			invalid_movement = true
+		Constants.ActionResult.WASTED:
+			set_bad_token_on_board(cell_index)
+			discard_floating_token()
 
 func __place_floating_token_at(cell_index: Vector2) -> void:
 	remove_child(floating_token)
@@ -451,39 +454,22 @@ func can_place_more_tokens() -> bool:
 
 ## ACTIONS
 
-func execute_floating_token_action(cell_index:Vector2) -> void:
-	var action_type:Constants.ActionType = floating_token.action.get_type()
-	var action_result_on_cell : Constants.ActionResult = floating_token.action.is_valid_action(cell_index, board.cell_tokens_ids)
-	match action_result_on_cell:
-		Constants.ActionResult.VALID:
-		
-			match action_type:
-				Constants.ActionType.BOMB:
-					__action_bomb(cell_index)
-				Constants.ActionType.MOVE:
-					pass
-					
-		Constants.ActionResult.NOT_VALID:
-			show_message.emit("Cannot invalid movement", Constants.MessageType.ERROR, .5);
-		Constants.ActionResult.WASTED:
-			set_bad_token_on_board(cell_index)
-			discard_floating_token()
-
+func __set_user_action(action_type:Constants.ActionType, at_cell:Vector2) -> void:
+	user_action = action_type
+	user_action_cell = at_cell
+	
 func __get_token_sprite_absolute_pos(token:Token) -> Vector2:
 	return board.position + token.position + token.sprite_holder.position
 
-func __action_bomb(cell_index:Vector2) -> void:
+func bomb_cell(cell_index:Vector2) -> void:
+	var token:Token = board.get_token_at_cell(cell_index)
+	assert(token, "There is no token to bomb here")
 	
-	if board.is_cell_empty(cell_index):
+	fx_manager.play_bomb_explosion(__get_token_sprite_absolute_pos(token))
+	
+	if token.type == Constants.TokenType.ENEMY:
+		set_dead_enemy(cell_index)
+	elif token.type == Constants.TokenType.CHEST or token.type == Constants.TokenType.PRIZE:
 		set_bad_token_on_board(cell_index)
 	else:
-		var token:Token = board.get_token_at_cell(cell_index)
-		fx_manager.play_bomb_explosion(__get_token_sprite_absolute_pos(token))
-		if token.type == Constants.TokenType.ENEMY:
-			set_dead_enemy(cell_index)
-		elif token.type == Constants.TokenType.CHEST or token.type == Constants.TokenType.PRIZE:
-			set_bad_token_on_board(cell_index)
-		else:
-			board.clear_token(cell_index)
-	
-	discard_floating_token()
+		board.clear_token(cell_index)
