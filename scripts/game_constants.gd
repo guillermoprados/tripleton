@@ -73,7 +73,6 @@ enum PlayingState {
 	NONE,
 	INTRO,
 	PLAYER,
-	ACTION,
 	ENEMIES,
 	CHECK,
 	PAUSED,

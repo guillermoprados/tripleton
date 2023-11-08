@@ -41,11 +41,6 @@ func handle_state_finished(state:Constants.PlayingState) -> void:
 		Constants.PlayingState.INTRO:
 			switch_state(Constants.PlayingState.PLAYER)
 		Constants.PlayingState.PLAYER:
-			if game_manager.user_action != Constants.ActionType.NONE:
-				switch_state(Constants.PlayingState.ACTION)
-			else:
-				switch_state(Constants.PlayingState.ENEMIES)
-		Constants.PlayingState.ACTION:
 			switch_state(Constants.PlayingState.ENEMIES)
 		Constants.PlayingState.ENEMIES:
 			switch_state(Constants.PlayingState.CHECK)
@@ -62,8 +57,6 @@ func __state_name(state:Constants.PlayingState) -> String:
 			return "IntroState"
 		Constants.PlayingState.PLAYER:
 			return "UserPlayState"
-		Constants.PlayingState.ACTION:
-			return "UserActionState"
 		Constants.PlayingState.ENEMIES:
 			return "EnemiesState"
 		Constants.PlayingState.PAUSED:

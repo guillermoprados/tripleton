@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=22 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -19,7 +19,6 @@
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
 [ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
-[ext_resource type="Script" path="res://scripts/game_states/state_action.gd" id="19_nihrx"]
 [ext_resource type="Script" path="res://scenes/game/fx_manager.gd" id="20_bux8w"]
 [ext_resource type="PackedScene" uid="uid://bfsbokyqcnf6x" path="res://scenes/effects/bomb_explosion.tscn" id="21_55vwk"]
 
@@ -69,9 +68,6 @@ prefill_landscape = true
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("12_isnxd"), ExtResource("13_mgra2")])
-
-[node name="StateAction" type="Node" parent="StateMachine"]
-script = ExtResource("19_nihrx")
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")
