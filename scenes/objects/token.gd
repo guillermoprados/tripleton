@@ -83,12 +83,16 @@ func set_status(new_status:Constants.TokenStatus) -> void:
 	if current_status == Constants.TokenStatus.IN_RANGE:
 		tweener.clear_in_range()
 
+	if current_status == Constants.TokenStatus.FLOATING:
+		tweener.clear_focused()
+
 	current_status = new_status
 	match current_status:
 		Constants.TokenStatus.BOXED:
 			sprite_holder.set_boxed()		
 		Constants.TokenStatus.FLOATING:
-			sprite_holder.set_floating()		
+			sprite_holder.set_floating()
+			tweener.set_focus_tweener()	
 		Constants.TokenStatus.PLACED:
 			sprite_holder.set_placed()
 		Constants.TokenStatus.IN_RANGE:
