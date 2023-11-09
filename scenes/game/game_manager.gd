@@ -145,6 +145,7 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 		floating_token.highlight(Constants.TokenHighlight.NONE)
 	else:
 		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
+		floating_token.position -= Constants.CELL_SIZE / 6
 		
 func move_floating_token_to_swap_cell() -> void:
 	board.clear_highlights()
