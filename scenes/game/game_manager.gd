@@ -28,6 +28,7 @@ var current_tokens_set: TokensSet:
 var dinasties_names:Array
 		
 var floating_token: Token
+var ghost_token: Token
 var saved_token: Token
 
 var points: int
@@ -80,13 +81,30 @@ func create_floating_token(token_data:TokenData) -> void:
 	floating_token.position = spawn_token_cell.position
 	floating_token.z_index = Constants.FLOATING_Z_INDEX
 	
+	__create_ghost_token(token_data)
+	
 	spawn_token_cell.highlight(Constants.CellHighlight.VALID)
+	
+func __create_ghost_token(token_data:TokenData):
+	ghost_token = instantiate_new_token(token_data, Constants.TokenStatus.GHOST_BOX)
+	add_child(ghost_token)
+	ghost_token.position = spawn_token_cell.position
+	ghost_token.z_index = Constants.GHOST_BOX_Z_INDEX
+	
 	
 func discard_floating_token() -> void:
 	assert (floating_token, "trying to discard a non existing token token when there is already one")
+	remove_child(floating_token)
 	floating_token.queue_free()
 	floating_token = null
 	
+	__discard_ghost_token()
+	
+func __discard_ghost_token() -> void:
+	remove_child(ghost_token)
+	ghost_token.queue_free()
+	ghost_token = null
+
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	var token_position:Vector2 = board.position + board.get_cell_at_position(cell_index).position
 	
@@ -140,7 +158,13 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 		Constants.ActionResult.WASTED:
 			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
-			
+	
+	if board.is_cell_empty(cell_index):
+		floating_token.highlight(Constants.TokenHighlight.NONE)
+	else:
+		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
+		floating_token.position -= Constants.CELL_SIZE / 6
+		
 func move_floating_token_to_swap_cell() -> void:
 	board.clear_highlights()
 	floating_token.unhighlight()
@@ -150,6 +174,9 @@ func move_floating_token_to_swap_cell() -> void:
 	floating_token.position = swap_position
 	
 func swap_floating_and_saved_token(cell_index: Vector2) -> void:
+	
+	__discard_ghost_token()
+	
 	if saved_token:
 		var floating_pos:Vector2 = floating_token.position
 		var switch_token:Token = floating_token
@@ -159,12 +186,14 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 		saved_token.position = save_token_cell.position
 		saved_token.set_status(Constants.TokenStatus.BOXED)
 		floating_token.set_status(Constants.TokenStatus.FLOATING)
+		__create_ghost_token(floating_token.data)
 	else:
 		floating_token.position = save_token_cell.position
 		saved_token = floating_token 
 		saved_token.set_status(Constants.TokenStatus.BOXED)
 		floating_token = null
 		create_floating_token(null)
+	
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
@@ -197,7 +226,6 @@ func __try_to_run_user_action(cell_index: Vector2) -> void:
 			discard_floating_token()
 
 func __place_floating_token_at(cell_index: Vector2) -> void:
-	remove_child(floating_token)
 	
 	if floating_token.type == Constants.TokenType.WILDCARD:
 		floating_token = __get_replace_wildcard_token(cell_index)

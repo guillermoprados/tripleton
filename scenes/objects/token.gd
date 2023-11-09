@@ -2,11 +2,11 @@ extends Node2D
 
 class_name Token
 
-@export var color_highlight_last : Color = Color(1, 0.5, 0.5, 1)
-@export var color_highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
-@export var color_highlight_transparent : Color = Color(1, 1, 1, 0.5)
+@export var color_border_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var color_overlay_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var color_semi_transparent : Color = Color(1, 1, 1, 0.5)
 
-@export var in_range_tweener:InRangeTweener
+@export var tweener:TokenTweener
 
 var sprite_holder:TokenSpriteHolder
 
@@ -81,38 +81,52 @@ func set_status(new_status:Constants.TokenStatus) -> void:
 	assert(current_status != new_status, "Trying to set the same status")
 	
 	if current_status == Constants.TokenStatus.IN_RANGE:
-		in_range_tweener.clear_in_range()
+		tweener.clear_in_range()
+
+	if current_status == Constants.TokenStatus.FLOATING:
+		tweener.clear_focused()
 
 	current_status = new_status
 	match current_status:
 		Constants.TokenStatus.BOXED:
 			sprite_holder.set_boxed()		
 		Constants.TokenStatus.FLOATING:
-			sprite_holder.set_floating()		
+			sprite_holder.set_floating()
+			tweener.set_focus_tweener()	
 		Constants.TokenStatus.PLACED:
 			sprite_holder.set_placed()
 		Constants.TokenStatus.IN_RANGE:
 			sprite_holder.set_in_range()
 		Constants.TokenStatus.INVISIBLE:
 			sprite_holder.set_invisible()
+		Constants.TokenStatus.GHOST_BOX:
+			sprite_holder.set_as_box_ghost()
 
 func unhighlight() -> void:
 	highlight(Constants.TokenHighlight.NONE)
-	
+
 func highlight(mode:Constants.TokenHighlight) -> void:
-	if true:
-		return
-		
+	
+	var color:Color = Color.WHITE
+	# this deserves a rethink
 	match mode:
+		
 		Constants.TokenHighlight.NONE:
-			sprite_holder.sprite.modulate = Color.WHITE
+			if current_status == Constants.TokenStatus.FLOATING:
+				sprite_holder.paint_floating(Color.WHITE, Color.WHITE)
+			else:
+				sprite_holder.paint_normal()
+				
 		Constants.TokenHighlight.INVALID:
-			sprite_holder.sprite.modulate = color_highlight_invalid
-		Constants.TokenHighlight.LAST:
-			sprite_holder.sprite.modulate = color_highlight_last
+			assert(current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be invalid")
+			sprite_holder.paint_floating(color_border_invalid, color_overlay_invalid )
 		Constants.TokenHighlight.TRANSPARENT:
-			sprite_holder.sprite.modulate = color_highlight_transparent
+			assert(current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
+			sprite_holder.paint_floating(color_semi_transparent, color_semi_transparent)
+		Constants.TokenHighlight.LAST:
+			assert(current_status == Constants.TokenStatus.PLACED, "only placed tokens can be last")
+			sprite_holder.paint_last()
 
 func set_in_range(difference_pos:Vector2) -> void:
 	set_status(Constants.TokenStatus.IN_RANGE)
-	in_range_tweener.set_in_range_tweener(difference_pos)
+	tweener.set_in_range_tweener(difference_pos)
