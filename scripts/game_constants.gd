@@ -118,6 +118,12 @@ const TOKEN_PROB_RARE: float = TOKEN_PROB_UNCOMMON + 0.1
 const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08 
 
 # Game Objects positions
+const BOARD_Z_INDEX : float = 1
+const CELL_Z_INDEX: float = 2
+const TOKENS_Z_INDEX: float = 3
+const FX_Z_INDEX : float = 20
+const FLOATING_Z_INDEX : float = 25
+
 const BOARD_BOTTOM_SEPARATION: float = 50
 
 const TOKEN_SPRITE_HOLDER_Y = 25

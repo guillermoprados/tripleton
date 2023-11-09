@@ -48,10 +48,12 @@ func __position_game_objects() -> void:
 	
 	game_manager.spawn_token_cell.position = board.position + (Constants.CELL_SIZE / 2)
 	game_manager.spawn_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
+	game_manager.spawn_token_cell.z_index = Constants.CELL_Z_INDEX
 	
 	game_manager.save_token_cell.position = board.position + (Constants.CELL_SIZE / 2)
 	game_manager.save_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
 	game_manager.save_token_cell.position.x += board_size.x - Constants.CELL_SIZE.x
+	game_manager.save_token_cell.z_index = Constants.CELL_Z_INDEX
 	
 func __create_landscape() -> void:
 	randomize()

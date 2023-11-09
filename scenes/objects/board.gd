@@ -23,13 +23,17 @@ func _process(delta:float) -> void:
 
 func configure() -> void:
 	__clear_board()
+	z_index = Constants.BOARD_Z_INDEX
+	
 	for row in range(rows):
 		var row_tokens: Array = []
 		var row_cells: Array = []  # This will store the cell references for this row
 		for col in range(columns):
 			row_tokens.append(Constants.EMPTY_CELL)  # Initializing matrix with EMPTY_CELL value
 			var cell_instance: BoardCell = cell_scene.instantiate()
-	
+			cell_instance.board_cell_position = Vector2(row, col)
+			cell_instance.z_index = Constants.CELL_Z_INDEX
+			
 			# Connect the cell signals to the board methods using the new syntax
 			cell_instance.cell_entered.connect(self._on_cell_entered)
 			cell_instance.cell_exited.connect(self._on_cell_exited)
@@ -37,7 +41,7 @@ func configure() -> void:
 			
 			cell_instance.position = Vector2(col * Constants.CELL_SIZE.x, row * Constants.CELL_SIZE.y)
 			cell_instance.position += Constants.CELL_SIZE / 2 # becauce cells are centered
-			cell_instance.cell_index = Vector2(row, col)
+			
 			add_child(cell_instance)
 			row_cells.append(cell_instance)
 		cell_tokens_ids.append(row_tokens)
@@ -75,7 +79,7 @@ func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	placed_tokens[cell_index] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_index).position
-	
+	token.z_index = Constants.TOKENS_Z_INDEX + cell_index.x
 	if token.floor_type == Constants.FloorType.GRASS:
 		var update_cells:Array[Vector2i] = []
 		update_cells.append_array(__get_floor_sub_cells(cell_index))

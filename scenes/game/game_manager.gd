@@ -78,6 +78,8 @@ func create_floating_token(token_data:TokenData) -> void:
 	floating_token = instantiate_new_token(token_data, Constants.TokenStatus.BOXED)
 	add_child(floating_token)
 	floating_token.position = spawn_token_cell.position
+	floating_token.z_index = Constants.FLOATING_Z_INDEX
+	
 	spawn_token_cell.highlight(Constants.CellHighlight.VALID)
 	
 func discard_floating_token() -> void:
@@ -167,6 +169,8 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	combinator.reset_combinations(board.rows, board.columns)	
 
 func try_to_place_floating_token(cell_index:Vector2) -> void:
+	
+	assert(floating_token, "of course you need a floating token")
 	
 	if floating_token.type == Constants.TokenType.ACTION:
 		__try_to_run_user_action(cell_index)	
