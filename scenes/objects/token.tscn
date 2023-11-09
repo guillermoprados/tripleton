@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://gbg1fq05vnj5"]
 
 [ext_resource type="Script" path="res://scenes/objects/token.gd" id="1_1b322"]
-[ext_resource type="Script" path="res://scripts/misc/in_range_tweener.gd" id="5_1yd2m"]
+[ext_resource type="Script" path="res://scripts/misc/token_tweener.gd" id="2_ani57"]
 
-[node name="Token" type="Node2D" node_paths=PackedStringArray("in_range_tweener")]
+[node name="Token" type="Node2D" node_paths=PackedStringArray("tweener")]
 script = ExtResource("1_1b322")
 color_highlight_last = Color(0.670588, 0.4, 0.239216, 1)
 color_highlight_invalid = Color(0.890196, 0, 0.203922, 1)
-in_range_tweener = NodePath("InRangeTweener")
+tweener = NodePath("Tweener")
 
-[node name="InRangeTweener" type="Node2D" parent="."]
-script = ExtResource("5_1yd2m")
+[node name="Tweener" type="Node2D" parent="."]
+script = ExtResource("2_ani57")

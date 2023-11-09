@@ -1,6 +1,11 @@
 extends Node2D
 
-class_name InRangeTweener
+class_name TokenTweener
+
+enum TweenType {
+	FOCUS,
+	IN_RANGE
+}
 
 var sprite_holder: Node2D
 
@@ -12,6 +17,7 @@ var holder_original_pos:Vector2
 
 var holder_start_pos:Vector2
 var holder_to_pos:Vector2
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +31,6 @@ func __set_sprite_holder() -> void:
 	sprite_holder = get_parent().sprite_holder
 	assert(sprite_holder, "cannot find sprite holder")
 	holder_original_pos = sprite_holder.position
-	
 
 func set_in_range_tweener(difference_pos:Vector2) -> void:
 	

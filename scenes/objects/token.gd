@@ -6,7 +6,7 @@ class_name Token
 @export var color_highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
 @export var color_highlight_transparent : Color = Color(1, 1, 1, 0.5)
 
-@export var in_range_tweener:InRangeTweener
+@export var tweener:TokenTweener
 
 var sprite_holder:TokenSpriteHolder
 
@@ -81,7 +81,7 @@ func set_status(new_status:Constants.TokenStatus) -> void:
 	assert(current_status != new_status, "Trying to set the same status")
 	
 	if current_status == Constants.TokenStatus.IN_RANGE:
-		in_range_tweener.clear_in_range()
+		tweener.clear_in_range()
 
 	current_status = new_status
 	match current_status:
@@ -115,4 +115,4 @@ func highlight(mode:Constants.TokenHighlight) -> void:
 
 func set_in_range(difference_pos:Vector2) -> void:
 	set_status(Constants.TokenStatus.IN_RANGE)
-	in_range_tweener.set_in_range_tweener(difference_pos)
+	tweener.set_in_range_tweener(difference_pos)
