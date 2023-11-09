@@ -1,6 +1,7 @@
 shader_type canvas_item;
 
 uniform vec4 line_color : source_color = vec4(1);
+uniform vec4 overlay_color : source_color = vec4(1);
 uniform float line_thickness : hint_range(0, 10) = 1.0;
 
 void fragment() {
@@ -17,5 +18,7 @@ void fragment() {
 	outline = min(outline, 1.0);
 	
 	vec4 color = texture(TEXTURE, UV);
-	COLOR = mix(color, line_color, outline - color.a);
+	vec4 modulated_color = color * overlay_color;
+	vec4 final_color = mix(modulated_color, line_color, outline - modulated_color.a);
+	COLOR = final_color;
 }

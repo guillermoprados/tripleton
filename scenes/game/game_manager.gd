@@ -140,7 +140,12 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 		Constants.ActionResult.WASTED:
 			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
-			
+	
+	if board.is_cell_empty(cell_index):
+		floating_token.highlight(Constants.TokenHighlight.NONE)
+	else:
+		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
+		
 func move_floating_token_to_swap_cell() -> void:
 	board.clear_highlights()
 	floating_token.unhighlight()

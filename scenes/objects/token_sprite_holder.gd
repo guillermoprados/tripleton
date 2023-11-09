@@ -10,6 +10,7 @@ var shadow_original_scale : Vector2
 
 var floating_shader : ShaderMaterial
 var outline_shader : ShaderMaterial
+var outline_last_shader : ShaderMaterial
 
 func set_boxed() -> void:
 	sprite.show()
@@ -18,8 +19,6 @@ func set_boxed() -> void:
 	shadow.hide()
 	
 func set_floating() -> void:
-	# sprite.get_material().set_shader_parameter("line_color", Color(1.0, 1.0, 1.0))
-	# sprite.get_material().set_shader_parameter("line_thickness", 4.0)  # Adjust the size as needed
 	sprite.show()
 	sprite.position.y = sprite_original_position.y - Constants.TOKEN_FLOATING_Y_POS
 	sprite.material = floating_shader
@@ -44,11 +43,23 @@ func set_invisible() -> void:
 	shadow.hide()
 	sprite.hide()
 	
+func paint_last() -> void:
+	sprite.material = outline_last_shader
+	
+func paint_normal() -> void:
+	sprite.material = outline_shader
+	
+func paint_floating(border_color:Color, overlay_color:Color) -> void:
+	sprite.material = floating_shader
+	sprite.get_material().set_shader_parameter("overlay_color", overlay_color)
+	sprite.get_material().set_shader_parameter("line_color", border_color)
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	floating_shader = load("res://materials/floating_material.tres")
 	outline_shader = load("res://materials/outline_material.tres")
+	outline_last_shader = load("res://materials/last_placed_material.tres")
 	
 	sprite = $Sprite
 	shadow = $Shadow
@@ -63,3 +74,4 @@ func _ready():
 	shadow.position = Vector2(0, Constants.TOKEN_SHADOW_Y_POS + 2 ) # +2 because of the border
 	shadow_original_scale = shadow.scale
 	sprite.material = outline_shader
+	

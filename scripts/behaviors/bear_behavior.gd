@@ -1,6 +1,6 @@
 extends TokenBehavior
 
-class_name BearBehavior
+class_name MonokeloBehavior
 
 @export var animator:EnemyAnimator
 
