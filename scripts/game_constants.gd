@@ -19,11 +19,18 @@ enum EnemyType {
 }
 
 enum ActionType {
+	NONE,
 	MOVE,
 	LEVEL_UP,
 	REMOVE,
 	BOMB,
 	SWIRL
+}
+
+enum ActionResult {
+	VALID,
+	NOT_VALID,
+	WASTED
 }
 
 enum CellHighlight {
@@ -113,7 +120,7 @@ const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08
 # Game Objects positions
 const BOARD_BOTTOM_SEPARATION: float = 50
 
-const TOKEN_SPRITE_HOLDER_Y = 15
+const TOKEN_SPRITE_HOLDER_Y = 25
 
 const TOKEN_SHADOW_Y_POS = 2
 const TOKEN_BOXED_Y_POS: float = 20

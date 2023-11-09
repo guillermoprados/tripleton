@@ -26,9 +26,11 @@ func disable_state() -> void:
 
 # override in states	
 func _on_state_entered() -> void:
+	assert(false, "this should be overriden by the state")
 	pass
 
 # override in states
 func _on_state_exited() -> void:
+	assert(false, "this should be overriden by the state")
 	pass
 

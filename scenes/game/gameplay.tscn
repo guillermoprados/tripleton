@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dciutmggheven"]
+[gd_scene load_steps=23 format=3 uid="uid://dciutmggheven"]
 
 [ext_resource type="PackedScene" uid="uid://dlrmlfrpnrkcu" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -19,11 +19,14 @@
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
 [ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
+[ext_resource type="Script" path="res://scenes/game/fx_manager.gd" id="20_bux8w"]
+[ext_resource type="PackedScene" uid="uid://bfsbokyqcnf6x" path="res://scenes/effects/bomb_explosion.tscn" id="21_55vwk"]
+[ext_resource type="PackedScene" uid="uid://1rbab57s5yio" path="res://scenes/effects/select_cell.tscn" id="22_x53b4"]
 
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "save_token_cell", "spawn_token_cell", "combinator", "gameplay_ui")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "save_token_cell", "spawn_token_cell", "combinator", "gameplay_ui", "fx_manager")]
 script = ExtResource("3_wjn15")
 token_scene = ExtResource("2_08wbk")
 board = NodePath("../Board")
@@ -33,6 +36,7 @@ spawn_token_cell = NodePath("../SpawnTokenCell")
 combinator = NodePath("../Combinator")
 gameplay_ui = NodePath("../UI")
 default_chest = ExtResource("3_potqp")
+fx_manager = NodePath("../FxManager")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -77,11 +81,17 @@ script = ExtResource("17_uph22")
 
 [node name="UI" parent="." instance=ExtResource("18_65b04")]
 
+[node name="FxManager" type="Node2D" parent="." node_paths=PackedStringArray("board")]
+script = ExtResource("20_bux8w")
+board = NodePath("../Board")
+fx_bomb_explosion_scene = ExtResource("21_55vwk")
+fx_select_cell_scene = ExtResource("22_x53b4")
+
+[node name="SelectCellAnims" type="Node2D" parent="FxManager"]
+
 [connection signal="dinasty_changed" from="GameManager" to="UI" method="_on_game_manager_dinasty_changed"]
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
-[connection signal="board_cell_moved" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_moved"]
-[connection signal="board_cell_selected" from="Board" to="StateMachine/PlayerTurnState" method="_on_board_board_cell_selected"]
 [connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]

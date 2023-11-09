@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://uujgmv58wtx1"
+path="res://.godot/imported/select_cell.aseprite-e979bdfe6d1a04fb8cf93365ca583da1.res"
+
+[deps]
+
+source_file="res://asesprite/select_cell.aseprite"
+dest_files=["res://.godot/imported/select_cell.aseprite-e979bdfe6d1a04fb8cf93365ca583da1.res"]
+
+[params]
+

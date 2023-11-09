@@ -4,9 +4,6 @@ class_name  StatePlayerTurn
 
 @export var combinator: Combinator
 
-var executed_actions = false
-var actions_finished = false
-
 # for debugging purposes
 @export var scroll_tokens:Array[TokenData] = []
 var current_scroll_item: int = 0
@@ -15,15 +12,6 @@ var is_scroll_in_progress: bool = false
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.PLAYER
 	
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta:float) -> void:
-	if executed_actions and actions_finished:
-		finish_player_turn()
-
 # override in states	
 func _on_state_entered() -> void:
 	
@@ -33,36 +21,32 @@ func _on_state_entered() -> void:
 	
 	game_manager.create_floating_token(null)
 	
-	__bind_token_events(game_manager.floating_token)
-	
 	game_manager.save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	game_manager.save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
 	
+	board.board_cell_moved.connect(self._on_board_board_cell_moved)
+	board.board_cell_selected.connect(self._on_board_board_cell_selected)
+	
 	board.enabled_interaction = true
 
+func _process(delta) -> void:
+	if not game_manager.floating_token:
+		state_finished.emit(id)
+		
 # override in states
 func _on_state_exited() -> void:
 	
-	__unbind_token_events(game_manager.floating_token)
-	
-	game_manager.discard_floating_token()
+	assert(game_manager.floating_token == null, "The floating token is still around")
 	
 	game_manager.save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
 	game_manager.save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
 	
-	disable_interactions()
-
-func __bind_token_events(token:Token) -> void:
-	if token.type == Constants.TokenType.ACTION:
-		token.action.action_finished.connect(finish_player_turn)
-		token.action.disable_interactions.connect(disable_interactions)
+	board.board_cell_moved.disconnect(self._on_board_board_cell_moved)
+	board.board_cell_selected.disconnect(self._on_board_board_cell_selected)
 	
-func __unbind_token_events(token:Token) -> void:
-	if token.type == Constants.TokenType.ACTION:
-		token.action.action_finished.disconnect(finish_player_turn)
-		token.action.disable_interactions.disconnect(disable_interactions)
+	board.enabled_interaction = false
 		
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
@@ -82,10 +66,8 @@ func _input(event:InputEvent) -> void:
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			__unbind_token_events(game_manager.floating_token)
 			game_manager.discard_floating_token()
 			game_manager.create_floating_token(next_token_data)
-			__bind_token_events(game_manager.floating_token)
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
 			is_scroll_in_progress = true
@@ -102,14 +84,7 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	game_manager.move_floating_token_to_cell(index)	
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
-	if game_manager.place_floating_token(index):
-		finish_player_turn()	
-	
-func finish_player_turn() -> void:
-	state_finished.emit(id)
-
-func disable_interactions() -> void:
-	board.enabled_interaction = false
+	game_manager.try_to_place_floating_token(index)
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
 	game_manager.move_floating_token_to_swap_cell()

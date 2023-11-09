@@ -36,6 +36,7 @@ func configure() -> void:
 			cell_instance.cell_selected.connect(self._on_cell_selected)
 			
 			cell_instance.position = Vector2(col * Constants.CELL_SIZE.x, row * Constants.CELL_SIZE.y)
+			cell_instance.position += Constants.CELL_SIZE / 2 # becauce cells are centered
 			cell_instance.cell_index = Vector2(row, col)
 			add_child(cell_instance)
 			row_cells.append(cell_instance)

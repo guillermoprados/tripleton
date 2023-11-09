@@ -2,88 +2,87 @@
 
 [ext_resource type="Texture2D" uid="uid://bswk275uqdx3n" path="res://images/aseprite/bomb_explosion.png" id="1_ui1u1"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dn4e8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwe6e"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(0, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ewilo"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hv5ss"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(128, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7km31"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ra0q"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(256, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ec0vc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3jnb"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(384, 0, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1rp7o"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gu7s"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(0, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wjdmj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hx7re"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(128, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tvo4o"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r2ve"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(256, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lqtlg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jeb6m"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(384, 162, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tvt6o"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2tplx"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(0, 324, 128, 162)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bnptd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm8o6"]
 atlas = ExtResource("1_ui1u1")
 region = Rect2(128, 324, 128, 162)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ya0jd"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_awnym"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dn4e8")
+"texture": SubResource("AtlasTexture_kwe6e")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ewilo")
+"texture": SubResource("AtlasTexture_hv5ss")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7km31")
+"texture": SubResource("AtlasTexture_0ra0q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ec0vc")
+"texture": SubResource("AtlasTexture_w3jnb")
 }, {
 "duration": 1.5,
-"texture": SubResource("AtlasTexture_1rp7o")
+"texture": SubResource("AtlasTexture_8gu7s")
 }, {
 "duration": 1.6,
-"texture": SubResource("AtlasTexture_wjdmj")
+"texture": SubResource("AtlasTexture_hx7re")
 }, {
 "duration": 1.8,
-"texture": SubResource("AtlasTexture_tvo4o")
+"texture": SubResource("AtlasTexture_6r2ve")
 }, {
 "duration": 1.8,
-"texture": SubResource("AtlasTexture_lqtlg")
+"texture": SubResource("AtlasTexture_jeb6m")
 }, {
 "duration": 1.6,
-"texture": SubResource("AtlasTexture_tvt6o")
+"texture": SubResource("AtlasTexture_2tplx")
 }, {
 "duration": 1.5,
-"texture": SubResource("AtlasTexture_bnptd")
+"texture": SubResource("AtlasTexture_xm8o6")
 }],
 "loop": true,
 "name": &"default",
 "speed": 20.0
 }]
 
-[node name="bomb_explosion" type="AnimatedSprite2D"]
+[node name="bomb_explosion" type="Node2D"]
 texture_filter = 1
-position = Vector2(2, -53)
-sprite_frames = SubResource("SpriteFrames_ya0jd")
+position = Vector2(2.08165e-12, 2.08165e-12)
 metadata/_aseprite_wizard_config_ = {
 "layer": "",
 "o_ex_p": "",
@@ -91,5 +90,19 @@ metadata/_aseprite_wizard_config_ = {
 "o_name": "",
 "only_visible": false,
 "op_exp": false,
+"source": "res://asesprite/bomb_explosion.aseprite"
+}
+
+[node name="animation" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(4, -54)
+sprite_frames = SubResource("SpriteFrames_awnym")
+metadata/_aseprite_wizard_config_ = {
+"layer": "",
+"o_ex_p": "",
+"o_folder": "res://images/aseprite",
+"o_name": "",
+"only_visible": false,
+"op_exp": true,
 "source": "res://asesprite/bomb_explosion.aseprite"
 }
