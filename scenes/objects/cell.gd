@@ -6,7 +6,7 @@ signal cell_entered(index:Vector2)
 signal cell_exited(index:Vector2)
 signal cell_selected(index:Vector2)
 
-var cell_index:Vector2
+var board_cell_position:Vector2
 
 @export var base_color : Color = Color(0.5, 0.5, 0.5, 1)
 @export var highlihgt_none : Color = Color(1, 1, 1, 0)
@@ -21,16 +21,16 @@ func _ready() -> void:
 	$HighLightColor.modulate = highlihgt_none
 	
 func _on_mouse_entered() -> void:
-	cell_entered.emit(cell_index)
+	cell_entered.emit(board_cell_position)
 
 func _on_mouse_exited() -> void:
-	cell_exited.emit(cell_index)
+	cell_exited.emit(board_cell_position)
 				
 func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
 		# Check if it's a left mouse button click (button_index 1) if needed
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			cell_selected.emit(cell_index)
+			cell_selected.emit(board_cell_position)
 	elif event is InputEventScreenTouch and event.pressed:
 		pass
 		# Handle touch events here

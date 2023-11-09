@@ -15,6 +15,8 @@ var floor_matrix: Array = []
 
 var enabled_interaction: bool = false
 
+const DEFAULT_FLOOR : Constants.FloorType = Constants.FloorType.PATH
+
 func _ready() -> void:
 	configure()	
 	
@@ -23,13 +25,17 @@ func _process(delta:float) -> void:
 
 func configure() -> void:
 	__clear_board()
+	z_index = Constants.BOARD_Z_INDEX
+	
 	for row in range(rows):
 		var row_tokens: Array = []
 		var row_cells: Array = []  # This will store the cell references for this row
 		for col in range(columns):
 			row_tokens.append(Constants.EMPTY_CELL)  # Initializing matrix with EMPTY_CELL value
 			var cell_instance: BoardCell = cell_scene.instantiate()
-	
+			cell_instance.board_cell_position = Vector2(row, col)
+			cell_instance.z_index = Constants.CELL_Z_INDEX
+			
 			# Connect the cell signals to the board methods using the new syntax
 			cell_instance.cell_entered.connect(self._on_cell_entered)
 			cell_instance.cell_exited.connect(self._on_cell_exited)
@@ -37,7 +43,7 @@ func configure() -> void:
 			
 			cell_instance.position = Vector2(col * Constants.CELL_SIZE.x, row * Constants.CELL_SIZE.y)
 			cell_instance.position += Constants.CELL_SIZE / 2 # becauce cells are centered
-			cell_instance.cell_index = Vector2(row, col)
+			
 			add_child(cell_instance)
 			row_cells.append(cell_instance)
 		cell_tokens_ids.append(row_tokens)
@@ -75,14 +81,33 @@ func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
 	placed_tokens[cell_index] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_index).position
+	token.z_index = Constants.TOKENS_Z_INDEX + cell_index.x
 	
-	if token.floor_type == Constants.FloorType.GRASS:
-		var update_cells:Array[Vector2i] = []
-		update_cells.append_array(__get_floor_sub_cells(cell_index))
-		tilemap.set_cells_terrain_connect(0, update_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, true)
+	__update_floor_tiles([cell_index])
+
+func __update_floor_tiles(on_cells:Array[Vector2]) -> void:
+	var cells_pert_type:Dictionary = {}
 	
-	floor_matrix[cell_index.x][cell_index.y] = token.floor_type
+	#Constants.TILESET_TERRAIN_BACK
+	cells_pert_type[Constants.FloorType.PATH] = [] as Array[Vector2i]
+	cells_pert_type[Constants.FloorType.GRASS] = [] as Array[Vector2i]
 	
+	for cell_index in on_cells:
+		var floor_type:Constants.FloorType = DEFAULT_FLOOR
+		if placed_tokens.has(cell_index):
+			var token:Token = placed_tokens[cell_index]
+			floor_type = token.floor_type
+		if floor_matrix[cell_index.x][cell_index.y] != floor_type:
+			floor_matrix[cell_index.x][cell_index.y] = floor_type
+			cells_pert_type[floor_type].append_array(__get_floor_sub_cells(cell_index))
+	
+	if cells_pert_type[Constants.FloorType.PATH].size() > 0:
+		tilemap.set_cells_terrain_connect(0, cells_pert_type[Constants.FloorType.PATH], Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, false)
+
+	if cells_pert_type[Constants.FloorType.GRASS].size() > 0:
+		tilemap.set_cells_terrain_connect(0, cells_pert_type[Constants.FloorType.GRASS], Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, false)
+
+
 func clear_token(cell_index: Vector2) -> void:
 	
 	# Remove the token instance from the scene if it exists in the dictionary
@@ -93,11 +118,8 @@ func clear_token(cell_index: Vector2) -> void:
 		
 	# Update the matrix value to EMPTY_CELL
 	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
-	floor_matrix[cell_index.x][cell_index.y] = Constants.FloorType.PATH
-
-	var update_cells:Array[Vector2i] = []
-	update_cells.append_array(__get_floor_sub_cells(cell_index))
-	tilemap.set_cells_terrain_connect(0, update_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_PATH, false)
+	
+	__update_floor_tiles([cell_index])
 	
 #TODO move all tiles functionality to the map
 func change_back_texture(texture:CompressedTexture2D) -> void:
@@ -146,8 +168,8 @@ func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_ti
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)
 		tween.tween_property(placed_tokens[cell_index_to], "position", get_cell_at_position(cell_index_to).position, tween_time)
-		
 	
+	__update_floor_tiles([cell_index_from, cell_index_to])
 	
 func get_token_at_cell(cell_index: Vector2) -> Token:
 	return placed_tokens[cell_index]
