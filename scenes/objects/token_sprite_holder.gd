@@ -11,6 +11,7 @@ var shadow_original_scale : Vector2
 var floating_shader : ShaderMaterial
 var outline_shader : ShaderMaterial
 var outline_last_shader : ShaderMaterial
+var ghost_token_shader : ShaderMaterial
 
 func set_boxed() -> void:
 	sprite.show()
@@ -39,6 +40,12 @@ func set_in_range() -> void:
 	shadow.show()
 	shadow.scale = shadow_original_scale * Constants.TOKEN_SHADOW_IN_RANGE_MULTIPLIER
 
+func set_as_box_ghost() -> void:
+	sprite.position.y = sprite_original_position.y - Constants.TOKEN_BOXED_Y_POS
+	sprite.material = ghost_token_shader
+	sprite.stop()
+	shadow.hide()
+	
 func set_invisible() -> void:
 	shadow.hide()
 	sprite.hide()
@@ -53,13 +60,15 @@ func paint_floating(border_color:Color, overlay_color:Color) -> void:
 	sprite.material = floating_shader
 	sprite.get_material().set_shader_parameter("overlay_color", overlay_color)
 	sprite.get_material().set_shader_parameter("line_color", border_color)
-	
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	floating_shader = load("res://materials/floating_material.tres")
 	outline_shader = load("res://materials/outline_material.tres")
 	outline_last_shader = load("res://materials/last_placed_material.tres")
+	ghost_token_shader = load("res://materials/ghost_token_material.tres")
 	
 	sprite = $Sprite
 	shadow = $Shadow

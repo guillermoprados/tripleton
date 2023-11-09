@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bi7pwfj01pur2"]
+
+[ext_resource type="Shader" path="res://shaders/ghost.gdshader" id="1_1tdi2"]
+
+[resource]
+shader = ExtResource("1_1tdi2")
+shader_parameter/transparency = 0.673

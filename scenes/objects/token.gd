@@ -99,6 +99,8 @@ func set_status(new_status:Constants.TokenStatus) -> void:
 			sprite_holder.set_in_range()
 		Constants.TokenStatus.INVISIBLE:
 			sprite_holder.set_invisible()
+		Constants.TokenStatus.GHOST_BOX:
+			sprite_holder.set_as_box_ghost()
 
 func unhighlight() -> void:
 	highlight(Constants.TokenHighlight.NONE)

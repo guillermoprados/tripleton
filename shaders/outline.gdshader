@@ -19,6 +19,6 @@ void fragment() {
 	
 	vec4 color = texture(TEXTURE, UV);
 	vec4 modulated_color = color * overlay_color;
-	vec4 final_color = mix(modulated_color, line_color, outline - modulated_color.a);
+	vec4 final_color = mix(modulated_color, overlay_color * line_color, outline - modulated_color.a);
 	COLOR = final_color;
 }
