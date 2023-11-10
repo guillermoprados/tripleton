@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="TokenActionData" load_steps=3 format=3 uid="uid://cj8xmxh73qauy"]
 
 [ext_resource type="Script" path="res://resources/tokens/token_action_data.gd" id="1_s0pjp"]
-[ext_resource type="PackedScene" uid="uid://b5l75rl5i0s6m" path="res://scenes/objects/tokens/actions/move.tscn" id="2_40hih"]
+[ext_resource type="PackedScene" uid="uid://dig5os2ehk7je" path="res://scenes/objects/tokens/actions/move.tscn" id="2_40hih"]
 
 [resource]
 script = ExtResource("1_s0pjp")
-action_type = 0
+action_type = 1
 available_from_dinasty = 3
 sprite_scene = ExtResource("2_40hih")

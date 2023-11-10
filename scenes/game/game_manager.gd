@@ -123,19 +123,10 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 		floating_token.position = on_board_position
 		floating_token.unhighlight()
 		
-		var is_wildcard = floating_token.type == Constants.TokenType.WILDCARD
-		
-		if is_wildcard:
-			# this is esential to ensure the combination on that cell is 
-			# being replaced with the wildcard
-			__check_wildcard_combinations_at(cell_index)
-
 		var combination:Combination = check_combination_all_levels(floating_token, cell_index)
 
 		if combination.is_valid():
 			board.highlight_combination(cell_index, combination)
-		elif is_wildcard:
-			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
 		else:
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 			
@@ -149,6 +140,13 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 	
 	var action_status : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
 		
+	#var is_wildcard = act.type == Constants.TokenType.WILDCARD
+		
+	#	if is_wildcard:
+			# this is esential to ensure the combination on that cell is 
+			# being replaced with the wildcard
+	#		__check_wildcard_combinations_at(cell_index)
+
 	match action_status:
 		Constants.ActionResult.VALID:
 			var action_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
@@ -229,9 +227,10 @@ func __place_floating_token_at(cell_index: Vector2) -> void:
 	
 	var to_place_token_data : TokenData = floating_token.data
 	
-	if floating_token.type == Constants.TokenType.WILDCARD:
-		to_place_token_data = __get_replace_wildcard_token_data(cell_index)
-	elif floating_token.type == Constants.TokenType.ACTION:
+	# if floating_token.type == Constants.TokenType.WILDCARD:
+	#	to_place_token_data = __get_replace_wildcard_token_data(cell_index)
+	#el
+	if floating_token.type == Constants.TokenType.ACTION:
 		to_place_token_data = __get_bad_movement_token_data()
 	
 	var duplicated_token = instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
@@ -407,7 +406,7 @@ func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
 		
 		# this will never happen because it requires two wildcards in the board
 		# .. but anyway..
-		if copied_token.type == Constants.TokenType.WILDCARD:
+		if copied_token.is_wildcard:
 			continue
 		
 		combinator.clear_evaluated_combination(cell_index)

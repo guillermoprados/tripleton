@@ -50,6 +50,9 @@ var is_invisible: bool:
 	get:
 		return current_status == Constants.TokenStatus.INVISIBLE
 
+var is_wildcard: bool:
+	get:
+		return type == Constants.TokenType.ACTION and action.get_type() == Constants.ActionType.WILDCARD
 # not used yet
 var floor_type:Constants.FloorType:
 	get:

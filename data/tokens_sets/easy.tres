@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="4_apbgo"]
 [ext_resource type="Resource" uid="uid://djp2f3ai1cvxq" path="res://data/tokens_data/combinables/gates/1_shimai.tres" id="4_ixl2l"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="6_fklel"]
-[ext_resource type="Resource" uid="uid://dd41fj2ikombg" path="res://data/tokens_data/misc/wildcard.tres" id="6_npg6p"]
+[ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="6_npg6p"]
 [ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gates/2_gate.tres" id="7_3c312"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="7_gwqnd"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="7_h4yem"]
