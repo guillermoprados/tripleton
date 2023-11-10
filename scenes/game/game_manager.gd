@@ -151,9 +151,9 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 		
 	match action_status:
 		Constants.ActionResult.VALID:
+			var action_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
+			board.highlight_cells(action_cells, Constants.CellHighlight.WARNING)
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-			for cell in floating_token.action.affected_cells(cell_index, board.cell_tokens_ids):
-				board.highligh_cell(cell, Constants.CellHighlight.WARNING) # TODO: Replace proper visual
 		Constants.ActionResult.NOT_VALID:
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 		Constants.ActionResult.WASTED:
@@ -477,6 +477,7 @@ func can_place_more_tokens() -> bool:
 	
 func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2) -> void:
 	
+	board.clear_highlights()
 	board.enabled_interaction = false
 	
 	match action_type:
@@ -509,6 +510,7 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 	move_token_origin = cell_origin_index
 	
 	var move_token_cells : Array[Vector2] = floating_token.action.affected_cells(cell_origin_index, board.cell_tokens_ids) 
+	board.highlight_cells(move_token_cells, Constants.CellHighlight.VALID)
 	
 	for move_cell_index in move_token_cells:
 		var cell_board = board.get_cell_at_position(move_cell_index)
