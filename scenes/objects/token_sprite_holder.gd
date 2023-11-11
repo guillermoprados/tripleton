@@ -21,6 +21,7 @@ func set_boxed() -> void:
 	
 func set_floating() -> void:
 	sprite.show()
+	sprite.position = sprite_original_position
 	sprite.position.y = sprite_original_position.y - Constants.TOKEN_FLOATING_Y_POS
 	sprite.material = floating_shader
 	shadow.show()
@@ -28,6 +29,7 @@ func set_floating() -> void:
 			
 func set_placed() -> void:
 	sprite.show()
+	sprite.position = sprite_original_position
 	sprite.position.y = sprite_original_position.y
 	sprite.material = outline_shader
 	shadow.show()
@@ -35,12 +37,14 @@ func set_placed() -> void:
 
 func set_in_range() -> void:
 	sprite.show()
+	sprite.position = sprite_original_position
 	sprite.position.y = sprite_original_position.y - Constants.TOKEN_IN_RANGE_Y_POS
 	sprite.material = outline_shader
 	shadow.show()
 	shadow.scale = shadow_original_scale * Constants.TOKEN_SHADOW_IN_RANGE_MULTIPLIER
 
 func set_as_box_ghost() -> void:
+	sprite.position = sprite_original_position
 	sprite.position.y = sprite_original_position.y - Constants.TOKEN_BOXED_Y_POS
 	sprite.material = ghost_token_shader
 	sprite.stop()
@@ -60,8 +64,14 @@ func paint_floating(border_color:Color, overlay_color:Color) -> void:
 	sprite.material = floating_shader
 	sprite.get_material().set_shader_parameter("overlay_color", overlay_color)
 	sprite.get_material().set_shader_parameter("line_color", border_color)
-
-
+	# I need to do this again here to not complicate transitions
+	sprite.position = sprite_original_position
+	sprite.position.y = sprite_original_position.y - Constants.TOKEN_FLOATING_Y_POS
+	
+func paint_valid_action(border_color:Color, overlay_color:Color) -> void:
+	paint_floating(border_color, overlay_color)
+	sprite.position = sprite_original_position - Constants.CELL_SIZE / 3 
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	

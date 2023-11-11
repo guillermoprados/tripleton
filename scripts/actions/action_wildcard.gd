@@ -4,17 +4,37 @@ class_name ActionWildcard
 
 @export var combinator: Combinator
 @export var tokens_data: Array[TokenData]
+@export var ghost_token_holder: Node2D
 
-var combinator_configured: bool = false
-var last_position_evaluated: Vector2 = Constants.INVALID_CELL
+var __combinator_configured: bool = false
+var __last_position_evaluated: Vector2 = Constants.INVALID_CELL
+var __to_place_token_data: TokenData
+var __to_place_token:Token
 
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.WILDCARD
 
+func get_to_place_token_data() -> TokenData:
+	return __to_place_token_data
+
+func set_ghost_token(token:Token) -> void:
+	__to_place_token = token
+	ghost_token_holder.add_child(token)
+	token.position = __token.sprite_holder.sprite_original_position
+
+func get_wildcard_combination() -> Combination:
+	return combinator.combinations[__last_position_evaluated]
+
 func __check_and_init_combinator(cell_origin:Vector2, board_ids: Array)-> void:
-	if cell_origin != last_position_evaluated or not combinator_configured:
+	if cell_origin != __last_position_evaluated or not __combinator_configured:
 		combinator.reset_combinations(board_ids.size(),board_ids[0].size())
-		combinator_configured = true
+		__combinator_configured = true
+		__last_position_evaluated = cell_origin
+		__to_place_token_data = null
+		if __to_place_token:
+			ghost_token_holder.remove_child(__to_place_token)
+			__to_place_token.queue_free()
+			__to_place_token = null
 
 func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	
@@ -63,6 +83,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		return
 	
 	var bigger_combination: Combination = null
+	var bigger_combination_token_data: TokenData = null
 	var bigger_points:int
 	
 	var check_positions:Array[Vector2] = []
@@ -99,21 +120,23 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		combinator.clear_evaluated_combination(cell_index)
 		
 		var combination : Combination = combinator.search_combinations_for_cell(copied_token_data, pos, board_tokens_ids_copy, true)
-			
+		
 		if combination.is_valid():
 			var current_points:int = 0
-			
 			for cell in combination.combinable_cells:
 				if __is_cell_empty(cell, board_tokens_ids_copy):
 					continue
 				var token_data:TokenData = __find_token_by_id(board_tokens_ids_copy[cell.x][cell.y])
 				if token_data.reward_type == Constants.RewardType.POINTS:
 					current_points += token_data.reward_value
+			
 			if current_points > bigger_points:
 				bigger_points = current_points
 				bigger_combination = combination
+				bigger_combination_token_data = __find_token_by_id(board_tokens_ids_copy[cell_index.x][cell_index.y])
 				
 	if bigger_combination:
 		combinator.replace_combination_at_cell(bigger_combination, cell_index)
-
+		__to_place_token_data = bigger_combination_token_data
+		
 	combinator.get_combinations_for_cell(cell_index).wildcard_evaluated = true

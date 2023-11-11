@@ -54,7 +54,8 @@ enum TokenHighlight {
 	NONE,
 	LAST,
 	INVALID,
-	TRANSPARENT
+	TRANSPARENT,
+	VALID_ACTION
 }
 
 enum RewardType {

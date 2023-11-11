@@ -98,7 +98,8 @@ func discard_floating_token() -> void:
 	floating_token.queue_free()
 	floating_token = null
 	
-	__discard_ghost_token()
+	if ghost_token:
+		__discard_ghost_token()
 	
 func __discard_ghost_token() -> void:
 	remove_child(ghost_token)
@@ -139,29 +140,29 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 	floating_token.position = on_board_position
 	
 	var action_status : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
-		
-	#var is_wildcard = act.type == Constants.TokenType.WILDCARD
-		
-	#	if is_wildcard:
-			# this is esential to ensure the combination on that cell is 
-			# being replaced with the wildcard
-	#		__check_wildcard_combinations_at(cell_index)
-
+	
 	match action_status:
 		Constants.ActionResult.VALID:
+			
 			var action_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
-			board.highlight_cells(action_cells, Constants.CellHighlight.WARNING)
+			if floating_token.is_wildcard:
+				var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
+				board.highlight_combination(cell_index, wildcard_action.get_wildcard_combination())
+				var to_place_token : Token = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+				wildcard_action.set_ghost_token(to_place_token)
+			else:
+				board.highlight_cells(action_cells, Constants.CellHighlight.WARNING)
+			
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
+			floating_token.highlight(Constants.TokenHighlight.VALID_ACTION)
+			
 		Constants.ActionResult.NOT_VALID:
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
+			floating_token.highlight(Constants.TokenHighlight.NONE)
 		Constants.ActionResult.WASTED:
 			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
-	
-	if board.is_cell_empty(cell_index):
-		floating_token.highlight(Constants.TokenHighlight.NONE)
-	else:
-		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
-		floating_token.position -= Constants.CELL_SIZE / 6
+			floating_token.highlight(Constants.TokenHighlight.NONE)
+		
 		
 func move_floating_token_to_swap_cell() -> void:
 	board.clear_highlights()
@@ -429,6 +430,8 @@ func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2)
 			__bomb_cell_action(cell_index)
 		Constants.ActionType.MOVE:
 			__move_token_action(cell_index)
+		Constants.ActionType.WILDCARD:
+			__place_wildcard_cell_action(cell_index)
 
 func __bomb_cell_action(cell_index:Vector2) -> void:
 	var token:Token = board.get_token_at_cell(cell_index)
@@ -475,3 +478,11 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	move_token_action_callables.clear()
 	
 	discard_floating_token()
+	
+func __place_wildcard_cell_action(cell_index:Vector2) -> void:
+	var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
+	var to_place_token : Token = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+	discard_floating_token()
+	floating_token = to_place_token
+	try_to_place_floating_token(cell_index)
+	
