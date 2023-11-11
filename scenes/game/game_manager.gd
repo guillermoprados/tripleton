@@ -197,6 +197,8 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 
 func try_to_place_floating_token(cell_index:Vector2) -> void:
 	
+	print("place ft at:"+str(cell_index))
+	
 	assert(floating_token, "of course you need a floating token")
 	
 	if floating_token.type == Constants.TokenType.ACTION:
@@ -373,63 +375,6 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 		add_points(value)
 	else:
 		assert( false, "what are you trying to add??")	
-
-func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
-	
-	if combinator.get_combinations_for_cell(cell_index).wildcard_evaluated:
-		return
-	
-	var bigger_combination: Combination = null
-	var bigger_points:int
-	
-	var check_positions:Array[Vector2] = []
-	
-	# top
-	if cell_index.y > 0:
-		check_positions.append(Vector2(cell_index.x, cell_index.y - 1))
-	# down
-	if cell_index.y < board.rows - 1:
-		check_positions.append(Vector2(cell_index.x, cell_index.y + 1))
-	# left
-	if cell_index.x > 0:
-		check_positions.append(Vector2(cell_index.x - 1, cell_index.y))
-	# right
-	if cell_index.x < board.rows - 1:
-		check_positions.append(Vector2(cell_index.x + 1, cell_index.y))
-	
-	for pos in check_positions:
-		
-		if board.is_cell_empty(pos):
-			continue
-					
-		var copied_token = board.get_token_at_cell(pos)
-		
-		# this will never happen because it requires two wildcards in the board
-		# .. but anyway..
-		if copied_token.is_wildcard:
-			continue
-		
-		combinator.clear_evaluated_combination(cell_index)
-		
-		var combination : Combination = check_combination_all_levels(copied_token, cell_index)
-			
-		if combination.is_valid():
-			var current_points:int = 0
-			
-			for cell in combination.combinable_cells:
-				if board.is_cell_empty(cell):
-					continue
-				var token:Token = board.get_token_at_cell(cell)
-				if token.data.reward_type == Constants.RewardType.POINTS:
-					current_points += token.data.reward_value
-			if current_points > bigger_points:
-				bigger_points = current_points
-				bigger_combination = combination
-				
-	if bigger_combination:
-		combinator.replace_combination_at_cell(bigger_combination, cell_index)
-
-	combinator.get_combinations_for_cell(cell_index).wildcard_evaluated = true
 	
 func __open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
