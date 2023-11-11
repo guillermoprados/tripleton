@@ -233,12 +233,6 @@ func __place_floating_token_at(cell_index: Vector2) -> void:
 	
 	var to_place_token_data : TokenData = floating_token.data
 	
-	# if floating_token.type == Constants.TokenType.WILDCARD:
-	#	to_place_token_data = __get_replace_wildcard_token_data(cell_index)
-	#el
-	if floating_token.type == Constants.TokenType.ACTION:
-		to_place_token_data = __get_bad_movement_token_data()
-	
 	var duplicated_token = instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
 	
 	__place_token_on_board(duplicated_token, cell_index)
