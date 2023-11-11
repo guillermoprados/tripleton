@@ -98,7 +98,8 @@ func discard_floating_token() -> void:
 	floating_token.queue_free()
 	floating_token = null
 	
-	__discard_ghost_token()
+	if ghost_token:
+		__discard_ghost_token()
 	
 func __discard_ghost_token() -> void:
 	remove_child(ghost_token)
@@ -106,6 +107,9 @@ func __discard_ghost_token() -> void:
 	ghost_token = null
 
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
+	
+	board.clear_highlights()
+	
 	var token_position:Vector2 = board.position + board.get_cell_at_position(cell_index).position
 	
 	if floating_token.is_boxed:
@@ -123,19 +127,10 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 		floating_token.position = on_board_position
 		floating_token.unhighlight()
 		
-		var is_wildcard = floating_token.type == Constants.TokenType.WILDCARD
-		
-		if is_wildcard:
-			# this is esential to ensure the combination on that cell is 
-			# being replaced with the wildcard
-			__check_wildcard_combinations_at(cell_index)
-
 		var combination:Combination = check_combination_all_levels(floating_token, cell_index)
 
 		if combination.is_valid():
 			board.highlight_combination(cell_index, combination)
-		elif is_wildcard:
-			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
 		else:
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 			
@@ -148,22 +143,29 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 	floating_token.position = on_board_position
 	
 	var action_status : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
-		
+	
 	match action_status:
 		Constants.ActionResult.VALID:
+			
+			var action_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
+			if floating_token.is_wildcard:
+				var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
+				board.highlight_combination(cell_index, wildcard_action.get_wildcard_combination())
+				var to_place_token : Token = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+				wildcard_action.set_ghost_token(to_place_token)
+			else:
+				board.highlight_cells(action_cells, Constants.CellHighlight.WARNING)
+			
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-			for cell in floating_token.action.affected_cells(cell_index, board.cell_tokens_ids):
-				board.highligh_cell(cell, Constants.CellHighlight.WARNING) # TODO: Replace proper visual
+			floating_token.highlight(Constants.TokenHighlight.VALID_ACTION)
+			
 		Constants.ActionResult.NOT_VALID:
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
+			floating_token.highlight(Constants.TokenHighlight.NONE)
 		Constants.ActionResult.WASTED:
 			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
-	
-	if board.is_cell_empty(cell_index):
-		floating_token.highlight(Constants.TokenHighlight.NONE)
-	else:
-		floating_token.highlight(Constants.TokenHighlight.TRANSPARENT)
-		floating_token.position -= Constants.CELL_SIZE / 6
+			floating_token.highlight(Constants.TokenHighlight.NONE)
+		
 		
 func move_floating_token_to_swap_cell() -> void:
 	board.clear_highlights()
@@ -199,6 +201,8 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 
 func try_to_place_floating_token(cell_index:Vector2) -> void:
 	
+	print("place ft at:"+str(cell_index))
+	
 	assert(floating_token, "of course you need a floating token")
 	
 	if floating_token.type == Constants.TokenType.ACTION:
@@ -229,9 +233,10 @@ func __place_floating_token_at(cell_index: Vector2) -> void:
 	
 	var to_place_token_data : TokenData = floating_token.data
 	
-	if floating_token.type == Constants.TokenType.WILDCARD:
-		to_place_token_data = __get_replace_wildcard_token_data(cell_index)
-	elif floating_token.type == Constants.TokenType.ACTION:
+	# if floating_token.type == Constants.TokenType.WILDCARD:
+	#	to_place_token_data = __get_replace_wildcard_token_data(cell_index)
+	#el
+	if floating_token.type == Constants.TokenType.ACTION:
 		to_place_token_data = __get_bad_movement_token_data()
 	
 	var duplicated_token = instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
@@ -374,63 +379,6 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 		add_points(value)
 	else:
 		assert( false, "what are you trying to add??")	
-
-func __check_wildcard_combinations_at(cell_index:Vector2) -> void:
-	
-	if combinator.get_combinations_for_cell(cell_index).wildcard_evaluated:
-		return
-	
-	var bigger_combination: Combination = null
-	var bigger_points:int
-	
-	var check_positions:Array[Vector2] = []
-	
-	# top
-	if cell_index.y > 0:
-		check_positions.append(Vector2(cell_index.x, cell_index.y - 1))
-	# down
-	if cell_index.y < board.rows - 1:
-		check_positions.append(Vector2(cell_index.x, cell_index.y + 1))
-	# left
-	if cell_index.x > 0:
-		check_positions.append(Vector2(cell_index.x - 1, cell_index.y))
-	# right
-	if cell_index.x < board.rows - 1:
-		check_positions.append(Vector2(cell_index.x + 1, cell_index.y))
-	
-	for pos in check_positions:
-		
-		if board.is_cell_empty(pos):
-			continue
-					
-		var copied_token = board.get_token_at_cell(pos)
-		
-		# this will never happen because it requires two wildcards in the board
-		# .. but anyway..
-		if copied_token.type == Constants.TokenType.WILDCARD:
-			continue
-		
-		combinator.clear_evaluated_combination(cell_index)
-		
-		var combination : Combination = check_combination_all_levels(copied_token, cell_index)
-			
-		if combination.is_valid():
-			var current_points:int = 0
-			
-			for cell in combination.combinable_cells:
-				if board.is_cell_empty(cell):
-					continue
-				var token:Token = board.get_token_at_cell(cell)
-				if token.data.reward_type == Constants.RewardType.POINTS:
-					current_points += token.data.reward_value
-			if current_points > bigger_points:
-				bigger_points = current_points
-				bigger_combination = combination
-				
-	if bigger_combination:
-		combinator.replace_combination_at_cell(bigger_combination, cell_index)
-
-	combinator.get_combinations_for_cell(cell_index).wildcard_evaluated = true
 	
 func __open_chest(token:Token, cell_index: Vector2) -> void:
 	#move the floating token back
@@ -477,6 +425,7 @@ func can_place_more_tokens() -> bool:
 	
 func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2) -> void:
 	
+	board.clear_highlights()
 	board.enabled_interaction = false
 	
 	match action_type:
@@ -484,6 +433,8 @@ func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2)
 			__bomb_cell_action(cell_index)
 		Constants.ActionType.MOVE:
 			__move_token_action(cell_index)
+		Constants.ActionType.WILDCARD:
+			__place_wildcard_cell_action(cell_index)
 
 func __bomb_cell_action(cell_index:Vector2) -> void:
 	var token:Token = board.get_token_at_cell(cell_index)
@@ -509,6 +460,7 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 	move_token_origin = cell_origin_index
 	
 	var move_token_cells : Array[Vector2] = floating_token.action.affected_cells(cell_origin_index, board.cell_tokens_ids) 
+	board.highlight_cells(move_token_cells, Constants.CellHighlight.VALID)
 	
 	for move_cell_index in move_token_cells:
 		var cell_board = board.get_cell_at_position(move_cell_index)
@@ -529,3 +481,11 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	move_token_action_callables.clear()
 	
 	discard_floating_token()
+	
+func __place_wildcard_cell_action(cell_index:Vector2) -> void:
+	var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
+	var to_place_token : Token = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+	discard_floating_token()
+	floating_token = to_place_token
+	try_to_place_floating_token(cell_index)
+	

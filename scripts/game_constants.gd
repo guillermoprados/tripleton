@@ -7,7 +7,6 @@ enum TokenType {
 	CHEST,
 	PRIZE,
 	ENEMY,
-	WILDCARD,
 	ACTION
 }
 
@@ -22,9 +21,9 @@ enum ActionType {
 	NONE,
 	MOVE,
 	LEVEL_UP,
-	REMOVE,
 	BOMB,
-	SWIRL
+	SWIRL,
+	WILDCARD
 }
 
 enum ActionResult {
@@ -55,7 +54,8 @@ enum TokenHighlight {
 	NONE,
 	LAST,
 	INVALID,
-	TRANSPARENT
+	TRANSPARENT,
+	VALID_ACTION
 }
 
 enum RewardType {

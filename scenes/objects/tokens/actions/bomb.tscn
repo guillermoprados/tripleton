@@ -1,16 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://bmw85221ay06i"]
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_0k16i"]
-[ext_resource type="Texture2D" uid="uid://q6a7fpitr5al" path="res://images/tokens/bomb.png" id="1_11cnu"]
 [ext_resource type="Script" path="res://scripts/actions/action_bomb.gd" id="2_a5jj2"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_btu65"]
-[ext_resource type="PackedScene" uid="uid://bfsbokyqcnf6x" path="res://scenes/effects/bomb_explosion.tscn" id="3_qmqws"]
+[ext_resource type="Texture2D" uid="uid://chgx58x7hj3ga" path="res://images/tokens/card.png" id="4_q56ub"]
+[ext_resource type="Texture2D" uid="uid://bnchbjcit5biy" path="res://images/tokens/action_bomb.png" id="5_c4cek"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_kg4mb"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_11cnu")
+"texture": ExtResource("4_q56ub")
 }],
 "loop": true,
 "name": &"default",
@@ -22,14 +22,17 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_0k16i")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(2.08165e-12, 2)
-scale = Vector2(0.567901, 1)
+position = Vector2(-2.14577e-06, 2)
+scale = Vector2(0.938272, 0.266667)
 texture = ExtResource("2_btu65")
 
 [node name="ActionBomb" type="Node" parent="."]
 script = ExtResource("2_a5jj2")
-explosion_scene = ExtResource("3_qmqws")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(-2, -40)
+position = Vector2(0, -39)
 sprite_frames = SubResource("SpriteFrames_kg4mb")
+
+[node name="Simbol" type="Sprite2D" parent="Sprite"]
+position = Vector2(-2.08165e-12, -3)
+texture = ExtResource("5_c4cek")

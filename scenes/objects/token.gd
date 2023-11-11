@@ -3,6 +3,7 @@ extends Node2D
 class_name Token
 
 @export var color_border_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var color_border_valid_action : Color = Color(1, 0.5, 0.5, 1)
 @export var color_overlay_invalid : Color = Color(1, 0.5, 0.5, 1)
 @export var color_semi_transparent : Color = Color(1, 1, 1, 0.5)
 
@@ -50,6 +51,9 @@ var is_invisible: bool:
 	get:
 		return current_status == Constants.TokenStatus.INVISIBLE
 
+var is_wildcard: bool:
+	get:
+		return type == Constants.TokenType.ACTION and action.get_type() == Constants.ActionType.WILDCARD
 # not used yet
 var floor_type:Constants.FloorType:
 	get:
@@ -126,7 +130,11 @@ func highlight(mode:Constants.TokenHighlight) -> void:
 		Constants.TokenHighlight.LAST:
 			assert(current_status == Constants.TokenStatus.PLACED, "only placed tokens can be last")
 			sprite_holder.paint_last()
-
+		Constants.TokenHighlight.VALID_ACTION:
+			assert(current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
+			sprite_holder.paint_valid_action(color_border_valid_action, color_semi_transparent)
+			
+		
 func set_in_range(difference_pos:Vector2) -> void:
 	set_status(Constants.TokenStatus.IN_RANGE)
 	tweener.set_in_range_tweener(difference_pos)

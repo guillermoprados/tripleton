@@ -6,6 +6,7 @@
 [node name="Token" type="Node2D" node_paths=PackedStringArray("tweener")]
 script = ExtResource("1_1b322")
 color_border_invalid = Color(0.705882, 0, 0.156863, 1)
+color_border_valid_action = Color(0, 0.811765, 0.254902, 0.929412)
 color_overlay_invalid = Color(1, 0.760784, 0.74902, 1)
 color_semi_transparent = Color(1, 1, 1, 0.686275)
 tweener = NodePath("Tweener")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtd2xnuaoeihu"
-path="res://.godot/imported/move_action.png-5f48ffedf71c1ea33476edf8e550f749.ctex"
+uid="uid://bnchbjcit5biy"
+path="res://.godot/imported/action_bomb.png-a8b545a181b6c29dba88552b61c2ec43.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/tokens/move_action.png"
-dest_files=["res://.godot/imported/move_action.png-5f48ffedf71c1ea33476edf8e550f749.ctex"]
+source_file="res://images/tokens/action_bomb.png"
+dest_files=["res://.godot/imported/action_bomb.png-a8b545a181b6c29dba88552b61c2ec43.ctex"]
 
 [params]
 

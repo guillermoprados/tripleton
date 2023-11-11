@@ -1,15 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://dig5os2ehk7je"]
+[gd_scene load_steps=7 format=3 uid="uid://dig5os2ehk7je"]
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_y5kh7"]
 [ext_resource type="Script" path="res://scripts/actions/action_move.gd" id="2_1hvlm"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_1iqv1"]
-[ext_resource type="Texture2D" uid="uid://dtd2xnuaoeihu" path="res://images/tokens/move_action.png" id="4_ml50p"]
+[ext_resource type="Texture2D" uid="uid://chgx58x7hj3ga" path="res://images/tokens/card.png" id="4_ip07a"]
+[ext_resource type="Texture2D" uid="uid://dfyt165l8o75m" path="res://images/tokens/action_move.png" id="5_eyy8g"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rtih8"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_ml50p")
+"texture": ExtResource("4_ip07a")
 }],
 "loop": true,
 "name": &"default",
@@ -24,9 +25,14 @@ script = ExtResource("1_y5kh7")
 script = ExtResource("2_1hvlm")
 
 [node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
+position = Vector2(0.499998, 2.75)
+scale = Vector2(0.950617, 0.233333)
 texture = ExtResource("2_1iqv1")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1, -29)
+position = Vector2(2.08165e-12, -39)
 sprite_frames = SubResource("SpriteFrames_rtih8")
+
+[node name="Simbol" type="Sprite2D" parent="Sprite"]
+position = Vector2(1, 0)
+texture = ExtResource("5_eyy8g")
