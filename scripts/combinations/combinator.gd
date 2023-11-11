@@ -83,3 +83,4 @@ static func __search_cross_combination_for_cell(token_id: String, board_tokens_i
 	# right
 	if center_cell.x < board_tokens_ids[0].size() - 1:
 		__search_combination_for_cell(token_id, board_tokens_ids, Vector2(center_cell.x + 1, center_cell.y), combination_level, false)
+

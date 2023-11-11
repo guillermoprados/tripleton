@@ -84,7 +84,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 	
 	var bigger_combination: Combination = null
 	var bigger_combination_token_data: TokenData = null
-	var bigger_points:int
+	var bigger_points:int = 0
 	
 	var check_positions:Array[Vector2] = []
 	
@@ -112,31 +112,31 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		if not copied_token_data:
 			continue
 		
-		var board_tokens_ids_copy : Array = Utils.copy_array_matrix(cell_tokens_ids)
-		
-		# set the token type in the board temporarily 
-		board_tokens_ids_copy[cell_index.x][cell_index.y] = copied_token_data.id
-		
 		combinator.clear_evaluated_combination(cell_index)
 		
-		var combination : Combination = combinator.search_combinations_for_cell(copied_token_data, pos, board_tokens_ids_copy, true)
+		var combination : Combination = combinator.search_combinations_for_cell(copied_token_data, cell_index, cell_tokens_ids, true)
 		
 		if combination.is_valid():
 			var current_points:int = 0
 			for cell in combination.combinable_cells:
-				if __is_cell_empty(cell, board_tokens_ids_copy):
+				if __is_cell_empty(cell, cell_tokens_ids):
 					continue
-				var token_data:TokenData = __find_token_by_id(board_tokens_ids_copy[cell.x][cell.y])
+				var token_data:TokenData = __find_token_by_id(cell_tokens_ids[cell.x][cell.y])
 				if token_data.reward_type == Constants.RewardType.POINTS:
 					current_points += token_data.reward_value
+			
+			# print("---")
+			# print(combination.as_text())
+			# print("points: "+ str(current_points))
 			
 			if current_points > bigger_points:
 				bigger_points = current_points
 				bigger_combination = combination
-				bigger_combination_token_data = __find_token_by_id(board_tokens_ids_copy[cell_index.x][cell_index.y])
+				bigger_combination_token_data = copied_token_data
 				
 	if bigger_combination:
 		combinator.replace_combination_at_cell(bigger_combination, cell_index)
 		__to_place_token_data = bigger_combination_token_data
 		
 	combinator.get_combinations_for_cell(cell_index).wildcard_evaluated = true
+

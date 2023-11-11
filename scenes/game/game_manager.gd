@@ -107,6 +107,9 @@ func __discard_ghost_token() -> void:
 	ghost_token = null
 
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
+	
+	board.clear_highlights()
+	
 	var token_position:Vector2 = board.position + board.get_cell_at_position(cell_index).position
 	
 	if floating_token.is_boxed:

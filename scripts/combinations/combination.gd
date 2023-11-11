@@ -26,3 +26,10 @@ func add_data(cells: Array, new_last_level_reached: int) -> void:
 	
 	if new_last_level_reached > last_level_reached:
 		last_level_reached = new_last_level_reached
+
+func as_text() -> String:
+	var text : String = ""
+	text += "index: " + str(cell_index) +"\n"
+	text += "level reached:" + str(last_level_reached) +"\n"
+	text += "combinable cells:" +str(combinable_cells)
+	return text
