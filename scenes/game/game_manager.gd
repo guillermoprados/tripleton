@@ -253,13 +253,7 @@ func __replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 	var old_token_date:float = board.get_token_at_cell(cell_index).created_at
 	board.clear_token(cell_index)
 	
-	if token:
-		board.set_token_at_cell(token, cell_index)
-		token.created_at = old_token_date
-	
-	board.clear_highlights()
-
-	combinator.reset_combinations(board.rows, board.columns)
+	__place_token_on_board(token, cell_index)
 
 func set_bad_token_on_board(cell_index:Vector2) -> void:
 	var bad_token_data : TokenData = __get_bad_movement_token_data()
@@ -401,7 +395,6 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 		
 	show_floating_reward.emit(type, value, reward_position)
 
-# used by enemies!
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time, tween_delay)
 
@@ -466,13 +459,21 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 func __move_token_action_cell_selected(to:Vector2) -> void:
 	
 	board.clear_highlights()
-	fx_manager.stop_select_cell_anims()
+	board.enabled_interaction = false
 	
-	move_token_in_board(move_token_origin, to, 0.2, 0)
+	fx_manager.stop_select_cell_anims()
+	var move_time:float = 0.2
+	move_token_in_board(move_token_origin, to, move_time, 0)
 	
 	for cell in move_token_action_callables.keys():
 		board.get_cell_at_position(cell).cell_selected.disconnect(move_token_action_callables[cell])
 	move_token_action_callables.clear()
+	
+	await get_tree().create_timer(move_time).timeout
+	# I need to trigger all the combination validations ofte
+	combinator.reset_combinations(board.rows, board.columns)
+	check_and_do_board_combinations([to], Constants.MergeType.BY_INITIAL_CELL)
+
 	
 	discard_floating_token()
 	
