@@ -8,3 +8,7 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "$script_dir"
 
 adb install ../android/tripleton.apk
+
+echo "start log"
+
+adb logcat | grep godot

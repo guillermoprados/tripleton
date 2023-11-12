@@ -118,6 +118,8 @@ const TOKEN_PROB_UNCOMMON: float = TOKEN_PROB_COMMON + 0.2
 const TOKEN_PROB_RARE: float = TOKEN_PROB_UNCOMMON + 0.1 
 const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08 
 
+const HOLD_TIME_TO_CANCEL_PRESS: float = 1
+
 # Game Objects positions
 const BOARD_Z_INDEX : float = 1
 const CELL_Z_INDEX: float = 2
