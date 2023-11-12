@@ -28,7 +28,7 @@ enum ActionType {
 
 enum ActionResult {
 	VALID,
-	NOT_VALID,
+	INVALID,
 	WASTED
 }
 
