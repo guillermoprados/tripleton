@@ -15,31 +15,42 @@ var board_cell_position:Vector2
 @export var highlight_warning : Color = Color(1, 0.5, 0.5, 1)
 @export var highlight_combination : Color = Color(0.5, 0.5, 1, 1)
 
-# Called when the node enters the scene tree for the first time.
+var __is_mobile:bool
+var __pressed_at:float
+
 func _ready() -> void:
-	# adjust_size(Constants.CELL_SIZE)
+	#probably move this
+	__is_mobile = OS.get_name() == "Android" or OS.get_name() == "iOS"
 	$HighLightColor.modulate = highlihgt_none
 	
 func _on_mouse_entered() -> void:
+	__pressed_at = Time.get_unix_time_from_system()
 	cell_entered.emit(board_cell_position)
-
+	
 func _on_mouse_exited() -> void:
 	cell_exited.emit(board_cell_position)
 				
 func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void:
-	if event is InputEventMouseButton and event.is_pressed():
+	
+	if __is_mobile:
+		__process_mobile_events(event)	
+	elif event is InputEventMouseButton and event.is_pressed():
 		# Check if it's a left mouse button click (button_index 1) if needed
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			cell_selected.emit(board_cell_position)
-	elif event is InputEventScreenTouch and event.pressed:
-		pass
-		# Handle touch events here
-		# event.index is the touch point index (useful for multitouch)
-		# event.position is the screen position where the touch occurred
-		# event.global_position is the global position on the screen
-		# You can adapt your touch handling logic as needed
-	# Add more conditions for other types of input events if necessary
+
+func __process_mobile_events(event:InputEvent) -> void:
 	
+	if event is InputEventScreenTouch:
+		var input_event : InputEventScreenTouch = event as InputEventScreenTouch
+		if input_event.index == 0:
+			if input_event.is_pressed():
+				__pressed_at = Time.get_unix_time_from_system()
+			if input_event.is_released():
+				var current_time = Time.get_unix_time_from_system()
+				if current_time - __pressed_at < Constants.HOLD_TIME_TO_CANCEL_PRESS:
+					cell_selected.emit(board_cell_position)
+			
 func clear_highlight() -> void:
 	highlight(Constants.CellHighlight.NONE)
 	
