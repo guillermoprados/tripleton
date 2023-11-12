@@ -248,12 +248,15 @@ func __place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	combinator.reset_combinations(board.rows, board.columns)
 	check_and_do_board_combinations([cell_index], Constants.MergeType.BY_INITIAL_CELL)
 
+# replace SHOULD NOT check combinations!! if you need to check after replace, call it manually
 func __replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 	
+	# it's important to keep the time, because when merging graves it merges to the last one
 	var old_token_date:float = board.get_token_at_cell(cell_index).created_at
 	board.clear_token(cell_index)
-	
-	__place_token_on_board(token, cell_index)
+	token.created_at = old_token_date
+	board.set_token_at_cell(token, cell_index)
+	board.clear_highlights()
 
 func set_bad_token_on_board(cell_index:Vector2) -> void:
 	var bad_token_data : TokenData = __get_bad_movement_token_data()
