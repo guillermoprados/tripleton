@@ -6,5 +6,5 @@
 [resource]
 script = ExtResource("1_s0pjp")
 action_type = 1
-available_from_dinasty = 3
+available_from_dinasty = 0
 sprite_scene = ExtResource("2_40hih")

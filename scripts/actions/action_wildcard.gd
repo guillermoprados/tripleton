@@ -3,7 +3,7 @@ extends TokenAction
 class_name ActionWildcard
 
 @export var combinator: Combinator
-@export var tokens_data: Array[TokenData]
+@export var all_tokens_data: AllTokensData
 @export var ghost_token_holder: Node2D
 
 var __combinator_configured: bool = false
@@ -40,10 +40,10 @@ func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Const
 	
 	__check_and_init_combinator(action_cell, cell_tokens_ids)
 	
-	var result:Constants.ActionResult = Constants.ActionResult.NOT_VALID
+	var result:Constants.ActionResult = Constants.ActionResult.INVALID
 	
 	if not __is_cell_empty(action_cell, cell_tokens_ids):
-		result = Constants.ActionResult.NOT_VALID
+		result = Constants.ActionResult.INVALID
 	else:
 		
 		__mark_wildcard_combinations_at(action_cell, cell_tokens_ids)
@@ -71,12 +71,6 @@ func affected_cells(action_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector
 	
 	return cells
 
-func __find_token_by_id(token_id:String) -> TokenData:
-	for data in tokens_data:
-		if data.id == token_id:
-			return data
-	return null
-	
 func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array) -> void:
 	
 	if combinator.get_combinations_for_cell(cell_index).wildcard_evaluated:
@@ -106,7 +100,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		if __is_cell_empty(pos, cell_tokens_ids):
 			continue
 					
-		var copied_token_data = __find_token_by_id(cell_tokens_ids[pos.x][pos.y])
+		var copied_token_data = all_tokens_data.get_token_data_by_id(cell_tokens_ids[pos.x][pos.y])
 		
 		# only assigned tokens to the action can be evaluated
 		if not copied_token_data:
@@ -121,7 +115,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 			for cell in combination.combinable_cells:
 				if __is_cell_empty(cell, cell_tokens_ids):
 					continue
-				var token_data:TokenData = __find_token_by_id(cell_tokens_ids[cell.x][cell.y])
+				var token_data:TokenData = all_tokens_data.get_token_data_by_id(cell_tokens_ids[cell.x][cell.y])
 				if token_data.reward_type == Constants.RewardType.POINTS:
 					current_points += token_data.reward_value
 			

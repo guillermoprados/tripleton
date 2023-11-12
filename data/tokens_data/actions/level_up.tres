@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TokenActionData" load_steps=3 format=3 uid="uid://bbe1iclaj1ifb"]
+
+[ext_resource type="Script" path="res://resources/tokens/token_action_data.gd" id="1_31xvr"]
+[ext_resource type="PackedScene" uid="uid://mxio012ldr5n" path="res://scenes/objects/tokens/actions/level_up.tscn" id="2_m1jef"]
+
+[resource]
+script = ExtResource("1_31xvr")
+action_type = 2
+available_from_dinasty = 0
+sprite_scene = ExtResource("2_m1jef")

@@ -159,7 +159,7 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 			floating_token.highlight(Constants.TokenHighlight.VALID_ACTION)
 			
-		Constants.ActionResult.NOT_VALID:
+		Constants.ActionResult.INVALID:
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 			floating_token.highlight(Constants.TokenHighlight.NONE)
 		Constants.ActionResult.WASTED:
@@ -223,7 +223,7 @@ func __try_to_run_user_action(cell_index: Vector2) -> void:
 	match action_expected_result:
 		Constants.ActionResult.VALID:
 			__process_user_action(floating_token.action.get_type(), cell_index)
-		Constants.ActionResult.NOT_VALID:
+		Constants.ActionResult.INVALID:
 			show_message.emit("Invalid movement", Constants.MessageType.ERROR, .5); #localize
 		Constants.ActionResult.WASTED:
 			set_bad_token_on_board(cell_index)
@@ -232,12 +232,6 @@ func __try_to_run_user_action(cell_index: Vector2) -> void:
 func __place_floating_token_at(cell_index: Vector2) -> void:
 	
 	var to_place_token_data : TokenData = floating_token.data
-	
-	# if floating_token.type == Constants.TokenType.WILDCARD:
-	#	to_place_token_data = __get_replace_wildcard_token_data(cell_index)
-	#el
-	if floating_token.type == Constants.TokenType.ACTION:
-		to_place_token_data = __get_bad_movement_token_data()
 	
 	var duplicated_token = instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
 	
@@ -259,13 +253,7 @@ func __replace_token_on_board(token:Token, cell_index:Vector2) -> void:
 	var old_token_date:float = board.get_token_at_cell(cell_index).created_at
 	board.clear_token(cell_index)
 	
-	if token:
-		board.set_token_at_cell(token, cell_index)
-		token.created_at = old_token_date
-	
-	board.clear_highlights()
-
-	combinator.reset_combinations(board.rows, board.columns)
+	__place_token_on_board(token, cell_index)
 
 func set_bad_token_on_board(cell_index:Vector2) -> void:
 	var bad_token_data : TokenData = __get_bad_movement_token_data()
@@ -397,7 +385,7 @@ func __collect_reward(token:Token, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data
 	show_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	sum_rewards(prize_data.reward_type, prize_data.reward_value)
-	__replace_token_on_board(null, cell_index)
+	board.clear_token(cell_index)
 
 func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
 	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
@@ -407,7 +395,6 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 		
 	show_floating_reward.emit(type, value, reward_position)
 
-# used by enemies!
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time, tween_delay)
 
@@ -435,6 +422,8 @@ func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2)
 			__move_token_action(cell_index)
 		Constants.ActionType.WILDCARD:
 			__place_wildcard_cell_action(cell_index)
+		Constants.ActionType.LEVEL_UP:
+			__level_up_cell_action(cell_index)
 
 func __bomb_cell_action(cell_index:Vector2) -> void:
 	var token:Token = board.get_token_at_cell(cell_index)
@@ -452,6 +441,18 @@ func __bomb_cell_action(cell_index:Vector2) -> void:
 	
 	discard_floating_token()
 
+func __level_up_cell_action(cell_index:Vector2) -> void:
+	var token:Token = board.get_token_at_cell(cell_index)
+	assert(token.data is TokenCombinableData, "This token type cannot be leveled")
+	var token_data: TokenCombinableData = token.data as TokenCombinableData
+	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
+	
+	board.clear_token(cell_index)
+	var to_place_token : Token = instantiate_new_token(token_data.next_token, Constants.TokenStatus.PLACED)
+	discard_floating_token()
+	floating_token = to_place_token
+	try_to_place_floating_token(cell_index)
+	
 var move_token_action_callables:Dictionary = {}
 var move_token_origin:Vector2
 
@@ -472,14 +473,21 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 func __move_token_action_cell_selected(to:Vector2) -> void:
 	
 	board.clear_highlights()
-	fx_manager.stop_select_cell_anims()
+	board.enabled_interaction = false
 	
-	move_token_in_board(move_token_origin, to, 0.2, 0)
+	fx_manager.stop_select_cell_anims()
+	var move_time:float = 0.2
+	move_token_in_board(move_token_origin, to, move_time, 0)
 	
 	for cell in move_token_action_callables.keys():
 		board.get_cell_at_position(cell).cell_selected.disconnect(move_token_action_callables[cell])
 	move_token_action_callables.clear()
 	
+	await get_tree().create_timer(move_time).timeout
+	# I need to trigger all the combination validations ofte
+	combinator.reset_combinations(board.rows, board.columns)
+	check_and_do_board_combinations([to], Constants.MergeType.BY_INITIAL_CELL)
+
 	discard_floating_token()
 	
 func __place_wildcard_cell_action(cell_index:Vector2) -> void:

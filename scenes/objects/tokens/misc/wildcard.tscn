@@ -1,24 +1,12 @@
-[gd_scene load_steps=21 format=3 uid="uid://dykxirfdd2dpo"]
+[gd_scene load_steps=9 format=3 uid="uid://dykxirfdd2dpo"]
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_on5jj"]
+[ext_resource type="Script" path="res://resources/all_tokens_data.gd" id="2_pd3tv"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_xhxef"]
 [ext_resource type="Texture2D" uid="uid://chgx58x7hj3ga" path="res://images/tokens/card.png" id="3_l0k40"]
 [ext_resource type="Texture2D" uid="uid://cj0f8j4mniyk6" path="res://images/tokens/action_wildcard.png" id="4_bfho8"]
 [ext_resource type="Script" path="res://scripts/actions/action_wildcard.gd" id="5_c1o4k"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="6_680vl"]
-[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="6_tier2"]
-[ext_resource type="Resource" uid="uid://7k60x8lr2nec" path="res://data/tokens_data/chests/chest_gold.tres" id="7_2dcj7"]
-[ext_resource type="Resource" uid="uid://bg22fqe88vqtl" path="res://data/tokens_data/chests/chest_silver.tres" id="8_i7uuw"]
-[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/gates/0_lamp.tres" id="9_pefnw"]
-[ext_resource type="Resource" uid="uid://djp2f3ai1cvxq" path="res://data/tokens_data/combinables/gates/1_shimai.tres" id="10_4etno"]
-[ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gates/2_gate.tres" id="11_sko1m"]
-[ext_resource type="Resource" uid="uid://y6e5qhhr2ygr" path="res://data/tokens_data/combinables/gates/3_tori.tres" id="12_cfifl"]
-[ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass/0_grass.tres" id="13_lb4re"]
-[ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/grass/1_bush.tres" id="14_uy2si"]
-[ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="15_kb67m"]
-[ext_resource type="Resource" uid="uid://beq8q81br8883" path="res://data/tokens_data/combinables/grass/3_big_tree.tres" id="16_1614i"]
-[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="17_2vhgu"]
-[ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="18_xcmaa"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_giy4g"]
 animations = [{
@@ -35,6 +23,9 @@ animations = [{
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_on5jj")
 
+[node name="AllTokensData" type="Node" parent="."]
+script = ExtResource("2_pd3tv")
+
 [node name="GhostTokenHolder" type="Node2D" parent="."]
 
 [node name="Shadow" type="Sprite2D" parent="."]
@@ -49,10 +40,10 @@ sprite_frames = SubResource("SpriteFrames_giy4g")
 [node name="Simbol" type="Sprite2D" parent="Sprite"]
 texture = ExtResource("4_bfho8")
 
-[node name="ActionWildcard" type="Node" parent="." node_paths=PackedStringArray("combinator", "ghost_token_holder")]
+[node name="ActionWildcard" type="Node" parent="." node_paths=PackedStringArray("combinator", "all_tokens_data", "ghost_token_holder")]
 script = ExtResource("5_c1o4k")
 combinator = NodePath("../Combinator")
-tokens_data = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_tier2"), ExtResource("7_2dcj7"), ExtResource("8_i7uuw"), ExtResource("9_pefnw"), ExtResource("10_4etno"), ExtResource("11_sko1m"), ExtResource("12_cfifl"), ExtResource("13_lb4re"), ExtResource("14_uy2si"), ExtResource("15_kb67m"), ExtResource("16_1614i"), ExtResource("17_2vhgu"), ExtResource("18_xcmaa")])
+all_tokens_data = NodePath("../AllTokensData")
 ghost_token_holder = NodePath("../GhostTokenHolder")
 
 [node name="Combinator" type="Node" parent="."]

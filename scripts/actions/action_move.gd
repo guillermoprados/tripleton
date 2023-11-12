@@ -6,7 +6,7 @@ func get_type() -> Constants.ActionType:
 	return Constants.ActionType.MOVE
 
 func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
-	var result:Constants.ActionResult = Constants.ActionResult.NOT_VALID
+	var result:Constants.ActionResult = Constants.ActionResult.INVALID
 	
 	if cell_tokens_ids[action_cell.x][action_cell.y] != Constants.EMPTY_CELL:
 		if affected_cells(action_cell, cell_tokens_ids).size() > 0:

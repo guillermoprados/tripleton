@@ -14,7 +14,7 @@ var __token:Token:
 		
 func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	assert(false, "this is must be implemented in child")
-	return Constants.ActionResult.NOT_VALID
+	return Constants.ActionResult.INVALID
 	
 func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector2]:
 	assert(false, "this is must be implemented in child")
