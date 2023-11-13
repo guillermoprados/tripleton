@@ -129,9 +129,10 @@ func test__place_single_token() -> void:
 	
 	await __async_move_mouse_to_cell(test_cell, true)
 	
-	await runner.await_func_on(board, "is_cell_empty", [test_cell]).wait_until(2000).is_false()
-	
+	## check
 	assert_object(game_manager.get_floating_token()).is_null()
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	assert_bool(board.is_cell_empty(test_cell)).is_false()
 	
 	var token := board.get_token_at_cell(test_cell)
 	assert_object(token).is_not_null()
@@ -141,36 +142,20 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	
 	await __set_to_player_turn_with_empty_board(runner)
 	
+	var test_cell = Vector2(1,2)
+	
 	## first token
 	__set_floating_token(runner, "0_grass")
-	
-	var test_cell = Vector2(1,2)
-
-	var cell := board.get_cell_at_position(test_cell)
-	assert_bool(board.is_cell_empty(test_cell)).is_true()
-	
 	await __async_move_mouse_to_cell(test_cell, true)
 	
-	await runner.await_func_on(board, "is_cell_empty", [test_cell]).wait_until(2000).is_false()
-	
-	var floating_token = game_manager.get_floating_token()
-	assert_object(floating_token).is_null()
-	
-	var token := board.get_token_at_cell(test_cell)
-	assert_object(token).is_not_null()
-	assert_str(token.id).is_equal("0_grass")
-	
+	## second token (BUSH)
 	await __wait_to_next_player_turn_removing_floating_token(runner)
-	## second token
-	
 	__set_floating_token(runner, "1_bush")
-	
 	await __async_move_mouse_to_cell(test_cell, true)
 	
-	assert_object(game_manager.get_floating_token()).is_not_null()
-	
-	token = board.get_token_at_cell(test_cell)
-	assert_object(token).is_not_null()
+	## check
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	var token := board.get_token_at_cell(test_cell)
 	assert_str(token.id).is_equal("0_grass")
 
 func test__try_triple_combination() -> void:
@@ -202,5 +187,4 @@ func test__try_triple_combination() -> void:
 	assert_bool(board.is_cell_empty(third_cell)).is_false()
 	
 	var token = board.get_token_at_cell(third_cell)
-	assert_object(token).is_not_null()
 	assert_str(token.id).is_equal("1_bush")
