@@ -87,7 +87,7 @@ func create_floating_token(token_data:TokenData) -> BoardToken:
 	
 	__create_ghost_token(token_data)
 	
-	spawn_token_cell.highlight(Constants.CellHighlight.VALID)
+	spawn_token_cell.set_highlight(Constants.CellHighlight.VALID)
 	
 	return floating_token
 	

@@ -16,9 +16,9 @@ var board_cell_position:Vector2
 @export var highlight_combination : Color = Color(0.5, 0.5, 1, 1)
 
 var __highlight : Constants.CellHighlight
-func get_highlight() -> Constants.CellHighlight:
-	print("Hello")
-	return __highlight
+var highlight: Constants.CellHighlight:
+	get:
+		return __highlight
 
 var __is_mobile:bool
 var __pressed_at:float
@@ -60,12 +60,9 @@ func __process_mobile_events(event:InputEvent) -> void:
 					cell_selected.emit(board_cell_position)
 			
 func clear_highlight() -> void:
-	highlight(Constants.CellHighlight.NONE)
+	set_highlight(Constants.CellHighlight.NONE)
 	
-func highlight(mode: Constants.CellHighlight) -> void:
-	if __highlight == mode:
-		return
-		
+func set_highlight(mode: Constants.CellHighlight) -> void:
 	__highlight = mode
 	match mode:
 		Constants.CellHighlight.NONE:

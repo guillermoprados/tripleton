@@ -225,15 +225,15 @@ func clear_highlights() -> void:
 			token.set_status(Constants.TokenStatus.PLACED)
 			
 func highligh_cell(cell_index: Vector2, mode:Constants.CellHighlight) -> void:
-	get_cell_at_position(cell_index).highlight(mode)
+	get_cell_at_position(cell_index).set_highlight(mode)
 
 func highlight_cells(cells:Array[Vector2], mode:Constants.CellHighlight) -> void:
 	for cell_index in cells:
-		get_cell_at_position(cell_index).highlight(mode)
+		get_cell_at_position(cell_index).set_highlight(mode)
 		
 func highlight_combination(initial_cell:Vector2, combination:Combination) -> void:
 	for cell_index in combination.combinable_cells:
-		get_cell_at_position(cell_index).highlight(Constants.CellHighlight.COMBINATION)
+		get_cell_at_position(cell_index).set_highlight(Constants.CellHighlight.COMBINATION)
 		
 		if placed_tokens.has(cell_index):
 			var difference_pos: Vector2 = Vector2.ZERO
