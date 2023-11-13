@@ -121,7 +121,7 @@ func __highlight_last_in_groups(simplified_board:Array) -> void:
 	for group in groups:
 		if group.size() > Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION - 1:
 			var last_enemy : BoardToken = __find_last_created(group)
-			last_enemy.highlight(Constants.TokenHighlight.LAST) 
+			last_enemy.set_highlight(Constants.TokenHighlight.LAST) 
 
 enum PathCellType {
 	PATH,

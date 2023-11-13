@@ -142,7 +142,7 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 			
 	else:
 		
-		floating_token.highlight(Constants.TokenHighlight.INVALID)
+		floating_token.set_highlight(Constants.TokenHighlight.INVALID)
 		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 	
 func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2):
@@ -163,14 +163,14 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 				board.highlight_cells(action_cells, Constants.CellHighlight.WARNING)
 			
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-			floating_token.highlight(Constants.TokenHighlight.VALID_ACTION)
+			floating_token.set_highlight(Constants.TokenHighlight.VALID_ACTION)
 			
 		Constants.ActionResult.INVALID:
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
-			floating_token.highlight(Constants.TokenHighlight.NONE)
+			floating_token.set_highlight(Constants.TokenHighlight.NONE)
 		Constants.ActionResult.WASTED:
 			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
-			floating_token.highlight(Constants.TokenHighlight.NONE)
+			floating_token.set_highlight(Constants.TokenHighlight.NONE)
 		
 		
 func move_floating_token_to_swap_cell() -> void:
