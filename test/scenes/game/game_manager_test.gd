@@ -31,7 +31,6 @@ func __wait_to_next_player_turn_removing_floating_token(runner:GdUnitSceneRunner
 	game_manager.discard_floating_token()
 	
 func __set_floating_token(runner:GdUnitSceneRunner, token_id:String) -> BoardToken:
-	__all_token_data = auto_free(AllTokensData.new())
 	var token_data := __all_token_data.get_token_data_by_id(token_id)
 	var game_manager:GameManager = runner.find_child("GameManager") as GameManager
 	
@@ -82,7 +81,7 @@ func before_test():
 	assert_object(state_machine).is_not_null()
 	board = runner.find_child("Board") as Board
 	assert_object(board).is_not_null()
-	
+	__all_token_data = auto_free(AllTokensData.new())
 	
 func after_test():
 	runner = null
@@ -138,6 +137,8 @@ func test__place_single_token() -> void:
 	assert_object(token).is_not_null()
 	assert_str(token.id).is_equal("0_grass")
 	
+	assert_int(game_manager.points).is_equal(0)
+	
 func test__try_to_place_token_in_occupied_slot() -> void:
 	
 	await __set_to_player_turn_with_empty_board(runner)
@@ -157,10 +158,13 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	await __wait_to_next_player_turn_removing_floating_token(runner)
 	var token := board.get_token_at_cell(test_cell)
 	assert_str(token.id).is_equal("0_grass")
-
-func test__try_triple_combination() -> void:
+	assert_int(game_manager.points).is_equal(0)
+	
+func test__try_single_level_combination() -> void:
 	
 	await __set_to_player_turn_with_empty_board(runner)
+	
+	var grass_points : int = __all_token_data.get_token_data_by_id("0_grass").reward_value
 	
 	## first token
 	await __wait_to_next_player_turn_removing_floating_token(runner)
@@ -188,3 +192,55 @@ func test__try_triple_combination() -> void:
 	
 	var token = board.get_token_at_cell(third_cell)
 	assert_str(token.id).is_equal("1_bush")
+	assert_int(game_manager.points).is_not_zero()
+	assert_int(game_manager.points).is_equal(grass_points * 3)
+
+func test__try_multi_level_combination() -> void:
+	
+	await __set_to_player_turn_with_empty_board(runner)
+	
+	var grass_points : int = __all_token_data.get_token_data_by_id("0_grass").reward_value
+	var bush_points : int = __all_token_data.get_token_data_by_id("1_bush").reward_value
+	
+	## grass level
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	var cell_1 = Vector2(0,0)
+	__set_floating_token(runner, "0_grass")
+	await __async_move_mouse_to_cell(cell_1, true)
+	
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	var cell_2 = Vector2(0,1)
+	__set_floating_token(runner, "0_grass")
+	await __async_move_mouse_to_cell(cell_2, true)
+	
+	## bush level
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	var cell_3 = Vector2(1,0)
+	__set_floating_token(runner, "1_bush")
+	await __async_move_mouse_to_cell(cell_3, true)
+	
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	var cell_4 = Vector2(2,0)
+	__set_floating_token(runner, "1_bush")
+	await __async_move_mouse_to_cell(cell_4, true)
+	
+	## add grass
+	var cell_5 := Vector2(1,1)
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	__set_floating_token(runner, "0_grass")
+	await __async_move_mouse_to_cell(cell_5, true)
+	
+	## check
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	assert_bool(board.is_cell_empty(cell_1)).is_true()
+	assert_bool(board.is_cell_empty(cell_2)).is_true()
+	assert_bool(board.is_cell_empty(cell_3)).is_true()
+	assert_bool(board.is_cell_empty(cell_4)).is_true()
+	assert_bool(board.is_cell_empty(cell_5)).is_false()
+
+	var token = board.get_token_at_cell(cell_5)
+	assert_str(token.id).is_equal("2_tree")
+	
+	var expected_points = (grass_points * 3) + (bush_points * 3)
+	assert_int(game_manager.points).is_not_zero()
+	assert_int(game_manager.points).is_equal(expected_points)
