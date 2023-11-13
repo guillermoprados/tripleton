@@ -24,6 +24,7 @@ func __set_to_player_turn_with_empty_board(runner:GdUnitSceneRunner) -> void:
 	board.configure()
 	
 func __wait_to_next_player_turn_removing_floating_token(runner:GdUnitSceneRunner):
+	await await_idle_frame()
 	await __ascync_await_for_enum(state_machine, "current_state", Constants.PlayingState.PLAYER, enum_is_equal, 2)
 	await await_idle_frame()
 	assert_object(game_manager.get_floating_token()).is_not_null()
@@ -40,17 +41,22 @@ func __set_floating_token(runner:GdUnitSceneRunner, token_id:String) -> BoardTok
 
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	
-	var cell := board.get_cell_at_position(cell_index)
-	
-	runner.set_mouse_pos(board.position) 
+	runner.simulate_mouse_move(board.position) 
 	await await_idle_frame()
+	
+	while runner.get_mouse_position() != board.position:
+		await await_idle_frame()
 	
 	var cell_pos = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y) + Constants.CELL_SIZE/2 
 	
 	runner.simulate_mouse_move(cell_pos) 
 	await await_idle_frame()
 	
+	while runner.get_mouse_position() != cell_pos:
+		await await_idle_frame()
+	
 	if click:
+		var cell := board.get_cell_at_position(cell_index)
 		cell.__just_for_test_click_cell()
 		await await_idle_frame()
 	
@@ -62,6 +68,11 @@ func __ascync_await_for_enum(obj:Object, prop_name:String, value:Variant, compar
 			return true
 		await await_idle_frame()
 	return false
+	
+func __ascync_await_for_time_helper(time:float) -> void:
+	var init_time := Time.get_unix_time_from_system()
+	while (Time.get_unix_time_from_system() - init_time < time):
+		await await_idle_frame()
 	
 func before_test():
 	runner = scene_runner(__source)
@@ -149,8 +160,8 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	assert_object(token).is_not_null()
 	assert_str(token.id).is_equal("0_grass")
 	
-	## second token
 	await __wait_to_next_player_turn_removing_floating_token(runner)
+	## second token
 	
 	__set_floating_token(runner, "1_bush")
 	
@@ -161,3 +172,35 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	token = board.get_token_at_cell(test_cell)
 	assert_object(token).is_not_null()
 	assert_str(token.id).is_equal("0_grass")
+
+func test__try_triple_combination() -> void:
+	
+	await __set_to_player_turn_with_empty_board(runner)
+	
+	## first token
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	__set_floating_token(runner, "0_grass")
+	var first_cell = Vector2(0,0)
+	await __async_move_mouse_to_cell(first_cell, true)
+	
+	## second token
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	__set_floating_token(runner, "0_grass")
+	var second_cell = Vector2(0,1)
+	await __async_move_mouse_to_cell(second_cell, true)
+	
+	## third token
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	__set_floating_token(runner, "0_grass")
+	var third_cell = Vector2(0,2)
+	await __async_move_mouse_to_cell(third_cell, true)
+	
+	## check
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	assert_bool(board.is_cell_empty(first_cell)).is_true()
+	assert_bool(board.is_cell_empty(second_cell)).is_true()
+	assert_bool(board.is_cell_empty(third_cell)).is_false()
+	
+	var token = board.get_token_at_cell(third_cell)
+	assert_object(token).is_not_null()
+	assert_str(token.id).is_equal("1_bush")
