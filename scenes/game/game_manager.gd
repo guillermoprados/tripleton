@@ -27,7 +27,11 @@ var current_tokens_set: TokensSet:
 		return current_dinasty.tokens
 var dinasties_names:Array
 		
-var floating_token: BoardToken
+var floating_token: BoardToken = null
+
+func get_floating_token() -> BoardToken:
+	return floating_token
+
 var ghost_token: BoardToken
 var saved_token: BoardToken
 
@@ -71,7 +75,7 @@ func __add_dinasty_points(points:int) -> void:
 		var overflow : int = current_dinasty.earned_points - current_dinasty.total_points
 		__go_to_next_dinasty(overflow)
 		
-func create_floating_token(token_data:TokenData) -> void:
+func create_floating_token(token_data:TokenData) -> BoardToken:
 	assert (!floating_token, "trying to create a floating token when there is already one")
 	if not token_data:
 		token_data = current_tokens_set.get_random_token_data()
@@ -85,6 +89,8 @@ func create_floating_token(token_data:TokenData) -> void:
 	
 	spawn_token_cell.highlight(Constants.CellHighlight.VALID)
 	
+	return floating_token
+	
 func __create_ghost_token(token_data:TokenData):
 	ghost_token = instantiate_new_token(token_data, Constants.TokenStatus.GHOST_BOX)
 	add_child(ghost_token)
@@ -93,7 +99,7 @@ func __create_ghost_token(token_data:TokenData):
 	
 	
 func discard_floating_token() -> void:
-	assert (floating_token, "trying to discard a non existing token token when there is already one")
+	assert (floating_token, "trying to discard a non existing token")
 	remove_child(floating_token)
 	floating_token.queue_free()
 	floating_token = null

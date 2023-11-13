@@ -27,6 +27,9 @@ func _ready() -> void:
 	#probably move this
 	__is_mobile = OS.get_name() == "Android" or OS.get_name() == "iOS"
 	$HighLightColor.modulate = highlihgt_none
+
+func __just_for_test_click_cell() -> void:
+	cell_selected.emit(board_cell_position)
 	
 func _on_mouse_entered() -> void:
 	__pressed_at = Time.get_unix_time_from_system()
