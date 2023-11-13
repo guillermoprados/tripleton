@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://gbg1fq05vnj5"]
 
-[ext_resource type="Script" path="res://scenes/objects/token.gd" id="1_1b322"]
+[ext_resource type="Script" path="res://scenes/objects/board_token.gd" id="1_1b322"]
 [ext_resource type="Script" path="res://scripts/misc/token_tweener.gd" id="2_ani57"]
 
 [node name="Token" type="Node2D" node_paths=PackedStringArray("tweener")]

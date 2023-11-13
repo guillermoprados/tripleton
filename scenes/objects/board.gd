@@ -73,7 +73,7 @@ func __clear_floor_matrix():
 		floor_matrix.append(row_values)
 		
 # Set the token for a specific cell
-func set_token_at_cell(token:Token, cell_index: Vector2) -> void:
+func set_token_at_cell(token:BoardToken, cell_index: Vector2) -> void:
 	
 	assert(cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL, "there is a token already here!" + str(cell_index))
 	
@@ -95,7 +95,7 @@ func __update_floor_tiles(on_cells:Array[Vector2]) -> void:
 	for cell_index in on_cells:
 		var floor_type:Constants.FloorType = DEFAULT_FLOOR
 		if placed_tokens.has(cell_index):
-			var token:Token = placed_tokens[cell_index]
+			var token:BoardToken = placed_tokens[cell_index]
 			floor_type = token.floor_type
 		if floor_matrix[cell_index.x][cell_index.y] != floor_type:
 			floor_matrix[cell_index.x][cell_index.y] = floor_type
@@ -112,7 +112,7 @@ func clear_token(cell_index: Vector2) -> void:
 	
 	# Remove the token instance from the scene if it exists in the dictionary
 	if placed_tokens.has(cell_index):
-		var token:Token = placed_tokens[cell_index]
+		var token:BoardToken = placed_tokens[cell_index]
 		token.queue_free()  # Safely remove the token from the scene
 		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
 		
@@ -171,7 +171,7 @@ func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_ti
 	
 	__update_floor_tiles([cell_index_from, cell_index_to])
 	
-func get_token_at_cell(cell_index: Vector2) -> Token:
+func get_token_at_cell(cell_index: Vector2) -> BoardToken:
 	return placed_tokens[cell_index]
 
 func get_empty_cells() -> Array[Vector2i]:
@@ -220,7 +220,7 @@ func clear_highlights() -> void:
 		for cell in row:
 			cell.clear_highlight()
 	for token_pos in placed_tokens.keys():
-		var token: Token = placed_tokens[token_pos]
+		var token: BoardToken = placed_tokens[token_pos]
 		if token.is_in_range:
 			token.set_status(Constants.TokenStatus.PLACED)
 			
@@ -238,7 +238,7 @@ func highlight_combination(initial_cell:Vector2, combination:Combination) -> voi
 		if placed_tokens.has(cell_index):
 			var difference_pos: Vector2 = Vector2.ZERO
 			difference_pos = (initial_cell - cell_index) * Constants.CELL_SIZE
-			var token : Token = placed_tokens[cell_index]
+			var token : BoardToken = placed_tokens[cell_index]
 			token.set_in_range(difference_pos)
 
 

@@ -35,12 +35,12 @@ func _on_state_exited() -> void:
 		__unbind_enemy_actions(enemies[key])
 	enemies = {}
 
-func __bind_enemy_actions(token:Token) -> void:
+func __bind_enemy_actions(token:BoardToken) -> void:
 	token.behavior.behaviour_finished.connect(self._on_enemy_behaviour_finished)
 	token.behavior.move_from_cell_to_cell.connect(self._on_enemy_movement)
 	token.behavior.stuck_in_cell.connect(self._on_stucked_enemy)
 
-func __unbind_enemy_actions(token:Token) -> void:
+func __unbind_enemy_actions(token:BoardToken) -> void:
 	token.behavior.behaviour_finished.disconnect(self._on_enemy_behaviour_finished)
 	token.behavior.move_from_cell_to_cell.disconnect(self._on_enemy_movement)
 	token.behavior.stuck_in_cell.disconnect(self._on_stucked_enemy)
@@ -98,7 +98,7 @@ func __check_dead_enemies(simplified_board:Array) -> bool:
 	
 	for cell_index in stucked_enemies:
 		if not __can_reach_empty_cell(cell_index, simplified_board):
-			var enemy_token:Token = board.get_token_at_cell(cell_index)
+			var enemy_token:BoardToken = board.get_token_at_cell(cell_index)
 			var should_kill_enemy : bool = false
 			# jumping enemies are not considered here, since they always can reach empty cells
 			if (enemy_token.data as TokenEnemyData).enemy_type == Constants.EnemyType.MOLE:
@@ -120,7 +120,7 @@ func __highlight_last_in_groups(simplified_board:Array) -> void:
 	
 	for group in groups:
 		if group.size() > Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION - 1:
-			var last_enemy : Token = __find_last_created(group)
+			var last_enemy : BoardToken = __find_last_created(group)
 			last_enemy.highlight(Constants.TokenHighlight.LAST) 
 
 enum PathCellType {
@@ -239,11 +239,11 @@ func __fill_group(i: int, j: int, board: Array, visited: Array, current_group: A
 	__fill_group(i, j-1, board, visited, current_group)
 	__fill_group(i, j+1, board, visited, current_group)
 
-func __find_last_created(group:Array) -> Token:
+func __find_last_created(group:Array) -> BoardToken:
 	assert(group.size() > 0, "groups info should be bigger than 0")
-	var last_created_token: Token = board.get_token_at_cell(group[0])
+	var last_created_token: BoardToken = board.get_token_at_cell(group[0])
 	for pos in group:
-		var other_token: Token = board.get_token_at_cell(pos)
+		var other_token: BoardToken = board.get_token_at_cell(pos)
 		if other_token.created_at > last_created_token.created_at:
 			last_created_token = other_token
 	return last_created_token

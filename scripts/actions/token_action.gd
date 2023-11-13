@@ -6,10 +6,10 @@ func get_type() -> Constants.ActionType:
 	assert(false, "this is must be implemented in child")
 	return Constants.ActionType.NONE
 		
-var __token:Token:
+var __token:BoardToken:
 	get:
 		var token = get_parent().get_parent()
-		assert(token is Token, "the action is not configured properly")
+		assert(token is BoardToken, "the action is not configured properly")
 		return token
 		
 func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:

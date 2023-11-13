@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name Token
+class_name BoardToken
 
 @export var color_border_invalid : Color = Color(1, 0.5, 0.5, 1)
 @export var color_border_valid_action : Color = Color(1, 0.5, 0.5, 1)

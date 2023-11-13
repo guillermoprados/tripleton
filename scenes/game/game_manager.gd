@@ -27,9 +27,9 @@ var current_tokens_set: TokensSet:
 		return current_dinasty.tokens
 var dinasties_names:Array
 		
-var floating_token: Token
-var ghost_token: Token
-var saved_token: Token
+var floating_token: BoardToken
+var ghost_token: BoardToken
+var saved_token: BoardToken
 
 var points: int
 var gold: int
@@ -51,8 +51,8 @@ func __go_to_next_dinasty(overflow:int) -> void:
 	board.change_back_texture(current_dinasty.map_texture)
 	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points)
 
-func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> Token:
-	var token_instance: Token = token_scene.instantiate() as Token
+func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
+	var token_instance: BoardToken = token_scene.instantiate() as BoardToken
 	token_instance.set_data(token_data, initial_status)
 	return token_instance
 
@@ -151,7 +151,7 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			if floating_token.is_wildcard:
 				var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
 				board.highlight_combination(cell_index, wildcard_action.get_wildcard_combination())
-				var to_place_token : Token = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+				var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
 				wildcard_action.set_ghost_token(to_place_token)
 			else:
 				board.highlight_cells(action_cells, Constants.CellHighlight.WARNING)
@@ -181,7 +181,7 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	
 	if saved_token:
 		var floating_pos:Vector2 = floating_token.position
-		var switch_token:Token = floating_token
+		var switch_token:BoardToken = floating_token
 		floating_token = saved_token
 		saved_token = switch_token
 		floating_token.position = floating_pos
@@ -210,7 +210,7 @@ func try_to_place_floating_token(cell_index:Vector2) -> void:
 	elif board.is_cell_empty(cell_index):
 		__place_floating_token_at(cell_index)
 	else:
-		var cell_token:Token = board.get_token_at_cell(cell_index)
+		var cell_token:BoardToken = board.get_token_at_cell(cell_index)
 		if cell_token.type == Constants.TokenType.CHEST:
 			__open_chest(cell_token, cell_index)
 		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
@@ -239,7 +239,7 @@ func __place_floating_token_at(cell_index: Vector2) -> void:
 	
 	discard_floating_token()
 	
-func __place_token_on_board(token:Token, cell_index: Vector2) -> void:
+func __place_token_on_board(token:BoardToken, cell_index: Vector2) -> void:
 	
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
@@ -249,7 +249,7 @@ func __place_token_on_board(token:Token, cell_index: Vector2) -> void:
 	check_and_do_board_combinations([cell_index], Constants.MergeType.BY_INITIAL_CELL)
 
 # replace SHOULD NOT check combinations!! if you need to check after replace, call it manually
-func __replace_token_on_board(token:Token, cell_index:Vector2) -> void:
+func __replace_token_on_board(token:BoardToken, cell_index:Vector2) -> void:
 	
 	# it's important to keep the time, because when merging graves it merges to the last one
 	var old_token_date:float = board.get_token_at_cell(cell_index).created_at
@@ -267,7 +267,7 @@ func set_bad_token_on_board(cell_index:Vector2) -> void:
 		__replace_token_on_board(bad_token, cell_index)
 
 func __get_replace_wildcard_token_data(cell_index:Vector2) -> TokenData:
-	var replace_token : Token = null
+	var replace_token : BoardToken = null
 	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
 	if combination.is_valid():
 		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
@@ -289,7 +289,7 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 		if cell_index in merged_cells:
 			continue
 			
-		var token:Token = board.get_token_at_cell(cell_index)
+		var token:BoardToken = board.get_token_at_cell(cell_index)
 		var combination:Combination = check_combination_single_level(token, cell_index)
 		if combination.is_valid():
 			var merge_position:Vector2
@@ -299,7 +299,7 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 				merge_position = combination.initial_cell()
 			
 			merged_cells.append_array(combination.combinable_cells)
-			var combined_token:Token = combine_tokens(combination)
+			var combined_token:BoardToken = combine_tokens(combination)
 			
 			__place_token_on_board(combined_token, merge_position)
 			
@@ -324,16 +324,16 @@ func __get_last_created_token_position(cells: Array) -> Vector2:
 	return last_created_position
 
 		
-func check_combination_all_levels(token:Token, cell_index:Vector2) -> Combination:
+func check_combination_all_levels(token:BoardToken, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, true)
 
-func check_combination_single_level(token:Token, cell_index:Vector2) -> Combination:
+func check_combination_single_level(token:BoardToken, cell_index:Vector2) -> Combination:
 	return combinator.search_combinations_for_cell(token.data, cell_index, board.cell_tokens_ids, false)
 
 # move to board
-func combine_tokens(combination: Combination) -> Token:
+func combine_tokens(combination: Combination) -> BoardToken:
 	
-	var initial_token:Token = board.get_token_at_cell(combination.initial_cell())
+	var initial_token:BoardToken = board.get_token_at_cell(combination.initial_cell())
 	var initial_token_data:TokenCombinableData = initial_token.data
 	
 	var next_token_data:TokenCombinableData = initial_token_data.next_token
@@ -344,12 +344,12 @@ func combine_tokens(combination: Combination) -> Token:
 	if next_token_data.available_from_dinasty > dinasty_index:
 		next_token_data = default_chest
 		
-	var combined_token : Token = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
+	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
 
 	var awarded_points:int = 0	
 	
 	for cell_index in combination.combinable_cells:
-		var token:Token = board.get_token_at_cell(cell_index)
+		var token:BoardToken = board.get_token_at_cell(cell_index)
 		if token.data.reward_type == Constants.RewardType.GOLD:
 			assert("Please do not reward with gold in combinations")
 			# awarded_gold += token.data.reward_value
@@ -371,7 +371,7 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 	else:
 		assert( false, "what are you trying to add??")	
 	
-func __open_chest(token:Token, cell_index: Vector2) -> void:
+func __open_chest(token:BoardToken, cell_index: Vector2) -> void:
 	#move the floating token back
 	floating_token.position = spawn_token_cell.position
 	
@@ -381,10 +381,10 @@ func __open_chest(token:Token, cell_index: Vector2) -> void:
 	#remove the chest
 	var chest_data: TokenChestData = token.data
 	var prize_data:TokenPrizeData = chest_data.get_random_prize()
-	var prize_instance:Token = instantiate_new_token(prize_data, Constants.TokenStatus.PLACED)
+	var prize_instance:BoardToken = instantiate_new_token(prize_data, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(prize_instance, cell_index)
 	
-func __collect_reward(token:Token, cell_index: Vector2) -> void:
+func __collect_reward(token:BoardToken, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data
 	show_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	sum_rewards(prize_data.reward_type, prize_data.reward_value)
@@ -402,9 +402,9 @@ func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_t
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time, tween_delay)
 
 func set_dead_enemy(cell_index:Vector2) -> void:
-	var enemy_token: Token = board.get_token_at_cell(cell_index)
+	var enemy_token: BoardToken = board.get_token_at_cell(cell_index)
 	var next_token_data: TokenData = enemy_token.data.next_token
-	var grave_token:Token = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
+	var grave_token:BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(grave_token, cell_index)
 
 func can_place_more_tokens() -> bool:
@@ -429,7 +429,7 @@ func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2)
 			__level_up_cell_action(cell_index)
 
 func __bomb_cell_action(cell_index:Vector2) -> void:
-	var token:Token = board.get_token_at_cell(cell_index)
+	var token:BoardToken = board.get_token_at_cell(cell_index)
 	assert(token, "There is no token to bomb here")
 	
 	var pos:Vector2 = token.position + token.sprite_holder.position
@@ -445,13 +445,13 @@ func __bomb_cell_action(cell_index:Vector2) -> void:
 	discard_floating_token()
 
 func __level_up_cell_action(cell_index:Vector2) -> void:
-	var token:Token = board.get_token_at_cell(cell_index)
+	var token:BoardToken = board.get_token_at_cell(cell_index)
 	assert(token.data is TokenCombinableData, "This token type cannot be leveled")
 	var token_data: TokenCombinableData = token.data as TokenCombinableData
 	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
 	
 	board.clear_token(cell_index)
-	var to_place_token : Token = instantiate_new_token(token_data.next_token, Constants.TokenStatus.PLACED)
+	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token, Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
 	try_to_place_floating_token(cell_index)
@@ -495,7 +495,7 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	
 func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
-	var to_place_token : Token = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+	var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
 	try_to_place_floating_token(cell_index)

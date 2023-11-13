@@ -9,7 +9,7 @@ class_name ActionWildcard
 var __combinator_configured: bool = false
 var __last_position_evaluated: Vector2 = Constants.INVALID_CELL
 var __to_place_token_data: TokenData
-var __to_place_token:Token
+var __to_place_token:BoardToken
 
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.WILDCARD
@@ -17,7 +17,7 @@ func get_type() -> Constants.ActionType:
 func get_to_place_token_data() -> TokenData:
 	return __to_place_token_data
 
-func set_ghost_token(token:Token) -> void:
+func set_ghost_token(token:BoardToken) -> void:
 	__to_place_token = token
 	ghost_token_holder.add_child(token)
 	token.position = __token.sprite_holder.sprite_original_position
