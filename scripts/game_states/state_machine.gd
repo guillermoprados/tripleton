@@ -2,7 +2,6 @@ extends Node
 
 class_name StateMachine
 
-var current_state: Constants.PlayingState = Constants.PlayingState.NONE
 var states: Dictionary = {}
 var active_state: StateBase
 
@@ -10,8 +9,9 @@ var active_state: StateBase
 @export var board: Board
 @export var print_debug: bool = false
 
-func get_current_state() -> Constants.PlayingState:
-	return current_state
+var current_state:Constants.PlayingState:
+	get:
+		return active_state.id
 	
 func _ready() -> void:
 	assert(board, "please assign the board")

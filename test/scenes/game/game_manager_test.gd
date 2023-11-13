@@ -14,19 +14,15 @@ var state_machine: StateMachine
 var board: Board
 
 func __get_cell_center_position(cell:Vector2, board:Board) -> Vector2:
-	return board.position + Vector2(cell.x * Constants.CELL_SIZE.x, cell.y * Constants.CELL_SIZE.y) + Constants.CELL_SIZE/2 
+	return board.position + Vector2(cell.y * Constants.CELL_SIZE.x, cell.x * Constants.CELL_SIZE.y) + Constants.CELL_SIZE/2 
 
 func __set_to_player_turn_with_empty_board(runner:GdUnitSceneRunner) -> void:
-	
-	# sadly this does not seems to work
-	# runner.await_func_on(state_machine, "get_current_state").wait_until(5000).is_equal(Constants.PlayingState.PLAYER)
-	while (game_manager.get_floating_token() == null):
-		await await_idle_frame()
-		
-	board.configure()
+	await __wait_for_enum(state_machine, "current_state", Constants.PlayingState.PLAYER, 2)
+	await await_idle_frame()
 	
 	assert_object(game_manager.get_floating_token()).is_not_null()
 	game_manager.discard_floating_token()
+	board.configure()
 	
 func __set_floating_token(runner:GdUnitSceneRunner, token_id:String) -> BoardToken:
 	
@@ -44,6 +40,15 @@ func __click_on_cell(runner:GdUnitSceneRunner, cell:Vector2, board:Board) -> voi
 	board.get_cell_at_position(cell).__just_for_test_click_cell()
 	await await_idle_frame()
 
+func __wait_for_enum(obj:Object, prop_name:String, value:Variant, time:float) -> bool:
+	var init_time := Time.get_unix_time_from_system()
+	while (Time.get_unix_time_from_system() - init_time < time):
+		var current_value = obj.get(prop_name)
+		if  current_value== value:
+			return true
+		await await_idle_frame()
+	return false
+	
 func before_test():
 	runner = scene_runner(__source)
 	game_manager = runner.find_child("GameManager") as GameManager
@@ -70,22 +75,25 @@ func test__move_over_cells() -> void:
 	
 	__set_floating_token(runner, "0_grass")
 
-	var test_cell_in = Vector2(1,2)
+	var test_cell_in = Vector2(0,3)
 	var test_cell_out = Vector2(2,3)
 	
 	var cell := board.get_cell_at_position(test_cell_in)
-	runner.await_func_on(cell, "get_highlight").wait_until(100).is_equal(Constants.CellHighlight.NONE)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
 	
 	runner.simulate_mouse_move(__get_cell_center_position(test_cell_in, board)) 
 	await await_idle_frame()
-	runner.await_func_on(cell, "get_highlight").wait_until(100).is_equal(Constants.CellHighlight.VALID)
+	
+	await __wait_for_enum(cell, "highlight", Constants.CellHighlight.VALID, 5)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
 	
 	runner.simulate_mouse_move(__get_cell_center_position(test_cell_out, board)) 
-	await await_idle_frame()
-	runner.await_func_on(cell, "get_highlight").wait_until(1000).is_equal(Constants.CellHighlight.NONE)
+	await __wait_for_enum(cell, "highlight", Constants.CellHighlight.NONE, 5)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
 	
 	
 func test__place_single_token() -> void:
+	
 	await __set_to_player_turn_with_empty_board(runner)
 	
 	__set_floating_token(runner, "0_grass")
@@ -97,7 +105,9 @@ func test__place_single_token() -> void:
 	
 	await __click_on_cell(runner, test_cell, board)
 	
-	runner.await_func_on(board, "is_cell_empty", [test_cell]).wait_until(2000).is_false()
+	await runner.await_func_on(board, "is_cell_empty", [test_cell]).wait_until(2000).is_false()
+	
+	assert_object(game_manager.get_floating_token()).is_null()
 	
 	var token := board.get_token_at_cell(test_cell)
 	assert_object(token).is_not_null()
