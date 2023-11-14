@@ -24,7 +24,7 @@ var current_status : Constants.TokenStatus:
 var __highlight : Constants.TokenHighlight 
 var highlight : Constants.TokenHighlight:
 	get:
-		return highlight
+		return __highlight
 
 var _set_data_status: Constants.TokenStatus
 

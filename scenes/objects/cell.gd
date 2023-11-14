@@ -46,7 +46,7 @@ func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void
 		# Check if it's a left mouse button click (button_index 1) if needed
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			cell_selected.emit(board_cell_position)
-
+			
 func __process_mobile_events(event:InputEvent) -> void:
 	
 	if event is InputEventScreenTouch:
