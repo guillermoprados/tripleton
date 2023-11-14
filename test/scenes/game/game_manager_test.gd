@@ -65,7 +65,6 @@ func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	if click:
 		var cell := board.get_cell_at_position(cell_index)
 		cell.__just_for_test_click_cell()
-		await await_idle_frame()
 	
 func __ascync_await_for_enum(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
