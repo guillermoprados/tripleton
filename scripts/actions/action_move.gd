@@ -17,7 +17,7 @@ func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Const
 	return result 
 
 func __is_cell_suitable_to_move(to_move_cell:Vector2, cell_tokens_ids: Array):
-	return __is_valid_cell(to_move_cell, cell_tokens_ids) and cell_tokens_ids[to_move_cell.x][to_move_cell.y] == Constants.EMPTY_CELL
+	return Utils.is_valid_cell(to_move_cell, cell_tokens_ids) and cell_tokens_ids[to_move_cell.x][to_move_cell.y] == Constants.EMPTY_CELL
 		
 func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector2]:
 	var cells:Array[Vector2] = []

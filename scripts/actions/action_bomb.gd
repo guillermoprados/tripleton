@@ -28,7 +28,7 @@ func affected_cells(current_cell:Vector2, cell_tokens_ids: Array) -> Array[Vecto
 	var cells : Array[Vector2] = []
 	
 	for surrounding_cell in __surrounding_cells(current_cell):
-		if __is_valid_cell(surrounding_cell, cell_tokens_ids):
+		if Utils.is_valid_cell(surrounding_cell, cell_tokens_ids):
 			cells.append(surrounding_cell)
 	
 	cells.append(current_cell)

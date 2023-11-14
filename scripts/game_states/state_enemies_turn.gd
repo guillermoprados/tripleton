@@ -26,7 +26,7 @@ func _on_state_entered() -> void:
 		enemies[key].unhighlight()
 		number_of_pending_actions += 1
 		__bind_enemy_actions(enemies[key])
-		enemies[key].behavior.execute_behavior(key, board.cell_tokens_ids)
+		enemies[key].behavior.execute(key, board.cell_tokens_ids)
 		
 # override in states
 func _on_state_exited() -> void:

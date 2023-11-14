@@ -24,11 +24,11 @@ func test__move_over_cells() -> void:
 	
 	await __async_move_mouse_to_cell(test_cell_in, false)
 	
-	await __ascync_await_for_enum(cell, "highlight", Constants.CellHighlight.VALID, enum_is_equal, 5)
+	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.VALID, enum_is_equal, 5)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
 	
 	await __async_move_mouse_to_cell(test_cell_out, false)
-	await __ascync_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 5)
+	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 5)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
 	
 func test__place_single_token() -> void:
