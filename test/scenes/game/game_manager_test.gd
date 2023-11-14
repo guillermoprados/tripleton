@@ -13,6 +13,11 @@ var game_manager: GameManager
 var state_machine: StateMachine
 var board: Board
 
+var ID_GRASS = '0_grass'
+var ID_BUSH = '1_bush'
+var ID_TREE = '2_tree'
+var ID_MONOKELO = 'Monokelo'
+
 func enum_is_equal(current:Variant, expected:Variant) -> bool:
 	return current == expected
 	
