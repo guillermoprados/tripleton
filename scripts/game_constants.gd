@@ -73,9 +73,10 @@ enum FloorType {
 
 enum PlayingState {
 	NONE,
-	INTRO,
-	PLAYER,
+	LOADING,
+	START,
 	ENEMIES,
+	PLAYER,
 	CHECK,
 	PAUSED,
 	GAME_OVER

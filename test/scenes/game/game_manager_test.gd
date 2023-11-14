@@ -27,26 +27,36 @@ func enum_is_equal(current:Variant, expected:Variant) -> bool:
 func enum_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
-func __set_to_player_turn_with_empty_board(landscape:Array, runner:GdUnitSceneRunner) -> void:
-	await __wait_to_next_player_turn_removing_floating_token(runner)
+func __set_to_player_turn_with_empty_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
+	
+	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.START, enum_is_equal, 2)
+	
 	board.configure(landscape.size(), landscape[0].size())
+	
+	if initial_token_id == ID_EMPTY:
+		await __wait_to_next_player_turn()
+	else:
+		await __wait_to_next_player_turn_with_floating_token(initial_token_id)
+		
 	__prepare_landscape(landscape, runner)
 	
-func __wait_to_next_player_turn_removing_floating_token(runner:GdUnitSceneRunner):
+
+func __wait_to_next_player_turn() -> void:
 	await await_idle_frame()
 	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.PLAYER, enum_is_equal, 2)
 	await await_idle_frame()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	await runner.await_func_on(game_manager, "get_floating_token").wait_until(200).is_not_null()
+	
+func __wait_to_next_player_turn_with_floating_token(token_id:String) -> void:
+	
+	await __wait_to_next_player_turn()
+	
 	game_manager.discard_floating_token()
 	
-func __set_floating_token(runner:GdUnitSceneRunner, token_id:String) -> BoardToken:
 	var token_data := __all_token_data.get_token_data_by_id(token_id)
-	var game_manager:GameManager = runner.find_child("GameManager") as GameManager
+	game_manager.create_floating_token(token_data)
+	assert_object(game_manager.floating_token).is_not_null()
 	
-	var floating_token := game_manager.create_floating_token(token_data)
-	assert_object(floating_token).is_not_null()
-	return floating_token
-
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	
 	runner.simulate_mouse_move(board.position) 
