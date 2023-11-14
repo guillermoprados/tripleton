@@ -19,6 +19,7 @@ var ID_BUSHH = '1_bush'
 var ID_TREEE = '2_tree'
 var ID_MNKEL = 'monokelo'
 var ID_GRAVE = 'grave'
+var ID_CHE_B = 'chest_bronze'
 
 func enum_is_equal(current:Variant, expected:Variant) -> bool:
 	return current == expected
@@ -33,7 +34,7 @@ func __set_to_player_turn_with_empty_board(landscape:Array, runner:GdUnitSceneRu
 	
 func __wait_to_next_player_turn_removing_floating_token(runner:GdUnitSceneRunner):
 	await await_idle_frame()
-	await __ascync_await_for_enum(state_machine, "current_state", Constants.PlayingState.PLAYER, enum_is_equal, 2)
+	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.PLAYER, enum_is_equal, 2)
 	await await_idle_frame()
 	assert_object(game_manager.get_floating_token()).is_not_null()
 	game_manager.discard_floating_token()
@@ -66,7 +67,7 @@ func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 		var cell := board.get_cell_at_position(cell_index)
 		cell.__just_for_test_click_cell()
 	
-func __ascync_await_for_enum(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
+func __async_await_for_enum(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
 	while (Time.get_unix_time_from_system() - init_time < time):
 		var current_value = obj.get(prop_name)

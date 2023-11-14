@@ -236,12 +236,14 @@ func _on_cell_exited(cell_index: Vector2) -> void:
 func _on_cell_selected(cell_index: Vector2) -> void:
 	if not enabled_interaction:
 		return
+	#force disabling interactions for multiple taps
+	enabled_interaction = false
 	board_cell_selected.emit(cell_index)
 
 func clear_highlights() -> void:
 	for row in cells_matrix:
 		for cell in row:
-			cell.clear_highlight()
+			(cell as BoardCell).clear_highlight()
 	for token_pos in placed_tokens.keys():
 		var token: BoardToken = placed_tokens[token_pos]
 		if token.is_in_range:

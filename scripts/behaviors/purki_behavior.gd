@@ -2,7 +2,7 @@ extends TokenBehavior
 
 class_name RollerBehavior
 
-func execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
+func __execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_empty_cell : Vector2 = find_random_empty_cell_in_line(current_cell, cell_tokens_ids) 
 		if (current_cell != next_empty_cell):
 			move_from_cell_to_cell.emit(current_cell, next_empty_cell, .2, 0)
@@ -16,7 +16,7 @@ func find_continuous_empty_cell_in_line(current_cell: Vector2, cell_tokens_ids: 
 	var continuous_empty_cells: Array[Vector2] = []
 	var next_cell = current_cell + direction
 	
-	while is_valid_cell(next_cell, cell_tokens_ids) and cell_tokens_ids[next_cell.x][next_cell.y] == Constants.EMPTY_CELL:
+	while Utils.is_valid_cell(next_cell, cell_tokens_ids) and cell_tokens_ids[next_cell.x][next_cell.y] == Constants.EMPTY_CELL:
 		continuous_empty_cells.append(next_cell)
 		next_cell += direction
 	
