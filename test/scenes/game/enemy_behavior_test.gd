@@ -6,7 +6,13 @@ extends GameManagerTest
 
 func test__monokelo_will_jump_to_empty_cell() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner)
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
 	
 	#prepare landscape
 	
@@ -44,7 +50,13 @@ func test__monokelo_will_jump_to_empty_cell() -> void:
 
 func test__monokelo_will_die_if_cannot_jump() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner)
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
 	
 	#prepare landscape
 	

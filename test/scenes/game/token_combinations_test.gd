@@ -6,7 +6,13 @@ extends GameManagerTest
 
 func test__move_over_cells() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner, 3, 3)
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
 	
 	__set_floating_token(runner, ID_GRASS)
 
@@ -25,11 +31,15 @@ func test__move_over_cells() -> void:
 	await __ascync_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 5)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
 	
-	await __ascync_await_for_time_helper(10)
-	
 func test__place_single_token() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner, 3, 3)
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
 	
 	__set_floating_token(runner, ID_GRASS)
 	
@@ -53,7 +63,13 @@ func test__place_single_token() -> void:
 	
 func test__try_to_place_token_in_occupied_slot() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner, 3, 3)
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
 	
 	var test_cell = Vector2(1,2)
 	
@@ -63,7 +79,7 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	
 	## second token (BUSH)
 	await __wait_to_next_player_turn_removing_floating_token(runner)
-	__set_floating_token(runner, ID_BUSH)
+	__set_floating_token(runner, ID_BUSHH)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	## check
@@ -74,7 +90,13 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	
 func test__try_single_level_combination() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner,3,3)
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
 	
 	var grass_points : int = __all_token_data.get_token_data_by_id(ID_GRASS).reward_value
 	
@@ -103,16 +125,22 @@ func test__try_single_level_combination() -> void:
 	assert_bool(board.is_cell_empty(third_cell)).is_false()
 	
 	var token = board.get_token_at_cell(third_cell)
-	assert_str(token.id).is_equal(ID_BUSH)
+	assert_str(token.id).is_equal(ID_BUSHH)
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(grass_points * 3)
 
 func test__try_multi_level_combination() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner, 3, 3)
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
 	
 	var grass_points : int = __all_token_data.get_token_data_by_id(ID_GRASS).reward_value
-	var bush_points : int = __all_token_data.get_token_data_by_id(ID_BUSH).reward_value
+	var bush_points : int = __all_token_data.get_token_data_by_id(ID_BUSHH).reward_value
 	
 	## grass level
 	await __wait_to_next_player_turn_removing_floating_token(runner)
@@ -128,12 +156,12 @@ func test__try_multi_level_combination() -> void:
 	## bush level
 	await __wait_to_next_player_turn_removing_floating_token(runner)
 	var cell_3 = Vector2(1,0)
-	__set_floating_token(runner, ID_BUSH)
+	__set_floating_token(runner, ID_BUSHH)
 	await __async_move_mouse_to_cell(cell_3, true)
 	
 	await __wait_to_next_player_turn_removing_floating_token(runner)
 	var cell_4 = Vector2(2,0)
-	__set_floating_token(runner, ID_BUSH)
+	__set_floating_token(runner, ID_BUSHH)
 	await __async_move_mouse_to_cell(cell_4, true)
 	
 	## add grass
@@ -151,10 +179,8 @@ func test__try_multi_level_combination() -> void:
 	assert_bool(board.is_cell_empty(cell_5)).is_false()
 
 	var token = board.get_token_at_cell(cell_5)
-	assert_str(token.id).is_equal(ID_TREE)
+	assert_str(token.id).is_equal(ID_TREEE)
 	
 	var expected_points = (grass_points * 3) + (bush_points * 3)
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
-
-	await __ascync_await_for_time_helper(4)

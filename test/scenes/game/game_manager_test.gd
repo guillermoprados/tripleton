@@ -15,9 +15,9 @@ var board: Board
 
 var ID_EMPTY = 'empty'
 var ID_GRASS = '0_grass'
-var ID_BUSH = '1_bush'
-var ID_TREE = '2_tree'
-var ID_MONOKELO = 'monokelo'
+var ID_BUSHH = '1_bush'
+var ID_TREEE = '2_tree'
+var ID_MNKEL = 'monokelo'
 var ID_GRAVE = 'grave'
 
 func enum_is_equal(current:Variant, expected:Variant) -> bool:
@@ -26,9 +26,10 @@ func enum_is_equal(current:Variant, expected:Variant) -> bool:
 func enum_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
-func __set_to_player_turn_with_empty_board(runner:GdUnitSceneRunner, rows:int, columns:int) -> void:
+func __set_to_player_turn_with_empty_board(landscape:Array, runner:GdUnitSceneRunner) -> void:
 	await __wait_to_next_player_turn_removing_floating_token(runner)
-	board.configure(rows, columns)
+	board.configure(landscape.size(), landscape[0].size())
+	__prepare_landscape(landscape, runner)
 	
 func __wait_to_next_player_turn_removing_floating_token(runner:GdUnitSceneRunner):
 	await await_idle_frame()
@@ -99,24 +100,13 @@ func after_test():
 	board.queue_redraw()
 	board = null
 	
-func __prepare_landscape(tokens_ids:Array, runner:GdUnitSceneRunner) -> void:
-	
-	await __set_to_player_turn_with_empty_board(runner, 5, 5)
-	
-	#prepare landscape
-	
-	
-	## first token
-	await __wait_to_next_player_turn_removing_floating_token(runner)
-	__set_floating_token(runner, ID_GRASS)
-	await __async_move_mouse_to_cell(Vector2(1,0), true)
-	
-	## second token
-	await __wait_to_next_player_turn_removing_floating_token(runner)
-	__set_floating_token(runner, ID_BUSH)
-	await __async_move_mouse_to_cell(Vector2(1,1), true)
-	
-	## third token
-	await __wait_to_next_player_turn_removing_floating_token(runner)
-	__set_floating_token(runner, ID_GRASS)
-	await __async_move_mouse_to_cell(Vector2(0,1), true)
+func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
+	var rows = landscape.size()
+	var columns = landscape[0].size()
+	for row in range(rows):
+		for col in range(columns):
+			var id = landscape[row][col]
+			if id != ID_EMPTY:
+				var token_data:TokenData = __all_token_data.get_token_data_by_id(id)
+				var token = game_manager.instantiate_new_token(token_data, Constants.TokenStatus.PLACED)
+				board.set_token_at_cell(token, Vector2(row, col))
