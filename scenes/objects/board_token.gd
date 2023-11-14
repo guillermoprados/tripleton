@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name Token
+class_name BoardToken
 
 @export var color_border_invalid : Color = Color(1, 0.5, 0.5, 1)
 @export var color_border_valid_action : Color = Color(1, 0.5, 0.5, 1)
@@ -15,7 +15,16 @@ var behavior: TokenBehavior
 var action: TokenAction
 var data:TokenData
 var created_at:float
-var current_status : Constants.TokenStatus 
+
+var __current_status : Constants.TokenStatus 
+var current_status : Constants.TokenStatus:
+	get:
+		return __current_status
+
+var __highlight : Constants.TokenHighlight 
+var highlight : Constants.TokenHighlight:
+	get:
+		return highlight
 
 var _set_data_status: Constants.TokenStatus
 
@@ -33,23 +42,23 @@ var is_ready: bool:
 				
 var is_boxed: bool:
 	get:
-		return current_status == Constants.TokenStatus.BOXED
+		return __current_status == Constants.TokenStatus.BOXED
 		
 var is_floating: bool:
 	get:
-		return current_status == Constants.TokenStatus.FLOATING
+		return __current_status == Constants.TokenStatus.FLOATING
 	
 var is_placed: bool:
 	get:
-		return current_status == Constants.TokenStatus.PLACED
+		return __current_status == Constants.TokenStatus.PLACED
 
 var is_in_range: bool:
 	get:
-		return current_status == Constants.TokenStatus.IN_RANGE
+		return __current_status == Constants.TokenStatus.IN_RANGE
 
 var is_invisible: bool:
 	get:
-		return current_status == Constants.TokenStatus.INVISIBLE
+		return __current_status == Constants.TokenStatus.INVISIBLE
 
 var is_wildcard: bool:
 	get:
@@ -82,16 +91,16 @@ func __sprite_node_ready() -> void:
 	set_status(_set_data_status)
 		
 func set_status(new_status:Constants.TokenStatus) -> void:
-	assert(current_status != new_status, "Trying to set the same status")
+	assert(__current_status != new_status, "Trying to set the same status")
 	
-	if current_status == Constants.TokenStatus.IN_RANGE:
+	if __current_status == Constants.TokenStatus.IN_RANGE:
 		tweener.clear_in_range()
 
-	if current_status == Constants.TokenStatus.FLOATING:
+	if __current_status == Constants.TokenStatus.FLOATING:
 		tweener.clear_focused()
 
-	current_status = new_status
-	match current_status:
+	__current_status = new_status
+	match __current_status:
 		Constants.TokenStatus.BOXED:
 			sprite_holder.set_boxed()		
 		Constants.TokenStatus.FLOATING:
@@ -107,31 +116,33 @@ func set_status(new_status:Constants.TokenStatus) -> void:
 			sprite_holder.set_as_box_ghost()
 
 func unhighlight() -> void:
-	highlight(Constants.TokenHighlight.NONE)
+	set_highlight(Constants.TokenHighlight.NONE)
 
-func highlight(mode:Constants.TokenHighlight) -> void:
+func set_highlight(mode:Constants.TokenHighlight) -> void:
+	
+	__highlight = mode
 	
 	var color:Color = Color.WHITE
 	# this deserves a rethink
 	match mode:
 		
 		Constants.TokenHighlight.NONE:
-			if current_status == Constants.TokenStatus.FLOATING:
+			if __current_status == Constants.TokenStatus.FLOATING:
 				sprite_holder.paint_floating(Color.WHITE, Color.WHITE)
 			else:
 				sprite_holder.paint_normal()
 				
 		Constants.TokenHighlight.INVALID:
-			assert(current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be invalid")
+			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be invalid")
 			sprite_holder.paint_floating(color_border_invalid, color_overlay_invalid )
 		Constants.TokenHighlight.TRANSPARENT:
-			assert(current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
+			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
 			sprite_holder.paint_floating(color_semi_transparent, color_semi_transparent)
 		Constants.TokenHighlight.LAST:
-			assert(current_status == Constants.TokenStatus.PLACED, "only placed tokens can be last")
+			assert(__current_status == Constants.TokenStatus.PLACED, "only placed tokens can be last")
 			sprite_holder.paint_last()
 		Constants.TokenHighlight.VALID_ACTION:
-			assert(current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
+			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
 			sprite_holder.paint_valid_action(color_border_valid_action, color_semi_transparent)
 			
 		

@@ -17,5 +17,5 @@ func load_token_data(token_id: String) -> void:
 	# Load the JSON file
 	var json_as_text: String = FileAccess.get_file_as_string(json_path)
 	var tokens_as_dict: Dictionary = JSON.parse_string(json_as_text)
-	
+	assert(tokens_as_dict.has(token_id), "this id is not delcared in the tokens!!")
 	tokens_data[token_id] = load(tokens_as_dict[token_id])

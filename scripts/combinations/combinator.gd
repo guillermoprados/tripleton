@@ -71,16 +71,18 @@ static func __search_combination_for_cell(token_id: String, board_tokens_ids: Ar
 
 # Helper method to search cross combination for cell
 static func __search_cross_combination_for_cell(token_id: String, board_tokens_ids: Array, center_cell: Vector2, combination_level: CombinationLevel) -> void:
+	var rows = board_tokens_ids.size()
+	var columns = board_tokens_ids[0].size()
 	# top
 	if center_cell.y > 0:
 		__search_combination_for_cell(token_id, board_tokens_ids, Vector2(center_cell.x, center_cell.y - 1), combination_level, false)
 	# down
-	if center_cell.y < board_tokens_ids.size() - 1:
+	if center_cell.y < columns - 1:
 		__search_combination_for_cell(token_id, board_tokens_ids, Vector2(center_cell.x, center_cell.y + 1), combination_level, false)
 	# left
 	if center_cell.x > 0:
 		__search_combination_for_cell(token_id, board_tokens_ids, Vector2(center_cell.x - 1, center_cell.y), combination_level, false)
 	# right
-	if center_cell.x < board_tokens_ids[0].size() - 1:
+	if center_cell.x < rows - 1:
 		__search_combination_for_cell(token_id, board_tokens_ids, Vector2(center_cell.x + 1, center_cell.y), combination_level, false)
 

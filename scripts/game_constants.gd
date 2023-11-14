@@ -65,6 +65,7 @@ enum RewardType {
 }
 
 enum FloorType {
+	OUT,
 	PATH,
 	GRASS,
 	FOUNDATIONS
@@ -99,6 +100,8 @@ enum UIPlayScreenId {
 	GAME_OVER
 }
 
+const BOARD_SIZE := Vector2(5,3)
+
 const TILESET_TERRAIN_BOARD_SET = 0
 const TILESET_TERRAIN_BACK = 0
 const TILESET_TERRAIN_PATH = 1
@@ -128,7 +131,7 @@ const FX_Z_INDEX : float = 20
 const GHOST_BOX_Z_INDEX : float = 24
 const FLOATING_Z_INDEX : float = 25
 
-const BOARD_BOTTOM_SEPARATION: float = 50
+const BOARD_BOTTOM_SEPARATION: float = 100
 
 const TOKEN_SPRITE_HOLDER_Y = 25
 

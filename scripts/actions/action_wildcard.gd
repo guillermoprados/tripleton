@@ -9,7 +9,7 @@ class_name ActionWildcard
 var __combinator_configured: bool = false
 var __last_position_evaluated: Vector2 = Constants.INVALID_CELL
 var __to_place_token_data: TokenData
-var __to_place_token:Token
+var __to_place_token:BoardToken
 
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.WILDCARD
@@ -17,7 +17,7 @@ func get_type() -> Constants.ActionType:
 func get_to_place_token_data() -> TokenData:
 	return __to_place_token_data
 
-func set_ghost_token(token:Token) -> void:
+func set_ghost_token(token:BoardToken) -> void:
 	__to_place_token = token
 	ghost_token_holder.add_child(token)
 	token.position = __token.sprite_holder.sprite_original_position
@@ -82,18 +82,21 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 	
 	var check_positions:Array[Vector2] = []
 	
+	var board_rows:int = cell_tokens_ids.size()
+	var board_columns:int = cell_tokens_ids[0].size()
+	
 	# top
-	if cell_index.y > 0:
-		check_positions.append(Vector2(cell_index.x, cell_index.y - 1))
-	# down
-	if cell_index.y < cell_tokens_ids.size() - 1:
-		check_positions.append(Vector2(cell_index.x, cell_index.y + 1))
-	# left
 	if cell_index.x > 0:
 		check_positions.append(Vector2(cell_index.x - 1, cell_index.y))
-	# right
-	if cell_index.x < cell_tokens_ids[0].size() - 1:
+	# down
+	if cell_index.x < board_rows - 1:
 		check_positions.append(Vector2(cell_index.x + 1, cell_index.y))
+	# left
+	if cell_index.y > 0:
+		check_positions.append(Vector2(cell_index.x, cell_index.y - 1))
+	# right
+	if cell_index.y < board_columns - 1:
+		check_positions.append(Vector2(cell_index.x, cell_index.y + 1))
 	
 	for pos in check_positions:
 		

@@ -88,10 +88,10 @@ func _on_board_board_cell_selected(index:Vector2) -> void:
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
 	game_manager.move_floating_token_to_swap_cell()
-	game_manager.save_token_cell.highlight(Constants.CellHighlight.VALID)
+	game_manager.save_token_cell.set_highlight(Constants.CellHighlight.VALID)
 	
 func _on_save_token_cell_exited(cell_index: Vector2) -> void:
-	game_manager.save_token_cell.highlight(Constants.CellHighlight.NONE)
+	game_manager.save_token_cell.set_highlight(Constants.CellHighlight.NONE)
 	
 func _on_save_token_cell_selected(cell_index: Vector2) -> void:
 	game_manager.swap_floating_and_saved_token(cell_index)
