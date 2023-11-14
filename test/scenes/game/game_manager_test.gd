@@ -13,7 +13,7 @@ var game_manager: GameManager
 var state_machine: StateMachine
 var board: Board
 
-var ID_EMPTY = 'empty'
+var ID_EMPTY = ''
 var ID_GRASS = '0_grass'
 var ID_BUSHH = '1_bush'
 var ID_TREEE = '2_tree'
@@ -110,3 +110,4 @@ func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
 				var token_data:TokenData = __all_token_data.get_token_data_by_id(id)
 				var token = game_manager.instantiate_new_token(token_data, Constants.TokenStatus.PLACED)
 				board.set_token_at_cell(token, Vector2(row, col))
+ 
