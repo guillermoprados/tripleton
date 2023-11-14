@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://lkolhnpo6fuo"]
 
-[ext_resource type="PackedScene" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
+[ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="Resource" uid="uid://cibwmy6rhqq7s" path="res://data/dinasties/ordered_dinasties.tres" id="3_8sd6d"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="3_potqp"]

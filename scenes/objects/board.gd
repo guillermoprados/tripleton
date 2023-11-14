@@ -4,10 +4,18 @@ signal board_cell_moved(index:Vector2)
 signal board_cell_selected(index:Vector2)
 
 @export var cell_scene: PackedScene
-@export var rows: int = 6
-@export var columns: int = 6
 @export var tilemap: TileMap
 
+var __rows:int
+var rows:int:
+	get:
+		return __rows
+		
+var __columns:int
+var columns:int:
+	get:
+		return __columns
+		
 var cell_tokens_ids: Array = []  # The matrix of string values
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
@@ -15,16 +23,18 @@ var floor_matrix: Array = []
 
 var enabled_interaction: bool = false
 
-const DEFAULT_FLOOR : Constants.FloorType = Constants.FloorType.PATH
-
 func _ready() -> void:
-	configure()	
+	configure(Constants.BOARD_SIZE.x, Constants.BOARD_SIZE.y)	
 	
 func _process(delta:float) -> void:
 	pass
 
-func configure() -> void:
+func configure(num_rows:int, num_columns:int) -> void:
+	__rows = num_rows
+	__columns = num_columns
+	
 	__clear_board()
+	
 	z_index = Constants.BOARD_Z_INDEX
 	
 	for row in range(rows):
@@ -65,13 +75,20 @@ func __clear_board() -> void:
 	__clear_floor_matrix()
 
 func __clear_floor_matrix():
-	# Initialize the floor_matrix with default FloorType.PATH values
+	# Initialize the floor_matrix with default FloorType.OUT values
+	var used_cells := tilemap.get_used_cells(0)
+	tilemap.set_cells_terrain_connect(0, used_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_OUT, false)
+	floor_matrix = []
+	var to_update_floor_cells:Array[Vector2] = []
 	for row in range(rows):
 		var row_values = []
 		for col in range(columns):
-			row_values.append(Constants.FloorType.PATH)
+			row_values.append(Constants.FloorType.OUT)
+			to_update_floor_cells.append(Vector2(row, col))
 		floor_matrix.append(row_values)
-		
+	
+	__update_floor_tiles(to_update_floor_cells)
+	
 # Set the token for a specific cell
 func set_token_at_cell(token:BoardToken, cell_index: Vector2) -> void:
 	
@@ -93,11 +110,17 @@ func __update_floor_tiles(on_cells:Array[Vector2]) -> void:
 	cells_pert_type[Constants.FloorType.GRASS] = [] as Array[Vector2i]
 	
 	for cell_index in on_cells:
-		var floor_type:Constants.FloorType = DEFAULT_FLOOR
+		# by default path should be the floor type
+		var floor_type:Constants.FloorType
 		if placed_tokens.has(cell_index):
 			var token:BoardToken = placed_tokens[cell_index]
 			floor_type = token.floor_type
-		if floor_matrix[cell_index.x][cell_index.y] != floor_type:
+		else:
+			floor_type = Constants.FloorType.PATH
+			
+		var floor_has_changed = floor_matrix[cell_index.x][cell_index.y] != floor_type 
+		
+		if floor_has_changed:
 			floor_matrix[cell_index.x][cell_index.y] = floor_type
 			cells_pert_type[floor_type].append_array(__get_floor_sub_cells(cell_index))
 	

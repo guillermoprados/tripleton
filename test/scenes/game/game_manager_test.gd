@@ -13,6 +13,7 @@ var game_manager: GameManager
 var state_machine: StateMachine
 var board: Board
 
+var ID_EMPTY = 'empty'
 var ID_GRASS = '0_grass'
 var ID_BUSH = '1_bush'
 var ID_TREE = '2_tree'
@@ -25,9 +26,9 @@ func enum_is_equal(current:Variant, expected:Variant) -> bool:
 func enum_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
-func __set_to_player_turn_with_empty_board(runner:GdUnitSceneRunner) -> void:
+func __set_to_player_turn_with_empty_board(runner:GdUnitSceneRunner, rows:int, columns:int) -> void:
 	await __wait_to_next_player_turn_removing_floating_token(runner)
-	board.configure()
+	board.configure(rows, columns)
 	
 func __wait_to_next_player_turn_removing_floating_token(runner:GdUnitSceneRunner):
 	await await_idle_frame()
@@ -97,3 +98,25 @@ func after_test():
 	state_machine = null
 	board.queue_redraw()
 	board = null
+	
+func __prepare_landscape(tokens_ids:Array, runner:GdUnitSceneRunner) -> void:
+	
+	await __set_to_player_turn_with_empty_board(runner, 5, 5)
+	
+	#prepare landscape
+	
+	
+	## first token
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	__set_floating_token(runner, ID_GRASS)
+	await __async_move_mouse_to_cell(Vector2(1,0), true)
+	
+	## second token
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	__set_floating_token(runner, ID_BUSH)
+	await __async_move_mouse_to_cell(Vector2(1,1), true)
+	
+	## third token
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	__set_floating_token(runner, ID_GRASS)
+	await __async_move_mouse_to_cell(Vector2(0,1), true)

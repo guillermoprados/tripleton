@@ -6,12 +6,12 @@ extends GameManagerTest
 
 func test__move_over_cells() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner)
+	await __set_to_player_turn_with_empty_board(runner, 3, 3)
 	
 	__set_floating_token(runner, ID_GRASS)
 
-	var test_cell_in = Vector2(0,3)
-	var test_cell_out = Vector2(2,3)
+	var test_cell_in = Vector2(0,1)
+	var test_cell_out = Vector2(2,1)
 	
 	var cell := board.get_cell_at_position(test_cell_in)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
@@ -25,10 +25,11 @@ func test__move_over_cells() -> void:
 	await __ascync_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 5)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
 	
+	await __ascync_await_for_time_helper(10)
 	
 func test__place_single_token() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner)
+	await __set_to_player_turn_with_empty_board(runner, 3, 3)
 	
 	__set_floating_token(runner, ID_GRASS)
 	
@@ -52,7 +53,7 @@ func test__place_single_token() -> void:
 	
 func test__try_to_place_token_in_occupied_slot() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner)
+	await __set_to_player_turn_with_empty_board(runner, 3, 3)
 	
 	var test_cell = Vector2(1,2)
 	
@@ -73,7 +74,7 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	
 func test__try_single_level_combination() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner)
+	await __set_to_player_turn_with_empty_board(runner,3,3)
 	
 	var grass_points : int = __all_token_data.get_token_data_by_id(ID_GRASS).reward_value
 	
@@ -108,7 +109,7 @@ func test__try_single_level_combination() -> void:
 
 func test__try_multi_level_combination() -> void:
 	
-	await __set_to_player_turn_with_empty_board(runner)
+	await __set_to_player_turn_with_empty_board(runner, 3, 3)
 	
 	var grass_points : int = __all_token_data.get_token_data_by_id(ID_GRASS).reward_value
 	var bush_points : int = __all_token_data.get_token_data_by_id(ID_BUSH).reward_value
@@ -155,3 +156,5 @@ func test__try_multi_level_combination() -> void:
 	var expected_points = (grass_points * 3) + (bush_points * 3)
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
+
+	await __ascync_await_for_time_helper(4)

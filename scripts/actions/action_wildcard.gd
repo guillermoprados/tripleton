@@ -82,18 +82,21 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 	
 	var check_positions:Array[Vector2] = []
 	
+	var board_rows:int = cell_tokens_ids.size()
+	var board_columns:int = cell_tokens_ids[0].size()
+	
 	# top
-	if cell_index.y > 0:
-		check_positions.append(Vector2(cell_index.x, cell_index.y - 1))
-	# down
-	if cell_index.y < cell_tokens_ids.size() - 1:
-		check_positions.append(Vector2(cell_index.x, cell_index.y + 1))
-	# left
 	if cell_index.x > 0:
 		check_positions.append(Vector2(cell_index.x - 1, cell_index.y))
-	# right
-	if cell_index.x < cell_tokens_ids[0].size() - 1:
+	# down
+	if cell_index.x < board_rows - 1:
 		check_positions.append(Vector2(cell_index.x + 1, cell_index.y))
+	# left
+	if cell_index.y > 0:
+		check_positions.append(Vector2(cell_index.x, cell_index.y - 1))
+	# right
+	if cell_index.y < board_columns - 1:
+		check_positions.append(Vector2(cell_index.x, cell_index.y + 1))
 	
 	for pos in check_positions:
 		

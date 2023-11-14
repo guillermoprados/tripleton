@@ -77,3 +77,12 @@ func test__monokelo_will_die_if_cannot_jump() -> void:
 		
 	var token = board.get_token_at_cell(cell_test)
 	assert_str(token.id).is_equal(ID_GRAVE)
+
+
+func test__multiple_enemies_die_should_be_combined_in_last() -> void:
+
+## things to test before continuing:
+
+### several enemies in one zone, last one is blue
+### several enemies in multiple zones, last one is blue in each one
+### several enemies die in one place (6 at least), just one chest on place 
