@@ -165,8 +165,8 @@ func test__should_remove_last_highlight_if_area_has_less_at_some_moment() -> voi
 	__set_floating_token(runner, ID_MNKEL)
 	await __async_move_mouse_to_cell(area_1_cell, true)
 	__paralized_enemies(true)
-
-	await __ascync_await_for_time_helper(1)
+	
+	await __wait_to_next_player_turn_removing_floating_token(runner)
 	assert_that(board.get_token_at_cell(area_1_cell).highlight).is_equal(Constants.TokenHighlight.LAST)
 
 	## set area divider
@@ -174,15 +174,46 @@ func test__should_remove_last_highlight_if_area_has_less_at_some_moment() -> voi
 	__set_floating_token(runner, ID_BUSHH)
 	await __async_move_mouse_to_cell(Vector2(2,0), true)
 	
-	await __ascync_await_for_time_helper(2)
-	
+	## check the hihglights
 	await __wait_to_next_player_turn_removing_floating_token(runner)
+	
 	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for cell in enemy_tokens.keys():
 		assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)
 
-## things to test before continuing:
-
-### several enemies in one zone, last one is blue
-### several enemies in multiple zones, last one is blue in each one
-### join areas
+func test__should_set_one_last_highlight_if_area_is_joined() -> void:
+	
+	var landscape := [
+		[ID_MNKEL,ID_MNKEL,ID_MNKEL],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_GRASS],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_MNKEL,ID_MNKEL,ID_MNKEL]
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, runner)
+	__paralized_enemies(true)
+	
+	## ensure only the last one is highlighted
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+	for cell in enemy_tokens.keys():
+		if cell == Vector2(4,2):
+			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.LAST)
+		else:
+			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)
+	
+	## divide the area
+	__set_floating_token(runner, ID_BUSHH)
+	await __async_move_mouse_to_cell(Vector2(2,0), true)
+	
+	## check highlights
+	await __wait_to_next_player_turn_removing_floating_token(runner)
+	
+	for cell in enemy_tokens.keys():
+		if cell == Vector2(4,2) or cell == Vector2(0,2):
+			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.LAST)
+		else:
+			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)
+	
+	
