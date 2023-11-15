@@ -12,7 +12,7 @@ var board_cell_position:Vector2
 @export var highlihgt_none : Color = Color(1, 1, 1, 0)
 @export var highlight_valid : Color = Color(0.5, 1, 0.5, 1)
 @export var highlight_invalid : Color = Color(1, 0.5, 0.5, 1)
-@export var highlight_warning : Color = Color(1, 0.5, 0.5, 1)
+@export var highlight_wasted : Color = Color(1, 0.5, 0.5, 1)
 @export var highlight_combination : Color = Color(0.5, 0.5, 1, 1)
 
 var __highlight : Constants.CellHighlight
@@ -71,7 +71,7 @@ func set_highlight(mode: Constants.CellHighlight) -> void:
 			$HighLightColor.modulate = highlight_valid
 		Constants.CellHighlight.INVALID:
 			$HighLightColor.modulate = highlight_invalid
-		Constants.CellHighlight.WARNING:
-			$HighLightColor.modulate = highlight_warning
+		Constants.CellHighlight.WASTED:
+			$HighLightColor.modulate = highlight_wasted
 		Constants.CellHighlight.COMBINATION:
 			$HighLightColor.modulate = highlight_combination

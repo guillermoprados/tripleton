@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://cibwmy6rhqq7s" path="res://data/dinasties/ordered_dinasties.tres" id="3_8sd6d"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="3_potqp"]
 [ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
-[ext_resource type="PackedScene" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
 [ext_resource type="Resource" uid="uid://c61d577qbnsn1" path="res://data/tokens_sets/landscape.tres" id="9_e3s0g"]
 [ext_resource type="Script" path="res://scripts/game_states/state_loading.gd" id="9_kvjog"]
@@ -49,19 +49,22 @@ position = Vector2(72, 713)
 
 [node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(170, 426)
-highlight_valid = Color(0.5, 1, 0.5, 1)
-highlight_invalid = Color(1, 0.5, 0.5, 1)
+base_color = null
+highlihgt_none = null
+highlight_valid = null
+highlight_invalid = null
 
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(532, 441)
-highlight_valid = Color(0.5, 1, 0.5, 1)
-highlight_invalid = Color(1, 0.5, 0.5, 1)
+base_color = null
+highlihgt_none = null
+highlight_valid = null
+highlight_invalid = null
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("8_umy6w")
 game_manager = NodePath("../GameManager")
 board = NodePath("../Board")
-print_debug = true
 
 [node name="StateLoading" type="Node" parent="StateMachine"]
 script = ExtResource("9_kvjog")

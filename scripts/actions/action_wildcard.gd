@@ -3,7 +3,6 @@ extends TokenAction
 class_name ActionWildcard
 
 @export var combinator: Combinator
-@export var all_tokens_data: AllTokensData
 @export var ghost_token_holder: Node2D
 
 var __combinator_configured: bool = false
@@ -103,7 +102,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		if __is_cell_empty(pos, cell_tokens_ids):
 			continue
 					
-		var copied_token_data = all_tokens_data.get_token_data_by_id(cell_tokens_ids[pos.x][pos.y])
+		var copied_token_data = __token.get_other_token_data_util(cell_tokens_ids[pos.x][pos.y])
 		
 		# only assigned tokens to the action can be evaluated
 		if not copied_token_data:
@@ -118,7 +117,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 			for cell in combination.combinable_cells:
 				if __is_cell_empty(cell, cell_tokens_ids):
 					continue
-				var token_data:TokenData = all_tokens_data.get_token_data_by_id(cell_tokens_ids[cell.x][cell.y])
+				var token_data:TokenData = __token.get_other_token_data_util(cell_tokens_ids[cell.x][cell.y])
 				if token_data.reward_type == Constants.RewardType.POINTS:
 					current_points += token_data.reward_value
 			

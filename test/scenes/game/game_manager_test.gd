@@ -21,10 +21,14 @@ var ID_B_TRE = '3_big_tree'
 var ID_MNKEL = 'monokelo'
 var ID_GRAVE = 'grave'
 var ID_CHE_B = 'chest_bronze'
-var ID_LAMPP  = '0_lamp'
+var ID_LAMPP = '0_lamp'
+var ID_BOMBB = 'bomb'
+var ID_LV_UP = 'level_up'
+var ID_MOVEE = 'move'
+var ID_WILDC = 'wildcard'
+var ID_ROCKK = 'rock'
 
 var points_per_id : Dictionary = {}
-
 
 func before():
 	__all_token_data = auto_free(AllTokensData.new())
@@ -109,7 +113,8 @@ func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	if click:
 		var cell := board.get_cell_at_position(cell_index)
 		cell.__just_for_test_click_cell()
-		await await_idle_frame()
+	
+	await await_idle_frame()
 	
 func __async_await_for_enum(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
@@ -141,3 +146,18 @@ func __paralized_enemies(paralized:bool) -> void:
 		var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 		for key in enemies:
 			enemies[key].behavior.paralize = paralized
+
+func __assert_valid_cell_conditions(cell_index:Vector2) -> void:
+	var cell := board.get_cell_at_position(cell_index)
+	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
+
+func __assert_invalid_cell_conditions(cell_index:Vector2) -> void:
+	var cell := board.get_cell_at_position(cell_index)
+	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.INVALID)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.INVALID)
+
+func __assert_wasted_cell_conditions(cell_index:Vector2) -> void:
+	var cell := board.get_cell_at_position(cell_index)
+	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.WASTED)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.WASTED)
