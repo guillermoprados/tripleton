@@ -27,7 +27,7 @@ func enum_is_equal(current:Variant, expected:Variant) -> bool:
 func enum_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
-func __set_to_player_turn_with_empty_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
+func __set_to_player_state_with_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
 	
 	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.LOADING, enum_is_equal, 2)
 	var load_state = state_machine.active_state
@@ -35,29 +35,26 @@ func __set_to_player_turn_with_empty_board(landscape:Array, initial_token_id:Str
 	await runner.await_func_on(load_state, "is_landscape_created").wait_until(1000).is_true()
 	board.configure(landscape.size(), landscape[0].size())
 	
-	if initial_token_id == ID_EMPTY:
-		await __wait_to_next_player_turn()
-	else:
-		await __wait_to_next_player_turn_with_floating_token(initial_token_id)
+	await __wait_to_next_player_turn(initial_token_id)
 		
 	__prepare_landscape(landscape, runner)
 	
-
-func __wait_to_next_player_turn() -> void:
+func __wait_to_game_state(state:Constants.PlayingState) -> void:
 	await await_idle_frame()
-	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.PLAYER, enum_is_equal, 2)
+	await __async_await_for_enum(state_machine, "current_state", state, enum_is_equal, 2)
+	
+func __wait_to_next_player_turn(token_id:String = ID_EMPTY) -> void:
+	
+	await __wait_to_game_state(Constants.PlayingState.PLAYER)
+	
 	await await_idle_frame()
 	await runner.await_func_on(game_manager, "get_floating_token").wait_until(200).is_not_null()
 	
-func __wait_to_next_player_turn_with_floating_token(token_id:String) -> void:
-	
-	await __wait_to_next_player_turn()
-	
-	game_manager.discard_floating_token()
-	
-	var token_data := __all_token_data.get_token_data_by_id(token_id)
-	game_manager.create_floating_token(token_data)
-	assert_object(game_manager.floating_token).is_not_null()
+	if token_id != ID_EMPTY:
+		game_manager.discard_floating_token()
+		var token_data := __all_token_data.get_token_data_by_id(token_id)
+		game_manager.create_floating_token(token_data)
+		assert_object(game_manager.floating_token).is_not_null()
 	
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	
@@ -78,6 +75,7 @@ func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	if click:
 		var cell := board.get_cell_at_position(cell_index)
 		cell.__just_for_test_click_cell()
+		await await_idle_frame()
 	
 func __async_await_for_enum(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
