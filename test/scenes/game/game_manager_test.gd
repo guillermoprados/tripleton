@@ -29,8 +29,10 @@ func enum_is_not_equal(current:Variant, expected:Variant) -> bool:
 
 func __set_to_player_turn_with_empty_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
 	
-	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.START, enum_is_equal, 2)
-	
+	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.LOADING, enum_is_equal, 2)
+	var load_state = state_machine.active_state
+	assert_that(load_state.id).is_equal(Constants.PlayingState.LOADING)
+	await runner.await_func_on(load_state, "is_landscape_created").wait_until(1000).is_true()
 	board.configure(landscape.size(), landscape[0].size())
 	
 	if initial_token_id == ID_EMPTY:
@@ -121,3 +123,8 @@ func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
 				var token = game_manager.instantiate_new_token(token_data, Constants.TokenStatus.PLACED)
 				board.set_token_at_cell(token, Vector2(row, col))
  
+func __paralized_enemies(paralized:bool) -> void:
+	for token in board.get_tokens_of_type(Constants.TokenType.ENEMY):
+		var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+		for key in enemies:
+			enemies[key].behavior.paralize = paralized

@@ -1,14 +1,43 @@
 # GdUnit generated TestSuite
-class_name EnemyBehabiorTest
+class_name EnemyBehaviorTest
 extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')
 
-func __paralized_enemies(paralized:bool) -> void:
-	for token in board.get_tokens_of_type(Constants.TokenType.ENEMY):
-		var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-		for key in enemies:
-			enemies[key].behavior.paralize = paralized
+
+func test__enemy_will_not_move_if_paralized() -> void:
+	
+	var landscape := [
+		[ID_GRASS,ID_GRASS,ID_GRASS],
+		[ID_GRASS,ID_MNKEL,ID_GRASS],
+		[ID_GRASS,ID_EMPTY,ID_GRASS],
+	]
+	
+	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	__paralized_enemies(true)
+	
+	## give it a chance to move
+	await __wait_to_next_player_turn()
+	__paralized_enemies(true)
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_GRASS,ID_GRASS,ID_GRASS],
+			[ID_GRASS,ID_MNKEL,ID_GRASS],
+			[ID_GRASS,ID_EMPTY,ID_GRASS],
+		]
+	)
+	
+	#check
+	await __wait_to_next_player_turn()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_GRASS,ID_GRASS,ID_GRASS],
+			[ID_GRASS,ID_MNKEL,ID_GRASS],
+			[ID_GRASS,ID_EMPTY,ID_GRASS],
+		]
+	)
 	
 func test__monokelo_will_jump_to_empty_cell() -> void:
 	
@@ -32,6 +61,8 @@ func test__monokelo_will_jump_to_empty_cell() -> void:
 	)
 	
 	#check
+	
+	## give it a chance to move
 	await __wait_to_next_player_turn()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
@@ -167,29 +198,6 @@ func test__should_remove_last_highlight_if_area_has_less_at_some_moment() -> voi
 	for cell in enemy_tokens.keys():
 		assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)
 
-func test__when_starting_the_game_the_last_enemy_should_be_highlighted_when_corresponding() -> void:
-	
-	var landscape := [
-		[ID_MNKEL,ID_GRASS,ID_EMPTY],
-		[ID_MNKEL,ID_GRASS,ID_MNKEL],
-		[ID_MNKEL,ID_GRASS,ID_EMPTY],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_MNKEL,ID_GRASS,ID_EMPTY]
-	]
-	
-	await __set_to_player_turn_with_empty_board(landscape)
-	__paralized_enemies(true)
-	
-	## ensure only the last one is highlighted
-	await __ascync_await_for_time_helper(2)
-	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-	for cell in enemy_tokens.keys():
-		if cell == Vector2(4,0):
-			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.LAST)
-		else:
-			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)
-	
-	
 func test__should_set_one_last_highlight_if_area_is_joined() -> void:
 	
 	var landscape := [
@@ -197,17 +205,22 @@ func test__should_set_one_last_highlight_if_area_is_joined() -> void:
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 		[ID_EMPTY,ID_GRASS,ID_GRASS],
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_MNKEL,ID_MNKEL,ID_MNKEL]
+		[ID_MNKEL,ID_MNKEL,ID_EMPTY]
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_BUSHH)
+	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	__paralized_enemies(true)
+	
+	## place one monokelo to highlight:
+	var last_cell := Vector2(4,2)
+	await __async_move_mouse_to_cell(last_cell, true)
 	__paralized_enemies(true)
 	
 	## ensure only the last one is highlighted
-	await __wait_to_next_player_turn()
+	await __wait_to_next_player_turn_with_floating_token(ID_BUSHH)
 	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for cell in enemy_tokens.keys():
-		if cell == Vector2(4,2):
+		if cell == last_cell:
 			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.LAST)
 		else:
 			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)
@@ -219,7 +232,7 @@ func test__should_set_one_last_highlight_if_area_is_joined() -> void:
 	await __wait_to_next_player_turn()
 	
 	for cell in enemy_tokens.keys():
-		if cell == Vector2(4,2) or cell == Vector2(0,2):
+		if cell == last_cell or cell == Vector2(0,2):
 			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.LAST)
 		else:
 			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)

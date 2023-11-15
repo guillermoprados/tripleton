@@ -8,37 +8,37 @@ class_name StateLoading
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.LOADING
 
-var inner_state := 0
-const state_prepare := 0
-const state_position_game_objects := 1
-const state_create_landscape := 2
-const state_prepare_playing_ui := 3
-const state_prepare_first_dinasty := 4
-const state_ready := 5
+var __inner_state := 0
+const __state_prepare := 0
+const __state_position_game_objects := 1
+const __state_create_landscape := 2
+const __state_prepare_playing_ui := 3
+const __state_prepare_first_dinasty := 4
+const __state_ready := 5
 
 func _on_state_entered() -> void:
-	inner_state = state_prepare
+	__inner_state = __state_prepare
 	
 # override in states
 func _on_state_exited() -> void:
 	game_manager.gameplay_ui.fade_to_transparent()
 
 func _process(delta:float) -> void:
-	match(inner_state):
-		state_prepare:
+	match(__inner_state):
+		__state_prepare:
 			pass
-		state_position_game_objects:
+		__state_position_game_objects:
 			__position_game_objects()
-		state_create_landscape:
+		__state_create_landscape:
 			__create_landscape()
-		state_prepare_playing_ui:
+		__state_prepare_playing_ui:
 			game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
-		state_prepare_first_dinasty:
+		__state_prepare_first_dinasty:
 			__set_first_dinasty()
-		state_ready:
+		__state_ready:
 			state_finished.emit(id)
 	
-	inner_state += 1
+	__inner_state += 1
 	
 func __position_game_objects() -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size
@@ -58,6 +58,7 @@ func __position_game_objects() -> void:
 	
 func __create_landscape() -> void:
 	randomize()
+	#TODO: DO NOT PLACE ENEMIES IN ENCLOSED PLACES!!
 	var rand_num = get_random_between(Constants.MIN_LANDSCAPE_TOKENS, Constants.MAX_LANDSCAPE_TOKENS)
 	for i in range(rand_num + 1):  # +1 to make it inclusive of the random number
 		var random_cell:Vector2 = get_random_position(board.rows, board.columns)
@@ -77,3 +78,6 @@ func get_random_position(rows: int, columns: int) -> Vector2:
 	var rand_row = randi() % rows
 	var rand_col = randi() % columns
 	return Vector2(rand_row, rand_col)
+
+func is_landscape_created() -> bool:
+	return __inner_state > __state_create_landscape

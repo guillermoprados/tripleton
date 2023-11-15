@@ -81,7 +81,7 @@ script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik")])
 
-[node name="StateGameOver" type="Node" parent="StateMachine"]
+[node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")
 
 [node name="CheckState" type="Node" parent="StateMachine"]
@@ -102,4 +102,4 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
-[connection signal="play_again" from="UI" to="StateMachine/StateGameOver" method="_on_ui_play_again"]
+[connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]

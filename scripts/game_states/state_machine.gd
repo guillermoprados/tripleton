@@ -46,7 +46,7 @@ func handle_state_finished(state:Constants.PlayingState) -> void:
 		Constants.PlayingState.LOADING:
 			switch_state(Constants.PlayingState.START)
 		Constants.PlayingState.START:
-			switch_state(Constants.PlayingState.ENEMIES) # we need to check this only once
+			switch_state(Constants.PlayingState.PLAYER)
 		### -- real cycle --##
 		Constants.PlayingState.PLAYER:
 			switch_state(Constants.PlayingState.ENEMIES)

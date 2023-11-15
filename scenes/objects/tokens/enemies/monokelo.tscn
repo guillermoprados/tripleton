@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_7kxf0"]
 [ext_resource type="Script" path="res://scenes/objects/tokens/enemies/enemy_animator.gd" id="1_r6xwq"]
-[ext_resource type="Script" path="res://scripts/behaviors/bear_behavior.gd" id="2_tiuyb"]
+[ext_resource type="Script" path="res://scripts/behaviors/monokelo_behavior.gd" id="2_tiuyb"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="3_sc5tg"]
 [ext_resource type="Texture2D" uid="uid://d2nuvcswj2w60" path="res://images/aseprite/monokelo.png" id="4_qo1f4"]
 
