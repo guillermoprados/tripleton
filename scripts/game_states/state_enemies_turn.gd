@@ -3,29 +3,27 @@ extends StateBase
 class_name StateEnemiesTurn
 
 @export var grave_data:TokenData
+@export var combinator: Combinator
 
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.ENEMIES
 	
 var number_of_pending_actions : int
-var check_stucked_enemies: bool
-var merge_graves: bool
-var highlight_groups: bool
 var stucked_enemies : Array[Vector2]
+
+var __inner_state = 0
+const STATE_ACTIONS = 1
+const STATE_CHECK_STUCK_ENEMIES = 2
+const STATE_MERGE_GRAVES = 3
+const STATE_HIGHLIGHT_LAST = 4
+const STATE_DONE = 5
 
 # override in states	
 func _on_state_entered() -> void:
 	assert(grave_data, "Grave Data needed to merge graves")
+	__inner_state = 0
 	number_of_pending_actions = 0
-	check_stucked_enemies = true
-	merge_graves = false # will be set only if there are dead enemies
-	highlight_groups = true
 	stucked_enemies = []
-	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-	for key in enemies:
-		number_of_pending_actions += 1
-		__bind_enemy_actions(enemies[key])
-		enemies[key].behavior.execute(key, board.cell_tokens_ids)
 		
 # override in states
 func _on_state_exited() -> void:
@@ -59,29 +57,32 @@ func _process(delta:float) -> void:
 	if number_of_pending_actions > 0:
 		return
 	
-	if check_stucked_enemies:
-		__transform_dead_enemies()
-		check_stucked_enemies = false
-		return
+	match __inner_state:
+		STATE_ACTIONS:
+			var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+			for key in enemies:
+				number_of_pending_actions += 1
+				__bind_enemy_actions(enemies[key])
+				enemies[key].behavior.execute(key, board.cell_tokens_ids)
+		STATE_CHECK_STUCK_ENEMIES:
+			__transform_dead_enemies()
+		STATE_MERGE_GRAVES:
+			__merge_graves()
+		STATE_HIGHLIGHT_LAST:
+			__highlight_groups()
+		STATE_DONE:
+			finish_enemies_turn()
 	
-	if merge_graves:
-		__merge_graves()
-		merge_graves = false
-	
-	if highlight_groups:
-		__highlight_groups()
-		highlight_groups = false
-		return
-			
-	finish_enemies_turn()
+	__inner_state += 1
 
 func __transform_dead_enemies() -> void:
 	if stucked_enemies.size() > 0:
 		var simplified_board_info:Array = __convert_board_to_array(board, game_manager.can_place_more_tokens())	
-		merge_graves = __check_dead_enemies(simplified_board_info)	
+		__check_dead_enemies(simplified_board_info)	
 		
 func __merge_graves() -> void:
 	var graves:Array = board.get_tokens_with_id(grave_data.id).keys()
+	combinator.reset_combinations(board.rows, board.columns)
 	game_manager.check_and_do_board_combinations(graves, Constants.MergeType.BY_LAST_CREATED)
 	
 func __highlight_groups() -> void:

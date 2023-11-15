@@ -4,6 +4,7 @@ class_name StateMachine
 
 var states: Dictionary = {}
 var active_state: StateBase
+var state_index : int
 
 @export var game_manager:GameManager
 @export var board: Board
@@ -12,7 +13,7 @@ var active_state: StateBase
 var current_state:Constants.PlayingState:
 	get:
 		return active_state.id
-	
+
 func _ready() -> void:
 	assert(board, "please assign the board")
 	assert(game_manager, "please assign the game_manager")
@@ -24,7 +25,7 @@ func _ready() -> void:
 			node.game_manager = game_manager
 			node.board = board
 			node.set_process(false)
-	switch_state(Constants.PlayingState.INTRO)
+	switch_state(Constants.PlayingState.LOADING)
 
 func switch_state(new_state:Constants.PlayingState)-> void:
 	if active_state:
@@ -39,10 +40,14 @@ func switch_state(new_state:Constants.PlayingState)-> void:
 			print(" > state: "+ __state_name(active_state.id))
 		active_state.enable_state()
 
+
 func handle_state_finished(state:Constants.PlayingState) -> void:
 	match state:
-		Constants.PlayingState.INTRO:
+		Constants.PlayingState.LOADING:
+			switch_state(Constants.PlayingState.START)
+		Constants.PlayingState.START:
 			switch_state(Constants.PlayingState.PLAYER)
+		### -- real cycle --##
 		Constants.PlayingState.PLAYER:
 			switch_state(Constants.PlayingState.ENEMIES)
 		Constants.PlayingState.ENEMIES:
@@ -56,8 +61,10 @@ func __state_name(state:Constants.PlayingState) -> String:
 	match state:
 		Constants.PlayingState.NONE:
 			return "None"
-		Constants.PlayingState.INTRO:
-			return "IntroState"
+		Constants.PlayingState.LOADING:
+			return "LoadingState"
+		Constants.PlayingState.START:
+			return "StartState"
 		Constants.PlayingState.PLAYER:
 			return "UserPlayState"
 		Constants.PlayingState.ENEMIES:

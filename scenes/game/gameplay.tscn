@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=26 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -8,10 +8,11 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
 [ext_resource type="Resource" uid="uid://c61d577qbnsn1" path="res://data/tokens_sets/landscape.tres" id="9_e3s0g"]
-[ext_resource type="Script" path="res://scripts/game_states/state_intro.gd" id="9_o86f4"]
+[ext_resource type="Script" path="res://scripts/game_states/state_loading.gd" id="9_kvjog"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
+[ext_resource type="Script" path="res://scripts/game_states/state_start.gd" id="11_q468j"]
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="13_kh2cu"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="13_mgra2"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="15_i3l0h"]
@@ -60,20 +61,25 @@ highlight_invalid = Color(1, 0.5, 0.5, 1)
 script = ExtResource("8_umy6w")
 game_manager = NodePath("../GameManager")
 board = NodePath("../Board")
+print_debug = true
 
-[node name="IntroState" type="Node" parent="StateMachine"]
-script = ExtResource("9_o86f4")
+[node name="StateLoading" type="Node" parent="StateMachine"]
+script = ExtResource("9_kvjog")
 landscape_tokens = ExtResource("9_e3s0g")
 prefill_landscape = true
 
-[node name="PlayerTurnState" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
+[node name="StateStart" type="Node" parent="StateMachine"]
+script = ExtResource("11_q468j")
+
+[node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
+script = ExtResource("17_7v2y8")
+grave_data = ExtResource("15_uulqy")
+combinator = NodePath("../../Combinator")
+
+[node name="StatePlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
 scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik")])
-
-[node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
-script = ExtResource("17_7v2y8")
-grave_data = ExtResource("15_uulqy")
 
 [node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")
