@@ -223,7 +223,8 @@ func try_to_place_floating_token(cell_index:Vector2) -> void:
 			__collect_reward(cell_token, cell_index)
 		else:
 			show_message.emit("This is not empty", Constants.MessageType.ERROR, .5); #localize
-
+			board.enabled_interaction = true
+			
 func __try_to_run_user_action(cell_index: Vector2) -> void:
 	var action_expected_result : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
 	match action_expected_result:
@@ -231,6 +232,7 @@ func __try_to_run_user_action(cell_index: Vector2) -> void:
 			__process_user_action(floating_token.action.get_type(), cell_index)
 		Constants.ActionResult.INVALID:
 			show_message.emit("Invalid movement", Constants.MessageType.ERROR, .5); #localize
+			board.enabled_interaction = true
 		Constants.ActionResult.WASTED:
 			set_bad_token_on_board(cell_index)
 			discard_floating_token()

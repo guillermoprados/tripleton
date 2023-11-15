@@ -92,4 +92,6 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 		]
 	)
 	
+	## should let the player continue playing
+	assert_bool(board.enabled_interaction).is_true()
 	assert_int(game_manager.points).is_equal(0)
