@@ -13,7 +13,7 @@ func test__enemy_will_not_move_if_paralized() -> void:
 		[ID_GRASS,ID_EMPTY,ID_GRASS],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	await __set_to_player_state_with_board(landscape, ID_MNKEL)
 	__paralized_enemies(true)
 	
 	## give it a chance to move
@@ -47,7 +47,7 @@ func test__monokelo_will_jump_to_empty_cell() -> void:
 		[ID_GRASS,ID_EMPTY,ID_GRASS],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	await __set_to_player_state_with_board(landscape, ID_MNKEL)
 	
 	## set Monokelo
 	await __async_move_mouse_to_cell(Vector2(1,1), true)
@@ -81,7 +81,7 @@ func test__monokelo_will_die_if_cannot_jump() -> void:
 		[ID_EMPTY,ID_GRASS,ID_EMPTY],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	await __set_to_player_state_with_board(landscape, ID_MNKEL)
 	
 	## set Monokelo
 	await __async_move_mouse_to_cell(Vector2(1,1), true)
@@ -107,7 +107,7 @@ func test__multiple_enemies_die_should_be_combined_in_last() -> void:
 		[ID_GRASS,ID_MNKEL,ID_MNKEL],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	await __set_to_player_state_with_board(landscape, ID_MNKEL)
 	__paralized_enemies(true)
 	
 	## set Monokelo
@@ -137,7 +137,7 @@ func test__last_enemy_placed_should_be_highlighted_in_area_with_more_than_2_enem
 		[ID_EMPTY,ID_GRASS,ID_EMPTY,ID_EMPTY],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	await __set_to_player_state_with_board(landscape, ID_MNKEL)
 	__paralized_enemies(true)
 	
 	## set Monokelo area 1
@@ -147,14 +147,14 @@ func test__last_enemy_placed_should_be_highlighted_in_area_with_more_than_2_enem
 	
 	## set Monokelo area 2
 	var area_2_cell := Vector2(0,2)
-	await __wait_to_next_player_turn_with_floating_token(ID_MNKEL)
+	await __wait_to_next_player_turn(ID_MNKEL)
 	await __async_move_mouse_to_cell(area_2_cell, true)
 	__paralized_enemies(true)
 	
 	__ascync_await_for_time_helper(2)
 	## set Monokelo area 3
 	var area_3_cell := Vector2(0,2)
-	await __wait_to_next_player_turn_with_floating_token(ID_MNKEL)
+	await __wait_to_next_player_turn(ID_MNKEL)
 	await __async_move_mouse_to_cell(area_3_cell, true)
 	__paralized_enemies(true)
 	
@@ -176,7 +176,7 @@ func test__should_remove_last_highlight_if_area_has_less_at_some_moment() -> voi
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape,ID_MNKEL)
+	await __set_to_player_state_with_board(landscape,ID_MNKEL)
 	__paralized_enemies(true)
 	
 	## set Monokelo area 1
@@ -188,7 +188,7 @@ func test__should_remove_last_highlight_if_area_has_less_at_some_moment() -> voi
 	assert_that(board.get_token_at_cell(area_1_cell).highlight).is_equal(Constants.TokenHighlight.LAST)
 
 	## set area divider
-	await __wait_to_next_player_turn_with_floating_token(ID_BUSHH)
+	await __wait_to_next_player_turn(ID_BUSHH)
 	await __async_move_mouse_to_cell(Vector2(2,0), true)
 	
 	## check the hihglights
@@ -208,7 +208,7 @@ func test__should_set_one_last_highlight_if_area_is_joined() -> void:
 		[ID_MNKEL,ID_MNKEL,ID_EMPTY]
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_MNKEL)
+	await __set_to_player_state_with_board(landscape, ID_MNKEL)
 	__paralized_enemies(true)
 	
 	## place one monokelo to highlight:
@@ -217,7 +217,7 @@ func test__should_set_one_last_highlight_if_area_is_joined() -> void:
 	__paralized_enemies(true)
 	
 	## ensure only the last one is highlighted
-	await __wait_to_next_player_turn_with_floating_token(ID_BUSHH)
+	await __wait_to_next_player_turn(ID_BUSHH)
 	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for cell in enemy_tokens.keys():
 		if cell == last_cell:

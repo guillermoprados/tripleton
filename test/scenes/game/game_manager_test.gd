@@ -17,17 +17,51 @@ var ID_EMPTY = ''
 var ID_GRASS = '0_grass'
 var ID_BUSHH = '1_bush'
 var ID_TREEE = '2_tree'
+var ID_B_TRE = '3_big_tree'
 var ID_MNKEL = 'monokelo'
 var ID_GRAVE = 'grave'
 var ID_CHE_B = 'chest_bronze'
+var ID_LAMPP  = '0_lamp'
 
+var points_per_id : Dictionary = {}
+
+
+func before():
+	__all_token_data = auto_free(AllTokensData.new())
+	points_per_id[ID_GRASS] = __all_token_data.get_token_data_by_id(ID_GRASS).reward_value
+	points_per_id[ID_BUSHH] = __all_token_data.get_token_data_by_id(ID_BUSHH).reward_value
+	points_per_id[ID_TREEE] = __all_token_data.get_token_data_by_id(ID_TREEE).reward_value
+	points_per_id[ID_B_TRE] = __all_token_data.get_token_data_by_id(ID_B_TRE).reward_value
+	points_per_id[ID_LAMPP] = __all_token_data.get_token_data_by_id(ID_LAMPP).reward_value
+	
+	for value in points_per_id.values():
+		assert_int(value).is_greater(0)
+
+func before_test():
+	runner = scene_runner(__source)
+	game_manager = runner.find_child("GameManager") as GameManager
+	assert_object(game_manager).is_not_null()
+	state_machine = runner.find_child("StateMachine") as StateMachine
+	assert_object(state_machine).is_not_null()
+	board = runner.find_child("Board") as Board
+	assert_object(board).is_not_null()
+	
+func after_test():
+	runner = null
+	game_manager.queue_free()
+	game_manager = null
+	state_machine.queue_free()
+	state_machine = null
+	board.queue_redraw()
+	board = null
+	
 func enum_is_equal(current:Variant, expected:Variant) -> bool:
 	return current == expected
 	
 func enum_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
-func __set_to_player_turn_with_empty_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
+func __set_to_player_state_with_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
 	
 	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.LOADING, enum_is_equal, 2)
 	var load_state = state_machine.active_state
@@ -35,29 +69,26 @@ func __set_to_player_turn_with_empty_board(landscape:Array, initial_token_id:Str
 	await runner.await_func_on(load_state, "is_landscape_created").wait_until(1000).is_true()
 	board.configure(landscape.size(), landscape[0].size())
 	
-	if initial_token_id == ID_EMPTY:
-		await __wait_to_next_player_turn()
-	else:
-		await __wait_to_next_player_turn_with_floating_token(initial_token_id)
+	await __wait_to_next_player_turn(initial_token_id)
 		
 	__prepare_landscape(landscape, runner)
 	
-
-func __wait_to_next_player_turn() -> void:
+func __wait_to_game_state(state:Constants.PlayingState) -> void:
 	await await_idle_frame()
-	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.PLAYER, enum_is_equal, 2)
+	await __async_await_for_enum(state_machine, "current_state", state, enum_is_equal, 2)
+	
+func __wait_to_next_player_turn(token_id:String = ID_EMPTY) -> void:
+	
+	await __wait_to_game_state(Constants.PlayingState.PLAYER)
+	
 	await await_idle_frame()
 	await runner.await_func_on(game_manager, "get_floating_token").wait_until(200).is_not_null()
 	
-func __wait_to_next_player_turn_with_floating_token(token_id:String) -> void:
-	
-	await __wait_to_next_player_turn()
-	
-	game_manager.discard_floating_token()
-	
-	var token_data := __all_token_data.get_token_data_by_id(token_id)
-	game_manager.create_floating_token(token_data)
-	assert_object(game_manager.floating_token).is_not_null()
+	if token_id != ID_EMPTY:
+		game_manager.discard_floating_token()
+		var token_data := __all_token_data.get_token_data_by_id(token_id)
+		game_manager.create_floating_token(token_data)
+		assert_object(game_manager.floating_token).is_not_null()
 	
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	
@@ -78,6 +109,7 @@ func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	if click:
 		var cell := board.get_cell_at_position(cell_index)
 		cell.__just_for_test_click_cell()
+		await await_idle_frame()
 	
 func __async_await_for_enum(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
@@ -92,26 +124,7 @@ func __ascync_await_for_time_helper(time:float) -> void:
 	var init_time := Time.get_unix_time_from_system()
 	while (Time.get_unix_time_from_system() - init_time < time):
 		await await_idle_frame()
-	
-func before_test():
-	runner = scene_runner(__source)
-	game_manager = runner.find_child("GameManager") as GameManager
-	assert_object(game_manager).is_not_null()
-	state_machine = runner.find_child("StateMachine") as StateMachine
-	assert_object(state_machine).is_not_null()
-	board = runner.find_child("Board") as Board
-	assert_object(board).is_not_null()
-	__all_token_data = auto_free(AllTokensData.new())
-	
-func after_test():
-	runner = null
-	game_manager.queue_free()
-	game_manager = null
-	state_machine.queue_free()
-	state_machine = null
-	board.queue_redraw()
-	board = null
-	
+		
 func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
 	var rows = landscape.size()
 	var columns = landscape[0].size()

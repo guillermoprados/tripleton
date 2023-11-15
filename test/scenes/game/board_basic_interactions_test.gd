@@ -12,7 +12,7 @@ func test__move_over_cells() -> void:
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_GRASS)
+	await __set_to_player_state_with_board(landscape, ID_GRASS)
 	
 	var test_cell_in = Vector2(0,1)
 	var test_cell_out = Vector2(2,1)
@@ -37,7 +37,7 @@ func test__place_single_token() -> void:
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape, ID_GRASS)
+	await __set_to_player_state_with_board(landscape, ID_GRASS)
 	
 	var test_cell = Vector2(1,2)
 	var cell := board.get_cell_at_position(test_cell)
@@ -75,10 +75,10 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 	]
 	
-	await __set_to_player_turn_with_empty_board(landscape)
+	await __set_to_player_state_with_board(landscape)
 	
 	## second token (BUSH)
-	await __wait_to_next_player_turn_with_floating_token(ID_BUSHH)
+	await __wait_to_next_player_turn(ID_BUSHH)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	## check
