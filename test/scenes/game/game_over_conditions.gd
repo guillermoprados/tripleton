@@ -41,3 +41,31 @@ func test__if_there_are_no_available_cells_it_should_game_over() -> void:
 	await __wait_to_game_state(Constants.PlayingState.GAME_OVER)
 	
 	assert_that(state_machine.current_state).is_equal(Constants.PlayingState.GAME_OVER)
+
+func test__if_the_last_movement_generates_empty_spaces_should_not_gameover() -> void:
+	
+	var landscape := [
+		[ID_GRASS,ID_GRASS,ID_GRASS],
+		[ID_GRASS,ID_GRASS,ID_GRASS],
+		[ID_GRASS,ID_GRASS,ID_BUSHH],
+		[ID_GRASS,ID_BUSHH,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_BUSHH)
+	
+	## place the token
+	await __async_move_mouse_to_cell(Vector2(3,2), true)
+	
+	## check
+	await __wait_to_next_player_turn()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_GRASS,ID_GRASS,ID_GRASS],
+			[ID_GRASS,ID_GRASS,ID_GRASS],
+			[ID_GRASS,ID_GRASS,ID_EMPTY],
+			[ID_GRASS,ID_EMPTY,ID_TREEE],
+		]
+	)
+	
+	assert_that(state_machine.current_state).is_equal(Constants.PlayingState.PLAYER)
