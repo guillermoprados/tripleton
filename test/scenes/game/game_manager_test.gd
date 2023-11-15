@@ -17,10 +17,44 @@ var ID_EMPTY = ''
 var ID_GRASS = '0_grass'
 var ID_BUSHH = '1_bush'
 var ID_TREEE = '2_tree'
+var ID_B_TRE = '3_big_tree'
 var ID_MNKEL = 'monokelo'
 var ID_GRAVE = 'grave'
 var ID_CHE_B = 'chest_bronze'
+var ID_LAMPP  = '0_lamp'
 
+var points_per_id : Dictionary = {}
+
+
+func before():
+	__all_token_data = auto_free(AllTokensData.new())
+	points_per_id[ID_GRASS] = __all_token_data.get_token_data_by_id(ID_GRASS).reward_value
+	points_per_id[ID_BUSHH] = __all_token_data.get_token_data_by_id(ID_BUSHH).reward_value
+	points_per_id[ID_TREEE] = __all_token_data.get_token_data_by_id(ID_TREEE).reward_value
+	points_per_id[ID_B_TRE] = __all_token_data.get_token_data_by_id(ID_B_TRE).reward_value
+	points_per_id[ID_LAMPP] = __all_token_data.get_token_data_by_id(ID_LAMPP).reward_value
+	
+	for value in points_per_id.values():
+		assert_int(value).is_greater(0)
+
+func before_test():
+	runner = scene_runner(__source)
+	game_manager = runner.find_child("GameManager") as GameManager
+	assert_object(game_manager).is_not_null()
+	state_machine = runner.find_child("StateMachine") as StateMachine
+	assert_object(state_machine).is_not_null()
+	board = runner.find_child("Board") as Board
+	assert_object(board).is_not_null()
+	
+func after_test():
+	runner = null
+	game_manager.queue_free()
+	game_manager = null
+	state_machine.queue_free()
+	state_machine = null
+	board.queue_redraw()
+	board = null
+	
 func enum_is_equal(current:Variant, expected:Variant) -> bool:
 	return current == expected
 	
@@ -90,26 +124,7 @@ func __ascync_await_for_time_helper(time:float) -> void:
 	var init_time := Time.get_unix_time_from_system()
 	while (Time.get_unix_time_from_system() - init_time < time):
 		await await_idle_frame()
-	
-func before_test():
-	runner = scene_runner(__source)
-	game_manager = runner.find_child("GameManager") as GameManager
-	assert_object(game_manager).is_not_null()
-	state_machine = runner.find_child("StateMachine") as StateMachine
-	assert_object(state_machine).is_not_null()
-	board = runner.find_child("Board") as Board
-	assert_object(board).is_not_null()
-	__all_token_data = auto_free(AllTokensData.new())
-	
-func after_test():
-	runner = null
-	game_manager.queue_free()
-	game_manager = null
-	state_machine.queue_free()
-	state_machine = null
-	board.queue_redraw()
-	board = null
-	
+		
 func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
 	var rows = landscape.size()
 	var columns = landscape[0].size()
