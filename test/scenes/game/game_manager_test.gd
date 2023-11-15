@@ -147,17 +147,17 @@ func __paralized_enemies(paralized:bool) -> void:
 		for key in enemies:
 			enemies[key].behavior.paralize = paralized
 
-func __assert_valid_cell_conditions(cell_index:Vector2) -> void:
+func __await_assert_valid_cell_conditions(cell_index:Vector2) -> void:
 	var cell := board.get_cell_at_position(cell_index)
+	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.VALID, enum_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
 
-func __assert_invalid_cell_conditions(cell_index:Vector2) -> void:
+func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:
 	var cell := board.get_cell_at_position(cell_index)
+	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.INVALID, enum_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.INVALID)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.INVALID)
 
-func __assert_wasted_cell_conditions(cell_index:Vector2) -> void:
+func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
 	var cell := board.get_cell_at_position(cell_index)
+	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.WASTED, enum_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.WASTED)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.WASTED)

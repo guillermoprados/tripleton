@@ -19,7 +19,7 @@ func test__action_bomb_should_destroy_a_normal_token() -> void:
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	__assert_valid_cell_conditions(test_cell)
+	await __await_assert_valid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
@@ -52,7 +52,7 @@ func test__action_bomb_should_kill_an_enemy() -> void:
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	__assert_valid_cell_conditions(test_cell)
+	await __await_assert_valid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
@@ -84,7 +84,7 @@ func test__action_bomb_should_destroy_chest() -> void:
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	__assert_wasted_cell_conditions(test_cell)
+	await __await_assert_wasted_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	assert_bool(board.enabled_interaction).is_false()
 	assert_object(game_manager.get_floating_token()).is_null()
@@ -115,7 +115,7 @@ func test__action_bomb_wasted_should_set_it_to_rock() -> void:
 	
 	## move to token
 	await __async_move_mouse_to_cell(test_cell, false)
-	__assert_wasted_cell_conditions(test_cell)
+	await __await_assert_wasted_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()

@@ -19,7 +19,7 @@ func test__action_should_level_up_combinable_token() -> void:
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	__assert_valid_cell_conditions(test_cell)
+	await __await_assert_valid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
@@ -51,7 +51,7 @@ func test__action_should_not_level_up_if_next_token_is_chest() -> void:
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	__assert_invalid_cell_conditions(test_cell)
+	await __await_assert_invalid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_true()
@@ -63,6 +63,85 @@ func test__action_should_not_level_up_if_next_token_is_chest() -> void:
 			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 			[ID_EMPTY,ID_B_TRE,ID_EMPTY],
+		]
+	)
+	
+	assert_int(game_manager.points).is_equal(0)
+
+func test__action_should_not_level_up_on_not_normal_tokens() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_MNKEL,ID_EMPTY],
+		[ID_EMPTY,ID_CHE_B,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	
+	var enemy_cell = Vector2(0,1)
+	var chest_cell = Vector2(1,1)
+	var grass_cell = Vector2(2,1)
+	
+	## enemy cell the token
+	await __async_move_mouse_to_cell(enemy_cell, false)
+	await __await_assert_invalid_cell_conditions(enemy_cell)
+	await __async_move_mouse_to_cell(enemy_cell, true)
+	assert_bool(board.enabled_interaction).is_true()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	## chest cell the token
+	await __async_move_mouse_to_cell(chest_cell, false)
+	await __await_assert_invalid_cell_conditions(chest_cell)
+	await __async_move_mouse_to_cell(chest_cell, true)
+	assert_bool(board.enabled_interaction).is_true()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	## grass cell the token
+	await __async_move_mouse_to_cell(grass_cell, false)
+	await __await_assert_valid_cell_conditions(grass_cell)
+	await __async_move_mouse_to_cell(grass_cell, true)
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_null()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_MNKEL,ID_EMPTY],
+			[ID_EMPTY,ID_CHE_B,ID_EMPTY],
+			[ID_EMPTY,ID_BUSHH,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		]
+	)
+	
+	assert_int(game_manager.points).is_equal(0)
+
+func test__action_should_level_waste_on_empty_cell() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	
+	var test_cell = Vector2(1,1)
+	
+	## place the token
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_wasted_cell_conditions(test_cell)
+	await __async_move_mouse_to_cell(test_cell, true)
+	
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_null()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_ROCKK,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_GRASS,ID_EMPTY],
 		]
 	)
 	
