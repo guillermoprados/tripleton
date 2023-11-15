@@ -78,6 +78,7 @@ func test__action_should_not_level_up_on_not_normal_tokens() -> void:
 	]
 	
 	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	__paralized_enemies(true)
 	
 	var enemy_cell = Vector2(0,1)
 	var chest_cell = Vector2(1,1)
