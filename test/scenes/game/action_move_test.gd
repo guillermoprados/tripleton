@@ -23,6 +23,9 @@ func __await_assert_valid_available_moves(cell_index:Vector2, moves:Array[Vector
 	var affected_cells := action.affected_cells(cell_index, board.cell_tokens_ids)
 	assert_array(affected_cells).contains_exactly_in_any_order(expected_moves)
 
+func __await_token_move_to_cell(to_cell:Vector2) -> void:
+	await runner.await_func_on(board, "cell_tokens_id_at",[to_cell.x,to_cell.y]).wait_until(1000).is_not_equal(Constants.EMPTY_CELL)
+
 func test__move_cell_valid_moves_on_different_positions() -> void:
 	
 	var landscape := [
@@ -108,5 +111,137 @@ func test__move_action_invalid() -> void:
 			[ID_GRASS,ID_GRASS,ID_GRASS],
 			[ID_EMPTY,ID_GRASS,ID_EMPTY],
 			[ID_GRASS,ID_GRASS,ID_GRASS],
+		]
+	)
+	
+func test__move_action_down_selected() -> void:
+	
+	var landscape := [
+		[ID_GRASS,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	
+	var token_cell := Vector2(0,0)
+	var to_cell := Vector2(1,0)
+	await __async_move_mouse_to_cell(token_cell, false)
+	await __await_assert_valid_available_moves(token_cell, [MOVE_DOWN, MOVE_RIGHT])
+	await __async_move_mouse_to_cell(token_cell, true)
+	
+	# disables the board but enable just the cells
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	await __async_move_mouse_to_cell(to_cell, true)
+	await __await_token_move_to_cell(to_cell)
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_GRASS,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		]
+	)
+
+func test__move_action_up_selected() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	
+	var token_cell := Vector2(2,1)
+	var to_cell := Vector2(1,1)
+	await __async_move_mouse_to_cell(token_cell, false)
+	await __await_assert_valid_available_moves(token_cell, [MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT])
+	await __async_move_mouse_to_cell(token_cell, true)
+	
+	# disables the board but enable just the cells
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	await __async_move_mouse_to_cell(to_cell, true)
+	await __await_token_move_to_cell(to_cell)
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_GRASS,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		]
+	)
+
+func test__move_action_left_selected() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	
+	var token_cell := Vector2(2,1)
+	var to_cell := Vector2(2,0)
+	await __async_move_mouse_to_cell(token_cell, false)
+	await __await_assert_valid_available_moves(token_cell, [MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT])
+	await __async_move_mouse_to_cell(token_cell, true)
+	
+	# disables the board but enable just the cells
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	await __async_move_mouse_to_cell(to_cell, true)
+	await __await_token_move_to_cell(to_cell)
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_GRASS,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		]
+	)
+	
+func test__move_action_right_selected() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	
+	var token_cell := Vector2(2,1)
+	var to_cell := Vector2(2,2)
+	await __async_move_mouse_to_cell(token_cell, false)
+	await __await_assert_valid_available_moves(token_cell, [MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT])
+	await __async_move_mouse_to_cell(token_cell, true)
+	
+	# disables the board but enable just the cells
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	await __async_move_mouse_to_cell(to_cell, true)
+	await __await_token_move_to_cell(to_cell)
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_GRASS],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
 		]
 	)
