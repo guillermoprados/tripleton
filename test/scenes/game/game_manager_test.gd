@@ -147,10 +147,18 @@ func __paralized_enemies(paralized:bool) -> void:
 		for key in enemies:
 			enemies[key].behavior.paralize = paralized
 
+func __await_assert_empty_cell_conditions(cell_index:Vector2) -> void:
+	var cell := board.get_cell_at_position(cell_index)
+	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 2)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
+	
 func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
 	var cell := board.get_cell_at_position(cell_index)
 	await __async_await_for_enum(cell, "highlight", cell_highlight, enum_is_equal, 2)
-	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
+	if game_manager.floating_token.type == Constants.TokenType.ACTION:
+		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
+	else:
+		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.NONE)
 	assert_that(cell.highlight).is_equal(cell_highlight)
 	
 func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:

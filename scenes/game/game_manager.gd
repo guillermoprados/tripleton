@@ -137,9 +137,10 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 
 		if combination.is_valid():
 			board.highlight_combination(cell_index, combination)
+			floating_token.set_highlight(Constants.TokenHighlight.COMBINATION)
 		else:
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-			
+			floating_token.set_highlight(Constants.TokenHighlight.NONE)
 	else:
 		
 		floating_token.set_highlight(Constants.TokenHighlight.INVALID)

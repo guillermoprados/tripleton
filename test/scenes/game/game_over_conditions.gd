@@ -1,5 +1,5 @@
 # GdUnit generated TestSuite
-class_name BoardBasicInteractionsTest
+class_name GameOverConditionsTest
 extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')

@@ -14,20 +14,22 @@ func test__move_over_cells() -> void:
 	
 	await __set_to_player_state_with_board(landscape, ID_GRASS)
 	
-	var test_cell_in = Vector2(0,1)
-	var test_cell_out = Vector2(2,1)
+	var test_cell_A = Vector2(0,1)
+	var test_cell_B = Vector2(2,1)
 	
-	var cell := board.get_cell_at_position(test_cell_in)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
+	# test cell is not highlighted
+	await __await_assert_empty_cell_conditions(test_cell_A)
 	
-	await __async_move_mouse_to_cell(test_cell_in, false)
+	# test cell and floating token highlight as valid
+	await __async_move_mouse_to_cell(test_cell_A, false)
+	await __await_assert_valid_cell_conditions(test_cell_A)
 	
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.VALID, enum_is_equal, 5)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
+	# leave cell
+	# test cell and floating token highlight as valid
+	await __async_move_mouse_to_cell(test_cell_B, false)
+	await __await_assert_valid_cell_conditions(test_cell_B)
 	
-	await __async_move_mouse_to_cell(test_cell_out, false)
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 5)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
+	await __await_assert_empty_cell_conditions(test_cell_A)
 	
 func test__place_single_token() -> void:
 	
