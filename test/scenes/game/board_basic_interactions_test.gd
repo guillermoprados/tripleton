@@ -44,8 +44,11 @@ func test__place_single_token() -> void:
 	var test_cell = Vector2(1,2)
 	var cell := board.get_cell_at_position(test_cell)
 	assert_bool(board.is_cell_empty(test_cell)).is_true()
+	await __await_assert_empty_cell_conditions(test_cell)
 	
 	## place the token
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_valid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	assert_bool(board.enabled_interaction).is_false()
 	assert_object(game_manager.get_floating_token()).is_null()
@@ -81,8 +84,9 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	
 	## second token (BUSH)
 	await __wait_to_next_player_turn(ID_BUSHH)
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_invalid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
-	
 	## check
 	await __wait_to_next_player_turn()
 	
