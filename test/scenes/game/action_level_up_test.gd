@@ -148,3 +148,38 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
+func test__action_should_level_up_and_combine() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_BUSHH,ID_BUSHH,ID_TREEE],
+		[ID_EMPTY,ID_GRASS,ID_TREEE],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	
+	var test_cell = Vector2(3,1)
+	
+	## place the token
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_valid_cell_conditions(test_cell)
+	await __async_move_mouse_to_cell(test_cell, true)
+	
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_null()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_B_TRE,ID_EMPTY],
+		]
+	)
+	
+	var expected_points = 0
+	expected_points += (points_per_id[ID_BUSHH] * 3)
+	expected_points += (points_per_id[ID_TREEE] * 3)
+	
+	assert_int(game_manager.points).is_equal(expected_points)

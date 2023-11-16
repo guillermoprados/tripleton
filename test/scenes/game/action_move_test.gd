@@ -275,3 +275,9 @@ func test__move_action_should_combine() -> void:
 			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
 		]
 	)
+
+	var expected_points = 0
+	expected_points += (points_per_id[ID_GRASS] * 3)
+	expected_points += (points_per_id[ID_BUSHH] * 3)
+	
+	assert_int(game_manager.points).is_equal(expected_points)
