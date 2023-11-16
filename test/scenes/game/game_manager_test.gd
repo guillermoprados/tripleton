@@ -164,3 +164,7 @@ func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
 	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.WASTED, enum_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.WASTED)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.WASTED)
+
+func __await_token_id_at_cell(token_id: String, at_cell:Vector2) -> void:
+	await runner.await_func_on(board, "cell_tokens_id_at",[at_cell.x,at_cell.y]).wait_until(1000).is_equal(token_id)
+	assert_that(board.cell_tokens_ids[at_cell.x][at_cell.y]).is_equal(token_id)
