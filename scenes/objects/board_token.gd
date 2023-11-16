@@ -3,11 +3,13 @@ extends Node2D
 class_name BoardToken
 
 @export var color_border_invalid : Color = Color(1, 0.5, 0.5, 1)
-@export var color_border_valid_action : Color = Color(1, 0.5, 0.5, 1)
+@export var color_border_valid : Color = Color(1, 0.5, 0.5, 1)
 @export var color_overlay_invalid : Color = Color(1, 0.5, 0.5, 1)
+@export var color_border_wasted: Color = Color(1,1,1,1)
 @export var color_semi_transparent : Color = Color(1, 1, 1, 0.5)
 
 @export var tweener:TokenTweener
+@export var all_tokens_data: AllTokensData
 
 var sprite_holder:TokenSpriteHolder
 
@@ -131,21 +133,25 @@ func set_highlight(mode:Constants.TokenHighlight) -> void:
 				sprite_holder.paint_floating(Color.WHITE, Color.WHITE)
 			else:
 				sprite_holder.paint_normal()
-				
+		Constants.TokenHighlight.VALID:
+			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
+			sprite_holder.paint_valid_action(color_border_valid, color_semi_transparent)		
 		Constants.TokenHighlight.INVALID:
 			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be invalid")
 			sprite_holder.paint_floating(color_border_invalid, color_overlay_invalid )
-		Constants.TokenHighlight.TRANSPARENT:
-			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
-			sprite_holder.paint_floating(color_semi_transparent, color_semi_transparent)
+		Constants.TokenHighlight.WASTED:
+			sprite_holder.paint_floating(color_border_wasted, Color.WHITE)
+		Constants.TokenHighlight.COMBINATION:
+			sprite_holder.paint_floating(Color.WHITE, Color.WHITE)
 		Constants.TokenHighlight.LAST:
 			assert(__current_status == Constants.TokenStatus.PLACED, "only placed tokens can be last")
 			sprite_holder.paint_last()
-		Constants.TokenHighlight.VALID_ACTION:
-			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
-			sprite_holder.paint_valid_action(color_border_valid_action, color_semi_transparent)
 			
 		
 func set_in_range(difference_pos:Vector2) -> void:
 	set_status(Constants.TokenStatus.IN_RANGE)
 	tweener.set_in_range_tweener(difference_pos)
+
+## don't abuse of this.. since it loads the token data under each token
+func get_other_token_data_util(token_id:String) -> TokenData:
+	return all_tokens_data.get_token_data_by_id(token_id)

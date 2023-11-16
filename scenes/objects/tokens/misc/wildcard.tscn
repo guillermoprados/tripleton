@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://dykxirfdd2dpo"]
+[gd_scene load_steps=8 format=3 uid="uid://dykxirfdd2dpo"]
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_on5jj"]
-[ext_resource type="Script" path="res://resources/all_tokens_data.gd" id="2_pd3tv"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_xhxef"]
 [ext_resource type="Texture2D" uid="uid://chgx58x7hj3ga" path="res://images/tokens/card.png" id="3_l0k40"]
 [ext_resource type="Texture2D" uid="uid://cj0f8j4mniyk6" path="res://images/tokens/action_wildcard.png" id="4_bfho8"]
@@ -23,9 +22,6 @@ animations = [{
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_on5jj")
 
-[node name="AllTokensData" type="Node" parent="."]
-script = ExtResource("2_pd3tv")
-
 [node name="GhostTokenHolder" type="Node2D" parent="."]
 
 [node name="Shadow" type="Sprite2D" parent="."]
@@ -40,10 +36,9 @@ sprite_frames = SubResource("SpriteFrames_giy4g")
 [node name="Simbol" type="Sprite2D" parent="Sprite"]
 texture = ExtResource("4_bfho8")
 
-[node name="ActionWildcard" type="Node" parent="." node_paths=PackedStringArray("combinator", "all_tokens_data", "ghost_token_holder")]
+[node name="ActionWildcard" type="Node" parent="." node_paths=PackedStringArray("combinator", "ghost_token_holder")]
 script = ExtResource("5_c1o4k")
 combinator = NodePath("../Combinator")
-all_tokens_data = NodePath("../AllTokensData")
 ghost_token_holder = NodePath("../GhostTokenHolder")
 
 [node name="Combinator" type="Node" parent="."]

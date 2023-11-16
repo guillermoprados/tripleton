@@ -6,10 +6,16 @@ func get_type() -> Constants.ActionType:
 	return Constants.ActionType.BOMB
 		
 func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
-	if cell_tokens_ids[action_cell.x][action_cell.y] != Constants.EMPTY_CELL:
-		return Constants.ActionResult.VALID
+	var result:Constants.ActionResult = Constants.ActionResult.VALID
+	if __is_cell_empty(action_cell, cell_tokens_ids):
+		result = Constants.ActionResult.WASTED
 	else:
-		return Constants.ActionResult.WASTED
+		if __token.get_other_token_data_util(cell_tokens_ids[action_cell.x][action_cell.y]).type() == Constants.TokenType.CHEST:
+			result = Constants.ActionResult.WASTED
+		else:
+			result = Constants.ActionResult.VALID
+			
+	return result
 		
 func __surrounding_cells(current_cell:Vector2) -> Array[Vector2]:
 	var surrounding_cells : Array[Vector2] = []

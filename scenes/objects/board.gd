@@ -16,7 +16,15 @@ var columns:int:
 	get:
 		return __columns
 		
-var cell_tokens_ids: Array = []  # The matrix of string values
+var __cell_tokens_ids: Array = []
+
+var cell_tokens_ids : Array:
+	get:
+		return __cell_tokens_ids
+		
+func cell_tokens_id_at(row:int, col:int) -> String:
+	return cell_tokens_ids[row][col]
+		
 var placed_tokens: Dictionary = {}  # Dictionary with cell indices as keys and token instances as values
 var cells_matrix: Array = [] # The cells matrix so we can access them directly
 var floor_matrix: Array = []
@@ -56,7 +64,7 @@ func configure(num_rows:int, num_columns:int) -> void:
 			
 			add_child(cell_instance)
 			row_cells.append(cell_instance)
-		cell_tokens_ids.append(row_tokens)
+		__cell_tokens_ids.append(row_tokens)
 		cells_matrix.append(row_cells)  # Storing the row of cells into the matrix
 
 func __clear_board() -> void:
@@ -65,7 +73,7 @@ func __clear_board() -> void:
 		for cell in row:
 			cell.queue_free()
 	cells_matrix.clear()
-	cell_tokens_ids.clear()
+	__cell_tokens_ids.clear()
 
 	# Clear token instances
 	for token_pos in placed_tokens.keys():
@@ -92,9 +100,9 @@ func __clear_floor_matrix():
 # Set the token for a specific cell
 func set_token_at_cell(token:BoardToken, cell_index: Vector2) -> void:
 	
-	assert(cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL, "there is a token already here!" + str(cell_index))
+	assert(__cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL, "there is a token already here!" + str(cell_index))
 	
-	cell_tokens_ids[cell_index.x][cell_index.y] = token.id
+	__cell_tokens_ids[cell_index.x][cell_index.y] = token.id
 	placed_tokens[cell_index] = token
 	add_child(token)
 	token.position = get_cell_at_position(cell_index).position
@@ -140,7 +148,7 @@ func clear_token(cell_index: Vector2) -> void:
 		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
 		
 	# Update the matrix value to EMPTY_CELL
-	cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
+	__cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
 	
 	__update_floor_tiles([cell_index])
 	
@@ -174,12 +182,12 @@ func get_cells_with_floor_type(type: Constants.FloorType, inverted:bool) -> Arra
 	
 func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float):
 	assert(cell_index_from != cell_index_to, "cannot move to the same cell") 
-	assert(cell_tokens_ids[cell_index_from.x][cell_index_from.y] != Constants.EMPTY_CELL, "cannot move from "+str(cell_index_from)+ " empty token?")
-	assert(cell_tokens_ids[cell_index_to.x][cell_index_to.y] == Constants.EMPTY_CELL, "cannot move to "+str(cell_index_to))
+	assert(__cell_tokens_ids[cell_index_from.x][cell_index_from.y] != Constants.EMPTY_CELL, "cannot move from "+str(cell_index_from)+ " empty token?")
+	assert(__cell_tokens_ids[cell_index_to.x][cell_index_to.y] == Constants.EMPTY_CELL, "cannot move to "+str(cell_index_to))
 	
-	cell_tokens_ids[cell_index_to.x][cell_index_to.y] = cell_tokens_ids[cell_index_from.x][cell_index_from.y]
+	__cell_tokens_ids[cell_index_to.x][cell_index_to.y] = __cell_tokens_ids[cell_index_from.x][cell_index_from.y]
 	placed_tokens[cell_index_to] = placed_tokens[cell_index_from]
-	cell_tokens_ids[cell_index_from.x][cell_index_from.y] = Constants.EMPTY_CELL
+	__cell_tokens_ids[cell_index_from.x][cell_index_from.y] = Constants.EMPTY_CELL
 	placed_tokens.erase(cell_index_from)
 	
 	if tween_delay > 0:
@@ -202,7 +210,7 @@ func get_empty_cells() -> Array[Vector2i]:
 
 	for row in range(rows):
 		for col in range(columns):
-			if cell_tokens_ids[row][col] == Constants.EMPTY_CELL:
+			if __cell_tokens_ids[row][col] == Constants.EMPTY_CELL:
 				empty_cells.append(Vector2i(row, col))
 
 	return empty_cells
@@ -221,7 +229,7 @@ func get_cell_at_position(cell_index: Vector2) -> BoardCell:
 
 # Check if the cell is empty
 func is_cell_empty(cell_index: Vector2) -> bool:
-	return cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL
+	return __cell_tokens_ids[cell_index.x][cell_index.y] == Constants.EMPTY_CELL
 
 func _on_cell_entered(cell_index: Vector2) -> void:
 	if not enabled_interaction:

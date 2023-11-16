@@ -152,25 +152,24 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 	
 	match action_status:
 		Constants.ActionResult.VALID:
-			
 			var action_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
 			if floating_token.is_wildcard:
 				var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
 				board.highlight_combination(cell_index, wildcard_action.get_wildcard_combination())
 				var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
 				wildcard_action.set_ghost_token(to_place_token)
+				board.highligh_cell(cell_index, Constants.CellHighlight.COMBINATION)
 			else:
-				board.highlight_cells(action_cells, Constants.CellHighlight.WARNING)
+				board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
 			
-			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-			floating_token.set_highlight(Constants.TokenHighlight.VALID_ACTION)
+			floating_token.set_highlight(Constants.TokenHighlight.VALID)
 			
 		Constants.ActionResult.INVALID:
 			board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
-			floating_token.set_highlight(Constants.TokenHighlight.NONE)
+			floating_token.set_highlight(Constants.TokenHighlight.INVALID)
 		Constants.ActionResult.WASTED:
-			board.highligh_cell(cell_index, Constants.CellHighlight.WARNING)
-			floating_token.set_highlight(Constants.TokenHighlight.NONE)
+			board.highligh_cell(cell_index, Constants.CellHighlight.WASTED)
+			floating_token.set_highlight(Constants.TokenHighlight.WASTED)
 		
 		
 func move_floating_token_to_swap_cell() -> void:

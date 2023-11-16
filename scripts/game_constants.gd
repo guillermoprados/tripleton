@@ -35,10 +35,20 @@ enum ActionResult {
 enum CellHighlight {
 	NONE,
 	VALID,
-	WARNING,
 	INVALID,
+	WASTED,
 	COMBINATION
 }
+
+enum TokenHighlight {
+	NONE,
+	VALID,
+	INVALID,
+	WASTED,
+	COMBINATION,
+	LAST,
+}
+
 
 enum TokenStatus {
 	NONE,
@@ -50,13 +60,6 @@ enum TokenStatus {
 	GHOST_BOX
 }
 
-enum TokenHighlight {
-	NONE,
-	LAST,
-	INVALID,
-	TRANSPARENT,
-	VALID_ACTION
-}
 
 enum RewardType {
 	NONE,
@@ -101,7 +104,7 @@ enum UIPlayScreenId {
 	GAME_OVER
 }
 
-const BOARD_SIZE := Vector2(5,3)
+const BOARD_SIZE := Vector2(6,5)
 
 const TILESET_TERRAIN_BOARD_SET = 0
 const TILESET_TERRAIN_BACK = 0

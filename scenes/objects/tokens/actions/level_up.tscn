@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://mxio012ldr5n"]
+[gd_scene load_steps=7 format=3 uid="uid://mxio012ldr5n"]
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_i45gv"]
-[ext_resource type="Script" path="res://resources/all_tokens_data.gd" id="2_61ht2"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_86lb8"]
 [ext_resource type="Script" path="res://scripts/actions/action_level_up.gd" id="3_e1dtx"]
 [ext_resource type="Texture2D" uid="uid://chgx58x7hj3ga" path="res://images/tokens/card.png" id="4_4uyog"]
@@ -18,21 +17,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Bomb" type="Node2D"]
+[node name="LevelUp" type="Node2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_i45gv")
-
-[node name="AllTokensData" type="Node" parent="."]
-script = ExtResource("2_61ht2")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(-2.14577e-06, 2)
 scale = Vector2(0.938272, 0.266667)
 texture = ExtResource("2_86lb8")
 
-[node name="ActionLevelUp" type="Node" parent="." node_paths=PackedStringArray("all_tokens_data")]
+[node name="ActionLevelUp" type="Node" parent="."]
 script = ExtResource("3_e1dtx")
-all_tokens_data = NodePath("../AllTokensData")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -39)
