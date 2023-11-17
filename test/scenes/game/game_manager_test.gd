@@ -12,6 +12,7 @@ var runner : GdUnitSceneRunner
 var game_manager: GameManager
 var state_machine: StateMachine
 var board: Board
+var spawn_token_cell: BoardCell
 
 var ID_EMPTY = ''
 var ID_GRASS = '0_grass'
@@ -49,6 +50,8 @@ func before_test():
 	assert_object(state_machine).is_not_null()
 	board = runner.find_child("Board") as Board
 	assert_object(board).is_not_null()
+	spawn_token_cell = runner.find_child("SpawnTokenCell") as BoardCell
+	assert_object(spawn_token_cell).is_not_null()
 	
 func after_test():
 	runner = null
@@ -59,15 +62,15 @@ func after_test():
 	board.queue_redraw()
 	board = null
 	
-func enum_is_equal(current:Variant, expected:Variant) -> bool:
+func property_is_equal(current:Variant, expected:Variant) -> bool:
 	return current == expected
 	
-func enum_is_not_equal(current:Variant, expected:Variant) -> bool:
+func property_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
 func __set_to_player_state_with_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
 	
-	await __async_await_for_enum(state_machine, "current_state", Constants.PlayingState.LOADING, enum_is_equal, 2)
+	await __async_await_for_property(state_machine, "current_state", Constants.PlayingState.LOADING, property_is_equal, 2)
 	var load_state = state_machine.active_state
 	assert_that(load_state.id).is_equal(Constants.PlayingState.LOADING)
 	await runner.await_func_on(load_state, "is_landscape_created").wait_until(1000).is_true()
@@ -79,7 +82,7 @@ func __set_to_player_state_with_board(landscape:Array, initial_token_id:String =
 	
 func __wait_to_game_state(state:Constants.PlayingState) -> void:
 	await await_idle_frame()
-	await __async_await_for_enum(state_machine, "current_state", state, enum_is_equal, 2)
+	await __async_await_for_property(state_machine, "current_state", state, property_is_equal, 2)
 	
 func __wait_to_next_player_turn(token_id:String = ID_EMPTY) -> void:
 	
@@ -116,7 +119,7 @@ func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	
 	await await_idle_frame()
 	
-func __async_await_for_enum(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
+func __async_await_for_property(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
 	while (Time.get_unix_time_from_system() - init_time < time):
 		var current_value = obj.get(prop_name)
@@ -147,14 +150,19 @@ func __paralized_enemies(paralized:bool) -> void:
 		for key in enemies:
 			enemies[key].behavior.paralize = paralized
 
+func __await_assert_floating_token_is_boxed() -> void:
+	await __async_await_for_property(game_manager.floating_token, "position", spawn_token_cell.position, property_is_equal, 2)
+	assert_that(game_manager.floating_token.position).is_equal(spawn_token_cell.position)
+	assert_that(game_manager.floating_token.current_status).is_equal(Constants.TokenStatus.BOXED)
+	
 func __await_assert_empty_cell_conditions(cell_index:Vector2) -> void:
 	var cell := board.get_cell_at_position(cell_index)
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 2)
+	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.NONE, property_is_equal, 2)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
 	
 func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
 	var cell := board.get_cell_at_position(cell_index)
-	await __async_await_for_enum(cell, "highlight", cell_highlight, enum_is_equal, 2)
+	await __async_await_for_property(cell, "highlight", cell_highlight, property_is_equal, 2)
 	if game_manager.floating_token.type == Constants.TokenType.ACTION:
 		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
 	else:
@@ -163,16 +171,21 @@ func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Con
 	
 func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:
 	var cell := board.get_cell_at_position(cell_index)
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.INVALID, enum_is_equal, 2)
+	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.INVALID, property_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.INVALID)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.INVALID)
 
 func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
 	var cell := board.get_cell_at_position(cell_index)
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.WASTED, enum_is_equal, 2)
+	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.WASTED, property_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.WASTED)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.WASTED)
 
 func __await_token_id_at_cell(token_id: String, at_cell:Vector2) -> void:
 	await runner.await_func_on(board, "cell_tokens_id_at",[at_cell.x,at_cell.y]).wait_until(1000).is_equal(token_id)
 	assert_that(board.cell_tokens_ids[at_cell.x][at_cell.y]).is_equal(token_id)
+
+func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
+	var chest_data: TokenChestData = board.get_token_at_cell(cell_index).data
+	var prize_id := chest_data.get_random_prize().id
+	return prize_id

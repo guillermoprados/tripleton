@@ -5,13 +5,13 @@ class_name ActionBomb
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.BOMB
 		
-func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+func action_check_result_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	var result:Constants.ActionResult = Constants.ActionResult.VALID
 	if __is_cell_empty(action_cell, cell_tokens_ids):
 		result = Constants.ActionResult.WASTED
 	else:
 		if __token.get_other_token_data_util(cell_tokens_ids[action_cell.x][action_cell.y]).type() == Constants.TokenType.CHEST:
-			result = Constants.ActionResult.WASTED
+			result = Constants.ActionResult.INVALID
 		else:
 			result = Constants.ActionResult.VALID
 			

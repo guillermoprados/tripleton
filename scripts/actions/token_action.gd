@@ -11,8 +11,8 @@ var __token:BoardToken:
 		var token = get_parent().get_parent()
 		assert(token is BoardToken, "the action is not configured properly")
 		return token
-		
-func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+
+func action_check_result_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	assert(false, "this is must be implemented in child")
 	return Constants.ActionResult.INVALID
 	

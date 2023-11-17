@@ -36,7 +36,7 @@ func test__action_should_level_up_combinable_token() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
-func test__action_should_not_level_up_if_next_token_is_chest() -> void:
+func test__action_should_not_level_up_if_NEXT_token_is_chest() -> void:
 	
 	var landscape := [
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
@@ -68,11 +68,11 @@ func test__action_should_not_level_up_if_next_token_is_chest() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
-func test__action_should_not_level_up_on_not_normal_tokens() -> void:
+func test__action_should_not_level_up_on_enemies() -> void:
 	
 	var landscape := [
 		[ID_EMPTY,ID_MNKEL,ID_EMPTY],
-		[ID_EMPTY,ID_CHE_B,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 		[ID_EMPTY,ID_GRASS,ID_EMPTY],
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 	]
@@ -81,8 +81,6 @@ func test__action_should_not_level_up_on_not_normal_tokens() -> void:
 	__paralized_enemies(true)
 	
 	var enemy_cell = Vector2(0,1)
-	var chest_cell = Vector2(1,1)
-	var grass_cell = Vector2(2,1)
 	
 	## enemy cell the token
 	await __async_move_mouse_to_cell(enemy_cell, false)
@@ -90,26 +88,47 @@ func test__action_should_not_level_up_on_not_normal_tokens() -> void:
 	await __async_move_mouse_to_cell(enemy_cell, true)
 	assert_bool(board.enabled_interaction).is_true()
 	assert_object(game_manager.get_floating_token()).is_not_null()
-	
-	## chest cell the token
-	await __async_move_mouse_to_cell(chest_cell, false)
-	await __await_assert_invalid_cell_conditions(chest_cell)
-	await __async_move_mouse_to_cell(chest_cell, true)
-	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
-	
-	## grass cell the token
-	await __async_move_mouse_to_cell(grass_cell, false)
-	await __await_assert_valid_cell_conditions(grass_cell)
-	await __async_move_mouse_to_cell(grass_cell, true)
-	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[ID_EMPTY,ID_MNKEL,ID_EMPTY],
-			[ID_EMPTY,ID_CHE_B,ID_EMPTY],
-			[ID_EMPTY,ID_BUSHH,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_GRASS,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		]
+	)
+	
+	assert_int(game_manager.points).is_equal(0)
+	
+func test__action_should_not_level_up_on_chests() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_CHE_B,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	__paralized_enemies(true)
+	
+	var chest_cell = Vector2(1,1)
+	var PRIZE_ID := __get_chest_prize_id_at_cell(chest_cell)
+	
+	## chest cell the token should open
+	await __async_move_mouse_to_cell(chest_cell, false)
+	await __await_assert_invalid_cell_conditions(chest_cell)
+	await __async_move_mouse_to_cell(chest_cell, true)
+	await __await_assert_floating_token_is_boxed()
+	assert_bool(board.enabled_interaction).is_true()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,PRIZE_ID,ID_EMPTY],
+			[ID_EMPTY,ID_GRASS,ID_EMPTY],
 			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
 		]
 	)

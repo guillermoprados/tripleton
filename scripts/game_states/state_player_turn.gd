@@ -84,7 +84,7 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	game_manager.move_floating_token_to_cell(index)	
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
-	game_manager.try_to_place_floating_token(index)
+	game_manager.process_cell_selection(index)
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:
 	game_manager.move_floating_token_to_swap_cell()

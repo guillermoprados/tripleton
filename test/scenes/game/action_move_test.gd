@@ -11,7 +11,7 @@ const MOVE_RIGHT = Vector2(0,1)
 
 func __await_assert_valid_available_moves(cell_index:Vector2, moves:Array[Vector2]) -> void:
 	var cell := board.get_cell_at_position(cell_index)
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.VALID, enum_is_equal, 2)
+	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.VALID, property_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
 	var expected_moves :Array[Vector2] = [] 

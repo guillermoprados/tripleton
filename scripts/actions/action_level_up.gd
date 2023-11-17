@@ -5,7 +5,7 @@ class_name ActionLevelUp
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.LEVEL_UP
 		
-func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+func action_check_result_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	if __is_cell_empty(action_cell, cell_tokens_ids):
 		return Constants.ActionResult.WASTED
 	else:

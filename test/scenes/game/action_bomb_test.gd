@@ -68,8 +68,8 @@ func test__action_bomb_should_kill_an_enemy() -> void:
 	)
 	
 	assert_int(game_manager.points).is_equal(0)
-	
-func test__action_bomb_should_destroy_chest() -> void:
+
+func test__action_bomb_on_chest_should_be_invalid() -> void:
 	
 	var landscape := [
 		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
@@ -82,23 +82,13 @@ func test__action_bomb_should_destroy_chest() -> void:
 	
 	var test_cell = Vector2(3,1)
 	
-	## place the token
+	# move over
 	await __async_move_mouse_to_cell(test_cell, false)
-	await __await_assert_wasted_cell_conditions(test_cell)
+	await __await_assert_invalid_cell_conditions(test_cell)
+
+	# try to bomb
 	await __async_move_mouse_to_cell(test_cell, true)
-	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
-	
-	assert_array(board.cell_tokens_ids).contains_same_exactly(
-		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_ROCKK,ID_EMPTY],
-		]
-	)
-	
-	assert_int(game_manager.points).is_equal(0)
+	await __await_assert_floating_token_is_boxed()
 
 func test__action_bomb_wasted_should_set_it_to_rock() -> void:
 	

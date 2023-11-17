@@ -5,7 +5,7 @@ class_name ActionMove
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.MOVE
 
-func action_status_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
+func action_check_result_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	var result:Constants.ActionResult = Constants.ActionResult.INVALID
 	
 	if cell_tokens_ids[action_cell.x][action_cell.y] != Constants.EMPTY_CELL:
