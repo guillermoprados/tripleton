@@ -121,9 +121,9 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 				if token_data.reward_type == Constants.RewardType.POINTS:
 					current_points += token_data.reward_value
 			
-			print("---")
-			print(combination.as_text())
-			print("points: "+ str(current_points))
+			# print("---")
+			# print(combination.as_text())
+			# print("points: "+ str(current_points))
 			
 			if current_points > bigger_points:
 				bigger_points = current_points
