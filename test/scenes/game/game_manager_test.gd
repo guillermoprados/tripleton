@@ -39,11 +39,15 @@ var points_per_id : Dictionary = {}
 
 func before():
 	__all_token_data = auto_free(AllTokensData.new())
-	
-	for id in IDs.values():
-		var data = __all_token_data.get_token_data_by_id(id)
+	__all_token_data.__load_tokens_data(IDs.values())
+	var keys = IDs.keys()
+	for key in keys:
+		var token_id = IDs[key]
+		if token_id == IDs.EMPTY:
+			continue
+		var data = __all_token_data.get_token_data_by_id(token_id)
 		if data is TokenPrizeData:
-			points_per_id[data.id] = data.reward_value
+			points_per_id[token_id] = data.reward_value
 
 func before_test():
 	runner = scene_runner(__source)
