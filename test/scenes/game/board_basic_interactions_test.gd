@@ -7,12 +7,12 @@ extends GameManagerTest
 func test__move_over_cells() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_GRASS)
+	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
 	var test_cell_A = Vector2(0,1)
 	var test_cell_B = Vector2(2,1)
@@ -34,12 +34,12 @@ func test__move_over_cells() -> void:
 func test__place_single_token() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_GRASS)
+	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
 	var test_cell = Vector2(1,2)
 	var cell := board.get_cell_at_position(test_cell)
@@ -62,9 +62,9 @@ func test__place_single_token() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_GRASS],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.GRASS],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)
 	
@@ -75,15 +75,15 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	var test_cell = Vector2(1,2)
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_GRASS],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.GRASS],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
 	await __set_to_player_state_with_board(landscape)
 	
 	## second token (BUSH)
-	await __wait_to_next_player_turn(ID_BUSHH)
+	await __wait_to_next_player_turn(IDs.BUSHH)
 	await __async_move_mouse_to_cell(test_cell, false)
 	await __await_assert_invalid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
@@ -92,9 +92,9 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_GRASS],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.GRASS],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)
 	

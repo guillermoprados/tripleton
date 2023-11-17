@@ -7,13 +7,13 @@ extends GameManagerTest
 func test__action_bomb_on_chest_should_open_chest_and_restore_floating_token() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_CHE_B,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_BOMBB)
+	await __set_to_player_state_with_board(landscape, IDs.BOMBB)
 	
 	var test_cell = Vector2(3,1)
 	
@@ -29,10 +29,10 @@ func test__action_bomb_on_chest_should_open_chest_and_restore_floating_token() -
 	
 	# assert_array(board.cell_tokens_ids).contains_same_exactly(
 	#	[
-	#		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-	#		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-	#		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-	#		[ID_EMPTY,ID_CHE_B,ID_EMPTY],
+	#		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+	#		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+	#		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+	#		[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
 	#	]
 	#)
 	

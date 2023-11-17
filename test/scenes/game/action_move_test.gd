@@ -26,13 +26,13 @@ func __await_assert_valid_available_moves(cell_index:Vector2, moves:Array[Vector
 func test__move_cell_valid_moves_on_different_positions() -> void:
 	
 	var landscape := [
-		[ID_GRASS,ID_EMPTY,ID_GRASS],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_GRASS,ID_EMPTY,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_EMPTY],
+		[IDs.GRASS,IDs.EMPTY,IDs.GRASS],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.GRASS,IDs.EMPTY,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var test_cell := Vector2(0,0)
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -62,12 +62,12 @@ func test__move_cell_valid_moves_on_different_positions() -> void:
 func test__move_action_wasted() -> void:
 	
 	var landscape := [
-		[ID_GRASS,ID_EMPTY,ID_GRASS],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_GRASS,ID_GRASS,ID_GRASS],
+		[IDs.GRASS,IDs.EMPTY,IDs.GRASS],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var test_cell := Vector2(0,1)
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -79,21 +79,21 @@ func test__move_action_wasted() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_GRASS,ID_ROCKK,ID_GRASS],
-			[ID_EMPTY,ID_GRASS,ID_EMPTY],
-			[ID_GRASS,ID_GRASS,ID_GRASS],
+			[IDs.GRASS,IDs.ROCKK,IDs.GRASS],
+			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+			[IDs.GRASS,IDs.GRASS,IDs.GRASS],
 		]
 	)
 	
 func test__move_action_invalid() -> void:
 	
 	var landscape := [
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_GRASS,ID_GRASS,ID_GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var test_cell := Vector2(0,1)
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -105,22 +105,22 @@ func test__move_action_invalid() -> void:
 
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_GRASS,ID_GRASS,ID_GRASS],
-			[ID_EMPTY,ID_GRASS,ID_EMPTY],
-			[ID_GRASS,ID_GRASS,ID_GRASS],
+			[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+			[IDs.GRASS,IDs.GRASS,IDs.GRASS],
 		]
 	)
 	
 func test__move_action_down_selected() -> void:
 	
 	var landscape := [
-		[ID_GRASS,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		[IDs.GRASS,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var token_cell := Vector2(0,0)
 	var to_cell := Vector2(1,0)
@@ -133,27 +133,27 @@ func test__move_action_down_selected() -> void:
 	assert_object(game_manager.get_floating_token()).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
-	await __await_token_id_at_cell(ID_GRASS,to_cell)
+	await __await_token_id_at_cell(IDs.GRASS,to_cell)
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_GRASS,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.GRASS,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]
 	)
 
 func test__move_action_up_selected() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var token_cell := Vector2(2,1)
 	var to_cell := Vector2(1,1)
@@ -166,27 +166,27 @@ func test__move_action_up_selected() -> void:
 	assert_object(game_manager.get_floating_token()).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
-	await __await_token_id_at_cell(ID_GRASS,to_cell)
+	await __await_token_id_at_cell(IDs.GRASS,to_cell)
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_GRASS,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]
 	)
 
 func test__move_action_left_selected() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var token_cell := Vector2(2,1)
 	var to_cell := Vector2(2,0)
@@ -199,27 +199,27 @@ func test__move_action_left_selected() -> void:
 	assert_object(game_manager.get_floating_token()).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
-	await __await_token_id_at_cell(ID_GRASS,to_cell)
+	await __await_token_id_at_cell(IDs.GRASS,to_cell)
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_GRASS,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.GRASS,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]
 	)
 	
 func test__move_action_right_selected() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var token_cell := Vector2(2,1)
 	var to_cell := Vector2(2,2)
@@ -232,27 +232,27 @@ func test__move_action_right_selected() -> void:
 	assert_object(game_manager.get_floating_token()).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
-	await __await_token_id_at_cell(ID_GRASS,to_cell)
+	await __await_token_id_at_cell(IDs.GRASS,to_cell)
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_GRASS],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.GRASS],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]
 	)
 
 func test__move_action_should_combine() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_GRASS,ID_BUSHH],
-		[ID_BUSHH,ID_EMPTY,ID_GRASS],
-		[ID_BUSHH,ID_GRASS,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+		[IDs.EMPTY,IDs.GRASS,IDs.BUSHH],
+		[IDs.BUSHH,IDs.EMPTY,IDs.GRASS],
+		[IDs.BUSHH,IDs.GRASS,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	
 	var token_cell := Vector2(2,1)
 	var to_cell := Vector2(1,1)
@@ -265,33 +265,33 @@ func test__move_action_should_combine() -> void:
 	assert_object(game_manager.get_floating_token()).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
-	await __await_token_id_at_cell(ID_TREEE,to_cell)
+	await __await_token_id_at_cell(IDs.TREEE,to_cell)
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_BUSHH],
-			[ID_EMPTY,ID_TREEE,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY]
+			[IDs.EMPTY,IDs.EMPTY,IDs.BUSHH],
+			[IDs.EMPTY,IDs.TREEE,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]
 	)
 
 	var expected_points = 0
-	expected_points += (points_per_id[ID_GRASS] * 3)
-	expected_points += (points_per_id[ID_BUSHH] * 3)
+	expected_points += (points_per_id[IDs.GRASS] * 3)
+	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	
 	assert_int(game_manager.points).is_equal(expected_points)
 
 func test__action_should_not_move_enemies() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_MNKEL,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.MNKEL,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	__paralized_enemies(true)
 	
 	var enemy_cell = Vector2(0,1)
@@ -306,10 +306,10 @@ func test__action_should_not_move_enemies() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_MNKEL,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_GRASS,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[IDs.EMPTY,IDs.MNKEL,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)
 	
@@ -318,16 +318,16 @@ func test__action_should_not_move_enemies() -> void:
 func test__action_move_should_not_work_on_chests() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_CHE_B,ID_EMPTY],
-		[ID_EMPTY,ID_GRASS,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	
 	var chest_cell = Vector2(1,1)
-	var PRIZE_ID := __get_chest_prize_id_at_cell(chest_cell)
+	var ID__PRIZE := __get_chest_ID__PRIZE_at_cell(chest_cell)
 	
 	await __async_move_mouse_to_cell(chest_cell, false)
 	await __await_assert_invalid_cell_conditions(chest_cell)
@@ -336,23 +336,23 @@ func test__action_move_should_not_work_on_chests() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,PRIZE_ID,ID_EMPTY],
-			[ID_EMPTY,ID_GRASS,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,ID__PRIZE,IDs.EMPTY],
+			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)
 
 func test__action_move_should_not_move_prizes() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_PR_CA,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.PR_CA,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	__paralized_enemies(true)
 	
 	var prize_cell = Vector2(2,1)
@@ -365,9 +365,9 @@ func test__action_move_should_not_move_prizes() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)

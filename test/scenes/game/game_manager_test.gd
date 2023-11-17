@@ -14,34 +14,36 @@ var state_machine: StateMachine
 var board: Board
 var spawn_token_cell: BoardCell
 
-var ID_EMPTY = ''
-var ID_GRASS = '0_grass'
-var ID_BUSHH = '1_bush'
-var ID_TREEE = '2_tree'
-var ID_B_TRE = '3_big_tree'
-var ID_MNKEL = 'monokelo'
-var ID_GRAVE = 'grave'
-var ID_CHE_B = 'chest_bronze'
-var ID_LAMPP = '0_lamp'
-var ID_BOMBB = 'bomb'
-var ID_LV_UP = 'level_up'
-var ID_MOVEE = 'move'
-var ID_WILDC = 'wildcard'
-var ID_ROCKK = 'rock'
-var ID_PR_CA = 'cat_white'
+const IDs = {
+	EMPTY = '',
+	GRASS = '0_grass',
+	BUSHH = '1_bush',
+	TREEE = '2_tree',
+	B_TRE = '3_big_tree',
+	MNKEL = 'monokelo',
+	GRAVE = 'grave',
+	CHE_B = 'chest_bronze',
+	CHE_S = 'chest_silver',
+	LAMPP = '0_lamp',
+	BOMBB = 'bomb',
+	LV_UP = 'level_up',
+	MOVEE = 'move',
+	WILDC = 'wildcard',
+	ROCKK = 'rock',
+	PR_CA = 'cat_white'
+}
+
+
 
 var points_per_id : Dictionary = {}
 
 func before():
 	__all_token_data = auto_free(AllTokensData.new())
-	points_per_id[ID_GRASS] = __all_token_data.get_token_data_by_id(ID_GRASS).reward_value
-	points_per_id[ID_BUSHH] = __all_token_data.get_token_data_by_id(ID_BUSHH).reward_value
-	points_per_id[ID_TREEE] = __all_token_data.get_token_data_by_id(ID_TREEE).reward_value
-	points_per_id[ID_B_TRE] = __all_token_data.get_token_data_by_id(ID_B_TRE).reward_value
-	points_per_id[ID_LAMPP] = __all_token_data.get_token_data_by_id(ID_LAMPP).reward_value
 	
-	for value in points_per_id.values():
-		assert_int(value).is_greater(0)
+	for id in IDs.values():
+		var data = __all_token_data.get_token_data_by_id(id)
+		if data is TokenPrizeData:
+			points_per_id[data.id] = data.reward_value
 
 func before_test():
 	runner = scene_runner(__source)
@@ -69,7 +71,7 @@ func property_is_equal(current:Variant, expected:Variant) -> bool:
 func property_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
-func __set_to_player_state_with_board(landscape:Array, initial_token_id:String = ID_EMPTY) -> void:
+func __set_to_player_state_with_board(landscape:Array, initial_token_id:String = IDs.EMPTY) -> void:
 	
 	await __async_await_for_property(state_machine, "current_state", Constants.PlayingState.LOADING, property_is_equal, 2)
 	var load_state = state_machine.active_state
@@ -85,14 +87,14 @@ func __wait_to_game_state(state:Constants.PlayingState) -> void:
 	await await_idle_frame()
 	await __async_await_for_property(state_machine, "current_state", state, property_is_equal, 2)
 	
-func __wait_to_next_player_turn(token_id:String = ID_EMPTY) -> void:
+func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 	
 	await __wait_to_game_state(Constants.PlayingState.PLAYER)
 	
 	await await_idle_frame()
 	await runner.await_func_on(game_manager, "get_floating_token").wait_until(200).is_not_null()
 	
-	if token_id != ID_EMPTY:
+	if token_id != IDs.EMPTY:
 		game_manager.discard_floating_token()
 		var token_data := __all_token_data.get_token_data_by_id(token_id)
 		game_manager.create_floating_token(token_data)
@@ -140,7 +142,7 @@ func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
 	for row in range(rows):
 		for col in range(columns):
 			var id = landscape[row][col]
-			if id != ID_EMPTY:
+			if id != IDs.EMPTY:
 				var token_data:TokenData = __all_token_data.get_token_data_by_id(id)
 				var token = game_manager.instantiate_new_token(token_data, Constants.TokenStatus.PLACED)
 				board.set_token_at_cell(token, Vector2(row, col))
@@ -190,7 +192,7 @@ func __await_token_id_at_cell(token_id: String, at_cell:Vector2) -> void:
 	await runner.await_func_on(board, "cell_tokens_id_at",[at_cell.x,at_cell.y]).wait_until(1000).is_equal(token_id)
 	assert_that(board.cell_tokens_ids[at_cell.x][at_cell.y]).is_equal(token_id)
 
-func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
+func __get_chest_ID__PRIZE_at_cell(cell_index:Vector2) -> String:
 	var chest_data: TokenChestData = board.get_token_at_cell(cell_index).data
-	var prize_id := chest_data.get_random_prize().id
-	return prize_id
+	var ID__PRIZE := chest_data.get_random_prize().id
+	return ID__PRIZE

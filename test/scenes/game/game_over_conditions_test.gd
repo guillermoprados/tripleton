@@ -7,13 +7,13 @@ extends GameManagerTest
 func test__if_there_are_available_cells_it_should_not_game_over() -> void:
 	
 	var landscape := [
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_EMPTY,ID_EMPTY],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_BUSHH)
+	await __set_to_player_state_with_board(landscape, IDs.BUSHH)
 	
 	## place the token
 	await __async_move_mouse_to_cell(Vector2(3,2), true)
@@ -26,13 +26,13 @@ func test__if_there_are_available_cells_it_should_not_game_over() -> void:
 func test__if_there_are_no_available_cells_it_should_game_over() -> void:
 	
 	var landscape := [
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_EMPTY],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_BUSHH)
+	await __set_to_player_state_with_board(landscape, IDs.BUSHH)
 	
 	## place the token
 	await __async_move_mouse_to_cell(Vector2(3,2), true)
@@ -45,13 +45,13 @@ func test__if_there_are_no_available_cells_it_should_game_over() -> void:
 func test__if_the_last_movement_generates_empty_spaces_should_not_gameover() -> void:
 	
 	var landscape := [
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_GRASS],
-		[ID_GRASS,ID_GRASS,ID_BUSHH],
-		[ID_GRASS,ID_BUSHH,ID_EMPTY],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+		[IDs.GRASS,IDs.GRASS,IDs.BUSHH],
+		[IDs.GRASS,IDs.BUSHH,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_BUSHH)
+	await __set_to_player_state_with_board(landscape, IDs.BUSHH)
 	
 	## place the token
 	await __async_move_mouse_to_cell(Vector2(3,2), true)
@@ -61,10 +61,10 @@ func test__if_the_last_movement_generates_empty_spaces_should_not_gameover() -> 
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_GRASS,ID_GRASS,ID_GRASS],
-			[ID_GRASS,ID_GRASS,ID_GRASS],
-			[ID_GRASS,ID_GRASS,ID_EMPTY],
-			[ID_GRASS,ID_EMPTY,ID_TREEE],
+			[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+			[IDs.GRASS,IDs.GRASS,IDs.GRASS],
+			[IDs.GRASS,IDs.GRASS,IDs.EMPTY],
+			[IDs.GRASS,IDs.EMPTY,IDs.TREEE],
 		]
 	)
 	
