@@ -327,7 +327,7 @@ func test__action_move_should_not_work_on_chests() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	
 	var chest_cell = Vector2(1,1)
-	var ID__PRIZE := __get_chest_ID__PRIZE_at_cell(chest_cell)
+	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	await __async_move_mouse_to_cell(chest_cell, false)
 	await __await_assert_invalid_cell_conditions(chest_cell)

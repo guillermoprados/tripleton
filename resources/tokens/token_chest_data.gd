@@ -9,12 +9,12 @@ func type() -> Constants.TokenType:
 
 # we only calculate the value of the prize once, 
 # so we can compare it on tests when we call it again
-var __prize_index:int
+var __current_prize_data:TokenData
 
 func get_random_prize() -> TokenData:
 	assert(prizes.size() > 0, "This chest is empty")
-	if not __prize_index:
+	if not __current_prize_data:
 		randomize()
 		var random_index:int = randi() % prizes.size()
-		__prize_index = random_index
-	return prizes[__prize_index]
+		__current_prize_data = prizes[random_index]
+	return __current_prize_data

@@ -81,7 +81,7 @@ func test__action_bomb_on_chest_should_be_invalid() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.BOMBB)
 	
 	var chest_cell = Vector2(3,1)
-	var ID__PRIZE := __get_chest_ID__PRIZE_at_cell(chest_cell)
+	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	## chest cell the token should open
 	await __async_move_mouse_to_cell(chest_cell, false)

@@ -114,7 +114,7 @@ func test__action_should_not_level_up_on_chests() -> void:
 	__paralized_enemies(true)
 	
 	var chest_cell = Vector2(1,1)
-	var ID__PRIZE := __get_chest_ID__PRIZE_at_cell(chest_cell)
+	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	## chest cell the token should open
 	await __async_move_mouse_to_cell(chest_cell, false)

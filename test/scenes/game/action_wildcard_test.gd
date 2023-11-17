@@ -254,7 +254,7 @@ func test__action_cannot_be_placed_over_chest_and_should_open() -> void:
 	
 	var chest_cell = Vector2(1,1)
 	
-	var ID__PRIZE := __get_chest_ID__PRIZE_at_cell(chest_cell)
+	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	## chest cell the token should open
 	await __async_move_mouse_to_cell(chest_cell, false)
@@ -286,7 +286,6 @@ func test__action_cannot_be_placed_over_prize_and_should_pick_it() -> void:
 	
 	var prize_cell = Vector2(3,1)
 	
-	## chest cell the token should open
 	await __async_move_mouse_to_cell(prize_cell, false)
 	await __await_assert_invalid_cell_conditions(prize_cell)
 	await __async_move_mouse_to_cell(prize_cell, true)

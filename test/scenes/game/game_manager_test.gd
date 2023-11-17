@@ -196,7 +196,7 @@ func __await_token_id_at_cell(token_id: String, at_cell:Vector2) -> void:
 	await runner.await_func_on(board, "cell_tokens_id_at",[at_cell.x,at_cell.y]).wait_until(1000).is_equal(token_id)
 	assert_that(board.cell_tokens_ids[at_cell.x][at_cell.y]).is_equal(token_id)
 
-func __get_chest_ID__PRIZE_at_cell(cell_index:Vector2) -> String:
+func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
 	var chest_data: TokenChestData = board.get_token_at_cell(cell_index).data
-	var ID__PRIZE := chest_data.get_random_prize().id
-	return ID__PRIZE
+	var prize_id := chest_data.get_random_prize().id
+	return prize_id
