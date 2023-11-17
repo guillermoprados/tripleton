@@ -97,7 +97,7 @@ func __create_ghost_token(token_data:TokenData):
 	ghost_token.position = spawn_token_cell.position
 	ghost_token.z_index = Constants.GHOST_BOX_Z_INDEX
 	
-	
+
 func discard_floating_token() -> void:
 	assert (floating_token, "trying to discard a non existing token")
 	remove_child(floating_token)
@@ -106,7 +106,17 @@ func discard_floating_token() -> void:
 	
 	if ghost_token:
 		__discard_ghost_token()
-	
+
+func reset_floating_token_to_spawn_box() -> void:
+	# move the floating token back.
+	# since the user can interact with multiple prices and chest in the same play
+	# we need to ignore the call if its already boxed
+	if floating_token.current_status != Constants.TokenStatus.BOXED:
+		floating_token.set_status(Constants.TokenStatus.BOXED)
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN)
+	tween.tween_property(floating_token, "position", spawn_token_cell.position, 0.2)	
+			
 func __discard_ghost_token() -> void:
 	remove_child(ghost_token)
 	ghost_token.queue_free()
@@ -137,9 +147,10 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 
 		if combination.is_valid():
 			board.highlight_combination(cell_index, combination)
+			floating_token.set_highlight(Constants.TokenHighlight.COMBINATION)
 		else:
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-			
+			floating_token.set_highlight(Constants.TokenHighlight.NONE)
 	else:
 		
 		floating_token.set_highlight(Constants.TokenHighlight.INVALID)
@@ -148,7 +159,7 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2):
 	floating_token.position = on_board_position
 	
-	var action_status : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
+	var action_status : Constants.ActionResult = floating_token.action.action_check_result_on_cell(cell_index, board.cell_tokens_ids)
 	
 	match action_status:
 		Constants.ActionResult.VALID:
@@ -204,47 +215,94 @@ func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
-func try_to_place_floating_token(cell_index:Vector2) -> void:
+func process_cell_selection(cell_index:Vector2) -> void:
 	
-	print("place ft at:"+str(cell_index))
+	var processed : bool = false
 	
-	assert(floating_token, "of course you need a floating token")
+	board.enabled_interaction = false
 	
-	if floating_token.type == Constants.TokenType.ACTION:
-		__try_to_run_user_action(cell_index)	
-	elif board.is_cell_empty(cell_index):
-		__place_floating_token_at(cell_index)
-	else:
+	if not processed:
+		processed = __process_chest_or_prize_selection(cell_index)
+	
+	if not processed:
+		if floating_token.type == Constants.TokenType.ACTION:
+			processed = __process_user_action(cell_index)
+		else:
+			processed = __place_floating_token_at(cell_index)
+	
+	if not processed:
+		board.enabled_interaction = true
+	
+func __process_chest_or_prize_selection(cell_index:Vector2) -> bool:
+	var processed := false
+	
+	if not board.is_cell_empty(cell_index):
+	
 		var cell_token:BoardToken = board.get_token_at_cell(cell_index)
+		
+		var picked_action := false
+		
 		if cell_token.type == Constants.TokenType.CHEST:
 			__open_chest(cell_token, cell_index)
+			picked_action = true
 		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
 			__collect_reward(cell_token, cell_index)
-		else:
-			show_message.emit("This is not empty", Constants.MessageType.ERROR, .5); #localize
+			picked_action = true
+		
+		if picked_action:
+			reset_floating_token_to_spawn_box()
+			board.clear_highlights()
 			board.enabled_interaction = true
-			
-func __try_to_run_user_action(cell_index: Vector2) -> void:
-	var action_expected_result : Constants.ActionResult = floating_token.action.action_status_on_cell(cell_index, board.cell_tokens_ids)
+			processed = true
+	
+	return processed
+	
+func __process_user_action(cell_index: Vector2) -> bool:
+	
+	var processed := false
+	
+	var action_expected_result : Constants.ActionResult = floating_token.action.action_check_result_on_cell(cell_index, board.cell_tokens_ids)
+	
 	match action_expected_result:
 		Constants.ActionResult.VALID:
-			__process_user_action(floating_token.action.get_type(), cell_index)
+			
+			match floating_token.action.get_type():
+				Constants.ActionType.BOMB:
+					__bomb_cell_action(cell_index)
+				Constants.ActionType.MOVE:
+					__move_token_action(cell_index)
+				Constants.ActionType.WILDCARD:
+					__place_wildcard_cell_action(cell_index)
+				Constants.ActionType.LEVEL_UP:
+					__level_up_cell_action(cell_index)
+					
+			processed = true
+			
 		Constants.ActionResult.INVALID:
 			show_message.emit("Invalid movement", Constants.MessageType.ERROR, .5); #localize
-			board.enabled_interaction = true
+			processed = false
 		Constants.ActionResult.WASTED:
 			set_bad_token_on_board(cell_index)
 			discard_floating_token()
-
-func __place_floating_token_at(cell_index: Vector2) -> void:
+			processed = true
+			
+	return processed
 	
-	var to_place_token_data : TokenData = floating_token.data
+func __place_floating_token_at(cell_index: Vector2) -> bool:
 	
-	var duplicated_token = instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
+	var processed := true
 	
-	__place_token_on_board(duplicated_token, cell_index)
+	if board.is_cell_empty(cell_index):
+		var to_place_token_data : TokenData = floating_token.data
+		var duplicated_token = instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
+		__place_token_on_board(duplicated_token, cell_index)
+		discard_floating_token()
+		processed = true
+	else:
+		show_message.emit("cannot place a token there", Constants.MessageType.ERROR, .5); #localize
+		processed = false
 	
-	discard_floating_token()
+	return processed
 	
 func __place_token_on_board(token:BoardToken, cell_index: Vector2) -> void:
 	
@@ -379,12 +437,6 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 		assert( false, "what are you trying to add??")	
 	
 func __open_chest(token:BoardToken, cell_index: Vector2) -> void:
-	#move the floating token back
-	floating_token.position = spawn_token_cell.position
-	
-	if not floating_token.is_boxed:
-		floating_token.set_status(Constants.TokenStatus.BOXED)
-	
 	#remove the chest
 	var chest_data: TokenChestData = token.data
 	var prize_data:TokenPrizeData = chest_data.get_random_prize()
@@ -419,21 +471,6 @@ func can_place_more_tokens() -> bool:
 	return board_free_cells > 0
 
 ## ACTIONS
-	
-func __process_user_action(action_type:Constants.ActionType, cell_index:Vector2) -> void:
-	
-	board.clear_highlights()
-	board.enabled_interaction = false
-	
-	match action_type:
-		Constants.ActionType.BOMB:
-			__bomb_cell_action(cell_index)
-		Constants.ActionType.MOVE:
-			__move_token_action(cell_index)
-		Constants.ActionType.WILDCARD:
-			__place_wildcard_cell_action(cell_index)
-		Constants.ActionType.LEVEL_UP:
-			__level_up_cell_action(cell_index)
 
 func __bomb_cell_action(cell_index:Vector2) -> void:
 	var token:BoardToken = board.get_token_at_cell(cell_index)
@@ -461,7 +498,7 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token, Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
-	try_to_place_floating_token(cell_index)
+	__place_floating_token_at(cell_index)
 	
 var move_token_action_callables:Dictionary = {}
 var move_token_origin:Vector2
@@ -505,5 +542,5 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
-	try_to_place_floating_token(cell_index)
+	__place_floating_token_at(cell_index)
 	

@@ -82,7 +82,7 @@ combinator = NodePath("../../Combinator")
 [node name="StatePlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik"), ExtResource("3_potqp")])
 
 [node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")

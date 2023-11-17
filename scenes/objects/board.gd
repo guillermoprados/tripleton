@@ -244,8 +244,6 @@ func _on_cell_exited(cell_index: Vector2) -> void:
 func _on_cell_selected(cell_index: Vector2) -> void:
 	if not enabled_interaction:
 		return
-	#force disabling interactions for multiple taps
-	enabled_interaction = false
 	board_cell_selected.emit(cell_index)
 
 func clear_highlights() -> void:

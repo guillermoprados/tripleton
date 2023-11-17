@@ -7,43 +7,48 @@ extends GameManagerTest
 func test__move_over_cells() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_GRASS)
+	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
-	var test_cell_in = Vector2(0,1)
-	var test_cell_out = Vector2(2,1)
+	var test_cell_A = Vector2(0,1)
+	var test_cell_B = Vector2(2,1)
 	
-	var cell := board.get_cell_at_position(test_cell_in)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
+	# test cell is not highlighted
+	await __await_assert_empty_cell_conditions(test_cell_A)
 	
-	await __async_move_mouse_to_cell(test_cell_in, false)
+	# test cell and floating token highlight as valid
+	await __async_move_mouse_to_cell(test_cell_A, false)
+	await __await_assert_valid_cell_conditions(test_cell_A)
 	
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.VALID, enum_is_equal, 5)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
+	# leave cell
+	# test cell and floating token highlight as valid
+	await __async_move_mouse_to_cell(test_cell_B, false)
+	await __await_assert_valid_cell_conditions(test_cell_B)
 	
-	await __async_move_mouse_to_cell(test_cell_out, false)
-	await __async_await_for_enum(cell, "highlight", Constants.CellHighlight.NONE, enum_is_equal, 5)
-	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
+	await __await_assert_empty_cell_conditions(test_cell_A)
 	
 func test__place_single_token() -> void:
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, ID_GRASS)
+	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
 	var test_cell = Vector2(1,2)
 	var cell := board.get_cell_at_position(test_cell)
 	assert_bool(board.is_cell_empty(test_cell)).is_true()
+	await __await_assert_empty_cell_conditions(test_cell)
 	
 	## place the token
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_valid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	assert_bool(board.enabled_interaction).is_false()
 	assert_object(game_manager.get_floating_token()).is_null()
@@ -57,9 +62,9 @@ func test__place_single_token() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_GRASS],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.GRASS],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)
 	
@@ -70,25 +75,26 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	var test_cell = Vector2(1,2)
 	
 	var landscape := [
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-		[ID_EMPTY,ID_EMPTY,ID_GRASS],
-		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.GRASS],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
 	await __set_to_player_state_with_board(landscape)
 	
 	## second token (BUSH)
-	await __wait_to_next_player_turn(ID_BUSHH)
+	await __wait_to_next_player_turn(IDs.BUSHH)
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_invalid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
-	
 	## check
 	await __wait_to_next_player_turn()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
-			[ID_EMPTY,ID_EMPTY,ID_GRASS],
-			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.GRASS],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)
 	
