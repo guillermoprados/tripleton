@@ -10,7 +10,8 @@ func action_check_result_on_cell(action_cell:Vector2, cell_tokens_ids: Array) ->
 	if __is_cell_empty(action_cell, cell_tokens_ids):
 		result = Constants.ActionResult.WASTED
 	else:
-		if __token.get_other_token_data_util(cell_tokens_ids[action_cell.x][action_cell.y]).type() == Constants.TokenType.CHEST:
+		var on_board_token_type := __token.get_other_token_data_util(cell_tokens_ids[action_cell.x][action_cell.y]).type()
+		if on_board_token_type == Constants.TokenType.CHEST or on_board_token_type == Constants.TokenType.PRIZE:
 			result = Constants.ActionResult.INVALID
 		else:
 			result = Constants.ActionResult.VALID

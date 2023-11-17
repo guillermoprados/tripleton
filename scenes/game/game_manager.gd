@@ -113,9 +113,9 @@ func reset_floating_token_to_spawn_box() -> void:
 	# we need to ignore the call if its already boxed
 	if floating_token.current_status != Constants.TokenStatus.BOXED:
 		floating_token.set_status(Constants.TokenStatus.BOXED)
-		var tween = create_tween()
-		tween.set_ease(Tween.EASE_IN)
-		tween.tween_property(floating_token, "position", spawn_token_cell.position, 0.2)
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN)
+	tween.tween_property(floating_token, "position", spawn_token_cell.position, 0.2)	
 			
 func __discard_ghost_token() -> void:
 	remove_child(ghost_token)

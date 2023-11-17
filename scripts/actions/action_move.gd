@@ -8,12 +8,18 @@ func get_type() -> Constants.ActionType:
 func action_check_result_on_cell(action_cell:Vector2, cell_tokens_ids: Array) -> Constants.ActionResult:
 	var result:Constants.ActionResult = Constants.ActionResult.INVALID
 	
-	if cell_tokens_ids[action_cell.x][action_cell.y] != Constants.EMPTY_CELL:
-		if affected_cells(action_cell, cell_tokens_ids).size() > 0:
-			result = Constants.ActionResult.VALID
-	else:
-		result = Constants.ActionResult.WASTED
+	var is_valid_token := false
 	
+	var on_board_token_id : String = cell_tokens_ids[action_cell.x][action_cell.y] 
+	
+	if on_board_token_id != Constants.EMPTY_CELL:
+		var on_board_token_type := __token.get_other_token_data_util(on_board_token_id).type()
+		if on_board_token_type == Constants.TokenType.NORMAL:
+			if affected_cells(action_cell, cell_tokens_ids).size() > 0:
+				result = Constants.ActionResult.VALID
+	else: 
+		result = Constants.ActionResult.WASTED
+		
 	return result 
 
 func __is_cell_suitable_to_move(to_move_cell:Vector2, cell_tokens_ids: Array):

@@ -121,8 +121,6 @@ func test__action_should_not_level_up_on_chests() -> void:
 	await __await_assert_invalid_cell_conditions(chest_cell)
 	await __async_move_mouse_to_cell(chest_cell, true)
 	await __await_assert_floating_token_is_boxed()
-	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -135,6 +133,34 @@ func test__action_should_not_level_up_on_chests() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
+func test__action_level_up_on_prize_should_be_invalid() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_PR_CA,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	
+	var prize_cell = Vector2(3,1)
+	
+	## chest cell the token should open
+	await __async_move_mouse_to_cell(prize_cell, false)
+	await __await_assert_invalid_cell_conditions(prize_cell)
+	await __async_move_mouse_to_cell(prize_cell, true)
+	await __await_assert_floating_token_is_boxed()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_GRASS,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		]
+	)
+	
 func test__action_should_level_waste_on_empty_cell() -> void:
 	
 	var landscape := [

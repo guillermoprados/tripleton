@@ -281,3 +281,93 @@ func test__move_action_should_combine() -> void:
 	expected_points += (points_per_id[ID_BUSHH] * 3)
 	
 	assert_int(game_manager.points).is_equal(expected_points)
+
+func test__action_should_not_move_enemies() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_MNKEL,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	__paralized_enemies(true)
+	
+	var enemy_cell = Vector2(0,1)
+	
+	## enemy cell the token
+	await __async_move_mouse_to_cell(enemy_cell, false)
+	await __await_assert_invalid_cell_conditions(enemy_cell)
+	await __async_move_mouse_to_cell(enemy_cell, true)
+	assert_bool(board.enabled_interaction).is_true()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_MNKEL,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_GRASS,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		]
+	)
+	
+	assert_int(game_manager.points).is_equal(0)
+
+func test__action_move_should_not_work_on_chests() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_CHE_B,ID_EMPTY],
+		[ID_EMPTY,ID_GRASS,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_LV_UP)
+	
+	var chest_cell = Vector2(1,1)
+	var PRIZE_ID := __get_chest_prize_id_at_cell(chest_cell)
+	
+	await __async_move_mouse_to_cell(chest_cell, false)
+	await __await_assert_invalid_cell_conditions(chest_cell)
+	await __async_move_mouse_to_cell(chest_cell, true)
+	await __await_assert_floating_token_is_boxed()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,PRIZE_ID,ID_EMPTY],
+			[ID_EMPTY,ID_GRASS,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		]
+	)
+
+func test__action_move_should_not_move_prizes() -> void:
+	
+	var landscape := [
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		[ID_EMPTY,ID_PR_CA,ID_EMPTY],
+		[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, ID_MOVEE)
+	__paralized_enemies(true)
+	
+	var prize_cell = Vector2(2,1)
+	
+	## prize cell the token should be connsumed
+	await __async_move_mouse_to_cell(prize_cell, false)
+	await __await_assert_invalid_cell_conditions(prize_cell)
+	await __async_move_mouse_to_cell(prize_cell, true)
+	await __await_assert_floating_token_is_boxed()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+			[ID_EMPTY,ID_EMPTY,ID_EMPTY],
+		]
+	)
