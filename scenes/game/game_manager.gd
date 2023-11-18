@@ -172,6 +172,10 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 				board.highligh_cell(cell_index, Constants.CellHighlight.COMBINATION)
 			else:
 				board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
+				## if there are more affected cells by the action, highlight : TODO: CHANGE COLOR
+				for affected_cell in action_cells:
+					if affected_cell != cell_index:
+						board.highligh_cell(affected_cell, Constants.CellHighlight.COMBINATION)
 			
 			floating_token.set_highlight(Constants.TokenHighlight.VALID)
 			
@@ -266,16 +270,23 @@ func __process_user_action(cell_index: Vector2) -> bool:
 	match action_expected_result:
 		Constants.ActionResult.VALID:
 			
+			var clear_highlights := true
 			match floating_token.action.get_type():
 				Constants.ActionType.BOMB:
 					__bomb_cell_action(cell_index)
 				Constants.ActionType.MOVE:
 					__move_token_action(cell_index)
+					clear_highlights = false
 				Constants.ActionType.WILDCARD:
 					__place_wildcard_cell_action(cell_index)
 				Constants.ActionType.LEVEL_UP:
 					__level_up_cell_action(cell_index)
-					
+				Constants.ActionType.REMOVE_ALL:
+					__remove_all_type_action(cell_index)
+			
+			if clear_highlights:
+				board.clear_highlights()
+				
 			processed = true
 			
 		Constants.ActionResult.INVALID:
@@ -500,6 +511,18 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 	
+func __remove_all_type_action(cell_index:Vector2) -> void:
+	var token:BoardToken = board.get_token_at_cell(cell_index)
+	assert(token.data is TokenCombinableData, "This token type cannot be leveled")
+	var token_data: TokenCombinableData = token.data as TokenCombinableData
+	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
+	
+	var affected_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
+	for cell in affected_cells:
+		board.clear_token(cell)
+	
+	discard_floating_token()
+	
 var move_token_action_callables:Dictionary = {}
 var move_token_origin:Vector2
 
@@ -514,6 +537,7 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 		var cell_board = board.get_cell_at_position(move_cell_index)
 		var callable : Callable = Callable(__move_token_action_cell_selected)
 		cell_board.cell_selected.connect(callable)
+		cell_board.set_highlight(Constants.CellHighlight.COMBINATION)
 		move_token_action_callables[move_cell_index] = callable
 		fx_manager.play_select_cell_animation(cell_board.position)
 		

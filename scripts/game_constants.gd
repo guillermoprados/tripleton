@@ -22,8 +22,8 @@ enum ActionType {
 	MOVE,
 	LEVEL_UP,
 	BOMB,
-	SWIRL,
-	WILDCARD
+	REMOVE_ALL,
+	WILDCARD,
 }
 
 enum ActionResult {

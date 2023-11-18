@@ -2,6 +2,7 @@
   "bomb": "res://data/tokens_data/actions/bomb.tres",
   "level_up": "res://data/tokens_data/actions/level_up.tres",
   "move": "res://data/tokens_data/actions/move.tres",
+  "remove_all": "res://data/tokens_data/actions/remove_all.tres",
   "wildcard": "res://data/tokens_data/actions/wildcard.tres",
   "chest_bronze": "res://data/tokens_data/chests/chest_bronze.tres",
   "chest_diamond": "res://data/tokens_data/chests/chest_diamond.tres",

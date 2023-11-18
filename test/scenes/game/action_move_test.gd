@@ -22,7 +22,9 @@ func __await_assert_valid_available_moves(cell_index:Vector2, moves:Array[Vector
 	var action : ActionMove = token.action as ActionMove
 	var affected_cells := action.affected_cells(cell_index, board.cell_tokens_ids)
 	assert_array(affected_cells).contains_exactly_in_any_order(expected_moves)
-
+	for affected_cell in affected_cells:
+		await __await_assert_actionable_conditions(affected_cell)
+		
 func test__move_cell_valid_moves_on_different_positions() -> void:
 	
 	var landscape := [
@@ -127,6 +129,7 @@ func test__move_action_down_selected() -> void:
 	await __async_move_mouse_to_cell(token_cell, false)
 	await __await_assert_valid_available_moves(token_cell, [MOVE_DOWN, MOVE_RIGHT])
 	await __async_move_mouse_to_cell(token_cell, true)
+	await __await_assert_valid_available_moves(token_cell, [MOVE_DOWN, MOVE_RIGHT])
 	
 	# disables the board but enable just the cells
 	assert_bool(board.enabled_interaction).is_false()
