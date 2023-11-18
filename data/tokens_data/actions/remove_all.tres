@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="TokenActionData" load_steps=3 format=3 uid="uid://cmq51686lyrpw"]
+
+[ext_resource type="Script" path="res://resources/tokens/token_action_data.gd" id="1_4tm1i"]
+[ext_resource type="PackedScene" uid="uid://ccb7kpmgsnrq7" path="res://scenes/objects/tokens/actions/remove_all.tscn" id="2_d0h81"]
+
+[resource]
+script = ExtResource("1_4tm1i")
+action_type = 4
+available_from_dinasty = 0
+sprite_scene = ExtResource("2_d0h81")

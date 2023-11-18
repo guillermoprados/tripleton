@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=27 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
@@ -23,6 +23,7 @@
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
 [ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
 [ext_resource type="Script" path="res://scenes/game/fx_manager.gd" id="20_bux8w"]
+[ext_resource type="Resource" uid="uid://cmq51686lyrpw" path="res://data/tokens_data/actions/remove_all.tres" id="20_op0by"]
 [ext_resource type="PackedScene" uid="uid://bfsbokyqcnf6x" path="res://scenes/effects/bomb_explosion.tscn" id="21_55vwk"]
 [ext_resource type="PackedScene" uid="uid://1rbab57s5yio" path="res://scenes/effects/select_cell.tscn" id="22_x53b4"]
 
@@ -82,7 +83,7 @@ combinator = NodePath("../../Combinator")
 [node name="StatePlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik"), ExtResource("3_potqp")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik"), ExtResource("3_potqp"), ExtResource("20_op0by")])
 
 [node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")

@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://ccb7kpmgsnrq7"]
+
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_c3gb8"]
+[ext_resource type="Script" path="res://scripts/actions/action_remove_all.gd" id="2_dwo66"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="3_4aysh"]
+[ext_resource type="Texture2D" uid="uid://chgx58x7hj3ga" path="res://images/tokens/card.png" id="5_v3qku"]
+[ext_resource type="Texture2D" uid="uid://q72u2dyawgng" path="res://images/tokens/action_remove_all.png" id="6_ggity"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kg4mb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_v3qku")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="RemoveAll" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_c3gb8")
+
+[node name="ActionRemoveAll" type="Node" parent="."]
+script = ExtResource("2_dwo66")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-2.14577e-06, 2)
+scale = Vector2(0.938272, 0.266667)
+texture = ExtResource("3_4aysh")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -39)
+sprite_frames = SubResource("SpriteFrames_kg4mb")
+
+[node name="Simbol" type="Sprite2D" parent="Sprite"]
+position = Vector2(-2.08165e-12, -3)
+texture = ExtResource("6_ggity")

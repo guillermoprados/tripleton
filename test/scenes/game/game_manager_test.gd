@@ -29,6 +29,7 @@ const IDs = {
 	LV_UP = 'level_up',
 	MOVEE = 'move',
 	WILDC = 'wildcard',
+	REMOV = 'remove_all',
 	ROCKK = 'rock',
 	PR_CA = 'cat_white'
 }
@@ -170,6 +171,12 @@ func __await_assert_empty_cell_conditions(cell_index:Vector2) -> void:
 	var cell := board.get_cell_at_position(cell_index)
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.NONE, property_is_equal, 2)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
+
+func __await_assert_actionable_conditions(cell_index:Vector2) -> void:
+	var cell := board.get_cell_at_position(cell_index)
+	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.COMBINATION, property_is_equal, 2)
+	assert_that(cell.highlight).is_equal(Constants.CellHighlight.COMBINATION)
+
 	
 func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
 	var cell := board.get_cell_at_position(cell_index)

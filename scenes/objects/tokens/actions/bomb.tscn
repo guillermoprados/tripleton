@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmw85221ay06i"]
+[gd_scene load_steps=7 format=3 uid="uid://bmw85221ay06i"]
 
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_0k16i"]
 [ext_resource type="Script" path="res://scripts/actions/action_bomb.gd" id="2_a5jj2"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_btu65"]
-[ext_resource type="Script" path="res://resources/all_tokens_data.gd" id="2_ckw25"]
 [ext_resource type="Texture2D" uid="uid://chgx58x7hj3ga" path="res://images/tokens/card.png" id="4_q56ub"]
 [ext_resource type="Texture2D" uid="uid://bnchbjcit5biy" path="res://images/tokens/action_bomb.png" id="5_c4cek"]
 
@@ -21,9 +20,6 @@ animations = [{
 [node name="Bomb" type="Node2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_0k16i")
-
-[node name="AllTokensData" type="Node" parent="."]
-script = ExtResource("2_ckw25")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 position = Vector2(-2.14577e-06, 2)
