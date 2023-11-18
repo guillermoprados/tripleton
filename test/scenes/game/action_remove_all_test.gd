@@ -4,6 +4,18 @@ extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')
 
+func __await_assert_cell_remove_conditions(current_id:String, cell_index:Vector2, landscape:Array) -> void:
+	for row in range(landscape.size()):
+		for col in range(landscape[0].size()):
+			var i_cell = Vector2(row, col)
+			if current_id == board.cell_tokens_ids[row][col]:
+				if cell_index == i_cell:
+					await __await_assert_valid_cell_conditions(cell_index)
+				else:
+					await __await_assert_actionable_conditions(i_cell)
+			else:
+				await __await_assert_empty_cell_conditions(i_cell)
+			
 func test__action_should_remove_all_same_normal_token() -> void:
 	
 	var landscape := [
@@ -19,10 +31,7 @@ func test__action_should_remove_all_same_normal_token() -> void:
 	
 	## move over the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	await __await_assert_valid_cell_conditions(test_cell)
-	await __await_assert_actionable_conditions(Vector2(0,0))
-	await __await_assert_actionable_conditions(Vector2(1,2))
-	await __await_assert_actionable_conditions(Vector2(2,0))	
+	await __await_assert_cell_remove_conditions(IDs.BUSHH, test_cell, landscape)	
 
 	## run action
 	await __async_move_mouse_to_cell(test_cell, true)
@@ -40,72 +49,41 @@ func test__action_should_remove_all_same_normal_token() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
-func __test__action_should_not_level_up_if_NEXT_token_is_chest() -> void:
-	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.B_TRE,IDs.EMPTY],
-	]
-	
-	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
-	
-	var test_cell = Vector2(3,1)
-	
-	## place the token
-	await __async_move_mouse_to_cell(test_cell, false)
-	await __await_assert_invalid_cell_conditions(test_cell)
-	await __async_move_mouse_to_cell(test_cell, true)
-	
-	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
-	
-	assert_array(board.cell_tokens_ids).contains_same_exactly(
-		[
-			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.B_TRE,IDs.EMPTY],
-		]
-	)
-	
-	assert_int(game_manager.points).is_equal(0)
 
-func __test__action_should_not_level_up_on_enemies() -> void:
+func test__action_should_kill_all_enemies_of_the_same_type() -> void:
 	
 	var landscape := [
-		[IDs.EMPTY,IDs.MNKEL,IDs.EMPTY],
+		[IDs.BUSHH,IDs.MNKEL,IDs.EMPTY],
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.MNKEL,IDs.GRASS,IDs.MNKEL],
 		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
-	__paralized_enemies(true)
+	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
-	var enemy_cell = Vector2(0,1)
+	var test_cell = Vector2(0,1)
 	
-	## enemy cell the token
-	await __async_move_mouse_to_cell(enemy_cell, false)
-	await __await_assert_invalid_cell_conditions(enemy_cell)
-	await __async_move_mouse_to_cell(enemy_cell, true)
-	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	## move over the token
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_cell_remove_conditions(IDs.MNKEL, test_cell, landscape)	
+	
+	## run action
+	await __async_move_mouse_to_cell(test_cell, true)
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_null()
 
-	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[IDs.EMPTY,IDs.MNKEL,IDs.EMPTY],
+			[IDs.BUSHH,IDs.GRAVE,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.GRAVE,IDs.GRASS,IDs.GRAVE],
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
-			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		]
 	)
 	
 	assert_int(game_manager.points).is_equal(0)
 	
-func __test__action_should_not_level_up_on_chests() -> void:
+func test__action_should_remove_on_chests() -> void:
 	
 	var landscape := [
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
@@ -114,7 +92,7 @@ func __test__action_should_not_level_up_on_chests() -> void:
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
+	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	__paralized_enemies(true)
 	
 	var chest_cell = Vector2(1,1)
@@ -137,7 +115,7 @@ func __test__action_should_not_level_up_on_chests() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
-func __test__action_level_up_on_prize_should_be_invalid() -> void:
+func test__action_remove_on_prize_should_be_invalid() -> void:
 	
 	var landscape := [
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
@@ -146,7 +124,7 @@ func __test__action_level_up_on_prize_should_be_invalid() -> void:
 		[IDs.EMPTY,IDs.PR_CA,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
+	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
 	var prize_cell = Vector2(3,1)
 	
@@ -165,7 +143,7 @@ func __test__action_level_up_on_prize_should_be_invalid() -> void:
 		]
 	)
 	
-func __test__action_should_level_waste_on_empty_cell() -> void:
+func test__action_should_level_waste_on_empty_cell() -> void:
 	
 	var landscape := [
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
@@ -174,7 +152,7 @@ func __test__action_should_level_waste_on_empty_cell() -> void:
 		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
 	]
 	
-	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
+	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
 	var test_cell = Vector2(1,1)
 	
@@ -197,38 +175,35 @@ func __test__action_should_level_waste_on_empty_cell() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
-func __test__action_should_level_up_and_combine() -> void:
+func test__action_should_remove_even_when_there_is_one_token() -> void:
 	
 	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.BUSHH,IDs.BUSHH,IDs.TREEE],
-		[IDs.EMPTY,IDs.GRASS,IDs.TREEE],
+		[IDs.BUSHH,IDs.TREEE,IDs.EMPTY],
+		[IDs.EMPTY,IDs.GRASS,IDs.LAMPP],
+		[IDs.BUSHH,IDs.EMPTY,IDs.GRASS],
+		[IDs.BUSHH,IDs.GRASS,IDs.TREEE],
 	]
 	
-	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
+	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell = Vector2(1,2)
 	
-	## place the token
+	## move over the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	await __await_assert_valid_cell_conditions(test_cell)
+	await __await_assert_cell_remove_conditions(IDs.LAMPP, test_cell, landscape)	
+
+	## run action
 	await __async_move_mouse_to_cell(test_cell, true)
-	
 	assert_bool(board.enabled_interaction).is_false()
 	assert_object(game_manager.get_floating_token()).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.B_TRE,IDs.EMPTY],
+			[IDs.BUSHH,IDs.TREEE,IDs.EMPTY],
+			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
+			[IDs.BUSHH,IDs.EMPTY,IDs.GRASS],
+			[IDs.BUSHH,IDs.GRASS,IDs.TREEE],
 		]
 	)
 	
-	var expected_points = 0
-	expected_points += (points_per_id[IDs.BUSHH] * 3)
-	expected_points += (points_per_id[IDs.TREEE] * 3)
-	
-	assert_int(game_manager.points).is_equal(expected_points)
+	assert_int(game_manager.points).is_equal(0)

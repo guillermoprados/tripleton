@@ -492,8 +492,6 @@ func __bomb_cell_action(cell_index:Vector2) -> void:
 	
 	if token.type == Constants.TokenType.ENEMY:
 		set_dead_enemy(cell_index)
-	elif token.type == Constants.TokenType.CHEST or token.type == Constants.TokenType.PRIZE:
-		set_bad_token_on_board(cell_index)
 	else:
 		board.clear_token(cell_index)
 	
@@ -519,7 +517,10 @@ func __remove_all_type_action(cell_index:Vector2) -> void:
 	
 	var affected_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
 	for cell in affected_cells:
-		board.clear_token(cell)
+		if token.type == Constants.TokenType.ENEMY:
+			set_dead_enemy(cell)
+		else:
+			board.clear_token(cell)
 	
 	discard_floating_token()
 	

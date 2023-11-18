@@ -36,6 +36,7 @@ func test__action_should_level_up_combinable_token() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
+## this is to avoid users leveling up the last level as well
 func test__action_should_not_level_up_if_NEXT_token_is_chest() -> void:
 	
 	var landscape := [
