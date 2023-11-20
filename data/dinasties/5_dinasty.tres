@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Dinasty" load_steps=3 format=3 uid="uid://bdggpw4wk6sqf"]
 
 [ext_resource type="Script" path="res://resources/dinasty.gd" id="1_cx78x"]
-[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy.tres" id="2_xtf5o"]
+[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy_tokens.tres" id="2_xtf5o"]
 
 [resource]
 script = ExtResource("1_cx78x")

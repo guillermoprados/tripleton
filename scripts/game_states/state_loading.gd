@@ -9,15 +9,14 @@ func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.LOADING
 
 var __inner_state := 0
-const __state_prepare := 0
-const __state_position_game_objects := 1
-const __state_create_landscape := 2
-const __state_prepare_playing_ui := 3
-const __state_prepare_first_dinasty := 4
-const __state_ready := 5
+const STATE_PREPARE := 0
+const STATE_SET_OBJECTS := 1
+const STATE_PREPARE_LANDSCAPE := 2
+const STATE_PREPARE_UI := 3
+const STATE_READY := 5
 
 func _on_state_entered() -> void:
-	__inner_state = __state_prepare
+	__inner_state = STATE_PREPARE
 	
 # override in states
 func _on_state_exited() -> void:
@@ -25,17 +24,15 @@ func _on_state_exited() -> void:
 
 func _process(delta:float) -> void:
 	match(__inner_state):
-		__state_prepare:
+		STATE_PREPARE:
 			pass
-		__state_position_game_objects:
+		STATE_SET_OBJECTS:
 			__position_game_objects()
-		__state_create_landscape:
+		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
-		__state_prepare_playing_ui:
+		STATE_PREPARE_UI:
 			game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
-		__state_prepare_first_dinasty:
-			__set_first_dinasty()
-		__state_ready:
+		STATE_READY:
 			state_finished.emit(id)
 	
 	__inner_state += 1
@@ -67,10 +64,6 @@ func __create_landscape() -> void:
 			var random_token = game_manager.instantiate_new_token(random_token_data, Constants.TokenStatus.PLACED)
 			board.set_token_at_cell(random_token, random_cell)
 
-func __set_first_dinasty() -> void:
-	# I know, I'll call a private method but I know what I'm doing
-	game_manager.__go_to_next_dinasty(0)
-
 func get_random_between(min_val: int, max_val: int) -> int:
 	return min_val + randi() % (max_val - min_val + 1)
 
@@ -80,4 +73,4 @@ func get_random_position(rows: int, columns: int) -> Vector2:
 	return Vector2(rand_row, rand_col)
 
 func is_landscape_created() -> bool:
-	return __inner_state > __state_create_landscape
+	return __inner_state > STATE_PREPARE_LANDSCAPE

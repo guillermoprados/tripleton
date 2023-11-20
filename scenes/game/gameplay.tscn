@@ -1,17 +1,23 @@
-[gd_scene load_steps=27 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=33 format=3 uid="uid://lkolhnpo6fuo"]
 
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
-[ext_resource type="Resource" uid="uid://cibwmy6rhqq7s" path="res://data/dinasties/ordered_dinasties.tres" id="3_8sd6d"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="3_potqp"]
-[ext_resource type="Script" path="res://scenes/game/game_manager.gd" id="3_wjn15"]
+[ext_resource type="Script" path="res://scripts/dinasty_manager.gd" id="5_grqs2"]
+[ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="5_r4yhu"]
+[ext_resource type="Script" path="res://scripts/game_ui_manager.gd" id="5_x74f5"]
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="Resource" uid="uid://cn673p2tkxq8o" path="res://data/dinasties/0_dinasty.tres" id="8_3k38h"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
 [ext_resource type="Resource" uid="uid://c61d577qbnsn1" path="res://data/tokens_sets/landscape.tres" id="9_e3s0g"]
 [ext_resource type="Script" path="res://scripts/game_states/state_loading.gd" id="9_kvjog"]
+[ext_resource type="Resource" uid="uid://b20sjjtmherem" path="res://data/dinasties/1_dinasty.tres" id="9_ur2yy"]
+[ext_resource type="Resource" uid="uid://bpnk3vrw8en7n" path="res://data/dinasties/2_dinasty.tres" id="10_3n31h"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
+[ext_resource type="Resource" uid="uid://cd4f38dgu3yao" path="res://data/dinasties/3_dinasty.tres" id="11_pl43k"]
 [ext_resource type="Script" path="res://scripts/game_states/state_start.gd" id="11_q468j"]
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="13_kh2cu"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="13_mgra2"]
@@ -30,17 +36,27 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("board", "save_token_cell", "spawn_token_cell", "combinator", "gameplay_ui", "fx_manager")]
-script = ExtResource("3_wjn15")
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "save_token_cell", "spawn_token_cell", "gameplay_ui")]
+script = ExtResource("1_noepw")
+dinasty_manager = NodePath("../DinastyManager")
+game_ui_manager = NodePath("../GameUIManager")
+fx_manager = NodePath("../FxManager")
+combinator = NodePath("../Combinator")
 token_scene = ExtResource("2_08wbk")
+cell_scene = ExtResource("6_h3m50")
 board = NodePath("../Board")
-dinasties = ExtResource("3_8sd6d")
 save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
-combinator = NodePath("../Combinator")
 gameplay_ui = NodePath("../UI")
 default_chest = ExtResource("3_potqp")
-fx_manager = NodePath("../FxManager")
+bad_token = ExtResource("5_r4yhu")
+
+[node name="GameUIManager" type="Node" parent="."]
+script = ExtResource("5_x74f5")
+
+[node name="DinastyManager" type="Node" parent="."]
+script = ExtResource("5_grqs2")
+dinasties = Array[Resource("res://resources/dinasty.gd")]([ExtResource("8_3k38h"), ExtResource("9_ur2yy"), ExtResource("10_3n31h"), ExtResource("11_pl43k")])
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -101,7 +117,6 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 
 [node name="SelectCellAnims" type="Node2D" parent="FxManager"]
 
-[connection signal="dinasty_changed" from="GameManager" to="UI" method="_on_game_manager_dinasty_changed"]
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]

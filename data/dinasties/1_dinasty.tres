@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://resources/dinasty.gd" id="1_blswr"]
 [ext_resource type="Texture2D" uid="uid://d042wyre78ego" path="res://asesprite/board_map.png" id="1_lis5e"]
-[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy.tres" id="2_tgjbl"]
+[ext_resource type="Resource" uid="uid://c3oi7uvjyauna" path="res://data/difficulties/diff_medium.tres" id="1_wd4oo"]
 
 [resource]
 script = ExtResource("1_blswr")
 name = "Xang Xu 2"
 total_points = 800
-tokens = ExtResource("2_tgjbl")
+difficulty = ExtResource("1_wd4oo")
 map_texture = ExtResource("1_lis5e")

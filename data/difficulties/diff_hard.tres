@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DifficultyConfiguration" load_steps=3 format=3 uid="uid://cc4ft616xcb8f"]
+
+[ext_resource type="Script" path="res://resources/difficulty_configuration.gd" id="1_mbkxx"]
+[ext_resource type="Resource" uid="uid://c4mpxlybdjkrs" path="res://data/tokens_sets/easy_tokens.tres" id="2_4uy76"]
+
+[resource]
+script = ExtResource("1_mbkxx")
+name = "Hard"
+save_token_slots = 3
+max_level_token = 5
+tokens = ExtResource("2_4uy76")

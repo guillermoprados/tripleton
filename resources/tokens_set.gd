@@ -8,7 +8,7 @@ class_name TokensSet
 @export var scarce: Array[TokenData] = [] 
 @export var unique: Array[TokenData] = [] 
 
-@export var bad_token:TokenData # used for invalid actions
+@export var bad_token:TokenData # used for invalid actions: TODO
 
 var validated : bool
 
