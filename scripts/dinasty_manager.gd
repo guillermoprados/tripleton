@@ -2,7 +2,7 @@ extends Node
 
 class_name DinastyManager
 
-signal dinasty_changed(name:String, max_points:int, overflow:int)
+signal dinasty_changed()
 
 var __dinasties: Array[Dinasty]
 
@@ -43,4 +43,4 @@ func add_points(points:int) -> void:
 func next_dinasty() -> void:
 	__dinasty_index += 1
 	print("change dinasty: "+str(current_dinasty.name)+" points: "+str(current_dinasty.total_points))
-	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points)
+	dinasty_changed.emit()

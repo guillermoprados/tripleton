@@ -39,6 +39,14 @@ var saved_token: BoardToken
 var points: int
 var gold: int
 
+var difficulty: Difficulty:
+	get:
+		return difficulty_manager.current_difficulty
+
+var dinasty: Dinasty:
+	get:
+		return dinasty_manager.current_dinasty
+
 func _enter_tree() -> void:
 	assert(dinasty_manager, "cannot load dinasties")
 	assert(game_ui_manager, "please set the game ui manager")
@@ -48,12 +56,16 @@ func _enter_tree() -> void:
 	
 
 func _ready() -> void:
-	# remember there is an intro state, probably you
-	# want to do wharever you want to do there
+	dinasty_manager.dinasty_changed.connect(self._on_dinasty_changed)
+	difficulty_manager.difficulty_changed.connect(self._on_difficulty_changed)
 	pass
 
-func _on_dinasty_changed(name, max_points, overflow):
-	board.change_back_texture(dinasty_manager.current_dinasty.map_texture)
+func _on_dinasty_changed():
+	board.change_back_texture(dinasty.map_texture)
+
+func _on_difficulty_changed():
+	#todo add slots handle
+	pass
 
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
 	var token_instance: BoardToken = token_scene.instantiate() as BoardToken
@@ -69,13 +81,10 @@ func add_points(value:int) -> void:
 	dinasty_manager.add_points(value)
 	# points_updated.emit(value, current_dinasty.earned_points, points)
 
-func __get_random_token_data() -> TokenData:
-	return dinasty_manager.current_dinasty.token
-		
 func create_floating_token(token_data:TokenData) -> BoardToken:
 	assert (!floating_token, "trying to create a floating token when there is already one")
 	if not token_data:
-		token_data = dinasty_manager.get_random_token_data()
+		token_data = difficulty_manager.get_next_token_data()
 	
 	floating_token = instantiate_new_token(token_data, Constants.TokenStatus.BOXED)
 	add_child(floating_token)
@@ -414,7 +423,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
 	
-	if next_token_data.level > dinasty_manager.max_level_allowed:
+	if next_token_data.level > difficulty.max_level_token:
 		next_token_data = default_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)

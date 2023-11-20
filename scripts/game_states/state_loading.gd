@@ -2,8 +2,8 @@ extends StateBase
 
 class_name StateLoading
 
-@export var dinasties:Array[Dinasty]
-@export var difficulties:Array[Difficulty]
+@export var ordered_dinasties:Array[Dinasty]
+@export var ordered_difficulties:Array[Difficulty]
 @export var landscape_tokens:Array[TokenData]
 @export var prefill_landscape: bool
 
@@ -32,9 +32,8 @@ func _process(delta:float) -> void:
 		STATE_SET_OBJECTS:
 			__position_game_objects()
 		STATE_CONFIG:
-			game_manager.dinasty_manager.set_dinasties(dinasties)
-			game_manager.difficulty_manager.set_difficulties(difficulties)
-			board.change_back_texture(game_manager.dinasty_manager.backgound)
+			game_manager.dinasty_manager.set_dinasties(ordered_dinasties)
+			game_manager.difficulty_manager.set_difficulties(ordered_difficulties)
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
 		STATE_PREPARE_UI:

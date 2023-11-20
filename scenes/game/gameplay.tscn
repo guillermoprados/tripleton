@@ -97,8 +97,8 @@ board = NodePath("../Board")
 
 [node name="StateLoading" type="Node" parent="StateMachine"]
 script = ExtResource("9_kvjog")
-dinasties = Array[Resource("res://resources/dinasty.gd")]([ExtResource("8_3k38h"), ExtResource("9_ur2yy"), ExtResource("10_3n31h"), ExtResource("11_pl43k"), ExtResource("17_askel")])
-difficulties = Array[Resource("res://resources/difficulty.gd")]([ExtResource("18_svfu7"), ExtResource("19_etvjp"), ExtResource("20_dtr34")])
+ordered_dinasties = Array[Resource("res://resources/dinasty.gd")]([ExtResource("8_3k38h"), ExtResource("9_ur2yy"), ExtResource("10_3n31h"), ExtResource("11_pl43k"), ExtResource("17_askel")])
+ordered_difficulties = Array[Resource("res://resources/difficulty.gd")]([ExtResource("18_svfu7"), ExtResource("19_etvjp"), ExtResource("20_dtr34")])
 landscape_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("21_ajspr"), ExtResource("22_62cki"), ExtResource("23_fc6dr"), ExtResource("24_oikmj"), ExtResource("25_wbqej"), ExtResource("15_i3l0h")])
 prefill_landscape = true
 
@@ -135,5 +135,4 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
-[connection signal="dinasty_changed" from="DinastyManager" to="GameManager" method="_on_dinasty_changed"]
 [connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]
