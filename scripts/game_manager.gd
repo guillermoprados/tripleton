@@ -9,6 +9,7 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 
 @export_group("Managers")
 @export var dinasty_manager: DinastyManager
+@export var difficulty_manager: DifficultyManager
 @export var game_ui_manager: GameUIManager
 @export var fx_manager : FxManager
 @export var combinator: Combinator
@@ -413,7 +414,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
 	
-	if next_token_data.available_from_dinasty > dinasty_manager.max_level_allowed:
+	if next_token_data.level > dinasty_manager.max_level_allowed:
 		next_token_data = default_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)

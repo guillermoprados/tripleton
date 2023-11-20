@@ -2,7 +2,9 @@ extends StateBase
 
 class_name StateLoading
 
-@export var landscape_tokens:TokensSet
+@export var dinasties:Array[Dinasty]
+@export var difficulties:Array[Difficulty]
+@export var landscape_tokens:Array[TokenData]
 @export var prefill_landscape: bool
 
 func state_id() -> Constants.PlayingState:
@@ -12,7 +14,7 @@ var __inner_state := 0
 const STATE_PREPARE := 0
 const STATE_SET_OBJECTS := 1
 const STATE_PREPARE_LANDSCAPE := 2
-const STATE_DINASTY := 3
+const STATE_CONFIG := 3
 const STATE_PREPARE_UI := 4
 const STATE_READY := 5
 
@@ -29,8 +31,9 @@ func _process(delta:float) -> void:
 			pass
 		STATE_SET_OBJECTS:
 			__position_game_objects()
-		STATE_DINASTY:
-			game_manager.dinasty_manager.next_dinasty(0)
+		STATE_CONFIG:
+			game_manager.dinasty_manager.set_dinasties(dinasties)
+			game_manager.difficulty_manager.set_difficulties(difficulties)
 			board.change_back_texture(game_manager.dinasty_manager.backgound)
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
@@ -64,7 +67,8 @@ func __create_landscape() -> void:
 	for i in range(rand_num + 1):  # +1 to make it inclusive of the random number
 		var random_cell:Vector2 = get_random_position(board.rows, board.columns)
 		if board.is_cell_empty(random_cell):
-			var random_token_data:TokenData = landscape_tokens.get_random_token_data()
+			var rand_token = get_random_between(0, landscape_tokens.size() - 1)
+			var random_token_data:TokenData = landscape_tokens[rand_token]
 			var random_token = game_manager.instantiate_new_token(random_token_data, Constants.TokenStatus.PLACED)
 			board.set_token_at_cell(random_token, random_cell)
 

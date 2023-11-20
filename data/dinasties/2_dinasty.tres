@@ -1,12 +1,10 @@
-[gd_resource type="Resource" script_class="Dinasty" load_steps=4 format=3 uid="uid://bpnk3vrw8en7n"]
+[gd_resource type="Resource" script_class="Dinasty" load_steps=3 format=3 uid="uid://bpnk3vrw8en7n"]
 
 [ext_resource type="Texture2D" uid="uid://d042wyre78ego" path="res://asesprite/board_map.png" id="1_0euwi"]
 [ext_resource type="Script" path="res://resources/dinasty.gd" id="1_7lcj4"]
-[ext_resource type="Resource" uid="uid://cc4ft616xcb8f" path="res://data/difficulties/diff_hard.tres" id="1_lk5ba"]
 
 [resource]
 script = ExtResource("1_7lcj4")
-name = "Xang Xu 3"
-total_points = 1200
-difficulty = ExtResource("1_lk5ba")
+name = "Xang Xu 2"
+total_points = 2000
 map_texture = ExtResource("1_0euwi")

@@ -14,6 +14,10 @@ var state_machine: StateMachine
 var board: Board
 var spawn_token_cell: BoardCell
 
+var __diff_easy_res = 
+var __diff_medium_res = 
+var __diff_hard_res = 
+	
 const IDs = {
 	EMPTY = '',
 	GRASS = '0_grass',
