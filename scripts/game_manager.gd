@@ -51,7 +51,7 @@ func _ready() -> void:
 	# want to do wharever you want to do there
 	pass
 
-func on_dinasty_changed() -> void:
+func _on_dinasty_changed(name, max_points, overflow):
 	board.change_back_texture(dinasty_manager.current_dinasty.map_texture)
 
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
@@ -413,9 +413,8 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
 	
-	# IMPORTANT: FIX THIS.. I'll use the next token data in a combination category?
-	# if next_token_data.available_from_dinasty > dinasty_index:
-	# 	next_token_data = default_chest
+	if next_token_data.available_from_dinasty > dinasty_manager.max_level_allowed:
+		next_token_data = default_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
 
@@ -565,4 +564,4 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	discard_floating_token()
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
-	
+

@@ -12,7 +12,8 @@ var __inner_state := 0
 const STATE_PREPARE := 0
 const STATE_SET_OBJECTS := 1
 const STATE_PREPARE_LANDSCAPE := 2
-const STATE_PREPARE_UI := 3
+const STATE_DINASTY := 3
+const STATE_PREPARE_UI := 4
 const STATE_READY := 5
 
 func _on_state_entered() -> void:
@@ -28,6 +29,9 @@ func _process(delta:float) -> void:
 			pass
 		STATE_SET_OBJECTS:
 			__position_game_objects()
+		STATE_DINASTY:
+			game_manager.dinasty_manager.next_dinasty(0)
+			board.change_back_texture(game_manager.dinasty_manager.backgound)
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
 		STATE_PREPARE_UI:

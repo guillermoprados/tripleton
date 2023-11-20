@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=32 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
@@ -17,7 +17,6 @@
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
-[ext_resource type="Resource" uid="uid://cd4f38dgu3yao" path="res://data/dinasties/3_dinasty.tres" id="11_pl43k"]
 [ext_resource type="Script" path="res://scripts/game_states/state_start.gd" id="11_q468j"]
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="13_kh2cu"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="13_mgra2"]
@@ -56,7 +55,7 @@ script = ExtResource("5_x74f5")
 
 [node name="DinastyManager" type="Node" parent="."]
 script = ExtResource("5_grqs2")
-dinasties = Array[Resource("res://resources/dinasty.gd")]([ExtResource("8_3k38h"), ExtResource("9_ur2yy"), ExtResource("10_3n31h"), ExtResource("11_pl43k")])
+dinasties = Array[Resource("res://resources/dinasty.gd")]([ExtResource("8_3k38h"), ExtResource("9_ur2yy"), ExtResource("10_3n31h"), null])
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -121,4 +120,5 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 [connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
+[connection signal="dinasty_changed" from="DinastyManager" to="GameManager" method="_on_dinasty_changed"]
 [connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]
