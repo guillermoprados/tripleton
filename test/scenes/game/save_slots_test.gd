@@ -30,3 +30,13 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	
 	assert_int(game_manager.save_slots.size()).is_equal(3)
 	assert_int(game_manager.save_slots[2].index).is_equal(2)
+
+func test__should_save_token_when_empty() -> void:
+	
+	await __set_to_player_state(IDs.GRASS)
+	
+	var save_slot := game_manager.save_slots[0]
+	
+	await __await_assert_empty_cell_conditions()
+	
+	await __async_move_mouse_to_cell_object(save_slot.cell_board, false)

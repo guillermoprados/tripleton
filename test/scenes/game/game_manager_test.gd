@@ -118,14 +118,18 @@ func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 		assert_object(game_manager.floating_token).is_not_null()
 	
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
+	await __async_move_mouse_to_cell_object(board.get_cell_at_position(cell_index), click)
 	
-	runner.simulate_mouse_move(board.position) 
+func __async_move_mouse_to_cell_object(cell:BoardCell, click:bool) -> void:
+	
+	# move outside the board
+	runner.simulate_mouse_move(Vector2.ZERO) 
 	await await_idle_frame()
 	
-	while runner.get_mouse_position() != board.position:
+	while runner.get_mouse_position() != Vector2.ZERO:
 		await await_idle_frame()
 	
-	var cell_pos = board.position + Vector2(cell_index.y * Constants.CELL_SIZE.x, cell_index.x * Constants.CELL_SIZE.y) + Constants.CELL_SIZE/2 
+	var cell_pos = cell.global_position
 	
 	runner.simulate_mouse_move(cell_pos) 
 	await await_idle_frame()
@@ -134,11 +138,10 @@ func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 		await await_idle_frame()
 	
 	if click:
-		var cell := board.get_cell_at_position(cell_index)
 		cell.__just_for_test_click_cell()
 	
 	await await_idle_frame()
-	
+
 func __async_await_for_property(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
 	while (Time.get_unix_time_from_system() - init_time < time):
@@ -178,9 +181,10 @@ func __await_assert_floating_token_is_boxed() -> void:
 	#I really don't know why this fails:
 	#assert_that(game_manager.floating_token.current_status).is_equal(Constants.TokenStatus.BOXED)
 	
-	
 func __await_assert_empty_cell_conditions(cell_index:Vector2) -> void:
-	var cell := board.get_cell_at_position(cell_index)
+	await __await_assert_empty_cell_object_conditions(board.get_cell_at_position(cell_index))
+
+func __await_assert_empty_cell_object_conditions(cell:BoardCell) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.NONE, property_is_equal, 2)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.NONE)
 
@@ -189,9 +193,11 @@ func __await_assert_actionable_conditions(cell_index:Vector2) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.COMBINATION, property_is_equal, 2)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.COMBINATION)
 
-	
 func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
-	var cell := board.get_cell_at_position(cell_index)
+	var cell = board.get_cell_at_position(cell_index) 
+	await __await_assert_valid_cell_object_conditions(cell, cell_highlight)
+
+func __await_assert_valid_cell_object_conditions(cell:BoardCell, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
 	await __async_await_for_property(cell, "highlight", cell_highlight, property_is_equal, 2)
 	if game_manager.floating_token.type == Constants.TokenType.ACTION:
 		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
@@ -200,13 +206,17 @@ func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Con
 	assert_that(cell.highlight).is_equal(cell_highlight)
 	
 func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:
-	var cell := board.get_cell_at_position(cell_index)
+	await __await_assert_invalid_cell_object_conditions(board.get_cell_at_position(cell_index))
+
+func __await_assert_invalid_cell_object_conditions(cell:BoardCell) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.INVALID, property_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.INVALID)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.INVALID)
 
 func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
-	var cell := board.get_cell_at_position(cell_index)
+	await __await_assert_wasted_cell_object_conditions(board.get_cell_at_position(cell_index))
+	
+func __await_assert_wasted_cell_object_conditions(cell:BoardCell) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.WASTED, property_is_equal, 2)
 	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.WASTED)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.WASTED)
