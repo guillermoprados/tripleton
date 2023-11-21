@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://cvercemsw2qwg"]
 
 [ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="1_pgdmt"]
-[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="1_xqk76"]
+[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/0_chest_bronze.tres" id="1_xqk76"]
 [ext_resource type="PackedScene" uid="uid://bkvkfwxgfolfc" path="res://scenes/objects/tokens/misc/grave.tscn" id="3_cj6ig"]
 
 [resource]

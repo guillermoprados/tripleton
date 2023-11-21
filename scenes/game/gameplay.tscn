@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
-[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/chest_bronze.tres" id="3_potqp"]
+[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/0_chest_bronze.tres" id="4_b0hm0"]
 [ext_resource type="Script" path="res://scripts/dinasty_manager.gd" id="5_grqs2"]
 [ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="5_r4yhu"]
 [ext_resource type="Script" path="res://scripts/game_ui_manager.gd" id="5_x74f5"]
@@ -58,7 +58,7 @@ board = NodePath("../Board")
 save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
 gameplay_ui = NodePath("../UI")
-default_chest = ExtResource("3_potqp")
+default_chest = ExtResource("4_b0hm0")
 bad_token = ExtResource("5_r4yhu")
 
 [node name="GameUIManager" type="Node" parent="."]
@@ -113,7 +113,7 @@ combinator = NodePath("../../Combinator")
 [node name="StatePlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik"), ExtResource("3_potqp"), ExtResource("20_op0by")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik"), ExtResource("4_b0hm0"), ExtResource("20_op0by")])
 
 [node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")
