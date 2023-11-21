@@ -21,6 +21,9 @@ func _on_state_entered() -> void:
 	
 	game_manager.create_floating_token(null)
 	
+	for save_slot in game_manager.save_slots:
+		pass
+	
 	game_manager.save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
 	game_manager.save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)

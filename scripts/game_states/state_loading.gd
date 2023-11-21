@@ -15,9 +15,9 @@ func state_id() -> Constants.PlayingState:
 
 var __inner_state := 0
 const STATE_PREPARE := 0
-const STATE_SET_OBJECTS := 1
-const STATE_PREPARE_LANDSCAPE := 2
-const STATE_CONFIG := 3
+const STATE_CONFIG := 1
+const STATE_SET_OBJECTS := 2
+const STATE_PREPARE_LANDSCAPE := 3
 const STATE_PREPARE_UI := 4
 const STATE_READY := 5
 
@@ -32,13 +32,13 @@ func _process(delta:float) -> void:
 	match(__inner_state):
 		STATE_PREPARE:
 			pass
-		STATE_SET_OBJECTS:
-			__position_game_objects()
 		STATE_CONFIG:
 			assert(ordered_dinasties.size() > 0, "Add dinasties")
 			game_manager.dinasty_manager.set_dinasties(ordered_dinasties)
 			assert(ordered_difficulties.size() > 0, "Add difficulties")
 			game_manager.difficulty_manager.set_difficulties(ordered_difficulties)
+		STATE_SET_OBJECTS:
+			__position_game_objects()
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
 		STATE_PREPARE_UI:
