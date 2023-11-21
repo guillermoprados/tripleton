@@ -68,10 +68,11 @@ func _ready() -> void:
 
 func _on_difficulty_manager_difficulty_changed():
 	var required_slots := difficulty.save_token_slots 
-	#while save_slots.size() < required_slots:
-	var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
-	add_child(save_token_slot)
-	#	save_slots.append(save_token_slot)
+	while save_slots.size() < required_slots:
+		var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
+		save_slots.append(save_token_slot)
+		add_child(save_token_slot)
+	game_ui_manager.adjust_save_token_slots_positions(save_slots)
 
 func _on_dinasty_manager_dinasty_changed():
 	board.change_back_texture(dinasty.map_texture)

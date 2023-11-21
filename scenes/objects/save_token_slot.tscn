@@ -4,8 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="1_dk7oq"]
 [ext_resource type="Texture2D" uid="uid://1s3pj5qjllfh" path="res://images/tokens/save_token_back.png" id="1_sjpeq"]
 
-[node name="SaveTokenSlot" type="Node2D"]
+[node name="SaveTokenSlot" type="Node2D" node_paths=PackedStringArray("cell_board", "background")]
 script = ExtResource("1_10db5")
+cell_board = NodePath("Area2D")
+background = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.6)

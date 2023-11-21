@@ -2,10 +2,13 @@ extends StateBase
 
 class_name StateLoading
 
+@export_group("Required Data Configuration")
 @export var ordered_dinasties:Array[Dinasty]
 @export var ordered_difficulties:Array[Difficulty]
 @export var landscape_tokens:Array[TokenData]
-@export var prefill_landscape: bool
+
+@export_group("Game Dependencies")
+@export var ui_manager:GameUIManager
 
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.LOADING
@@ -46,20 +49,15 @@ func _process(delta:float) -> void:
 	__inner_state += 1
 	
 func __position_game_objects() -> void:
+	
+	ui_manager.adjust_board_position(board)
+	ui_manager.adjust_save_token_slots_positions(game_manager.save_slots)
+		
 	var screen_size:Vector2 = get_tree().root.content_scale_size
 	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
 	
-	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
-	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
-	
-	game_manager.spawn_token_cell.position = board.position + (Constants.CELL_SIZE / 2)
 	game_manager.spawn_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
 	game_manager.spawn_token_cell.z_index = Constants.CELL_Z_INDEX
-	
-	game_manager.save_token_cell.position = board.position + (Constants.CELL_SIZE / 2)
-	game_manager.save_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
-	game_manager.save_token_cell.position.x += board_size.x - Constants.CELL_SIZE.x
-	game_manager.save_token_cell.z_index = Constants.CELL_Z_INDEX
 	
 func __create_landscape() -> void:
 	randomize()
