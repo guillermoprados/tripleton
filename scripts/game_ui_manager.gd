@@ -20,12 +20,14 @@ func adjust_board_position(board:Board) -> void:
 
 func adjust_save_token_slots_positions(save_token_slots:Array[SaveTokenSlot]) -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size
-	var slots_total_width = (Constants.CELL_SIZE.x * save_token_slots.size()) + \
-							Constants.SAVE_SLOT_INTER_SEPARATION * (save_token_slots.size() - 1)
+	var num_of_slots = save_token_slots.size()
+	var slots_total_width = (Constants.CELL_SIZE.x * num_of_slots) + \
+							Constants.SAVE_SLOT_INTER_SEPARATION * (num_of_slots - 1)
 	
 	var slot_pos : Vector2
-	slot_pos.x = screen_size.x - slots_total_width
-	slot_pos.y = screen_size.y - Constants.SAVE_SLOT_BOTTOM_SEPARATION - Constants.CELL_SIZE.y
+	slot_pos.x = (screen_size.x/2) - (slots_total_width/2) + (Constants.CELL_SIZE.x / 2)
+	slot_pos.y = screen_size.y - Constants.SAVE_SLOT_BOTTOM_SEPARATION - (Constants.CELL_SIZE.y / 2)
 	for i in range(save_token_slots.size()):
 		save_token_slots[i].position = slot_pos
 		save_token_slots[i].z_index = Constants.TOKEN_BOX_Z_INDEX 
+		slot_pos.x += Constants.CELL_SIZE.x + Constants.SAVE_SLOT_INTER_SEPARATION
