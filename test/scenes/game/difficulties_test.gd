@@ -1,5 +1,5 @@
 # GdUnit generated TestSuite
-class_name TokenCombinationTest
+class_name DifficultiesTest
 extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')
@@ -16,6 +16,8 @@ func test__when_game_starts_points_should_be_cero() -> void:
 	await __set_to_player_state_with_board(landscape)
 	
 	assert_int(game_manager.points).is_zero()
+	assert_object(game_manager.difficulty).is_not_null()
+	assert_int(game_manager.difficulty_manager.diff_points).is_zero()
 
 func test__when_points_added_difficulty_must_update_points() -> void:
 	
@@ -28,12 +30,9 @@ func test__when_points_added_difficulty_must_update_points() -> void:
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	assert_object(game_manager.difficulty).is_not_null()
-	
 	game_manager.add_points(150)
 	
 	assert_int(game_manager.points).is_equal(150)
-	
 	assert_int(game_manager.difficulty_manager.diff_points).is_equal(150)
 	
 func test__when_points_excedded_diff_max_points_it_should_switch_to_next_diff() -> void:

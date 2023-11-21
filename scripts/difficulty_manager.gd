@@ -18,6 +18,9 @@ var diff_points:int:
 	get:
 		return __current_points
 
+var is_last_difficulty: bool:
+	get:
+		return __diff_index == __difficulties.size() - 1
 
 func set_difficulties(diffs:Array[Difficulty]) -> void:
 	__difficulties = diffs
@@ -44,7 +47,7 @@ func next_difficulty() -> void:
 
 func _on_game_manager_points_added(added_points, total_points):
 	__current_points += added_points
-	if diff_points >= current_difficulty.total_points and (__diff_index < __difficulties.size() -1):
+	if diff_points >= current_difficulty.total_points and not is_last_difficulty:
 		var overflow : int = diff_points - current_difficulty.total_points
 		next_difficulty()
 		__current_points = overflow
