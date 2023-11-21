@@ -211,3 +211,7 @@ func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
 	var chest_data: TokenChestData = board.get_token_at_cell(cell_index).data
 	var prize_id := chest_data.get_random_prize().id
 	return prize_id
+
+func __set_to_last_difficulty():
+	game_manager.difficulty_manager.__diff_index = game_manager.difficulty_manager.__difficulties.size() - 1
+	assert_str(game_manager.difficulty.name).is_equal("Hard")

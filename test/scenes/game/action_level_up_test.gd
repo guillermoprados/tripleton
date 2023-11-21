@@ -36,8 +36,7 @@ func test__action_should_level_up_combinable_token() -> void:
 	
 	assert_int(game_manager.points).is_equal(0)
 
-## this is to avoid users leveling up the last level as well
-func test__action_should_not_level_up_if_NEXT_token_is_chest() -> void:
+func test__action_should_level_up_to_chest_if_last_token_difficulty() -> void:
 	
 	var landscape := [
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
@@ -52,23 +51,57 @@ func test__action_should_not_level_up_if_NEXT_token_is_chest() -> void:
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
-	await __await_assert_invalid_cell_conditions(test_cell)
+	await __await_assert_valid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	
-	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.B_TRE,IDs.EMPTY],
+			[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
 		]
 	)
 	
 	assert_int(game_manager.points).is_equal(0)
 
+func test__action_should_not_level_up_if_difficulty_allows() -> void:
+	
+	var landscape := [
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.B_TRE,IDs.EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
+	
+	__set_to_last_difficulty()
+	
+	var test_cell = Vector2(3,1)
+	
+	## place the token
+	await __async_move_mouse_to_cell(test_cell, false)
+	await __await_assert_valid_cell_conditions(test_cell)
+	await __async_move_mouse_to_cell(test_cell, true)
+	
+	assert_bool(board.enabled_interaction).is_false()
+	assert_object(game_manager.get_floating_token()).is_null()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
+		]
+	)
+	
+	assert_int(game_manager.points).is_equal(0)
+	
 func test__action_should_not_level_up_on_enemies() -> void:
 	
 	var landscape := [
@@ -204,6 +237,7 @@ func test__action_should_level_up_and_combine() -> void:
 	]
 	
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
+	__set_to_last_difficulty()
 	
 	var test_cell = Vector2(3,1)
 	
