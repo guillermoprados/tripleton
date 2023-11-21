@@ -6,27 +6,15 @@ extends GameManagerTest
 
 func test__when_game_starts_points_should_be_cero() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
+	await __set_to_player_state()
 	
-	await __set_to_player_state_with_board(landscape)
 	assert_int(game_manager.points).is_zero()
 	assert_object(game_manager.dinasty).is_not_null()
 	assert_int(game_manager.dinasty_manager.dinasty_points).is_zero()
 
 func test__when_points_added_dinasty_must_update_points() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
-	await __set_to_player_state_with_board(landscape)
+	await __set_to_player_state()
 	
 	game_manager.add_points(150)
 	assert_int(game_manager.points).is_equal(150)
@@ -34,14 +22,7 @@ func test__when_points_added_dinasty_must_update_points() -> void:
 	
 func test__when_points_excedded_dinasty_should_change_to_next_diff() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
-	
-	await __set_to_player_state_with_board(landscape)
+	await __set_to_player_state()
 	
 	var dinasty_0_name = game_manager.dinasty.name
 	var dinasty_0_points = game_manager.dinasty.total_points
@@ -57,14 +38,7 @@ func test__when_points_excedded_dinasty_should_change_to_next_diff() -> void:
 
 func test__when_points_excedded_dinasty_max_points_on_last_dinasty_it_should_stay() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
-	
-	await __set_to_player_state_with_board(landscape)
+	await __set_to_player_state()
 	
 	var total_dinasties = game_manager.dinasty_manager.__dinasties.size() 
 	game_manager.dinasty_manager.__dinasty_index = total_dinasties - 1

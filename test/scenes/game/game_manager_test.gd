@@ -80,6 +80,14 @@ func property_is_equal(current:Variant, expected:Variant) -> bool:
 func property_is_not_equal(current:Variant, expected:Variant) -> bool:
 	return current != expected
 
+func __set_to_player_state(initial_token_id:String = IDs.EMPTY) -> void:
+		var landscape := [
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		]
+		await __set_to_player_state_with_board(landscape, initial_token_id)
+		
 func __set_to_player_state_with_board(landscape:Array, initial_token_id:String = IDs.EMPTY) -> void:
 	
 	await __async_await_for_property(state_machine, "current_state", Constants.PlayingState.LOADING, property_is_equal, 2)

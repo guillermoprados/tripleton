@@ -6,14 +6,7 @@ extends GameManagerTest
 
 func test__when_game_starts_points_should_be_cero() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
-	
-	await __set_to_player_state_with_board(landscape)
+	await __set_to_player_state()
 	
 	assert_int(game_manager.points).is_zero()
 	assert_object(game_manager.difficulty).is_not_null()
@@ -21,14 +14,7 @@ func test__when_game_starts_points_should_be_cero() -> void:
 
 func test__when_points_added_difficulty_must_update_points() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
-	
-	await __set_to_player_state_with_board(landscape)
+	await __set_to_player_state()
 	
 	game_manager.add_points(150)
 	
@@ -37,14 +23,7 @@ func test__when_points_added_difficulty_must_update_points() -> void:
 	
 func test__when_points_excedded_diff_max_points_it_should_switch_to_next_diff() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
-	
-	await __set_to_player_state_with_board(landscape)
+	await __set_to_player_state()
 	
 	assert_str(game_manager.difficulty.name).is_equal("Easy")
 	
@@ -57,14 +36,7 @@ func test__when_points_excedded_diff_max_points_it_should_switch_to_next_diff() 
 
 func test__when_points_excedded_diff_max_points_on_last_diff_it_should_stay() -> void:
 	
-	var landscape := [
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-	]
-	
-	await __set_to_player_state_with_board(landscape)
+	await __set_to_player_state()
 	
 	assert_str(game_manager.difficulty.name).is_equal("Easy")
 	
