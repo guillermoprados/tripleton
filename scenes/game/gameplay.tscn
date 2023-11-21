@@ -1,9 +1,10 @@
-[gd_scene load_steps=42 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=43 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/0_chest_bronze.tres" id="4_b0hm0"]
+[ext_resource type="PackedScene" uid="uid://c1x5lrnrq51io" path="res://scenes/objects/save_token_slot.tscn" id="4_cm6t5"]
 [ext_resource type="Script" path="res://scripts/dinasty_manager.gd" id="5_grqs2"]
 [ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="5_r4yhu"]
 [ext_resource type="Script" path="res://scripts/game_ui_manager.gd" id="5_x74f5"]
@@ -54,6 +55,7 @@ fx_manager = NodePath("../FxManager")
 combinator = NodePath("../Combinator")
 token_scene = ExtResource("2_08wbk")
 cell_scene = ExtResource("6_h3m50")
+save_token_slot_scene = ExtResource("4_cm6t5")
 board = NodePath("../Board")
 save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
@@ -78,17 +80,13 @@ position = Vector2(72, 713)
 
 [node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(170, 426)
-base_color = null
-highlihgt_none = null
-highlight_valid = null
-highlight_invalid = null
+highlight_valid = Color(0.5, 1, 0.5, 1)
+highlight_invalid = Color(1, 0.5, 0.5, 1)
 
 [node name="SaveTokenCell" parent="." instance=ExtResource("6_h3m50")]
 position = Vector2(532, 441)
-base_color = null
-highlihgt_none = null
-highlight_valid = null
-highlight_invalid = null
+highlight_valid = Color(0.5, 1, 0.5, 1)
+highlight_invalid = Color(1, 0.5, 0.5, 1)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("8_umy6w")

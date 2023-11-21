@@ -17,6 +17,7 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export_group("Packed Scenes")
 @export var token_scene: PackedScene
 @export var cell_scene: PackedScene
+@export var save_token_slot_scene: PackedScene
 
 @export_group("Game Elements")
 @export var board:Board
@@ -27,6 +28,13 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export_group("Required but gonna change later")
 @export var default_chest: TokenData # mmmmm
 @export var bad_token: TokenData # mmmmm
+
+var __save_slots:Array[SaveTokenSlot] = []
+
+var save_slots:Array[SaveTokenSlot]:
+	get:
+		return __save_slots
+
 
 var floating_token: BoardToken = null
 
@@ -59,8 +67,11 @@ func _ready() -> void:
 	pass
 
 func _on_difficulty_manager_difficulty_changed():
-	pass # Replace with function body.
-
+	var required_slots := difficulty.save_token_slots 
+	#while save_slots.size() < required_slots:
+	var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
+	add_child(save_token_slot)
+	#	save_slots.append(save_token_slot)
 
 func _on_dinasty_manager_dinasty_changed():
 	board.change_back_texture(dinasty.map_texture)

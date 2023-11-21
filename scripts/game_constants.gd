@@ -132,7 +132,9 @@ const BOARD_Z_INDEX : float = 1
 const CELL_Z_INDEX: float = 2
 const TOKENS_Z_INDEX: float = 3
 const FX_Z_INDEX : float = 20
-const GHOST_BOX_Z_INDEX : float = 24
+const TOKEN_BOX_Z_INDEX : float = 22
+const GHOST_BOX_Z_INDEX : float = 23
+const TOKEN_BOXED_Z_INDEX : float = 24
 const FLOATING_Z_INDEX : float = 25
 
 const BOARD_BOTTOM_SEPARATION: float = 100
