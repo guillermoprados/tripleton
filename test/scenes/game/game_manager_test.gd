@@ -14,6 +14,10 @@ var state_machine: StateMachine
 var board: Board
 var spawn_token_cell: BoardCell
 
+var __diff_easy_res = "res://data/difficulties/diff_0_easy.tres"
+var __diff_medium_res = "res://data/difficulties/diff_1_medium.tres"
+var __diff_hard_res = "res://data/difficulties/diff_2_hard.tres"
+	
 const IDs = {
 	EMPTY = '',
 	GRASS = '0_grass',
@@ -22,8 +26,8 @@ const IDs = {
 	B_TRE = '3_big_tree',
 	MNKEL = 'monokelo',
 	GRAVE = 'grave',
-	CHE_B = 'chest_bronze',
-	CHE_S = 'chest_silver',
+	CHE_B = '0_chest_bronze',
+	CHE_S = '1_chest_silver',
 	LAMPP = '0_lamp',
 	BOMBB = 'bomb',
 	LV_UP = 'level_up',
@@ -207,3 +211,7 @@ func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
 	var chest_data: TokenChestData = board.get_token_at_cell(cell_index).data
 	var prize_id := chest_data.get_random_prize().id
 	return prize_id
+
+func __set_to_last_difficulty():
+	game_manager.difficulty_manager.__diff_index = game_manager.difficulty_manager.__difficulties.size() - 1
+	assert_str(game_manager.difficulty.name).is_equal("Hard")

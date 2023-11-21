@@ -2,31 +2,32 @@ extends Node
 
 class_name GameManager
 
-signal tokens_pool_depleted()
 signal gold_updated(value:int)
-signal points_updated(updated_points:int, dinasty_points: int, total_points:int)
+signal points_added(added_points:int, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
-signal dinasty_changed(name:String, max_points:int, overflow:int)
 
+@export_group("Managers")
+@export var dinasty_manager: DinastyManager
+@export var difficulty_manager: DifficultyManager
+@export var game_ui_manager: GameUIManager
+@export var fx_manager : FxManager
+@export var combinator: Combinator
+
+@export_group("Packed Scenes")
 @export var token_scene: PackedScene
+@export var cell_scene: PackedScene
 
+@export_group("Game Elements")
 @export var board:Board
-@export var dinasties : DinastyMap
 @export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
-@export var combinator: Combinator
 @export var gameplay_ui:GameplayUI
-@export var default_chest: TokenData # mmmmm
-@export var fx_manager : FxManager
 
-var dinasty_index : int = -1
-var current_dinasty:Dinasty
-var current_tokens_set: TokensSet:
-	get:
-		return current_dinasty.tokens
-var dinasties_names:Array
-		
+@export_group("Required but gonna change later")
+@export var default_chest: TokenData # mmmmm
+@export var bad_token: TokenData # mmmmm
+
 var floating_token: BoardToken = null
 
 func get_floating_token() -> BoardToken:
@@ -38,23 +39,32 @@ var saved_token: BoardToken
 var points: int
 var gold: int
 
+var difficulty: Difficulty:
+	get:
+		return difficulty_manager.current_difficulty
+
+var dinasty: Dinasty:
+	get:
+		return dinasty_manager.current_dinasty
+
 func _enter_tree() -> void:
-	assert(dinasties, "cannot load dinasties")
+	assert(dinasty_manager, "cannot load dinasties")
+	assert(game_ui_manager, "please set the game ui manager")
+	assert(fx_manager, "plase set the fx manager")
+	assert(combinator, "please set the combinator")
 	assert(default_chest, "plase set the default chest for combinations")
 	
+
 func _ready() -> void:
-	# remember there is an intro state, probably you
-	# want to do wharever you want to do there
 	pass
 
-func __go_to_next_dinasty(overflow:int) -> void:
-	dinasty_index += 1
-	current_dinasty = dinasties.ordered_dinasties[dinasty_index]
-	print("change dinasty: "+str(current_dinasty.name)+" points: "+str(current_dinasty.total_points))
-	current_dinasty.earned_points = overflow
-	board.change_back_texture(current_dinasty.map_texture)
-	dinasty_changed.emit(current_dinasty.name, current_dinasty.total_points)
+func _on_difficulty_manager_difficulty_changed():
+	pass # Replace with function body.
 
+
+func _on_dinasty_manager_dinasty_changed():
+	board.change_back_texture(dinasty.map_texture)
+	
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
 	var token_instance: BoardToken = token_scene.instantiate() as BoardToken
 	token_instance.set_data(token_data, initial_status)
@@ -66,19 +76,12 @@ func add_gold(value:int) -> void:
 	
 func add_points(value:int) -> void:
 	points += value
-	__add_dinasty_points(value)
-	points_updated.emit(value, current_dinasty.earned_points, points)
-	
-func __add_dinasty_points(points:int) -> void:
-	current_dinasty.earned_points += points
-	if current_dinasty.earned_points >= current_dinasty.total_points:
-		var overflow : int = current_dinasty.earned_points - current_dinasty.total_points
-		__go_to_next_dinasty(overflow)
-		
+	points_added.emit(value, points)
+
 func create_floating_token(token_data:TokenData) -> BoardToken:
 	assert (!floating_token, "trying to create a floating token when there is already one")
 	if not token_data:
-		token_data = current_tokens_set.get_random_token_data()
+		token_data = difficulty_manager.get_next_token_data()
 	
 	floating_token = instantiate_new_token(token_data, Constants.TokenStatus.BOXED)
 	add_child(floating_token)
@@ -352,7 +355,7 @@ func __get_replace_wildcard_token_data(cell_index:Vector2) -> TokenData:
 		return __get_bad_movement_token_data()
 	
 func __get_bad_movement_token_data() -> TokenData:
-	return current_tokens_set.bad_token
+	return bad_token
 
 func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
 	
@@ -417,7 +420,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
 	
-	if next_token_data.available_from_dinasty > dinasty_index:
+	if next_token_data.level > difficulty.max_level_token:
 		next_token_data = default_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
@@ -568,4 +571,7 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	discard_floating_token()
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
-	
+
+
+
+
