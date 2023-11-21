@@ -32,7 +32,9 @@ func _process(delta:float) -> void:
 		STATE_SET_OBJECTS:
 			__position_game_objects()
 		STATE_CONFIG:
+			assert(ordered_dinasties.size() > 0, "Add dinasties")
 			game_manager.dinasty_manager.set_dinasties(ordered_dinasties)
+			assert(ordered_difficulties.size() > 0, "Add difficulties")
 			game_manager.difficulty_manager.set_difficulties(ordered_difficulties)
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()

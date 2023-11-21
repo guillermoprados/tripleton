@@ -14,9 +14,9 @@ var state_machine: StateMachine
 var board: Board
 var spawn_token_cell: BoardCell
 
-var __diff_easy_res = 
-var __diff_medium_res = 
-var __diff_hard_res = 
+var __diff_easy_res = "res://data/difficulties/diff_0_easy.tres"
+var __diff_medium_res = "res://data/difficulties/diff_1_medium.tres"
+var __diff_hard_res = "res://data/difficulties/diff_2_hard.tres"
 	
 const IDs = {
 	EMPTY = '',

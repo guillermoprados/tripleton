@@ -3,7 +3,7 @@ extends Node
 class_name GameManager
 
 signal gold_updated(value:int)
-signal points_updated(updated_points:int, dinasty_points: int, total_points:int)
+signal points_added(added_points:int, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
@@ -56,17 +56,15 @@ func _enter_tree() -> void:
 	
 
 func _ready() -> void:
-	dinasty_manager.dinasty_changed.connect(self._on_dinasty_changed)
-	difficulty_manager.difficulty_changed.connect(self._on_difficulty_changed)
 	pass
 
-func _on_dinasty_changed():
+func _on_difficulty_manager_difficulty_changed():
+	pass # Replace with function body.
+
+
+func _on_dinasty_manager_dinasty_changed():
 	board.change_back_texture(dinasty.map_texture)
-
-func _on_difficulty_changed():
-	#todo add slots handle
-	pass
-
+	
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
 	var token_instance: BoardToken = token_scene.instantiate() as BoardToken
 	token_instance.set_data(token_data, initial_status)
@@ -78,8 +76,7 @@ func add_gold(value:int) -> void:
 	
 func add_points(value:int) -> void:
 	points += value
-	dinasty_manager.add_points(value)
-	# points_updated.emit(value, current_dinasty.earned_points, points)
+	points_added.emit(value, points)
 
 func create_floating_token(token_data:TokenData) -> BoardToken:
 	assert (!floating_token, "trying to create a floating token when there is already one")
@@ -574,4 +571,7 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	discard_floating_token()
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
+
+
+
 

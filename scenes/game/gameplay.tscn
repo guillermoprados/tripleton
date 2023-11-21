@@ -132,7 +132,10 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 [node name="SelectCellAnims" type="Node2D" parent="FxManager"]
 
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
-[connection signal="points_updated" from="GameManager" to="UI" method="_on_game_manager_points_updated"]
+[connection signal="points_added" from="GameManager" to="DifficultyManager" method="_on_game_manager_points_added"]
+[connection signal="points_added" from="GameManager" to="DinastyManager" method="_on_game_manager_points_added"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
+[connection signal="difficulty_changed" from="DifficultyManager" to="GameManager" method="_on_difficulty_manager_difficulty_changed"]
+[connection signal="dinasty_changed" from="DinastyManager" to="GameManager" method="_on_dinasty_manager_dinasty_changed"]
 [connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]
