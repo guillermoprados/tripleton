@@ -92,7 +92,7 @@ func test__monokelo_will_die_if_cannot_jump() -> void:
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
-			[IDs.GRASS,ID_GRAVE,IDs.GRASS],
+			[IDs.GRASS,IDs.GRAVE,IDs.GRASS],
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
 		]
 	)

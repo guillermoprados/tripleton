@@ -115,7 +115,7 @@ func test__complicated_conditions_2() -> void:
 	]
 	
 	await __set_to_player_state_with_board(landscape)
-	
+	__set_to_last_difficulty()
 	## add grass
 	await __wait_to_next_player_turn(IDs.GRASS)
 	await __async_move_mouse_to_cell(Vector2(1,1), true)
@@ -154,8 +154,8 @@ func test__if_next_combination_level_is_bigger_than_allowed_should_chest() -> vo
 	
 	# ok this is not ideal, but I cannot waste time injecting everything right now..
 	# so for now, I expect this to be configured always like this, and assert
-	assert_str(game_manager.dinasty_manager.difficulty).is_equal("Easy")
-	assert_int(game_manager.dinasty_manager.max_level_allowed).is_equal(2)
+	assert_str(game_manager.difficulty.name).is_equal("Easy")
+	assert_int(game_manager.difficulty.max_level_token).is_equal(2)
 	
 	## add grass
 	await __wait_to_next_player_turn(IDs.TREEE)
@@ -173,7 +173,7 @@ func test__if_next_combination_level_is_bigger_than_allowed_should_chest() -> vo
 		]
 	)
 
-	var expected_points = points_per_id[IDs.B_TRE] * 3
+	var expected_points = points_per_id[IDs.TREEE] * 3
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
 	
@@ -218,6 +218,7 @@ func test__level_first_to_last_combinations_should_evolve_to_chest() -> void:
 	]
 	
 	await __set_to_player_state_with_board(landscape)
+	__set_to_last_difficulty()
 	
 	## add grass
 	await __wait_to_next_player_turn(IDs.GRASS)
