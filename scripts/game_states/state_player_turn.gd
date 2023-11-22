@@ -21,9 +21,11 @@ func _on_state_entered() -> void:
 	
 	game_manager.create_floating_token(null)
 	
-	game_manager.save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
-	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
-	game_manager.save_token_cell.cell_selected.connect(self._on_save_token_cell_selected)
+	for save_slot in game_manager.save_slots:
+		save_slot.on_slot_entered.connect(game_manager.on_save_token_slot_entered)
+		save_slot.on_slot_selected.connect(game_manager.on_save_token_slot_selected)
+		save_slot.enabled = true
+		
 	
 	board.board_cell_moved.connect(self._on_board_board_cell_moved)
 	board.board_cell_selected.connect(self._on_board_board_cell_selected)
@@ -39,12 +41,14 @@ func _on_state_exited() -> void:
 	
 	assert(game_manager.floating_token == null, "The floating token is still around")
 	
-	game_manager.save_token_cell.cell_entered.disconnect(self._on_save_token_cell_entered)
-	game_manager.save_token_cell.cell_exited.disconnect(self._on_save_token_cell_exited)
-	game_manager.save_token_cell.cell_selected.disconnect(self._on_save_token_cell_selected)
-	
 	board.board_cell_moved.disconnect(self._on_board_board_cell_moved)
 	board.board_cell_selected.disconnect(self._on_board_board_cell_selected)
+	
+	for save_slot in game_manager.save_slots:
+		save_slot.on_slot_entered.disconnect(game_manager.on_save_token_slot_entered)
+		save_slot.on_slot_selected.disconnect(game_manager.on_save_token_slot_selected)
+		save_slot.enabled = false
+		
 	
 	board.enabled_interaction = false
 		

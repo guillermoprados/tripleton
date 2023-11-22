@@ -17,10 +17,10 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export_group("Packed Scenes")
 @export var token_scene: PackedScene
 @export var cell_scene: PackedScene
+@export var save_token_slot_scene: PackedScene
 
 @export_group("Game Elements")
 @export var board:Board
-@export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
 @export var gameplay_ui:GameplayUI
 
@@ -28,13 +28,19 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var default_chest: TokenData # mmmmm
 @export var bad_token: TokenData # mmmmm
 
+var __save_slots:Array[SaveTokenSlot] = []
+
+var save_slots:Array[SaveTokenSlot]:
+	get:
+		return __save_slots
+
+
 var floating_token: BoardToken = null
 
 func get_floating_token() -> BoardToken:
 	return floating_token
 
 var ghost_token: BoardToken
-var saved_token: BoardToken
 
 var points: int
 var gold: int
@@ -53,14 +59,19 @@ func _enter_tree() -> void:
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
 	assert(default_chest, "plase set the default chest for combinations")
-	
 
 func _ready() -> void:
 	pass
 
 func _on_difficulty_manager_difficulty_changed():
-	pass # Replace with function body.
-
+	var required_slots := difficulty.save_token_slots 
+	while save_slots.size() < required_slots:
+		var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
+		save_token_slot.index = save_slots.size()
+		save_slots.append(save_token_slot)
+		add_child(save_token_slot)
+		save_token_slot.enabled = true
+		game_ui_manager.adjust_save_token_slots_positions(save_slots)
 
 func _on_dinasty_manager_dinasty_changed():
 	board.change_back_texture(dinasty.map_texture)
@@ -95,6 +106,7 @@ func create_floating_token(token_data:TokenData) -> BoardToken:
 	return floating_token
 	
 func __create_ghost_token(token_data:TokenData):
+	assert(not ghost_token, "there is alredy a ghost token")
 	ghost_token = instantiate_new_token(token_data, Constants.TokenStatus.GHOST_BOX)
 	add_child(ghost_token)
 	ghost_token.position = spawn_token_cell.position
@@ -190,38 +202,6 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			floating_token.set_highlight(Constants.TokenHighlight.WASTED)
 		
 		
-func move_floating_token_to_swap_cell() -> void:
-	board.clear_highlights()
-	floating_token.unhighlight()
-	var swap_position:Vector2 = save_token_cell.position
-	if saved_token != null:
-		swap_position = swap_position - (Constants.CELL_SIZE / 3)
-	floating_token.position = swap_position
-	
-func swap_floating_and_saved_token(cell_index: Vector2) -> void:
-	
-	__discard_ghost_token()
-	
-	if saved_token:
-		var floating_pos:Vector2 = floating_token.position
-		var switch_token:BoardToken = floating_token
-		floating_token = saved_token
-		saved_token = switch_token
-		floating_token.position = floating_pos
-		saved_token.position = save_token_cell.position
-		saved_token.set_status(Constants.TokenStatus.BOXED)
-		floating_token.set_status(Constants.TokenStatus.FLOATING)
-		__create_ghost_token(floating_token.data)
-	else:
-		floating_token.position = save_token_cell.position
-		saved_token = floating_token 
-		saved_token.set_status(Constants.TokenStatus.BOXED)
-		floating_token = null
-		create_floating_token(null)
-	
-	# reset combinations because we're caching them
-	combinator.reset_combinations(board.rows, board.columns)	
-
 func process_cell_selection(cell_index:Vector2) -> void:
 	
 	var processed : bool = false
@@ -483,6 +463,31 @@ func set_dead_enemy(cell_index:Vector2) -> void:
 func can_place_more_tokens() -> bool:
 	var board_free_cells : int = board.get_number_of_empty_cells()
 	return board_free_cells > 0
+
+## Save Slots
+
+func on_save_token_slot_entered(index:int) -> void:
+	board.clear_highlights()
+	floating_token.unhighlight()
+	floating_token.position = save_slots[index].position
+	if not save_slots[index].is_empty():
+		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
+
+func on_save_token_slot_selected(index:int) -> void:
+	__discard_ghost_token()
+	if save_slots[index].is_empty():
+		save_slots[index].save_token(floating_token)
+		floating_token = null
+		create_floating_token(null)
+	else:
+		floating_token = save_slots[index].swap_token(floating_token)
+		add_child(floating_token)
+		floating_token.set_status(Constants.TokenStatus.FLOATING)
+		floating_token.z_index = Constants.FLOATING_Z_INDEX
+		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
+		__create_ghost_token(floating_token.data)
+	# reset combinations because we're caching them
+	combinator.reset_combinations(board.rows, board.columns)	
 
 ## ACTIONS
 

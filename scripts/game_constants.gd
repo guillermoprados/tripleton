@@ -128,19 +128,29 @@ const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08
 const HOLD_TIME_TO_CANCEL_PRESS: float = 1
 
 # Game Objects positions
+
+## Z_INDEX
 const BOARD_Z_INDEX : float = 1
 const CELL_Z_INDEX: float = 2
 const TOKENS_Z_INDEX: float = 3
 const FX_Z_INDEX : float = 20
-const GHOST_BOX_Z_INDEX : float = 24
+const TOKEN_BOX_Z_INDEX : float = 22
+const GHOST_BOX_Z_INDEX : float = 23
+const TOKEN_BOXED_Z_INDEX : float = 24
 const FLOATING_Z_INDEX : float = 25
 
-const BOARD_BOTTOM_SEPARATION: float = 100
+## BOARD
+const BOARD_BOTTOM_SEPARATION: float = 200
 
+## SAVE SLOTS
+const SAVE_SLOT_BOTTOM_SEPARATION: float = 50
+const SAVE_SLOT_INTER_SEPARATION: float = 30
+const SAVE_SLOT_OVER_POS: Vector2 = CELL_SIZE/6
+
+## TOKEN
 const TOKEN_SPRITE_HOLDER_Y = 25
-
 const TOKEN_SHADOW_Y_POS = 2
-const TOKEN_BOXED_Y_POS: float = 20
+const TOKEN_BOXED_Y_POS: float = -5
 const TOKEN_FLOATING_Y_POS: float = 20
 const TOKEN_IN_RANGE_Y_POS: float = 10
 
