@@ -137,7 +137,7 @@ const FX_Z_INDEX : float = 20
 const TOKEN_BOX_Z_INDEX : float = 22
 const GHOST_BOX_Z_INDEX : float = 23
 const TOKEN_BOXED_Z_INDEX : float = 24
-const FLOATING_Z_INDEX : float = 25
+const FLOATING_Z_INDEX : float = 30
 
 ## BOARD
 const SPAWN_TOKEN_SEPARATION:float = 50

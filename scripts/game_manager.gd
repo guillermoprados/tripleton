@@ -98,6 +98,7 @@ func create_floating_token(token_data:TokenData) -> BoardToken:
 	add_child(floating_token)
 	floating_token.position = spawn_token_cell.position
 	floating_token.z_index = Constants.FLOATING_Z_INDEX
+	floating_token.z_as_relative = false
 	
 	__create_ghost_token(token_data)
 	
@@ -481,10 +482,6 @@ func on_save_token_slot_selected(index:int) -> void:
 		create_floating_token(null)
 	else:
 		floating_token = save_slots[index].swap_token(floating_token)
-		add_child(floating_token)
-		floating_token.set_status(Constants.TokenStatus.FLOATING)
-		floating_token.z_index = Constants.FLOATING_Z_INDEX
-		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
 		__create_ghost_token(floating_token.data)
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
