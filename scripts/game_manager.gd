@@ -65,7 +65,7 @@ func _ready() -> void:
 
 func _on_difficulty_manager_difficulty_changed():
 	var required_slots := difficulty.save_token_slots 
-	if save_slots.size() < required_slots:
+	while save_slots.size() < required_slots:
 		var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
 		save_token_slot.index = save_slots.size()
 		save_slots.append(save_token_slot)
