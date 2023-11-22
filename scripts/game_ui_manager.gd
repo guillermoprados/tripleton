@@ -31,3 +31,5 @@ func adjust_save_token_slots_positions(save_token_slots:Array[SaveTokenSlot]) ->
 		save_token_slots[i].position = slot_pos
 		save_token_slots[i].z_index = Constants.TOKEN_BOX_Z_INDEX 
 		slot_pos.x += Constants.CELL_SIZE.x + Constants.SAVE_SLOT_INTER_SEPARATION
+		if not save_token_slots[i].is_empty():
+			save_token_slots[i].saved_token.position = save_token_slots[i].position

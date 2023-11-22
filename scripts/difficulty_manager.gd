@@ -44,7 +44,6 @@ func next_difficulty() -> void:
 	print("change diff: "+str(current_difficulty.name)+" points: "+str(current_difficulty.total_points))
 	difficulty_changed.emit()
 
-
 func _on_game_manager_points_added(added_points, total_points):
 	__current_points += added_points
 	if diff_points >= current_difficulty.total_points and not is_last_difficulty:
