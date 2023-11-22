@@ -73,6 +73,7 @@ func _on_difficulty_manager_difficulty_changed():
 		save_token_slot.index = save_slots.size()
 		save_slots.append(save_token_slot)
 		add_child(save_token_slot)
+		save_token_slot.enabled = true
 		game_ui_manager.adjust_save_token_slots_positions(save_slots)
 
 func _on_dinasty_manager_dinasty_changed():

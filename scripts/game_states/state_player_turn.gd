@@ -22,7 +22,7 @@ func _on_state_entered() -> void:
 	game_manager.create_floating_token(null)
 	
 	for save_slot in game_manager.save_slots:
-		pass
+		save_slot.enabled = true
 	
 	game_manager.save_token_cell.cell_entered.connect(self._on_save_token_cell_entered)
 	game_manager.save_token_cell.cell_exited.connect(self._on_save_token_cell_exited)
@@ -48,6 +48,9 @@ func _on_state_exited() -> void:
 	
 	board.board_cell_moved.disconnect(self._on_board_board_cell_moved)
 	board.board_cell_selected.disconnect(self._on_board_board_cell_selected)
+	
+	for save_slot in game_manager.save_slots:
+		save_slot.enabled = false
 	
 	board.enabled_interaction = false
 		

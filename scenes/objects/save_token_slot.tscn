@@ -14,3 +14,7 @@ modulate = Color(1, 1, 1, 0.6)
 texture = ExtResource("1_sjpeq")
 
 [node name="Area2D" parent="." instance=ExtResource("1_dk7oq")]
+
+[connection signal="cell_entered" from="Area2D" to="." method="_on_area_2d_cell_entered"]
+[connection signal="cell_exited" from="Area2D" to="." method="_on_area_2d_cell_exited"]
+[connection signal="cell_selected" from="Area2D" to="." method="_on_area_2d_cell_selected"]
