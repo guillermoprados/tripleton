@@ -106,6 +106,7 @@ func create_floating_token(token_data:TokenData) -> BoardToken:
 	return floating_token
 	
 func __create_ghost_token(token_data:TokenData):
+	assert(not ghost_token, "there is alredy a ghost token")
 	ghost_token = instantiate_new_token(token_data, Constants.TokenStatus.GHOST_BOX)
 	add_child(ghost_token)
 	ghost_token.position = spawn_token_cell.position
@@ -473,8 +474,7 @@ func on_save_token_slot_entered(index:int) -> void:
 		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
 
 func on_save_token_slot_selected(index:int) -> void:
-	# __discard_ghost_token()
-	
+	__discard_ghost_token()
 	if save_slots[index].is_empty():
 		save_slots[index].save_token(floating_token)
 		floating_token = null
@@ -485,33 +485,9 @@ func on_save_token_slot_selected(index:int) -> void:
 		floating_token.set_status(Constants.TokenStatus.FLOATING)
 		floating_token.z_index = Constants.FLOATING_Z_INDEX
 		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
-	
+		__create_ghost_token(floating_token.data)
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
-	
-func swap_floating_and_saved_token(cell_index: Vector2) -> void:
-	
-	__discard_ghost_token()
-	
-	#if saved_token:
-		#var floating_pos:Vector2 = floating_token.position
-		#var switch_token:BoardToken = floating_token
-	#	floating_token = saved_token
-	#	saved_token = switch_token
-	#	floating_token.position = floating_pos
-	#	saved_token.position = save_token_cell.position
-	#	saved_token.set_status(Constants.TokenStatus.BOXED)
-	#	floating_token.set_status(Constants.TokenStatus.FLOATING)
-	#	__create_ghost_token(floating_token.data)
-	#else:
-	#	floating_token.position = save_token_cell.position
-	#	saved_token = floating_token 
-	#	saved_token.set_status(Constants.TokenStatus.BOXED)
-	#	floating_token = null
-	#	create_floating_token(null)
-	#	pass
-	# reset combinations because we're caching them
-	#combinator.reset_combinations(board.rows, board.columns)	
 
 ## ACTIONS
 
