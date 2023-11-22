@@ -21,7 +21,6 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 
 @export_group("Game Elements")
 @export var board:Board
-@export var save_token_cell: BoardCell
 @export var spawn_token_cell: BoardCell
 @export var gameplay_ui:GameplayUI
 
@@ -204,38 +203,6 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			floating_token.set_highlight(Constants.TokenHighlight.WASTED)
 		
 		
-func move_floating_token_to_swap_cell() -> void:
-	board.clear_highlights()
-	floating_token.unhighlight()
-	var swap_position:Vector2 = save_token_cell.position
-	if saved_token != null:
-		swap_position = swap_position - (Constants.CELL_SIZE / 3)
-	floating_token.position = swap_position
-	
-func swap_floating_and_saved_token(cell_index: Vector2) -> void:
-	
-	__discard_ghost_token()
-	
-	if saved_token:
-		var floating_pos:Vector2 = floating_token.position
-		var switch_token:BoardToken = floating_token
-		floating_token = saved_token
-		saved_token = switch_token
-		floating_token.position = floating_pos
-		saved_token.position = save_token_cell.position
-		saved_token.set_status(Constants.TokenStatus.BOXED)
-		floating_token.set_status(Constants.TokenStatus.FLOATING)
-		__create_ghost_token(floating_token.data)
-	else:
-		floating_token.position = save_token_cell.position
-		saved_token = floating_token 
-		saved_token.set_status(Constants.TokenStatus.BOXED)
-		floating_token = null
-		create_floating_token(null)
-	
-	# reset combinations because we're caching them
-	combinator.reset_combinations(board.rows, board.columns)	
-
 func process_cell_selection(cell_index:Vector2) -> void:
 	
 	var processed : bool = false
@@ -497,6 +464,50 @@ func set_dead_enemy(cell_index:Vector2) -> void:
 func can_place_more_tokens() -> bool:
 	var board_free_cells : int = board.get_number_of_empty_cells()
 	return board_free_cells > 0
+
+## Save Slots
+
+func on_save_token_slot_entered(index:int) -> void:
+	board.clear_highlights()
+	floating_token.unhighlight()
+	floating_token.position = save_slots[index].position
+
+func move_floating_token_to_swap_cell() -> void:
+	board.clear_highlights()
+	floating_token.unhighlight()
+	# if saved_token != null:
+	#	swap_position = swap_position - (Constants.CELL_SIZE / 3)
+	#floating_token.position = swap_position
+
+func on_save_token_slot_selected(index:int) -> void:
+	save_slots[index].save_token(floating_token)
+	floating_token = null
+	create_floating_token(null)
+	combinator.reset_combinations(board.rows, board.columns)	
+	
+func swap_floating_and_saved_token(cell_index: Vector2) -> void:
+	
+	__discard_ghost_token()
+	
+	if saved_token:
+		var floating_pos:Vector2 = floating_token.position
+		var switch_token:BoardToken = floating_token
+		floating_token = saved_token
+		saved_token = switch_token
+		floating_token.position = floating_pos
+	#	saved_token.position = save_token_cell.position
+		saved_token.set_status(Constants.TokenStatus.BOXED)
+		floating_token.set_status(Constants.TokenStatus.FLOATING)
+		__create_ghost_token(floating_token.data)
+	else:
+	#	floating_token.position = save_token_cell.position
+		saved_token = floating_token 
+		saved_token.set_status(Constants.TokenStatus.BOXED)
+		floating_token = null
+		create_floating_token(null)
+	
+	# reset combinations because we're caching them
+	combinator.reset_combinations(board.rows, board.columns)	
 
 ## ACTIONS
 

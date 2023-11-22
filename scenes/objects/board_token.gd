@@ -93,7 +93,7 @@ func __sprite_node_ready() -> void:
 	set_status(_set_data_status)
 		
 func set_status(new_status:Constants.TokenStatus) -> void:
-	assert(__current_status != new_status, "Trying to set the same status")
+	# assert(__current_status != new_status, "Trying to set the same status")
 	
 	if __current_status == Constants.TokenStatus.IN_RANGE:
 		tweener.clear_in_range()

@@ -149,7 +149,7 @@ const SAVE_SLOT_INTER_SEPARATION: float = 30
 ## TOKEN
 const TOKEN_SPRITE_HOLDER_Y = 25
 const TOKEN_SHADOW_Y_POS = 2
-const TOKEN_BOXED_Y_POS: float = 20
+const TOKEN_BOXED_Y_POS: float = -5
 const TOKEN_FLOATING_Y_POS: float = 20
 const TOKEN_IN_RANGE_Y_POS: float = 10
 

@@ -46,7 +46,7 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "save_token_cell", "spawn_token_cell", "gameplay_ui")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "spawn_token_cell", "gameplay_ui")]
 script = ExtResource("1_noepw")
 dinasty_manager = NodePath("../DinastyManager")
 difficulty_manager = NodePath("../DifficultyManager")
@@ -57,7 +57,6 @@ token_scene = ExtResource("2_08wbk")
 cell_scene = ExtResource("6_h3m50")
 save_token_slot_scene = ExtResource("4_cm6t5")
 board = NodePath("../Board")
-save_token_cell = NodePath("../SaveTokenCell")
 spawn_token_cell = NodePath("../SpawnTokenCell")
 gameplay_ui = NodePath("../UI")
 default_chest = ExtResource("4_b0hm0")

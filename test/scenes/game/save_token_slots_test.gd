@@ -1,5 +1,5 @@
 # GdUnit generated TestSuite
-class_name SaveSlotsTest
+class_name SaveTokenSlotsTest
 extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')
@@ -51,9 +51,20 @@ func test__should_save_token_when_empty() -> void:
 	
 	var save_slot := game_manager.save_slots[0]
 	
+	await __await_assert_empty_cell_object_conditions(save_slot.cell_board)
 	assert_bool(save_slot.is_empty()).is_true()
 	assert_bool(save_slot.enabled).is_true()
 	
-	await __await_assert_empty_cell_object_conditions(save_slot.cell_board)
+	# move to slot
 	await __async_move_mouse_to_cell_object(save_slot.cell_board, false)
 	await __await_assert_valid_cell_object_conditions(save_slot.cell_board)
+	assert_that(game_manager.floating_token.position).is_equal(save_slot.position)
+
+	# select
+	await __async_move_mouse_to_cell_object(save_slot.cell_board, true)
+	assert_bool(save_slot.is_empty()).is_false()
+	assert_str(save_slot.saved_token.id).is_equal(IDs.GRASS)
+
+	assert_bool(board.enabled_interaction).is_true()
+	assert_object(game_manager.get_floating_token()).is_not_null()
+
