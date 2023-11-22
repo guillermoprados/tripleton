@@ -41,7 +41,6 @@ func get_floating_token() -> BoardToken:
 	return floating_token
 
 var ghost_token: BoardToken
-var saved_token: BoardToken
 
 var points: int
 var gold: int
@@ -60,7 +59,6 @@ func _enter_tree() -> void:
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
 	assert(default_chest, "plase set the default chest for combinations")
-	
 
 func _ready() -> void:
 	pass
@@ -471,43 +469,49 @@ func on_save_token_slot_entered(index:int) -> void:
 	board.clear_highlights()
 	floating_token.unhighlight()
 	floating_token.position = save_slots[index].position
-
-func move_floating_token_to_swap_cell() -> void:
-	board.clear_highlights()
-	floating_token.unhighlight()
-	# if saved_token != null:
-	#	swap_position = swap_position - (Constants.CELL_SIZE / 3)
-	#floating_token.position = swap_position
+	if not save_slots[index].is_empty():
+		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
 
 func on_save_token_slot_selected(index:int) -> void:
-	save_slots[index].save_token(floating_token)
-	floating_token = null
-	create_floating_token(null)
+	# __discard_ghost_token()
+	
+	if save_slots[index].is_empty():
+		save_slots[index].save_token(floating_token)
+		floating_token = null
+		create_floating_token(null)
+	else:
+		floating_token = save_slots[index].swap_token(floating_token)
+		add_child(floating_token)
+		floating_token.set_status(Constants.TokenStatus.FLOATING)
+		floating_token.z_index = Constants.FLOATING_Z_INDEX
+		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
+	
+	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 	
 func swap_floating_and_saved_token(cell_index: Vector2) -> void:
 	
 	__discard_ghost_token()
 	
-	if saved_token:
-		var floating_pos:Vector2 = floating_token.position
-		var switch_token:BoardToken = floating_token
-		floating_token = saved_token
-		saved_token = switch_token
-		floating_token.position = floating_pos
+	#if saved_token:
+		#var floating_pos:Vector2 = floating_token.position
+		#var switch_token:BoardToken = floating_token
+	#	floating_token = saved_token
+	#	saved_token = switch_token
+	#	floating_token.position = floating_pos
 	#	saved_token.position = save_token_cell.position
-		saved_token.set_status(Constants.TokenStatus.BOXED)
-		floating_token.set_status(Constants.TokenStatus.FLOATING)
-		__create_ghost_token(floating_token.data)
-	else:
+	#	saved_token.set_status(Constants.TokenStatus.BOXED)
+	#	floating_token.set_status(Constants.TokenStatus.FLOATING)
+	#	__create_ghost_token(floating_token.data)
+	#else:
 	#	floating_token.position = save_token_cell.position
-		saved_token = floating_token 
-		saved_token.set_status(Constants.TokenStatus.BOXED)
-		floating_token = null
-		create_floating_token(null)
-	
+	#	saved_token = floating_token 
+	#	saved_token.set_status(Constants.TokenStatus.BOXED)
+	#	floating_token = null
+	#	create_floating_token(null)
+	#	pass
 	# reset combinations because we're caching them
-	combinator.reset_combinations(board.rows, board.columns)	
+	#combinator.reset_combinations(board.rows, board.columns)	
 
 ## ACTIONS
 

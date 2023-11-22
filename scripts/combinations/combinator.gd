@@ -2,8 +2,15 @@ class_name Combinator extends Node
 
 var combinations: Dictionary  
 
+var __is_resetted:bool
+
+var is_resetted : bool:
+	get:
+		return __is_resetted
+
 func reset_combinations(rows:int, columns:int) -> void:
 	combinations = {}
+	__is_resetted = true
 	for row_index in range(rows):
 		for col_index in range(columns):
 			var cell_index:Vector2 = Vector2(row_index, col_index)
@@ -15,6 +22,7 @@ func clear_evaluated_combination(cell_index:Vector2):
 # This is the method that starts the search of a combination
 func search_combinations_for_cell(placed_token: TokenData, cell_index: Vector2, board_token_ids: Array, recursive_levels:bool) -> Combination:
 	if !combinations[cell_index].evaluated:
+		__is_resetted = false
 		__evaluate_combination(placed_token, combinations[cell_index], board_token_ids, recursive_levels)
 	return combinations[cell_index]
 

@@ -47,7 +47,7 @@ func test__slots_should_be_disabled_when_finish_turn() -> void:
 	
 func test__should_save_token_when_empty() -> void:
 	
-	await __set_to_player_state(IDs.GRASS)
+	await __set_to_player_state(IDs.B_TRE) # this is wont happend on the get random token data
 	
 	var save_slot := game_manager.save_slots[0]
 	
@@ -63,8 +63,45 @@ func test__should_save_token_when_empty() -> void:
 	# select
 	await __async_move_mouse_to_cell_object(save_slot.cell_board, true)
 	assert_bool(save_slot.is_empty()).is_false()
-	assert_str(save_slot.saved_token.id).is_equal(IDs.GRASS)
+	assert_str(save_slot.saved_token.id).is_equal(IDs.B_TRE)
+	assert_that(save_slot.saved_token.position).is_equal(save_slot.position)
 
 	assert_bool(board.enabled_interaction).is_true()
 	assert_object(game_manager.get_floating_token()).is_not_null()
+	
+	assert_str(game_manager.floating_token.id).is_not_equal(IDs.B_TRE)
+	
+func test__should_swap_when_no_empty() -> void:
+	
+	var first_token_id = IDs.B_TRE # this is wont happend on the get random token data
+	
+	await __set_to_player_state(first_token_id) 
+	
+	var save_slot := game_manager.save_slots[0]
+	
+	# save the first
+	await __async_move_mouse_to_cell_object(save_slot.cell_board, true)
+	assert_bool(save_slot.is_empty()).is_false()
+	assert_str(save_slot.saved_token.id).is_equal(first_token_id)
+	
+	# swap the second one
+	var floating_over_pos = save_slot.position - Constants.SAVE_SLOT_OVER_POS
+	var second_token_id = game_manager.floating_token.id
+	await __async_move_mouse_to_cell_object(save_slot.cell_board, false)
+	await __await_assert_valid_cell_object_conditions(save_slot.cell_board)
+	assert_that(game_manager.floating_token.position).is_equal(floating_over_pos)
+	
+	await __async_move_mouse_to_cell_object(save_slot.cell_board, true)
+	await __await_assert_valid_cell_object_conditions(save_slot.cell_board)
+	
+	assert_bool(save_slot.is_empty()).is_false()
+	assert_str(save_slot.saved_token.id).is_equal(second_token_id)
+	assert_int(save_slot.saved_token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
+	assert_that(save_slot.saved_token.position).is_equal(save_slot.position)
+	
+	assert_str(game_manager.floating_token.id).is_equal(first_token_id)
+	assert_that(game_manager.floating_token.current_status).is_equal(Constants.TokenStatus.FLOATING)
+	assert_int(game_manager.floating_token.z_index).is_equal(Constants.FLOATING_Z_INDEX)
+	assert_that(game_manager.floating_token.position).is_equal(floating_over_pos)
 
+	assert_bool(game_manager.combinator.is_resetted).is_true()

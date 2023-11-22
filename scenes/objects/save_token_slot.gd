@@ -30,6 +30,7 @@ func save_token(token:BoardToken) -> void:
 	add_child(token)
 	token.set_status(Constants.TokenStatus.BOXED)
 	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
+	token.position = position
 	__saved_token = token
 	
 func pick_token() -> BoardToken:
@@ -40,9 +41,8 @@ func pick_token() -> BoardToken:
 	return pick_token
 
 func swap_token(to_swap_token:BoardToken) -> BoardToken:
-	var to_get_token
-	if saved_token:
-		pick_token()
+	assert(not is_empty(), "Cannot swap if there is no token")
+	var to_get_token := pick_token()
 	save_token(to_swap_token)
 	return to_get_token
 
