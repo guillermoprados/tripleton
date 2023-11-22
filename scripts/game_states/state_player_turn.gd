@@ -20,6 +20,7 @@ func _on_state_entered() -> void:
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
 	game_manager.create_floating_token(null)
+	game_manager.spawn_token_slot.spawn_new_token(game_manager.difficulty)
 	
 	for save_slot in game_manager.save_slots:
 		save_slot.on_slot_entered.connect(game_manager.on_save_token_slot_entered)
