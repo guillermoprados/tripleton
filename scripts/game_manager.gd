@@ -7,24 +7,25 @@ signal points_added(added_points:int, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
-@export_group("Managers")
+@export_category("Managers")
 @export var dinasty_manager: DinastyManager
 @export var difficulty_manager: DifficultyManager
 @export var game_ui_manager: GameUIManager
 @export var fx_manager : FxManager
 @export var combinator: Combinator
 
-@export_group("Packed Scenes")
+@export_category("Packed Scenes")
 @export var token_scene: PackedScene
 @export var cell_scene: PackedScene
 @export var save_token_slot_scene: PackedScene
 
-@export_group("Game Elements")
+@export_category("Game Elements")
 @export var board:Board
-@export var spawn_token_cell: BoardCell
+@export var spawn_token_cell:BoardCell
 @export var gameplay_ui:GameplayUI
+@export var spawn_token_slot:SpawnTokenSlot 
 
-@export_group("Required but gonna change later")
+@export_category("Required but gonna change later")
 @export var default_chest: TokenData # mmmmm
 @export var bad_token: TokenData # mmmmm
 
@@ -33,7 +34,6 @@ var __save_slots:Array[SaveTokenSlot] = []
 var save_slots:Array[SaveTokenSlot]:
 	get:
 		return __save_slots
-
 
 var floating_token: BoardToken = null
 

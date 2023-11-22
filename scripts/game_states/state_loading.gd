@@ -2,12 +2,12 @@ extends StateBase
 
 class_name StateLoading
 
-@export_group("Required Data Configuration")
+@export_category("Required Data Configuration")
 @export var ordered_dinasties:Array[Dinasty]
 @export var ordered_difficulties:Array[Difficulty]
 @export var landscape_tokens:Array[TokenData]
 
-@export_group("Game Dependencies")
+@export_category("Game Dependencies")
 @export var ui_manager:GameUIManager
 
 func state_id() -> Constants.PlayingState:
@@ -51,8 +51,9 @@ func _process(delta:float) -> void:
 func __position_game_objects() -> void:
 	
 	ui_manager.adjust_board_position(board)
+	ui_manager.adjust_spawn_token_position(game_manager.spawn_token_slot, board)
 	ui_manager.adjust_save_token_slots_positions(game_manager.save_slots)
-		
+	
 	var screen_size:Vector2 = get_tree().root.content_scale_size
 	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
 	
