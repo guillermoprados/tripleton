@@ -19,7 +19,8 @@ func _on_state_entered() -> void:
 	
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
-	game_manager.spawn_new_token(null)
+	if not game_manager.spawn_token_slot.token:
+		game_manager.spawn_new_token(null)
 	
 	for save_slot in game_manager.save_slots:
 		save_slot.on_slot_entered.connect(game_manager.on_save_token_slot_entered)
@@ -48,7 +49,9 @@ func _on_state_exited() -> void:
 		save_slot.on_slot_entered.disconnect(game_manager.on_save_token_slot_entered)
 		save_slot.on_slot_selected.disconnect(game_manager.on_save_token_slot_selected)
 		save_slot.enabled = false
-		
+	
+	#so the user can see it	
+	game_manager.spawn_new_token(null)
 	
 	board.enabled_interaction = false
 		

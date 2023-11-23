@@ -86,11 +86,15 @@ func pick_token() -> BoardToken:
 	
 func set_boxed_token_back(token:BoardToken) -> void:
 	
-	if not back_token:
-		__ghost_token = token_scene.instantiate() as BoardToken
-		add_child(__ghost_token)
-		back_token.z_index = Constants.GHOST_BOX_Z_INDEX
-		back_token.z_as_relative = false
+	if __ghost_token:
+		remove_child(__ghost_token)
+		__ghost_token.queue_free()
+		__ghost_token = null
+	
+	__ghost_token = token_scene.instantiate() as BoardToken
+	add_child(__ghost_token)
+	back_token.z_index = Constants.GHOST_BOX_Z_INDEX
+	back_token.z_as_relative = false
 	
 	back_token.set_data(token.data, Constants.TokenStatus.GHOST_BOX)
 	
