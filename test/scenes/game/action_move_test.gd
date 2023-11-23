@@ -12,7 +12,7 @@ const MOVE_RIGHT = Vector2(0,1)
 func __await_assert_valid_available_moves(cell_index:Vector2, moves:Array[Vector2]) -> void:
 	var cell := board.get_cell_at_position(cell_index)
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.VALID, property_is_equal, 2)
-	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
+	assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.VALID)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.VALID)
 	var expected_moves :Array[Vector2] = [] 
 	for move in moves:
@@ -77,7 +77,7 @@ func test__move_action_wasted() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -103,7 +103,7 @@ func test__move_action_invalid() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -133,7 +133,7 @@ func test__move_action_down_selected() -> void:
 	
 	# disables the board but enable just the cells
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
 	await __await_token_id_at_cell(IDs.GRASS,to_cell)
@@ -166,7 +166,7 @@ func test__move_action_up_selected() -> void:
 	
 	# disables the board but enable just the cells
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
 	await __await_token_id_at_cell(IDs.GRASS,to_cell)
@@ -199,7 +199,7 @@ func test__move_action_left_selected() -> void:
 	
 	# disables the board but enable just the cells
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
 	await __await_token_id_at_cell(IDs.GRASS,to_cell)
@@ -232,7 +232,7 @@ func test__move_action_right_selected() -> void:
 	
 	# disables the board but enable just the cells
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
 	await __await_token_id_at_cell(IDs.GRASS,to_cell)
@@ -265,7 +265,7 @@ func test__move_action_should_combine() -> void:
 	
 	# disables the board but enable just the cells
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 	
 	await __async_move_mouse_to_cell(to_cell, true)
 	await __await_token_id_at_cell(IDs.TREEE,to_cell)
@@ -304,7 +304,7 @@ func test__action_should_not_move_enemies() -> void:
 	await __await_assert_invalid_cell_conditions(enemy_cell)
 	await __async_move_mouse_to_cell(enemy_cell, true)
 	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(

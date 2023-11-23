@@ -68,7 +68,7 @@ func test__should_save_token_when_empty() -> void:
 	assert_int(save_slot.saved_token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
 
 	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 	
 	assert_str(game_manager.floating_token.id).is_not_equal(IDs.B_TRE)
 	assert_str(game_manager.ghost_token.id).is_equal(game_manager.floating_token.id)

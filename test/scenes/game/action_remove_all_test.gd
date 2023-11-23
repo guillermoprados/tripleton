@@ -36,7 +36,7 @@ func test__action_should_remove_all_same_normal_token() -> void:
 	## run action
 	await __async_move_mouse_to_cell(test_cell, true)
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -70,7 +70,7 @@ func test__action_should_kill_all_enemies_of_the_same_type() -> void:
 	## run action
 	await __async_move_mouse_to_cell(test_cell, true)
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -162,7 +162,7 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -195,7 +195,7 @@ func test__action_should_remove_even_when_there_is_one_token() -> void:
 	## run action
 	await __async_move_mouse_to_cell(test_cell, true)
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[

@@ -37,9 +37,6 @@ var save_slots:Array[SaveTokenSlot]:
 
 var floating_token: BoardToken = null
 
-func get_floating_token() -> BoardToken:
-	return floating_token
-
 var ghost_token: BoardToken
 
 var points: int

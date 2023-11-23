@@ -109,7 +109,7 @@ func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 	await __wait_to_game_state(Constants.PlayingState.PLAYER)
 	
 	await await_idle_frame()
-	await runner.await_func_on(game_manager, "get_floating_token").wait_until(200).is_not_null()
+	await __async_await_for_property(game_manager, "floating_token", null, property_is_not_equal, 2)
 	
 	if token_id != IDs.EMPTY:
 		var token_data := __all_token_data.get_token_data_by_id(token_id)
@@ -204,9 +204,9 @@ func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Con
 func __await_assert_valid_cell_object_conditions(cell:BoardCell, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
 	await __async_await_for_property(cell, "highlight", cell_highlight, property_is_equal, 2)
 	if game_manager.floating_token.type == Constants.TokenType.ACTION:
-		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
+		assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.VALID)
 	else:
-		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.NONE)
+		assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.NONE)
 	assert_that(cell.highlight).is_equal(cell_highlight)
 	
 func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:
@@ -214,7 +214,7 @@ func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:
 
 func __await_assert_invalid_cell_object_conditions(cell:BoardCell) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.INVALID, property_is_equal, 2)
-	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.INVALID)
+	assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.INVALID)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.INVALID)
 
 func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
@@ -222,7 +222,7 @@ func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
 	
 func __await_assert_wasted_cell_object_conditions(cell:BoardCell) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.WASTED, property_is_equal, 2)
-	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.WASTED)
+	assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.WASTED)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.WASTED)
 
 func __await_token_id_at_cell(token_id: String, at_cell:Vector2) -> void:
