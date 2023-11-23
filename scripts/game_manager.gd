@@ -111,7 +111,8 @@ func discard_floating_token() -> void:
 
 
 func reset_floating_token_to_spawn_box() -> void:
-	spawn_token_slot.box_token(floating_token)
+	spawn_token_slot.box_token(floating_token, true)
+	__floating_token = null
 			
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	
@@ -213,7 +214,8 @@ func __process_chest_or_prize_selection(cell_index:Vector2) -> bool:
 			picked_action = true
 		
 		if picked_action:
-			reset_floating_token_to_spawn_box()
+			if floating_token:
+				reset_floating_token_to_spawn_box()
 			board.clear_highlights()
 			board.enabled_interaction = true
 			processed = true
@@ -444,12 +446,18 @@ func can_place_more_tokens() -> bool:
 
 func on_save_token_slot_entered(index:int) -> void:
 	board.clear_highlights()
+	if not floating_token:
+		pick_up_floating_token()
+		
 	floating_token.unhighlight()
 	floating_token.position = save_slots[index].position
 	if not save_slots[index].is_empty():
 		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
 
 func on_save_token_slot_selected(index:int) -> void:
+	
+	if not floating_token:
+		pick_up_floating_token()
 	
 	if save_slots[index].is_empty():
 		save_slots[index].save_token(floating_token)

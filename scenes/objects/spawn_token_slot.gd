@@ -53,7 +53,15 @@ func discard_token() -> void:
 func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
 	assert(not __token, "trying to box a token when there is already one")
 	__token = to_box_token	
+	
+	var token_parent = __token.get_parent()
+	var fixed_pos = token.position
+	if token_parent:
+		fixed_pos = fixed_pos - position
+		token_parent.remove_child(__token)
+		
 	add_child(__token)
+	token.position = fixed_pos
 	token.set_status(Constants.TokenStatus.BOXED)
 	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
 	
@@ -62,7 +70,7 @@ func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
 	if animated:
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)
-		tween.tween_property(token, "position", self.position, 0.2)	
+		tween.tween_property(token, "position", Vector2.ZERO, 0.2)	
 	else:
 		token.position = Vector2.ZERO
 	

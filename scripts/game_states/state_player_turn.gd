@@ -70,7 +70,12 @@ func _input(event:InputEvent) -> void:
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			game_manager.discard_floating_token()
+			
+			if game_manager.floating_token:
+				game_manager.discard_floating_token()
+			if game_manager.spawn_token_slot.token:
+				game_manager.spawn_token_slot.discard_token()
+				
 			game_manager.spawn_new_token(next_token_data)
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
@@ -90,6 +95,10 @@ func _on_board_board_cell_moved(index:Vector2) -> void:
 	game_manager.move_floating_token_to_cell(index)	
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
+	
+	if not game_manager.floating_token:
+		game_manager.pick_up_floating_token()
+	
 	game_manager.process_cell_selection(index)
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:

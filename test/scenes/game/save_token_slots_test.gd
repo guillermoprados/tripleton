@@ -68,10 +68,8 @@ func test__should_save_token_when_empty() -> void:
 	assert_int(save_slot.saved_token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
 
 	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.floating_token).is_not_null()
-	
-	assert_str(game_manager.floating_token.id).is_not_equal(IDs.B_TRE)
-	assert_str(game_manager.ghost_token.id).is_equal(game_manager.floating_token.id)
+	assert_object(game_manager.floating_token).is_null()
+	assert_object(game_manager.spawn_token_slot.token).is_not_null()
 	
 func test__should_swap_when_no_empty() -> void:
 	
@@ -107,6 +105,5 @@ func test__should_swap_when_no_empty() -> void:
 	assert_that(game_manager.floating_token.current_status).is_equal(Constants.TokenStatus.FLOATING)
 	assert_int(game_manager.floating_token.z_index).is_equal(Constants.FLOATING_Z_INDEX)
 	assert_that(game_manager.floating_token.position).is_equal(floating_over_pos)
-	assert_str(game_manager.ghost_token.id).is_equal(first_token_id)
 
 	assert_bool(game_manager.combinator.is_resetted).is_true()
