@@ -19,7 +19,8 @@ func _on_state_entered() -> void:
 	
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
-	game_manager.create_floating_token(null)
+	if not game_manager.spawn_token_slot.token:
+		game_manager.spawn_new_token(null)
 	
 	for save_slot in game_manager.save_slots:
 		save_slot.on_slot_entered.connect(game_manager.on_save_token_slot_entered)
@@ -33,7 +34,7 @@ func _on_state_entered() -> void:
 	board.enabled_interaction = true
 
 func _process(delta) -> void:
-	if not game_manager.floating_token:
+	if not game_manager.floating_token and not game_manager.spawn_token_slot.token:
 		state_finished.emit(id)
 		
 # override in states
@@ -48,7 +49,9 @@ func _on_state_exited() -> void:
 		save_slot.on_slot_entered.disconnect(game_manager.on_save_token_slot_entered)
 		save_slot.on_slot_selected.disconnect(game_manager.on_save_token_slot_selected)
 		save_slot.enabled = false
-		
+	
+	#so the user can see it	
+	game_manager.spawn_new_token(null)
 	
 	board.enabled_interaction = false
 		
@@ -70,8 +73,13 @@ func _input(event:InputEvent) -> void:
 				current_scroll_item = scroll_tokens.size() - 1
 			next_token_data = scroll_tokens[current_scroll_item]
 		if next_token_data != null:
-			game_manager.discard_floating_token()
-			game_manager.create_floating_token(next_token_data)
+			
+			if game_manager.floating_token:
+				game_manager.discard_floating_token()
+			if game_manager.spawn_token_slot.token:
+				game_manager.spawn_token_slot.discard_token()
+				
+			game_manager.spawn_new_token(next_token_data)
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
 			is_scroll_in_progress = true
@@ -82,12 +90,18 @@ func __on_scroll_timer_timeout() -> void:
 	is_scroll_in_progress = false
 	
 func _on_board_board_cell_moved(index:Vector2) -> void:
-	# I need this line because there is non sense on having other linked events 
-	game_manager.spawn_token_cell.clear_highlight()
+	
+	if not game_manager.floating_token:
+		game_manager.pick_up_floating_token()
+	
 	board.clear_highlights()
 	game_manager.move_floating_token_to_cell(index)	
 	
 func _on_board_board_cell_selected(index:Vector2) -> void:
+	
+	if not game_manager.floating_token:
+		game_manager.pick_up_floating_token()
+	
 	game_manager.process_cell_selection(index)
 	
 func _on_save_token_cell_entered(cell_index: Vector2) -> void:

@@ -23,7 +23,7 @@ func test__action_should_level_up_combinable_token() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -55,7 +55,7 @@ func test__action_should_level_up_to_chest_if_last_token_difficulty() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -89,7 +89,7 @@ func test__action_should_not_level_up_if_difficulty_allows() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -121,7 +121,7 @@ func test__action_should_not_level_up_on_enemies() -> void:
 	await __await_assert_invalid_cell_conditions(enemy_cell)
 	await __async_move_mouse_to_cell(enemy_cell, true)
 	assert_bool(board.enabled_interaction).is_true()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.floating_token).is_not_null()
 
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
@@ -214,7 +214,7 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
@@ -247,7 +247,7 @@ func test__action_should_level_up_and_combine() -> void:
 	await __async_move_mouse_to_cell(test_cell, true)
 	
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[

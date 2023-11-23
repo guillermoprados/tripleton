@@ -51,13 +51,13 @@ func test__place_single_token() -> void:
 	await __await_assert_valid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	assert_bool(board.enabled_interaction).is_false()
-	assert_object(game_manager.get_floating_token()).is_null()
+	assert_object(game_manager.floating_token).is_null()
 	
 	## check
 	await __wait_to_next_player_turn()
 	
 	assert_bool(board.is_cell_empty(test_cell)).is_false()
-	assert_object(game_manager.get_floating_token()).is_not_null()
+	assert_object(game_manager.spawn_token_slot.token).is_not_null()
 	assert_bool(board.enabled_interaction).is_true()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
@@ -88,7 +88,7 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	await __await_assert_invalid_cell_conditions(test_cell)
 	await __async_move_mouse_to_cell(test_cell, true)
 	## check
-	await __wait_to_next_player_turn()
+	assert_object(game_manager.floating_token).is_not_null()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[

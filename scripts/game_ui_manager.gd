@@ -2,21 +2,17 @@ extends Node
 
 class_name GameUIManager
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func adjust_board_position(board:Board) -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size
 	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
 	
 	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
 	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
+
+func adjust_spawn_token_position(spawn_token_slot:SpawnTokenSlot, board:Board) -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	spawn_token_slot.position.x = screen_size.x/2
+	spawn_token_slot.position.y = board.position.y - (Constants.CELL_SIZE.y/2) - Constants.SPAWN_TOKEN_SEPARATION
 
 func adjust_save_token_slots_positions(save_token_slots:Array[SaveTokenSlot]) -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size

@@ -4,12 +4,12 @@ class_name Difficulty
 
 @export var name : String
 
-@export_group("Level Config")
+@export_category("Level Config")
 @export var save_token_slots: int
 @export var max_level_token: int
 @export var total_points: int
 
-@export_group("Diff Tokens")
+@export_category("Diff Tokens")
 @export var common: Array[TokenData] = []
 @export var uncommon: Array[TokenData] = []
 @export var rare: Array[TokenData] = [] 

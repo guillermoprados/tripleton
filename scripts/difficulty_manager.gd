@@ -34,11 +34,6 @@ func _ready():
 func _process(delta):
 	pass
 
-func get_next_token_data() -> TokenData:
-	var token_data := current_difficulty.get_random_token_data()
-	return token_data
-		
-
 func next_difficulty() -> void:
 	__diff_index += 1
 	print("change diff: "+str(current_difficulty.name)+" points: "+str(current_difficulty.total_points))

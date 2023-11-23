@@ -27,10 +27,11 @@ func is_empty() -> bool:
 
 func save_token(token:BoardToken) -> void:
 	assert(is_empty(), "this slot is not empty")
+	token.get_parent().remove_child(token)
 	add_child(token)
 	token.set_status(Constants.TokenStatus.BOXED)
 	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
-	token.position = position
+	token.position = Vector2.ZERO
 	__saved_token = token
 	
 func pick_token() -> BoardToken:
@@ -40,11 +41,17 @@ func pick_token() -> BoardToken:
 	__saved_token = null
 	return pick_token
 
-func swap_token(to_swap_token:BoardToken) -> BoardToken:
+func swap_token(to_save_token:BoardToken) -> BoardToken:
 	assert(not is_empty(), "Cannot swap if there is no token")
-	var to_get_token := pick_token()
-	save_token(to_swap_token)
-	return to_get_token
+	# first get the parent of the saving token and assign it to the picked token
+	var picked_token := pick_token()
+	var external_parent = to_save_token.get_parent()
+	save_token(to_save_token)	
+	external_parent.add_child(picked_token)
+	picked_token.set_status(Constants.TokenStatus.FLOATING)
+	picked_token.z_index = Constants.FLOATING_Z_INDEX
+	picked_token.position = self.position - Constants.SAVE_SLOT_OVER_POS
+	return picked_token
 
 func _on_area_2d_cell_entered(position:Vector2):
 	if enabled:

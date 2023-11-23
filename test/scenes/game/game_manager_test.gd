@@ -12,7 +12,7 @@ var runner : GdUnitSceneRunner
 var game_manager: GameManager
 var state_machine: StateMachine
 var board: Board
-var spawn_token_cell: BoardCell
+var spawn_token_slot: SpawnTokenSlot
 
 var __diff_easy_res = "res://data/difficulties/diff_0_easy.tres"
 var __diff_medium_res = "res://data/difficulties/diff_1_medium.tres"
@@ -62,8 +62,8 @@ func before_test():
 	assert_object(state_machine).is_not_null()
 	board = runner.find_child("Board") as Board
 	assert_object(board).is_not_null()
-	spawn_token_cell = runner.find_child("SpawnTokenCell") as BoardCell
-	assert_object(spawn_token_cell).is_not_null()
+	spawn_token_slot = runner.find_child("SpawnTokenSlot") as SpawnTokenSlot
+	assert_object(spawn_token_slot).is_not_null()
 	
 func after_test():
 	runner = null
@@ -109,13 +109,12 @@ func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 	await __wait_to_game_state(Constants.PlayingState.PLAYER)
 	
 	await await_idle_frame()
-	await runner.await_func_on(game_manager, "get_floating_token").wait_until(200).is_not_null()
+	await __async_await_for_property(game_manager.spawn_token_slot, "token", null, property_is_not_equal, 2)
 	
 	if token_id != IDs.EMPTY:
-		game_manager.discard_floating_token()
 		var token_data := __all_token_data.get_token_data_by_id(token_id)
-		game_manager.create_floating_token(token_data)
-		assert_object(game_manager.floating_token).is_not_null()
+		game_manager.spawn_token_slot.discard_token()
+		game_manager.spawn_token_slot.spawn_token(token_data)
 	
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	await __async_move_mouse_to_cell_object(board.get_cell_at_position(cell_index), click)
@@ -174,12 +173,12 @@ func __paralized_enemies(paralized:bool) -> void:
 			enemies[key].behavior.paralize = paralized
 
 func __await_assert_floating_token_is_boxed() -> void:
-	assert_object(game_manager.floating_token).is_not_null()
+	await __async_await_for_property(game_manager, "floating_token", null, property_is_equal, 2)
+	await __async_await_for_property(game_manager.spawn_token_slot, "token", null, property_is_not_equal, 2)
+	assert_object(game_manager.floating_token).is_null()
+	assert_object(game_manager.spawn_token_slot.token).is_not_null()
 	assert_bool(board.enabled_interaction).is_true()
-	await __async_await_for_property(game_manager.floating_token, "position", spawn_token_cell.position, property_is_equal, 2)
-	assert_that(game_manager.floating_token.position).is_equal(spawn_token_cell.position)
-	#I really don't know why this fails:
-	#assert_that(game_manager.floating_token.current_status).is_equal(Constants.TokenStatus.BOXED)
+	await __async_await_for_property(game_manager.spawn_token_slot.token, "position", Vector2.ZERO, property_is_equal, 2)
 	
 func __await_assert_empty_cell_conditions(cell_index:Vector2) -> void:
 	await __await_assert_empty_cell_object_conditions(board.get_cell_at_position(cell_index))
@@ -200,9 +199,9 @@ func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Con
 func __await_assert_valid_cell_object_conditions(cell:BoardCell, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
 	await __async_await_for_property(cell, "highlight", cell_highlight, property_is_equal, 2)
 	if game_manager.floating_token.type == Constants.TokenType.ACTION:
-		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.VALID)
+		assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.VALID)
 	else:
-		assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.NONE)
+		assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.NONE)
 	assert_that(cell.highlight).is_equal(cell_highlight)
 	
 func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:
@@ -210,7 +209,7 @@ func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:
 
 func __await_assert_invalid_cell_object_conditions(cell:BoardCell) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.INVALID, property_is_equal, 2)
-	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.INVALID)
+	assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.INVALID)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.INVALID)
 
 func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
@@ -218,7 +217,7 @@ func __await_assert_wasted_cell_conditions(cell_index:Vector2) -> void:
 	
 func __await_assert_wasted_cell_object_conditions(cell:BoardCell) -> void:
 	await __async_await_for_property(cell, "highlight", Constants.CellHighlight.WASTED, property_is_equal, 2)
-	assert_that(game_manager.get_floating_token().highlight).is_equal(Constants.TokenHighlight.WASTED)
+	assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.WASTED)
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.WASTED)
 
 func __await_token_id_at_cell(token_id: String, at_cell:Vector2) -> void:
