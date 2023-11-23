@@ -113,13 +113,8 @@ func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 	
 	if token_id != IDs.EMPTY:
 		var token_data := __all_token_data.get_token_data_by_id(token_id)
-		## old
-		game_manager.discard_floating_token()
-		game_manager.create_floating_token(token_data)
-		assert_object(game_manager.floating_token).is_not_null()
-		## new
 		game_manager.spawn_token_slot.discard_token()
-		game_manager.spawn_token_slot.spawn_new_token(token_data)
+		game_manager.spawn_token_slot.spawn_token(token_data)
 	
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	await __async_move_mouse_to_cell_object(board.get_cell_at_position(cell_index), click)

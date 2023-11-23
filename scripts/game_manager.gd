@@ -21,7 +21,6 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 
 @export_category("Game Elements")
 @export var board:Board
-@export var spawn_token_cell:BoardCell
 @export var gameplay_ui:GameplayUI
 @export var spawn_token_slot:SpawnTokenSlot 
 
@@ -30,12 +29,14 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var bad_token: TokenData # mmmmm
 
 var __save_slots:Array[SaveTokenSlot] = []
-
 var save_slots:Array[SaveTokenSlot]:
 	get:
 		return __save_slots
 
-var floating_token: BoardToken = null
+var __floating_token: BoardToken = null
+var floating_token: BoardToken:
+	get:
+		return __floating_token
 
 var ghost_token: BoardToken
 
@@ -86,55 +87,32 @@ func add_points(value:int) -> void:
 	points += value
 	points_added.emit(value, points)
 
-func create_floating_token(token_data:TokenData) -> BoardToken:
-	assert (!floating_token, "trying to create a floating token when there is already one")
-	if not token_data:
-		token_data = difficulty_manager.get_next_token_data()
-	
-	floating_token = instantiate_new_token(token_data, Constants.TokenStatus.BOXED)
+func pick_up_floating_token() -> void:
+	assert(not __floating_token, "You already have a floating token")
+	assert(spawn_token_slot.token, "You cannot pick up a token if there is not a token in the slot")
+	__floating_token = spawn_token_slot.pick_token()
 	add_child(floating_token)
-	floating_token.position = spawn_token_cell.position
+	floating_token.position = spawn_token_slot.position
 	floating_token.z_index = Constants.FLOATING_Z_INDEX
-	floating_token.z_as_relative = false
+		
+func spawn_new_token(token_data:TokenData) -> void:
+	assert (!__floating_token, "trying to create a floating token when there is already one")
+	if not token_data:
+		token_data = difficulty.get_random_token_data()
+	spawn_token_slot.spawn_token(token_data)
 	
-	__create_ghost_token(token_data)
-	
-	spawn_token_cell.set_highlight(Constants.CellHighlight.VALID)
-	
-	return floating_token
-	
-func __create_ghost_token(token_data:TokenData):
-	assert(not ghost_token, "there is alredy a ghost token")
-	ghost_token = instantiate_new_token(token_data, Constants.TokenStatus.GHOST_BOX)
-	add_child(ghost_token)
-	ghost_token.position = spawn_token_cell.position
-	ghost_token.z_index = Constants.GHOST_BOX_Z_INDEX
-	
-
 func discard_floating_token() -> void:
-	assert (floating_token, "trying to discard a non existing token")
-	remove_child(floating_token)
-	floating_token.queue_free()
-	floating_token = null
+	assert (__floating_token, "trying to discard a non existing token")
+	remove_child(__floating_token)
+	__floating_token.queue_free()
+	__floating_token = null
 	
-	if ghost_token:
-		__discard_ghost_token()
+	spawn_token_slot.discard_token()
+
 
 func reset_floating_token_to_spawn_box() -> void:
-	# move the floating token back.
-	# since the user can interact with multiple prices and chest in the same play
-	# we need to ignore the call if its already boxed
-	if floating_token.current_status != Constants.TokenStatus.BOXED:
-		floating_token.set_status(Constants.TokenStatus.BOXED)
-	var tween = create_tween()
-	tween.set_ease(Tween.EASE_IN)
-	tween.tween_property(floating_token, "position", spawn_token_cell.position, 0.2)	
+	spawn_token_slot.box_token(floating_token)
 			
-func __discard_ghost_token() -> void:
-	remove_child(ghost_token)
-	ghost_token.queue_free()
-	ghost_token = null
-
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	
 	board.clear_highlights()
@@ -472,14 +450,14 @@ func on_save_token_slot_entered(index:int) -> void:
 		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
 
 func on_save_token_slot_selected(index:int) -> void:
-	__discard_ghost_token()
+	
 	if save_slots[index].is_empty():
 		save_slots[index].save_token(floating_token)
-		floating_token = null
-		create_floating_token(null)
+		__floating_token = null
+		spawn_new_token(null)
 	else:
-		floating_token = save_slots[index].swap_token(floating_token)
-		__create_ghost_token(floating_token.data)
+		__floating_token = save_slots[index].swap_token(floating_token)
+		spawn_token_slot.set_boxed_token_back(floating_token)
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
@@ -508,7 +486,7 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	board.clear_token(cell_index)
 	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token, Constants.TokenStatus.PLACED)
 	discard_floating_token()
-	floating_token = to_place_token
+	__floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 	
 func __remove_all_type_action(cell_index:Vector2) -> void:
@@ -568,7 +546,7 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
 	var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
 	discard_floating_token()
-	floating_token = to_place_token
+	__floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 
 

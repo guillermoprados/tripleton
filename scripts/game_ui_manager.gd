@@ -2,15 +2,6 @@ extends Node
 
 class_name GameUIManager
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func adjust_board_position(board:Board) -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size
 	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)

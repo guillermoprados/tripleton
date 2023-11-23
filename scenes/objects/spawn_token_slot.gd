@@ -29,11 +29,11 @@ func _ready():
 func _process(delta):
 	pass
 
-func spawn_new_random_token(difficulty:Difficulty) -> void:
+func spawn_random_token(difficulty:Difficulty) -> void:
 	assert(not __token, "trying to spawn a token when there is already one")
-	spawn_new_token(difficulty.get_random_token_data())
+	spawn_token(difficulty.get_random_token_data())
 	
-func spawn_new_token(token_data:TokenData) -> void:
+func spawn_token(token_data:TokenData) -> void:
 	assert(not __token, "trying to spawn a token when there is already one")
 	var new_token := token_scene.instantiate() as BoardToken
 	new_token.set_data(token_data, Constants.TokenStatus.NONE)
@@ -41,13 +41,14 @@ func spawn_new_token(token_data:TokenData) -> void:
 	box_token(new_token, false)
 
 func discard_token() -> void:
-	assert(__token, "cannot discard token if there isn't one")
-	remove_child(__token)
-	__token.queue_free()
-	__token = null
-	remove_child(__ghost_token)
-	__ghost_token.queue_free()
-	__ghost_token = null
+	if __token:
+		remove_child(__token)
+		__token.queue_free()
+		__token = null
+	if __ghost_token:
+		remove_child(__ghost_token)
+		__ghost_token.queue_free()
+		__ghost_token = null
 
 func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
 	assert(not __token, "trying to box a token when there is already one")
@@ -56,7 +57,7 @@ func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
 	token.set_status(Constants.TokenStatus.BOXED)
 	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
 	
-	__set_boxed_token_back()
+	set_boxed_token_back(__token)
 	
 	if animated:
 		var tween = create_tween()
@@ -75,7 +76,7 @@ func pick_token() -> BoardToken:
 	return picked_token
 	
 	
-func __set_boxed_token_back() -> void:
+func set_boxed_token_back(token:BoardToken) -> void:
 	
 	if not back_token:
 		__ghost_token = token_scene.instantiate() as BoardToken
@@ -84,3 +85,4 @@ func __set_boxed_token_back() -> void:
 		back_token.z_as_relative = false
 	
 	back_token.set_data(token.data, Constants.TokenStatus.GHOST_BOX)
+	

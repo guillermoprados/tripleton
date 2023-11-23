@@ -47,7 +47,7 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "spawn_token_cell", "gameplay_ui", "spawn_token_slot")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "spawn_token_slot")]
 script = ExtResource("1_noepw")
 dinasty_manager = NodePath("../DinastyManager")
 difficulty_manager = NodePath("../DifficultyManager")
@@ -58,7 +58,6 @@ token_scene = ExtResource("2_08wbk")
 cell_scene = ExtResource("6_h3m50")
 save_token_slot_scene = ExtResource("4_cm6t5")
 board = NodePath("../Board")
-spawn_token_cell = NodePath("../SpawnTokenCell")
 gameplay_ui = NodePath("../UI")
 spawn_token_slot = NodePath("../SpawnTokenSlot")
 default_chest = ExtResource("4_b0hm0")
@@ -80,11 +79,6 @@ script = ExtResource("10_dfvt2")
 position = Vector2(72, 713)
 
 [node name="SpawnTokenSlot" parent="." instance=ExtResource("12_27i5p")]
-
-[node name="SpawnTokenCell" parent="." instance=ExtResource("6_h3m50")]
-position = Vector2(170, 426)
-highlight_valid = Color(0.5, 1, 0.5, 1)
-highlight_invalid = Color(1, 0.5, 0.5, 1)
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("8_umy6w")

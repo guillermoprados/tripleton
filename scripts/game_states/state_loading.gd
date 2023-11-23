@@ -54,12 +54,6 @@ func __position_game_objects() -> void:
 	ui_manager.adjust_spawn_token_position(game_manager.spawn_token_slot, board)
 	ui_manager.adjust_save_token_slots_positions(game_manager.save_slots)
 	
-	var screen_size:Vector2 = get_tree().root.content_scale_size
-	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
-	
-	game_manager.spawn_token_cell.position.y -= (Constants.CELL_SIZE.y * Constants.BOARD_SPAWN_TOKEN_Y_SEPARATION_MULTIPLIER)
-	game_manager.spawn_token_cell.z_index = Constants.CELL_Z_INDEX
-	
 func __create_landscape() -> void:
 	randomize()
 	#TODO: DO NOT PLACE ENEMIES IN ENCLOSED PLACES!!
