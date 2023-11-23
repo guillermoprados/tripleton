@@ -65,6 +65,16 @@ func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
 	else:
 		token.position = Vector2.ZERO
 	
+func pick_token() -> BoardToken:
+	assert(__token, "you cannot pick on an empty slot")
+	
+	var picked_token := token
+	remove_child(__token)
+	__token = null
+
+	return picked_token
+	
+	
 func __set_boxed_token_back() -> void:
 	
 	if not back_token:

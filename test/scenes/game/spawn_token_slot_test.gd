@@ -33,3 +33,20 @@ func test__discard_token_should_clean_both_fron_and_back_token() -> void:
 	var gosth_back_token = game_manager.spawn_token_slot.back_token
 	assert_object(gosth_back_token).is_null()
 
+func test__when_picking_up_a_token_token_should_be_null_but_ghost_should_remain() -> void:
+	
+	await __set_to_player_state(IDs.BUSHH)
+	
+	var picked_token := game_manager.spawn_token_slot.pick_token() 
+	game_manager.add_child(picked_token)
+	assert_str(picked_token.id).is_equal(IDs.BUSHH)
+	
+	var spawned_token = game_manager.spawn_token_slot.token
+	assert_object(spawned_token).is_null()
+	
+	var gosth_back_token = game_manager.spawn_token_slot.back_token
+	assert_object(gosth_back_token).is_not_null()
+	assert_str(gosth_back_token.id).is_equal(IDs.BUSHH)
+	
+	assert_object(picked_token.get_parent()).is_not_same(gosth_back_token.get_parent())
+	
