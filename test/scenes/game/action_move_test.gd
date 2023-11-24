@@ -113,6 +113,34 @@ func test__move_action_invalid() -> void:
 		]
 	)
 	
+func test__move_action_selected_should_disable_save_slots() -> void:
+	
+	var landscape := [
+		[IDs.GRASS,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
+	]
+	
+	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
+	
+	var token_cell := Vector2(0,0)
+	var to_cell := Vector2(1,0)
+	await __async_move_mouse_to_cell(token_cell, false)
+	await __await_assert_valid_available_moves(token_cell, [MOVE_DOWN, MOVE_RIGHT])
+	await __async_move_mouse_to_cell(token_cell, true)
+	await __await_assert_valid_available_moves(token_cell, [MOVE_DOWN, MOVE_RIGHT])
+	
+	# disables the board but enable just the cells
+	assert_bool(board.enabled_interaction).is_false()
+	
+	# check save slots as well
+	var save_slots := game_manager.save_slots
+	
+	for slot in save_slots:
+		assert_bool(slot.enabled).is_false()
+	
+	
 func test__move_action_down_selected() -> void:
 	
 	var landscape := [

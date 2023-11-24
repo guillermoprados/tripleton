@@ -524,6 +524,9 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 	var move_token_cells : Array[Vector2] = floating_token.action.affected_cells(cell_origin_index, board.cell_tokens_ids) 
 	board.highlight_cells(move_token_cells, Constants.CellHighlight.VALID)
 	
+	for slot in save_slots:
+		slot.enabled = false
+	
 	for move_cell_index in move_token_cells:
 		var cell_board = board.get_cell_at_position(move_cell_index)
 		var callable : Callable = Callable(__move_token_action_cell_selected)
