@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name SpawnTokenSlot
+class_name InitialTokenSlot
 
 @export_category("Packed Scenes")
 @export var token_scene: PackedScene
@@ -12,10 +12,21 @@ signal on_slot_selected(index:int)
 @export var cell_board:BoardCell
 @export var background:Sprite2D
 
+var __animate_to_pos := false
+
 var __token:BoardToken
 var token:BoardToken:
 	get:
 		return __token
+	set(value):
+		assert(not value.get_parent(), "cannot set a token with a parent")
+		assert(not token, "cannot set a token if there is already one")
+		__token = value
+		add_child(token)
+		token.position = Vector2.ZERO
+		token.set_status(Constants.TokenStatus.BOXED)
+		token.z_index = Constants.TOKEN_BOXED_Z_INDEX
+		set_boxed_token_back(token)
 
 var __ghost_token:BoardToken
 var back_token:BoardToken:
@@ -27,18 +38,22 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if __animate_to_pos:
+		var tween = create_tween()
+		tween.set_parallel(false)
+		tween.set_ease(Tween.EASE_IN)
+		tween.tween_property(token, "position", Vector2.ZERO, 0.2)	
+		__animate_to_pos = false
 	pass
 
 func spawn_random_token(difficulty:Difficulty) -> void:
-	assert(not __token, "trying to spawn a token when there is already one")
 	spawn_token(difficulty.get_random_token_data())
 	
 func spawn_token(token_data:TokenData) -> void:
-	assert(not __token, "trying to spawn a token when there is already one")
 	var new_token := token_scene.instantiate() as BoardToken
 	new_token.set_data(token_data, Constants.TokenStatus.NONE)
 	new_token.z_as_relative = false
-	box_token(new_token, false)
+	token = new_token
 
 func discard_token() -> void:
 	if __token:
@@ -50,37 +65,19 @@ func discard_token() -> void:
 		__ghost_token.queue_free()
 		__ghost_token = null
 
-func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
-	assert(not __token, "trying to box a token when there is already one")
-	__token = to_box_token	
-	
-	var token_parent = __token.get_parent()
-	var fixed_pos = token.position
-	if token_parent:
-		fixed_pos = fixed_pos - position
-		token_parent.remove_child(__token)
-		
-	add_child(__token)
-	token.position = fixed_pos
-	token.set_status(Constants.TokenStatus.BOXED)
-	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
-	
-	set_boxed_token_back(__token)
-	
-	if animated:
-		var tween = create_tween()
-		tween.set_ease(Tween.EASE_IN)
-		tween.tween_property(token, "position", Vector2.ZERO, 0.2)	
-	else:
-		token.position = Vector2.ZERO
+func return_token(to_box_token:BoardToken, box_token_world_position:Vector2) -> void:
+	token = to_box_token
+	if box_token_world_position != Vector2.ZERO:
+		var fixed_pos = box_token_world_position - position
+		token.position = fixed_pos
+		__animate_to_pos = true
 	
 func pick_token() -> BoardToken:
-	assert(__token, "you cannot pick on an empty slot")
+	assert(token, "you cannot pick on an empty slot")
 	
 	var picked_token := token
-	remove_child(__token)
+	remove_child(token)
 	__token = null
-
 	return picked_token
 	
 	
@@ -95,6 +92,5 @@ func set_boxed_token_back(token:BoardToken) -> void:
 	add_child(__ghost_token)
 	back_token.z_index = Constants.GHOST_BOX_Z_INDEX
 	back_token.z_as_relative = false
-	
 	back_token.set_data(token.data, Constants.TokenStatus.GHOST_BOX)
 	

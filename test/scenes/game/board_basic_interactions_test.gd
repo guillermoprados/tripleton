@@ -57,7 +57,7 @@ func test__place_single_token() -> void:
 	await __wait_to_next_player_turn()
 	
 	assert_bool(board.is_cell_empty(test_cell)).is_false()
-	assert_object(game_manager.spawn_token_slot.token).is_not_null()
+	assert_object(game_manager.initial_token_slot.token).is_not_null()
 	assert_bool(board.enabled_interaction).is_true()
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(

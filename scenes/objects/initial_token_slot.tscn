@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwak0f0kak1jo"]
 
-[ext_resource type="Script" path="res://scenes/objects/spawn_token_slot.gd" id="1_3fxqf"]
+[ext_resource type="Script" path="res://scenes/objects/initial_token_slot.gd" id="1_3fxqf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_0p284"]
 [ext_resource type="Texture2D" uid="uid://1s3pj5qjllfh" path="res://images/tokens/save_token_back.png" id="2_lwlko"]
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="3_fiolb"]
 
-[node name="SpawnTokenSlot" type="Node2D" node_paths=PackedStringArray("cell_board", "background")]
+[node name="InitialTokenSlot" type="Node2D" node_paths=PackedStringArray("cell_board", "background")]
 script = ExtResource("1_3fxqf")
 token_scene = ExtResource("2_0p284")
 cell_board = NodePath("Area2D")
