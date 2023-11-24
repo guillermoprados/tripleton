@@ -137,6 +137,7 @@ func __async_move_mouse_to_cell_object(cell:BoardCell, click:bool) -> void:
 		await await_idle_frame()
 	
 	if click:
+		await await_idle_frame()
 		cell.__just_for_test_click_cell()
 	
 	await await_idle_frame()
@@ -148,6 +149,7 @@ func __async_await_for_property(obj:Object, prop_name:String, value:Variant, com
 		if comparison.call(current_value, value):
 			return true
 		await await_idle_frame()
+	assert(false, "property " +prop_name+" never reached the required condition")
 	return false
 	
 func __ascync_await_for_time_helper(time:float) -> void:

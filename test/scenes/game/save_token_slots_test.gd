@@ -66,8 +66,11 @@ func test__should_save_token_when_empty() -> void:
 	assert_str(save_slot.token.id).is_equal(IDs.B_TRE)
 	assert_that(save_slot.token.position).is_equal(Vector2.ZERO)
 	assert_int(save_slot.token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
-
+	
+	await await_idle_frame()
+	
 	assert_bool(board.enabled_interaction).is_true()
+	await __async_await_for_property(game_manager, "floating_token", null, property_is_equal,2)
 	assert_object(game_manager.floating_token).is_null()
 	assert_object(game_manager.initial_token_slot.token).is_not_null()
 	
