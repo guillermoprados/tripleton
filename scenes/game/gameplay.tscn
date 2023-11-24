@@ -20,7 +20,7 @@
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
 [ext_resource type="Resource" uid="uid://bl53r56jlpcem" path="res://data/dinasties/3_dinasty.tres" id="11_pl43k"]
 [ext_resource type="Script" path="res://scripts/game_states/state_start.gd" id="11_q468j"]
-[ext_resource type="PackedScene" uid="uid://dwak0f0kak1jo" path="res://scenes/objects/spawn_token_slot.tscn" id="12_27i5p"]
+[ext_resource type="PackedScene" uid="uid://dwak0f0kak1jo" path="res://scenes/objects/initial_token_slot.tscn" id="12_27i5p"]
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="13_kh2cu"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="13_mgra2"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="15_i3l0h"]
@@ -47,7 +47,7 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "spawn_token_slot")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
 script = ExtResource("1_noepw")
 dinasty_manager = NodePath("../DinastyManager")
 difficulty_manager = NodePath("../DifficultyManager")
@@ -59,7 +59,7 @@ cell_scene = ExtResource("6_h3m50")
 save_token_slot_scene = ExtResource("4_cm6t5")
 board = NodePath("../Board")
 gameplay_ui = NodePath("../UI")
-spawn_token_slot = NodePath("../SpawnTokenSlot")
+initial_token_slot = NodePath("../InitialTokenSlot")
 default_chest = ExtResource("4_b0hm0")
 bad_token = ExtResource("5_r4yhu")
 
@@ -78,7 +78,7 @@ script = ExtResource("10_dfvt2")
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
 position = Vector2(72, 713)
 
-[node name="SpawnTokenSlot" parent="." instance=ExtResource("12_27i5p")]
+[node name="InitialTokenSlot" parent="." instance=ExtResource("12_27i5p")]
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("game_manager", "board")]
 script = ExtResource("8_umy6w")

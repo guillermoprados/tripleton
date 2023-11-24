@@ -19,7 +19,7 @@ func _on_state_entered() -> void:
 	
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
-	if not game_manager.spawn_token_slot.token:
+	if not game_manager.initial_token_slot.token:
 		game_manager.spawn_new_token(null)
 	
 	for save_slot in game_manager.save_slots:
@@ -34,7 +34,7 @@ func _on_state_entered() -> void:
 	board.enabled_interaction = true
 
 func _process(delta) -> void:
-	if not game_manager.floating_token and not game_manager.spawn_token_slot.token:
+	if not game_manager.floating_token and not game_manager.initial_token_slot.token:
 		state_finished.emit(id)
 		
 # override in states
@@ -76,8 +76,8 @@ func _input(event:InputEvent) -> void:
 			
 			if game_manager.floating_token:
 				game_manager.discard_floating_token()
-			if game_manager.spawn_token_slot.token:
-				game_manager.spawn_token_slot.discard_token()
+			if game_manager.initial_token_slot.token:
+				game_manager.initial_token_slot.discard_token()
 				
 			game_manager.spawn_new_token(next_token_data)
 			combinator.reset_combinations(board.rows, board.columns)

@@ -9,10 +9,10 @@ func adjust_board_position(board:Board) -> void:
 	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
 	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
 
-func adjust_spawn_token_position(spawn_token_slot:SpawnTokenSlot, board:Board) -> void:
+func adjust_initial_slot_position(initial_token_slot:InitialTokenSlot, board:Board) -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size
-	spawn_token_slot.position.x = screen_size.x/2
-	spawn_token_slot.position.y = board.position.y - (Constants.CELL_SIZE.y/2) - Constants.SPAWN_TOKEN_SEPARATION
+	initial_token_slot.position.x = screen_size.x/2
+	initial_token_slot.position.y = board.position.y - (Constants.CELL_SIZE.y/2) - Constants.INITAL_TOKEN_SLOT_SEPARATION
 
 func adjust_save_token_slots_positions(save_token_slots:Array[SaveTokenSlot]) -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size

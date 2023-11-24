@@ -69,7 +69,7 @@ func test__should_save_token_when_empty() -> void:
 
 	assert_bool(board.enabled_interaction).is_true()
 	assert_object(game_manager.floating_token).is_null()
-	assert_object(game_manager.spawn_token_slot.token).is_not_null()
+	assert_object(game_manager.initial_token_slot.token).is_not_null()
 	
 func test__should_swap_when_no_empty() -> void:
 	

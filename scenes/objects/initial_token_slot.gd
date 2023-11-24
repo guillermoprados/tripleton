@@ -1,6 +1,6 @@
 extends Node2D
 
-class_name SpawnTokenSlot
+class_name InitialTokenSlot
 
 @export_category("Packed Scenes")
 @export var token_scene: PackedScene
@@ -18,6 +18,15 @@ var __token:BoardToken
 var token:BoardToken:
 	get:
 		return __token
+	set(value):
+		assert(not value.get_parent(), "cannot set a token with a parent")
+		assert(not token, "cannot set a token if there is already one")
+		__token = value
+		add_child(token)
+		token.position = self.position
+		token.set_status(Constants.TokenStatus.BOXED)
+		token.z_index = Constants.TOKEN_BOXED_Z_INDEX
+		set_boxed_token_back(token)
 
 var __ghost_token:BoardToken
 var back_token:BoardToken:
@@ -38,15 +47,13 @@ func _process(delta):
 	pass
 
 func spawn_random_token(difficulty:Difficulty) -> void:
-	assert(not __token, "trying to spawn a token when there is already one")
 	spawn_token(difficulty.get_random_token_data())
 	
 func spawn_token(token_data:TokenData) -> void:
-	assert(not __token, "trying to spawn a token when there is already one")
 	var new_token := token_scene.instantiate() as BoardToken
 	new_token.set_data(token_data, Constants.TokenStatus.NONE)
 	new_token.z_as_relative = false
-	__box_token(new_token)
+	__token = new_token
 
 func discard_token() -> void:
 	if __token:
@@ -59,20 +66,11 @@ func discard_token() -> void:
 		__ghost_token = null
 
 func return_token(to_box_token:BoardToken, box_token_world_position:Vector2) -> void:
-	assert(not to_box_token.get_parent(), "cannot box a parented token")
-	__box_token(to_box_token)
+	__token = to_box_token
 	if box_token_world_position != Vector2.ZERO:
 		var fixed_pos = box_token_world_position - position
 		token.position = fixed_pos
 		__animate_to_pos = true
-	
-func __box_token(to_box_token:BoardToken) -> void:
-	assert(not __token, "trying to box a token when there is already one")
-	__token = to_box_token	
-	add_child(__token)
-	token.set_status(Constants.TokenStatus.BOXED)
-	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
-	set_boxed_token_back(__token)
 	
 func pick_token() -> BoardToken:
 	assert(__token, "you cannot pick on an empty slot")
@@ -95,6 +93,5 @@ func set_boxed_token_back(token:BoardToken) -> void:
 	add_child(__ghost_token)
 	back_token.z_index = Constants.GHOST_BOX_Z_INDEX
 	back_token.z_as_relative = false
-	
 	back_token.set_data(token.data, Constants.TokenStatus.GHOST_BOX)
 	

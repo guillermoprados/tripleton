@@ -12,7 +12,7 @@ var runner : GdUnitSceneRunner
 var game_manager: GameManager
 var state_machine: StateMachine
 var board: Board
-var spawn_token_slot: SpawnTokenSlot
+var initial_token_slot: InitialTokenSlot
 
 var __diff_easy_res = "res://data/difficulties/diff_0_easy.tres"
 var __diff_medium_res = "res://data/difficulties/diff_1_medium.tres"
@@ -62,8 +62,8 @@ func before_test():
 	assert_object(state_machine).is_not_null()
 	board = runner.find_child("Board") as Board
 	assert_object(board).is_not_null()
-	spawn_token_slot = runner.find_child("SpawnTokenSlot") as SpawnTokenSlot
-	assert_object(spawn_token_slot).is_not_null()
+	initial_token_slot = runner.find_child("InitialTokenSlot") as InitialTokenSlot
+	assert_object(initial_token_slot).is_not_null()
 	
 func after_test():
 	runner = null
@@ -109,12 +109,12 @@ func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 	await __wait_to_game_state(Constants.PlayingState.PLAYER)
 	
 	await await_idle_frame()
-	await __async_await_for_property(game_manager.spawn_token_slot, "token", null, property_is_not_equal, 2)
+	await __async_await_for_property(game_manager.initial_token_slot, "token", null, property_is_not_equal, 2)
 	
 	if token_id != IDs.EMPTY:
 		var token_data := __all_token_data.get_token_data_by_id(token_id)
-		game_manager.spawn_token_slot.discard_token()
-		game_manager.spawn_token_slot.spawn_token(token_data)
+		game_manager.initial_token_slot.discard_token()
+		game_manager.initial_token_slot.spawn_token(token_data)
 	
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	await __async_move_mouse_to_cell_object(board.get_cell_at_position(cell_index), click)
@@ -174,11 +174,11 @@ func __paralized_enemies(paralized:bool) -> void:
 
 func __await_assert_floating_token_is_boxed() -> void:
 	await __async_await_for_property(game_manager, "floating_token", null, property_is_equal, 2)
-	await __async_await_for_property(game_manager.spawn_token_slot, "token", null, property_is_not_equal, 2)
+	await __async_await_for_property(game_manager.initial_token_slot, "token", null, property_is_not_equal, 2)
 	assert_object(game_manager.floating_token).is_null()
-	assert_object(game_manager.spawn_token_slot.token).is_not_null()
+	assert_object(game_manager.initial_token_slot.token).is_not_null()
 	assert_bool(board.enabled_interaction).is_true()
-	await __async_await_for_property(game_manager.spawn_token_slot.token, "position", Vector2.ZERO, property_is_equal, 2)
+	await __async_await_for_property(game_manager.initial_token_slot.token, "position", Vector2.ZERO, property_is_equal, 2)
 	
 func __await_assert_empty_cell_conditions(cell_index:Vector2) -> void:
 	await __await_assert_empty_cell_object_conditions(board.get_cell_at_position(cell_index))
