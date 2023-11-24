@@ -12,6 +12,8 @@ signal on_slot_selected(index:int)
 @export var cell_board:BoardCell
 @export var background:Sprite2D
 
+var __animate_to_pos := false
+
 var __token:BoardToken
 var token:BoardToken:
 	get:
@@ -27,6 +29,12 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if __animate_to_pos:
+		var tween = create_tween()
+		tween.set_parallel(false)
+		tween.set_ease(Tween.EASE_IN)
+		tween.tween_property(token, "position", Vector2.ZERO, 0.2)	
+		__animate_to_pos = false
 	pass
 
 func spawn_random_token(difficulty:Difficulty) -> void:
@@ -61,16 +69,14 @@ func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
 		token_parent.remove_child(__token)
 		
 	add_child(__token)
-	token.position = fixed_pos
 	token.set_status(Constants.TokenStatus.BOXED)
 	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
 	
 	set_boxed_token_back(__token)
 	
 	if animated:
-		var tween = create_tween()
-		tween.set_ease(Tween.EASE_IN)
-		tween.tween_property(token, "position", Vector2.ZERO, 0.2)	
+		token.position = fixed_pos
+		__animate_to_pos = true
 	else:
 		token.position = Vector2.ZERO
 	
