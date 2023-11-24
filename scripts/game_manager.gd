@@ -94,6 +94,7 @@ func add_points(value:int) -> void:
 
 func pick_up_floating_token() -> void:
 	floating_token = initial_token_slot.pick_token()
+	floating_token.position = initial_token_slot.position
 	
 func release_floating_token() -> BoardToken:
 	assert(floating_token.get_parent() == self, "we're not the parent of this token")
