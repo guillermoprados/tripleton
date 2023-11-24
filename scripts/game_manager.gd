@@ -37,8 +37,14 @@ var __floating_token: BoardToken = null
 var floating_token: BoardToken:
 	get:
 		return __floating_token
-
-var ghost_token: BoardToken
+	set(value):
+		assert(not __floating_token, "there is a ft already")
+		assert(not value.get_parent(), "cannot set a parented token")
+		__floating_token = value
+		add_child(floating_token)
+		floating_token.position = spawn_token_slot.position
+		floating_token.z_index = Constants.FLOATING_Z_INDEX
+		floating_token.set_status(Constants.TokenStatus.FLOATING)
 
 var points: int
 var gold: int
@@ -88,41 +94,37 @@ func add_points(value:int) -> void:
 	points_added.emit(value, points)
 
 func pick_up_floating_token() -> void:
-	assert(not __floating_token, "You already have a floating token")
-	assert(spawn_token_slot.token, "You cannot pick up a token if there is not a token in the slot")
-	__floating_token = spawn_token_slot.pick_token()
-	add_child(floating_token)
-	floating_token.position = spawn_token_slot.position
-	floating_token.z_index = Constants.FLOATING_Z_INDEX
+	floating_token = spawn_token_slot.pick_token()
+	
+func release_floating_token() -> BoardToken:
+	assert(floating_token.get_parent() == self, "we're not the parent of this token")
+	var released_token = floating_token
+	var token_world_pos = floating_token.position
+	remove_child(floating_token)
+	__floating_token = null
+	return released_token
 		
 func spawn_new_token(token_data:TokenData) -> void:
-	assert (!__floating_token, "trying to create a floating token when there is already one")
 	if not token_data:
 		token_data = difficulty.get_random_token_data()
 	spawn_token_slot.spawn_token(token_data)
 	
 func discard_floating_token() -> void:
-	assert (__floating_token, "trying to discard a non existing token")
-	remove_child(__floating_token)
-	__floating_token.queue_free()
+	assert (floating_token, "trying to discard a non existing token")
+	remove_child(floating_token)
+	floating_token.queue_free()
 	__floating_token = null
-	
-	spawn_token_slot.discard_token()
-
 
 func reset_floating_token_to_spawn_box() -> void:
-	spawn_token_slot.box_token(floating_token, true)
-	__floating_token = null
+	assert(floating_token, "cannot return an empty token")
+	var world_pos := floating_token.global_position
+	spawn_token_slot.return_token(release_floating_token(), world_pos)
 			
 func move_floating_token_to_cell(cell_index:Vector2) -> void:
 	
 	board.clear_highlights()
-	
 	var token_position:Vector2 = board.position + board.get_cell_at_position(cell_index).position
-	
-	if floating_token.is_boxed:
-		floating_token.set_status(Constants.TokenStatus.FLOATING)
-		
+
 	if floating_token.type == Constants.TokenType.ACTION:
 		__move_floating_action_token(cell_index, token_position)
 	else:	 
@@ -460,12 +462,13 @@ func on_save_token_slot_selected(index:int) -> void:
 		pick_up_floating_token()
 	
 	if save_slots[index].is_empty():
-		save_slots[index].save_token(floating_token)
-		__floating_token = null
+		save_slots[index].save_token(release_floating_token())
 		spawn_new_token(null)
 	else:
-		__floating_token = save_slots[index].swap_token(floating_token)
+		floating_token = save_slots[index].swap_token(release_floating_token())
+		floating_token.position = save_slots[index].position - Constants.SAVE_SLOT_OVER_POS
 		spawn_token_slot.set_boxed_token_back(floating_token)
+	
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
 
@@ -494,7 +497,7 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	board.clear_token(cell_index)
 	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token, Constants.TokenStatus.PLACED)
 	discard_floating_token()
-	__floating_token = to_place_token
+	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 	
 func __remove_all_type_action(cell_index:Vector2) -> void:
@@ -554,7 +557,7 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
 	var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
 	discard_floating_token()
-	__floating_token = to_place_token
+	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 
 

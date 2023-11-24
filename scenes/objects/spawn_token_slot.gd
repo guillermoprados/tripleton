@@ -46,7 +46,7 @@ func spawn_token(token_data:TokenData) -> void:
 	var new_token := token_scene.instantiate() as BoardToken
 	new_token.set_data(token_data, Constants.TokenStatus.NONE)
 	new_token.z_as_relative = false
-	box_token(new_token, false)
+	__box_token(new_token)
 
 func discard_token() -> void:
 	if __token:
@@ -58,27 +58,21 @@ func discard_token() -> void:
 		__ghost_token.queue_free()
 		__ghost_token = null
 
-func box_token(to_box_token:BoardToken, animated:bool = false) -> void:
+func return_token(to_box_token:BoardToken, box_token_world_position:Vector2) -> void:
+	assert(not to_box_token.get_parent(), "cannot box a parented token")
+	__box_token(to_box_token)
+	if box_token_world_position != Vector2.ZERO:
+		var fixed_pos = box_token_world_position - position
+		token.position = fixed_pos
+		__animate_to_pos = true
+	
+func __box_token(to_box_token:BoardToken) -> void:
 	assert(not __token, "trying to box a token when there is already one")
 	__token = to_box_token	
-	
-	var token_parent = __token.get_parent()
-	var fixed_pos = token.position
-	if token_parent:
-		fixed_pos = fixed_pos - position
-		token_parent.remove_child(__token)
-		
 	add_child(__token)
 	token.set_status(Constants.TokenStatus.BOXED)
 	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
-	
 	set_boxed_token_back(__token)
-	
-	if animated:
-		token.position = fixed_pos
-		__animate_to_pos = true
-	else:
-		token.position = Vector2.ZERO
 	
 func pick_token() -> BoardToken:
 	assert(__token, "you cannot pick on an empty slot")
