@@ -11,13 +11,22 @@ var index : int
 @export var cell_board:BoardCell
 @export var background:Sprite2D
 
-var __saved_token: BoardToken
+var __token: BoardToken
 
 var enabled: bool
 
 var token: BoardToken:
 	get:
-		return __saved_token
+		return __token
+	set(value):
+		assert(not value.get_parent(), "Cannot save a parented token")
+		assert(is_empty(), "this slot is not empty")
+		__token = value
+		add_child(token)
+		token.set_status(Constants.TokenStatus.BOXED)
+		token.z_index = Constants.TOKEN_BOXED_Z_INDEX
+		token.position = Vector2.ZERO
+		assert(not is_empty(), "this slot should be no longer empty")
 
 func _ready():
 	background.z_index = Constants.BOARD_Z_INDEX
@@ -26,20 +35,13 @@ func is_empty() -> bool:
 	return !token 
 
 func save_token(to_save_token:BoardToken) -> void:
-	assert(not to_save_token.get_parent(), "Cannot save a parented token")
-	assert(is_empty(), "this slot is not empty")
-	add_child(to_save_token)
-	__saved_token = to_save_token
-	token.set_status(Constants.TokenStatus.BOXED)
-	token.z_index = Constants.TOKEN_BOXED_Z_INDEX
-	token.position = Vector2.ZERO
-	assert(not is_empty(), "this slot should be no longer empty")
+	token = to_save_token
 	
 func pick_token() -> BoardToken:
 	assert(not is_empty(), "this slot has no token")
-	var pick_token = __saved_token
-	remove_child(__saved_token)
-	__saved_token = null
+	var pick_token = token
+	remove_child(token)
+	__token = null
 	return pick_token
 
 func swap_token(to_save_token:BoardToken) -> BoardToken:

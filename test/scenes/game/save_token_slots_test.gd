@@ -87,8 +87,8 @@ func test__should_swap_when_no_empty() -> void:
 	
 	# swap the second one
 	var floating_over_pos = save_slot.position - Constants.SAVE_SLOT_OVER_POS
-	var second_token_id = game_manager.floating_token.id
 	await __async_move_mouse_to_cell_object(save_slot.cell_board, false)
+	var second_token_id = game_manager.floating_token.id
 	await __await_assert_valid_cell_object_conditions(save_slot.cell_board)
 	assert_that(game_manager.floating_token.position).is_equal(floating_over_pos)
 	assert_int(game_manager.floating_token.z_index).is_equal(Constants.FLOATING_Z_INDEX)
