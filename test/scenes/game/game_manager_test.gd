@@ -175,9 +175,14 @@ func __paralized_enemies(paralized:bool) -> void:
 			enemies[key].behavior.paralize = paralized
 
 func __await_assert_floating_token_is_boxed() -> void:
-	await __async_await_for_property(game_manager, "floating_token", null, property_is_equal, 2)
-	await __async_await_for_property(game_manager.initial_token_slot, "token", null, property_is_not_equal, 2)
-	assert_object(game_manager.floating_token).is_null()
+	
+	if game_manager.floating_token:
+		await __async_await_for_property(game_manager, "floating_token", null, property_is_equal, 2)
+		assert_object(game_manager.floating_token).is_null()
+	
+	if not game_manager.initial_token_slot.token:
+		await __async_await_for_property(game_manager.initial_token_slot, "token", null, property_is_not_equal, 2)
+	
 	assert_object(game_manager.initial_token_slot.token).is_not_null()
 	assert_bool(board.enabled_interaction).is_true()
 	await __async_await_for_property(game_manager.initial_token_slot.token, "position", Vector2.ZERO, property_is_equal, 2)
