@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=45 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
@@ -16,6 +16,7 @@
 [ext_resource type="Resource" uid="uid://b20sjjtmherem" path="res://data/dinasties/1_dinasty.tres" id="9_ur2yy"]
 [ext_resource type="Resource" uid="uid://bpnk3vrw8en7n" path="res://data/dinasties/2_dinasty.tres" id="10_3n31h"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
+[ext_resource type="Script" path="res://scripts/enemies_manager.gd" id="10_rb4s3"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
 [ext_resource type="Resource" uid="uid://bl53r56jlpcem" path="res://data/dinasties/3_dinasty.tres" id="11_pl43k"]
@@ -47,10 +48,11 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "enemies_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
 script = ExtResource("1_noepw")
 dinasty_manager = NodePath("../DinastyManager")
 difficulty_manager = NodePath("../DifficultyManager")
+enemies_manager = NodePath("../EnemiesManager")
 game_ui_manager = NodePath("../GameUIManager")
 fx_manager = NodePath("../FxManager")
 combinator = NodePath("../Combinator")
@@ -71,6 +73,9 @@ script = ExtResource("7_x7uas")
 
 [node name="DinastyManager" type="Node" parent="."]
 script = ExtResource("5_grqs2")
+
+[node name="EnemiesManager" type="Node" parent="."]
+script = ExtResource("10_rb4s3")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
