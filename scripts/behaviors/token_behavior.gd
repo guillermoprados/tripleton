@@ -4,7 +4,6 @@ class_name TokenBehavior
 
 signal behaviour_finished()	
 signal move_from_cell_to_cell(from_cell:Vector2, to_cell:Vector2, transition_time:float, tween_start_delay:float)
-signal stuck_in_cell(cell_index:Vector2)
 
 var __paralized:bool = false
 var paralize:bool:
@@ -26,11 +25,12 @@ func execute(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 		var next_cell = __select_next_move_cell(available_moves)
 		var await_time:float = __animate_to_cell_and_get_wait_time(current_cell, next_cell)
 		await get_tree().create_timer(await_time).timeout
-	else:
-		stuck_in_cell.emit(current_cell)
 	
 	behaviour_finished.emit()
-
+	
+func has_some_available_move(current_cell:Vector2, cell_tokens_ids: Array) -> bool:
+	return __find_available_movements(current_cell, cell_tokens_ids).size() > 0
+	
 func __select_next_move_cell(available_moves:Array) -> Vector2:
 	assert(available_moves.size() > 0, "trying to move when there are not available moves")
 	var randomIndex := randi() % available_moves.size()

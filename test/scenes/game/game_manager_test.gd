@@ -25,6 +25,7 @@ const IDs = {
 	TREEE = '2_tree',
 	B_TRE = '3_big_tree',
 	MNKEL = 'monokelo',
+	MOLEE = 'mole',
 	GRAVE = 'grave',
 	CHE_B = '0_chest_bronze',
 	CHE_S = '1_chest_silver',

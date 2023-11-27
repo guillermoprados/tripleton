@@ -9,7 +9,6 @@ func __execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 			# animate and then emit finish
 			behaviour_finished.emit()
 		else:
-			stuck_in_cell.emit(current_cell)
 			behaviour_finished.emit()
 		
 func find_continuous_empty_cell_in_line(current_cell: Vector2, cell_tokens_ids: Array, direction: Vector2) -> Array[Vector2]:

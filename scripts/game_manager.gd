@@ -10,7 +10,6 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export_category("Managers")
 @export var dinasty_manager: DinastyManager
 @export var difficulty_manager: DifficultyManager
-@export var enemies_manager: EnemiesManager
 @export var game_ui_manager: GameUIManager
 @export var fx_manager : FxManager
 @export var combinator: Combinator
