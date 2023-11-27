@@ -8,7 +8,7 @@ enum PathCellType {
 	WALL
 }
 
-static func get_enemy_and_path_simplified_board(board: Board) -> Array:
+static func __get_enemy_and_path_simplified_board(board: Board, jumping_enemies_as_path:bool) -> Array:
 	var converted_board = []
 	var board_has_empty_cells := board.get_number_of_empty_cells() > 0
 	# Iterating through all cells in the board
@@ -28,7 +28,7 @@ static func get_enemy_and_path_simplified_board(board: Board) -> Array:
 			
 			#mole enemies are like paths
 			if token and token.type == Constants.TokenType.ENEMY:
-				if (token.data as TokenEnemyData).enemy_type == Constants.EnemyType.MOLE and board_has_empty_cells:
+				if jumping_enemies_as_path and (token.data as TokenEnemyData).enemy_type == Constants.EnemyType.MOLE and board_has_empty_cells:
 					row.append(PathCellType.PATH)
 				else:
 					row.append(PathCellType.ENEMY)
@@ -43,7 +43,7 @@ static func get_enemy_and_path_simplified_board(board: Board) -> Array:
 static func find_stucked_enemies_cells(board:Board) -> Array[Vector2]:
 	var stucked_enemies_cells :Array[Vector2] = []
 	var enemies_by_cell := board.get_tokens_of_type(Constants.TokenType.ENEMY)
-	var path_cell_type_board = get_enemy_and_path_simplified_board(board)
+	var path_cell_type_board = __get_enemy_and_path_simplified_board(board, true)
 	for cell in enemies_by_cell.keys():
 		var enemy = board.get_token_at_cell(cell)
 		var enemy_behavior:TokenBehavior = enemy.behavior
@@ -97,7 +97,8 @@ static func __enemy_can_reach_empty_cell(start_pos: Vector2, board: Array) -> bo
 	# No path found to an empty cell
 	return false
 
-static func find_enclosed_groups(simplified_board: Array) -> Array:
+static func find_enclosed_groups(board:Board) -> Array:
+	var simplified_board := __get_enemy_and_path_simplified_board(board, false)
 	var visited = []
 	for i in range(simplified_board.size()):
 		var row = []
