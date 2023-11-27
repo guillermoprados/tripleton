@@ -35,6 +35,7 @@ func _on_state_entered() -> void:
 
 func _process(delta) -> void:
 	if not game_manager.floating_token and not game_manager.initial_token_slot.token:
+		game_manager.check_enclosed_enemies_and_kill_them()
 		state_finished.emit(id)
 		
 # override in states

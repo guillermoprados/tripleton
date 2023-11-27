@@ -25,8 +25,9 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var initial_token_slot:InitialTokenSlot 
 
 @export_category("Required but gonna change later")
-@export var default_chest: TokenData # mmmmm
-@export var bad_token: TokenData # mmmmm
+@export var default_chest_data: TokenData # mmmmm
+@export var bad_token_data: TokenData # mmmmm
+@export var grave_token_data: TokenData # mmmmm
 
 var __save_slots:Array[SaveTokenSlot] = []
 var save_slots:Array[SaveTokenSlot]:
@@ -61,7 +62,7 @@ func _enter_tree() -> void:
 	assert(game_ui_manager, "please set the game ui manager")
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
-	assert(default_chest, "plase set the default chest for combinations")
+	assert(default_chest_data, "plase set the default chest for combinations")
 
 func _ready() -> void:
 	pass
@@ -298,7 +299,6 @@ func __replace_token_on_board(token:BoardToken, cell_index:Vector2) -> void:
 	board.clear_highlights()
 
 func set_bad_token_on_board(cell_index:Vector2) -> void:
-	var bad_token_data : TokenData = __get_bad_movement_token_data()
 	var bad_token = instantiate_new_token(bad_token_data, Constants.TokenStatus.PLACED)
 	if board.is_cell_empty(cell_index):
 		__place_token_on_board(bad_token, cell_index)
@@ -312,10 +312,7 @@ func __get_replace_wildcard_token_data(cell_index:Vector2) -> TokenData:
 		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
 		return board.get_token_at_cell(combination.combinable_cells[1]).data # skip the first one
 	else: 
-		return __get_bad_movement_token_data()
-	
-func __get_bad_movement_token_data() -> TokenData:
-	return bad_token
+		return bad_token_data
 
 func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
 	
@@ -381,7 +378,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 		next_token_data = next_token_data.next_token
 	
 	if next_token_data.level > difficulty.max_level_token:
-		next_token_data = default_chest
+		next_token_data = default_chest_data
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
 
@@ -434,12 +431,6 @@ func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> v
 func move_token_in_board(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float) -> void:
 	board.move_token_from_to(cell_index_from, cell_index_to, tween_time, tween_delay)
 
-func set_dead_enemy(cell_index:Vector2) -> void:
-	var enemy_token: BoardToken = board.get_token_at_cell(cell_index)
-	var next_token_data: TokenData = enemy_token.data.next_token
-	var grave_token:BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
-	__replace_token_on_board(grave_token, cell_index)
-
 func can_place_more_tokens() -> bool:
 	var board_free_cells : int = board.get_number_of_empty_cells()
 	return board_free_cells > 0
@@ -471,6 +462,22 @@ func on_save_token_slot_selected(index:int) -> void:
 	
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
+
+## Enemies
+func set_dead_enemy(cell_index:Vector2) -> void:
+	var enemy_token: BoardToken = board.get_token_at_cell(cell_index)
+	var next_token_data: TokenData = enemy_token.data.next_token
+	var grave_token:BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
+	__replace_token_on_board(grave_token, cell_index)
+
+func check_enclosed_enemies_and_kill_them() -> void:
+	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	for stucked_cell in stucked_enemies:
+		set_dead_enemy(stucked_cell)
+	
+	var graves:Array = board.get_tokens_with_id(grave_token_data.id).keys()
+	combinator.reset_combinations(board.rows, board.columns)
+	check_and_do_board_combinations(graves, Constants.MergeType.BY_LAST_CREATED)
 
 ## ACTIONS
 
