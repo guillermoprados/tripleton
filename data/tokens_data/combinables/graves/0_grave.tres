@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://cvercemsw2qwg"]
+
+[ext_resource type="Resource" uid="uid://bo0ky5l1jye3p" path="res://data/tokens_data/combinables/graves/1_tomb.tres" id="1_axeit"]
+[ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_4vsa4"]
+[ext_resource type="PackedScene" uid="uid://bkvkfwxgfolfc" path="res://scenes/objects/tokens/graves/grave.tscn" id="3_rr4et"]
+
+[resource]
+script = ExtResource("2_4vsa4")
+next_token = ExtResource("1_axeit")
+reward_type = 2
+reward_value = 200
+collectable = false
+sprite_scene = ExtResource("3_rr4et")

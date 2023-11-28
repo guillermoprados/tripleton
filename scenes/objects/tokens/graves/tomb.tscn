@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://bajwg873jsknv"]
+
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_cth2s"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_4ywg1"]
+[ext_resource type="Texture2D" uid="uid://cr10dfybmfw0w" path="res://images/tokens/tomb_1.png" id="3_4gv36"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e7k7t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_4gv36")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Tomb" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_cth2s")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(1, 4)
+scale = Vector2(0.604938, 1.3)
+texture = ExtResource("2_4ywg1")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2.08165e-12, -40)
+sprite_frames = SubResource("SpriteFrames_e7k7t")

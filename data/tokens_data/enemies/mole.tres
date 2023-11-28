@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="TokenEnemyData" load_steps=4 format=3 uid="uid://bwy3cxsp2mutl"]
 
-[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="2_34vry"]
+[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/combinables/graves/0_grave.tres" id="2_34vry"]
 [ext_resource type="Script" path="res://resources/tokens/token_enemy_data.gd" id="2_kqegq"]
 [ext_resource type="PackedScene" uid="uid://ctdukcd4g3y26" path="res://scenes/objects/tokens/enemies/mole.tscn" id="3_44g0q"]
 

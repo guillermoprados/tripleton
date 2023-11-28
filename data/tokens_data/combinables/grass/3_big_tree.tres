@@ -1,14 +1,13 @@
 [gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://beq8q81br8883"]
 
-[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/0_chest_bronze.tres" id="1_l22n1"]
+[ext_resource type="Resource" uid="uid://bg22fqe88vqtl" path="res://data/tokens_data/chests/1_chest_silver.tres" id="1_b5edo"]
 [ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_4ak7x"]
 [ext_resource type="PackedScene" uid="uid://co5j1p0ccw4fi" path="res://scenes/objects/tokens/trees/big_tree.tscn" id="3_qtw4c"]
 
 [resource]
 script = ExtResource("2_4ak7x")
-next_token = ExtResource("1_l22n1")
+next_token = ExtResource("1_b5edo")
 reward_type = 2
 reward_value = 150
 collectable = false
-available_from_dinasty = 0
 sprite_scene = ExtResource("3_qtw4c")

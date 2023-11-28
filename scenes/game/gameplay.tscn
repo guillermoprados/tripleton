@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="5_r4yhu"]
 [ext_resource type="Script" path="res://scripts/game_ui_manager.gd" id="5_x74f5"]
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/combinables/graves/0_grave.tres" id="7_ik1pu"]
 [ext_resource type="Script" path="res://scripts/difficulty_manager.gd" id="7_x7uas"]
 [ext_resource type="Resource" uid="uid://cn673p2tkxq8o" path="res://data/dinasties/0_dinasty.tres" id="8_3k38h"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
@@ -24,7 +25,6 @@
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="13_kh2cu"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="13_mgra2"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="15_i3l0h"]
-[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="15_uulqy"]
 [ext_resource type="Resource" uid="uid://bbe1iclaj1ifb" path="res://data/tokens_data/actions/level_up.tres" id="16_o7wik"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 [ext_resource type="Resource" uid="uid://bdme4fr70c720" path="res://data/dinasties/4_dinasty.tres" id="17_askel"]
@@ -62,7 +62,7 @@ gameplay_ui = NodePath("../UI")
 initial_token_slot = NodePath("../InitialTokenSlot")
 default_chest_data = ExtResource("4_b0hm0")
 bad_token_data = ExtResource("5_r4yhu")
-grave_token_data = ExtResource("15_uulqy")
+grave_token_data = ExtResource("7_ik1pu")
 
 [node name="GameUIManager" type="Node" parent="."]
 script = ExtResource("5_x74f5")
@@ -98,7 +98,7 @@ script = ExtResource("11_q468j")
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("17_7v2y8")
-grave_data = ExtResource("15_uulqy")
+grave_data = ExtResource("7_ik1pu")
 combinator = NodePath("../../Combinator")
 
 [node name="StatePlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
