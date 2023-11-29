@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="6_70bmi"]
 [ext_resource type="Script" path="res://resources/difficulty.gd" id="7_86ibi"]
 [ext_resource type="Resource" uid="uid://djp2f3ai1cvxq" path="res://data/tokens_data/combinables/gates/1_shimai.tres" id="8_lafmg"]
-[ext_resource type="Resource" uid="uid://bvaf8dwe6id6q" path="res://data/tokens_data/combinables/gates/2_gate.tres" id="9_vbwdh"]
+[ext_resource type="Resource" path="res://data/tokens_data/combinables/gates/2_gate.tres" id="9_vbwdh"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="10_4qykk"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="11_x53vc"]
 [ext_resource type="Resource" uid="uid://bbe1iclaj1ifb" path="res://data/tokens_data/actions/level_up.tres" id="12_igspj"]
