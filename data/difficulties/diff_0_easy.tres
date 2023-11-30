@@ -16,7 +16,7 @@
 script = ExtResource("1_bdllu")
 name = "Easy"
 save_token_slots = 1
-max_level_token = 4
+max_level_token = 2
 total_points = 5000
 common = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_t31jd"), ExtResource("2_lh846"), ExtResource("3_nohjl")])
 uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("8_c0xj7"), ExtResource("10_7qujv"), ExtResource("11_idg3d")])
