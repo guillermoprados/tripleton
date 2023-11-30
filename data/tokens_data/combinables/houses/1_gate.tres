@@ -2,7 +2,7 @@
 
 [ext_resource type="Resource" uid="uid://uufnc71pvwdw" path="res://data/tokens_data/combinables/houses/2_house.tres" id="1_non5l"]
 [ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_4q2vk"]
-[ext_resource type="PackedScene" uid="uid://bauhbswb7qhrc" path="res://scenes/objects/tokens/gates/gate.tscn" id="3_hak4p"]
+[ext_resource type="PackedScene" uid="uid://bauhbswb7qhrc" path="res://scenes/objects/tokens/houses/gate.tscn" id="3_hak4p"]
 
 [resource]
 script = ExtResource("2_4q2vk")
