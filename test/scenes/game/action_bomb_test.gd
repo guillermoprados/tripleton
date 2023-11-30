@@ -154,7 +154,7 @@ func test__action_bomb_wasted_should_set_it_to_rock() -> void:
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.ROCKK,IDs.EMPTY],
+			[IDs.EMPTY,IDs.STONE,IDs.EMPTY],
 		]
 	)
 	

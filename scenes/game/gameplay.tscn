@@ -1,14 +1,15 @@
-[gd_scene load_steps=44 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=43 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
-[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/chests/0_chest_bronze.tres" id="4_b0hm0"]
 [ext_resource type="PackedScene" uid="uid://c1x5lrnrq51io" path="res://scenes/objects/save_token_slot.tscn" id="4_cm6t5"]
 [ext_resource type="Script" path="res://scripts/dinasty_manager.gd" id="5_grqs2"]
-[ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/misc/rock.tres" id="5_r4yhu"]
+[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/combinables/chests/0_chest_bronze.tres" id="5_quoxo"]
 [ext_resource type="Script" path="res://scripts/game_ui_manager.gd" id="5_x74f5"]
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
+[ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/combinables/rocks/0_stone.tres" id="6_ydrqi"]
+[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/combinables/graves/0_grave.tres" id="7_ik1pu"]
 [ext_resource type="Script" path="res://scripts/difficulty_manager.gd" id="7_x7uas"]
 [ext_resource type="Resource" uid="uid://cn673p2tkxq8o" path="res://data/dinasties/0_dinasty.tres" id="8_3k38h"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
@@ -24,7 +25,6 @@
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="13_kh2cu"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="13_mgra2"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="15_i3l0h"]
-[ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/misc/grave.tres" id="15_uulqy"]
 [ext_resource type="Resource" uid="uid://bbe1iclaj1ifb" path="res://data/tokens_data/actions/level_up.tres" id="16_o7wik"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
 [ext_resource type="Resource" uid="uid://bdme4fr70c720" path="res://data/dinasties/4_dinasty.tres" id="17_askel"]
@@ -41,8 +41,7 @@
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/grass/1_bush.tres" id="22_62cki"]
 [ext_resource type="PackedScene" uid="uid://1rbab57s5yio" path="res://scenes/effects/select_cell.tscn" id="22_x53b4"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="23_fc6dr"]
-[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/gates/0_lamp.tres" id="24_oikmj"]
-[ext_resource type="Resource" uid="uid://djp2f3ai1cvxq" path="res://data/tokens_data/combinables/gates/1_shimai.tres" id="25_wbqej"]
+[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/houses/0_lamp.tres" id="27_3h12h"]
 
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
@@ -60,9 +59,9 @@ save_token_slot_scene = ExtResource("4_cm6t5")
 board = NodePath("../Board")
 gameplay_ui = NodePath("../UI")
 initial_token_slot = NodePath("../InitialTokenSlot")
-default_chest_data = ExtResource("4_b0hm0")
-bad_token_data = ExtResource("5_r4yhu")
-grave_token_data = ExtResource("15_uulqy")
+default_chest_data = ExtResource("5_quoxo")
+bad_token_data = ExtResource("6_ydrqi")
+grave_token_data = ExtResource("7_ik1pu")
 
 [node name="GameUIManager" type="Node" parent="."]
 script = ExtResource("5_x74f5")
@@ -90,7 +89,7 @@ board = NodePath("../Board")
 script = ExtResource("9_kvjog")
 ordered_dinasties = Array[Resource("res://resources/dinasty.gd")]([ExtResource("8_3k38h"), ExtResource("9_ur2yy"), ExtResource("10_3n31h"), ExtResource("11_pl43k"), ExtResource("17_askel")])
 ordered_difficulties = Array[Resource("res://resources/difficulty.gd")]([ExtResource("18_svfu7"), ExtResource("19_etvjp"), ExtResource("20_dtr34")])
-landscape_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("21_ajspr"), ExtResource("22_62cki"), ExtResource("23_fc6dr"), ExtResource("24_oikmj"), ExtResource("25_wbqej"), ExtResource("15_i3l0h")])
+landscape_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("21_ajspr"), ExtResource("22_62cki"), ExtResource("23_fc6dr"), ExtResource("27_3h12h"), ExtResource("15_i3l0h")])
 ui_manager = NodePath("../../GameUIManager")
 
 [node name="StateStart" type="Node" parent="StateMachine"]
@@ -98,13 +97,13 @@ script = ExtResource("11_q468j")
 
 [node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("17_7v2y8")
-grave_data = ExtResource("15_uulqy")
+grave_data = ExtResource("7_ik1pu")
 combinator = NodePath("../../Combinator")
 
 [node name="StatePlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
 combinator = NodePath("../../Combinator")
-scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik"), ExtResource("4_b0hm0"), ExtResource("20_op0by")])
+scroll_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("11_a37gt"), ExtResource("13_kh2cu"), ExtResource("13_mgra2"), ExtResource("15_i3l0h"), ExtResource("16_o7wik"), ExtResource("5_quoxo"), ExtResource("20_op0by")])
 
 [node name="GameOverState" type="Node" parent="StateMachine"]
 script = ExtResource("18_34rgb")

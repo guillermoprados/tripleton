@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://bo0ky5l1jye3p"]
+
+[ext_resource type="Resource" uid="uid://76liwt2dka5l" path="res://data/tokens_data/combinables/graves/2_shrine.tres" id="1_m125r"]
+[ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_nh7an"]
+[ext_resource type="PackedScene" uid="uid://bajwg873jsknv" path="res://scenes/objects/tokens/graves/tomb.tscn" id="3_jmbtn"]
+
+[resource]
+script = ExtResource("2_nh7an")
+next_token = ExtResource("1_m125r")
+reward_type = 2
+reward_value = 200
+collectable = false
+sprite_scene = ExtResource("3_jmbtn")

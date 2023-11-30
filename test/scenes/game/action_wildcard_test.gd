@@ -322,7 +322,7 @@ func test__action_should_be_wasted_if_no_combination() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[IDs.EMPTY,IDs.MNKEL,IDs.ROCKK],
+			[IDs.EMPTY,IDs.MNKEL,IDs.STONE],
 			[IDs.GRASS,IDs.CHE_B,IDs.EMPTY],
 			[IDs.BUSHH,IDs.GRASS,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],

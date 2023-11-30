@@ -86,9 +86,6 @@ func test__monokelo_will_die_if_cannot_jump() -> void:
 	## set Monokelo
 	await __async_move_mouse_to_cell(Vector2(1,1), true)
 	
-	#check
-	await __wait_to_next_player_turn()
-	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
@@ -113,16 +110,12 @@ func test__multiple_enemies_die_should_be_combined_in_last() -> void:
 	## set Monokelo
 	await __async_move_mouse_to_cell(Vector2(2,2), true)
 	
-	## let them try to move
-	__paralized_enemies(false)
-	await __wait_to_next_player_turn()
-	
 	## check
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
 			[IDs.GRASS,IDs.EMPTY,IDs.EMPTY],
-			[IDs.GRASS,IDs.EMPTY,IDs.CHE_B],
+			[IDs.GRASS,IDs.EMPTY,IDs.TOMBB],
 			[IDs.GRASS,IDs.EMPTY,IDs.EMPTY],
 		]
 	)

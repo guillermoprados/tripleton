@@ -81,7 +81,7 @@ func test__move_action_wasted() -> void:
 	
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
-			[IDs.GRASS,IDs.ROCKK,IDs.GRASS],
+			[IDs.GRASS,IDs.STONE,IDs.GRASS],
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
 			[IDs.GRASS,IDs.GRASS,IDs.GRASS],
 		]
