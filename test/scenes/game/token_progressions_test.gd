@@ -78,6 +78,12 @@ func test__tower_to_palace() -> void:
 func test__palace_to_fortress() -> void:
 	await __await_combination_to_combination(IDs.PALAC, IDs.FORTR, 6)
 
-#lvl 7
-func test__fortress_to_chest_diamond() -> void:
-	await __await_combination_to_combination(IDs.FORTR, IDs.CHE_D, 7)
+## chests
+func test__chest_bronce_to_chest_silver() -> void:
+	await __await_combination_to_combination(IDs.CHE_B, IDs.CHE_S)
+
+func test__chest_silver_to_chest_gold() -> void:
+	await __await_combination_to_combination(IDs.CHE_S, IDs.CHE_G)
+
+# func test__chest_gold_to_chest_diamond() -> void:
+#	await __await_combination_to_combination(IDs.CHE_G, IDs.CHE_D)

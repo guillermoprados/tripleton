@@ -163,7 +163,8 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			if floating_token.is_wildcard:
 				var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
 				board.highlight_combination(cell_index, wildcard_action.get_wildcard_combination())
-				var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+				var to_place_data : TokenData = wildcard_action.get_to_place_token_data()
+				var to_place_token : BoardToken = instantiate_new_token(to_place_data, Constants.TokenStatus.PLACED)
 				wildcard_action.set_ghost_token(to_place_token)
 				board.highligh_cell(cell_index, Constants.CellHighlight.COMBINATION)
 			else:
