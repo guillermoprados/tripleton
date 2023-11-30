@@ -1,5 +1,5 @@
 # GdUnit generated TestSuite
-class_name TokenCombinationTest
+class_name TreesCombinationTest
 extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')
