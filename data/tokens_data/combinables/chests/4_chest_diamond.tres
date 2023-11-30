@@ -10,5 +10,4 @@ prizes = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_kfs3q"
 reward_type = 1
 reward_value = 500
 collectable = false
-available_from_dinasty = 0
 sprite_scene = ExtResource("3_tppfy")

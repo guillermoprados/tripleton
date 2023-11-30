@@ -167,7 +167,7 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.ROCKK,IDs.EMPTY],
+			[IDs.EMPTY,IDs.STONE,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
 		]

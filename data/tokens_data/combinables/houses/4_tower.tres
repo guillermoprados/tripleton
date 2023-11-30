@@ -10,5 +10,4 @@ next_token = ExtResource("1_pdpqt")
 reward_type = 2
 reward_value = 100
 collectable = false
-available_from_dinasty = 6
 sprite_scene = ExtResource("3_2v5sg")
