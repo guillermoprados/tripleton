@@ -1,14 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://qfkgnpnja2xb"]
+[gd_scene load_steps=5 format=3 uid="uid://cq2faxyyeantd"]
 
-[ext_resource type="Texture2D" uid="uid://c3jwelei4b05c" path="res://images/tokens/stone.png" id="1_oahoe"]
 [ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_y82xs"]
 [ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_ftafo"]
+[ext_resource type="Texture2D" uid="uid://csitb365sucfq" path="res://images/tokens/rock_1.png" id="3_clpjn"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hldns"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_oahoe")
+"texture": ExtResource("3_clpjn")
 }],
 "loop": true,
 "name": &"default",
@@ -24,5 +24,5 @@ position = Vector2(2.08165e-12, 2)
 texture = ExtResource("2_ftafo")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1, -29)
+position = Vector2(2, -29)
 sprite_frames = SubResource("SpriteFrames_hldns")

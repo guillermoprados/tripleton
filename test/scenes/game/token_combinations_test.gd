@@ -152,8 +152,6 @@ func test__if_next_combination_level_is_bigger_than_allowed_should_chest() -> vo
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	# ok this is not ideal, but I cannot waste time injecting everything right now..
-	# so for now, I expect this to be configured always like this, and assert
 	assert_str(game_manager.difficulty.name).is_equal("Easy")
 	assert_int(game_manager.difficulty.max_level_token).is_equal(2)
 	
@@ -244,5 +242,3 @@ func test__level_first_to_last_combinations_should_evolve_to_chest() -> void:
 
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
-	
-# check bigger combination

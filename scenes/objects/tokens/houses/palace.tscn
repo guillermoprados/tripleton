@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4ce1od85psh7"]
+
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_q7ph7"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_sc6wv"]
+[ext_resource type="Texture2D" uid="uid://csfaqg4241i4n" path="res://images/tokens/palace_1.png" id="3_11apg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5idx1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_11apg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Palace" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_q7ph7")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(2.08165e-12, 2)
+scale = Vector2(0.944444, 0.7)
+texture = ExtResource("2_sc6wv")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2.08165e-12, -44)
+sprite_frames = SubResource("SpriteFrames_5idx1")

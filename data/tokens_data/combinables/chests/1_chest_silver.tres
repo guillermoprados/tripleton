@@ -11,6 +11,6 @@ script = ExtResource("3_cedme")
 prizes = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_lut72"), ExtResource("2_fv43o")])
 next_token = ExtResource("1_bulp6")
 reward_type = 2
-reward_value = 400
+reward_value = 0
 collectable = false
 sprite_scene = ExtResource("2_iaikq")

@@ -66,7 +66,7 @@ func test__action_should_combine_chests() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(points_per_id[IDs.CHE_B] * 3)
+	assert_int(game_manager.points).is_equal(0) # chests dont give points
 	
 func test__action_combine_two_groups_tokens() -> void:
 	

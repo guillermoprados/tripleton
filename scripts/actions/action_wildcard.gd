@@ -77,7 +77,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 	
 	var bigger_combination: Combination = null
 	var bigger_combination_token_data: TokenData = null
-	var bigger_points:int = 0
+	var bigger_points:int = -1
 	
 	var check_positions:Array[Vector2] = []
 	

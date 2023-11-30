@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="TokenActionData" load_steps=3 format=3 uid="uid://dttqudoi54l7v"]
 
 [ext_resource type="Script" path="res://resources/tokens/token_action_data.gd" id="1_qdjq4"]
-[ext_resource type="PackedScene" uid="uid://dykxirfdd2dpo" path="res://scenes/objects/tokens/misc/wildcard.tscn" id="2_4ky15"]
+[ext_resource type="PackedScene" uid="uid://dykxirfdd2dpo" path="res://scenes/objects/tokens/actions/wildcard.tscn" id="2_4ky15"]
 
 [resource]
 script = ExtResource("1_qdjq4")

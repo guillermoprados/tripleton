@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://u1lyislq40du"]
+
+[ext_resource type="Resource" uid="uid://7k60x8lr2nec" path="res://data/tokens_data/combinables/chests/2_chest_gold.tres" id="1_7cf3c"]
+[ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_b27tk"]
+[ext_resource type="PackedScene" uid="uid://3ivm3kcofr8b" path="res://scenes/objects/tokens/rocks/gold_statue.tscn" id="3_8y3lj"]
+
+[resource]
+script = ExtResource("2_b27tk")
+next_token = ExtResource("1_7cf3c")
+reward_type = 2
+reward_value = 500
+collectable = false
+sprite_scene = ExtResource("3_8y3lj")

@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://bydcsycajdqh8"]
 
-[ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/combinables/chests/0_chest_bronze.tres" id="1_pdpqt"]
+[ext_resource type="Resource" uid="uid://3g3ii02cvrh" path="res://data/tokens_data/combinables/houses/5_palace.tres" id="1_pusqw"]
 [ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_35d1p"]
-[ext_resource type="PackedScene" uid="uid://dnibr0qugk8mp" path="res://scenes/objects/tokens/houses/mansion.tscn" id="3_2v5sg"]
+[ext_resource type="PackedScene" uid="uid://bos5bqum7l0cu" path="res://scenes/objects/tokens/houses/tower.tscn" id="3_r35kp"]
 
 [resource]
 script = ExtResource("2_35d1p")
-next_token = ExtResource("1_pdpqt")
+next_token = ExtResource("1_pusqw")
 reward_type = 2
-reward_value = 100
+reward_value = 400
 collectable = false
-sprite_scene = ExtResource("3_2v5sg")
+sprite_scene = ExtResource("3_r35kp")
