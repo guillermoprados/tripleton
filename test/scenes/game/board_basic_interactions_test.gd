@@ -14,8 +14,8 @@ func test__move_over_cells() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
-	var test_cell_A = Vector2(0,1)
-	var test_cell_B = Vector2(2,1)
+	var test_cell_A := Vector2(0,1)
+	var test_cell_B := Vector2(2,1)
 	
 	# test cell is not highlighted
 	await __await_assert_empty_cell_conditions(test_cell_A)
@@ -41,7 +41,7 @@ func test__place_single_token() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
-	var test_cell = Vector2(1,2)
+	var test_cell := Vector2(1,2)
 	var cell := board.get_cell_at_position(test_cell)
 	assert_bool(board.is_cell_empty(test_cell)).is_true()
 	await __await_assert_empty_cell_conditions(test_cell)
@@ -72,7 +72,7 @@ func test__place_single_token() -> void:
 	
 func test__try_to_place_token_in_occupied_slot() -> void:
 	
-	var test_cell = Vector2(1,2)
+	var test_cell := Vector2(1,2)
 	
 	var landscape := [
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],

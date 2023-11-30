@@ -6,6 +6,7 @@ class_name  StatePlayerTurn
 
 # for debugging purposes
 @export var scroll_tokens:Array[TokenData] = []
+
 var current_scroll_item: int = 0
 var is_scroll_in_progress: bool = false
 
@@ -33,7 +34,7 @@ func _on_state_entered() -> void:
 	
 	board.enabled_interaction = true
 
-func _process(delta) -> void:
+func _process(delta:float) -> void:
 	if not game_manager.floating_token and not game_manager.initial_token_slot.token:
 		game_manager.check_enclosed_enemies_and_kill_them()
 		state_finished.emit(id)

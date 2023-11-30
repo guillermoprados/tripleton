@@ -16,7 +16,7 @@ func test__normal_token_cannot_be_placed_over_chest_and_should_open() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	__paralized_enemies(true)
 	
-	var chest_cell = Vector2(1,1)
+	var chest_cell := Vector2(1,1)
 	
 	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
@@ -48,7 +48,7 @@ func test__action_normal_token_on_chest_should_be_invalid() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
-	var chest_cell = Vector2(3,1)
+	var chest_cell := Vector2(3,1)
 	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	## chest cell the token should open

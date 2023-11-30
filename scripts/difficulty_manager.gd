@@ -27,19 +27,15 @@ func set_difficulties(diffs:Array[Difficulty]) -> void:
 	next_difficulty()
 	
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	pass # Replace with function body.
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func next_difficulty() -> void:
 	__diff_index += 1
 	print("change diff: "+str(current_difficulty.name)+" points: "+str(current_difficulty.total_points))
 	difficulty_changed.emit()
 
-func _on_game_manager_points_added(added_points, total_points):
+func _on_game_manager_points_added(added_points:int, total_points:int) -> void:
 	__current_points += added_points
 	if diff_points >= current_difficulty.total_points and not is_last_difficulty:
 		var overflow : int = diff_points - current_difficulty.total_points

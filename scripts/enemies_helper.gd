@@ -9,14 +9,14 @@ enum PathCellType {
 }
 
 static func __get_enemy_and_path_simplified_board(board: Board, jumping_enemies_as_path:bool) -> Array:
-	var converted_board = []
+	var converted_board := []
 	var board_has_empty_cells := board.get_number_of_empty_cells() > 0
 	# Iterating through all cells in the board
 	for i in range(board.rows):
-		var row = []
+		var row := []
 		
 		for j in range(board.columns):
-			var cell_index = Vector2(i, j)
+			var cell_index := Vector2(i, j)
 			
 			# Check if the cell is empty
 			if board.is_cell_empty(cell_index):
@@ -24,7 +24,7 @@ static func __get_enemy_and_path_simplified_board(board: Board, jumping_enemies_
 				continue
 			
 			# Check if there's a token at the cell
-			var token = board.get_token_at_cell(cell_index)
+			var token := board.get_token_at_cell(cell_index)
 			
 			#mole enemies are like paths
 			if token and token.type == Constants.TokenType.ENEMY:
@@ -43,9 +43,9 @@ static func __get_enemy_and_path_simplified_board(board: Board, jumping_enemies_
 static func find_stucked_enemies_cells(board:Board) -> Array[Vector2]:
 	var stucked_enemies_cells :Array[Vector2] = []
 	var enemies_by_cell := board.get_tokens_of_type(Constants.TokenType.ENEMY)
-	var path_cell_type_board = __get_enemy_and_path_simplified_board(board, true)
+	var path_cell_type_board := __get_enemy_and_path_simplified_board(board, true)
 	for cell in enemies_by_cell.keys():
-		var enemy = board.get_token_at_cell(cell)
+		var enemy := board.get_token_at_cell(cell)
 		var enemy_behavior:TokenBehavior = enemy.behavior
 		if not enemy_behavior.has_some_available_move(cell, board.cell_tokens_ids):
 			if not __enemy_can_reach_empty_cell(cell, path_cell_type_board):
@@ -54,26 +54,26 @@ static func find_stucked_enemies_cells(board:Board) -> Array[Vector2]:
 	return stucked_enemies_cells
 
 static func __enemy_can_reach_empty_cell(start_pos: Vector2, board: Array) -> bool:
-	var directions = [
+	var directions := [
 		Vector2(0, 1),  # Down
 		Vector2(1, 0),  # Right
 		Vector2(0, -1), # Up
 		Vector2(-1, 0)  # Left
 	]
 	
-	var visited = {}  # A Dictionary to keep track of visited cells
-	var queue = []    # An Array to use as a queue for BFS
+	var visited := {}  # A Dictionary to keep track of visited cells
+	var queue := []    # An Array to use as a queue for BFS
 	
 	# Start BFS from the starting position
 	queue.append(start_pos)
 	visited[start_pos] = true
 	
 	while queue.size() > 0:
-		var current = queue.pop_front()
+		var current:Vector2 = queue.pop_front()
 		
 		# Check for each possible direction
 		for dir in directions:
-			var next_pos = current + dir
+			var next_pos :Vector2 = current + dir
 			
 			# Check for out-of-bounds
 			if next_pos.x < 0 or next_pos.x >= board.size() or next_pos.y < 0 or next_pos.y >= board[0].size():
@@ -99,19 +99,19 @@ static func __enemy_can_reach_empty_cell(start_pos: Vector2, board: Array) -> bo
 
 static func find_enclosed_groups(board:Board) -> Array:
 	var simplified_board := __get_enemy_and_path_simplified_board(board, false)
-	var visited = []
+	var visited := []
 	for i in range(simplified_board.size()):
-		var row = []
+		var row := []
 		for j in range(simplified_board[i].size()):
 			row.append(false)
 		visited.append(row)
 
-	var groups = []
+	var groups := []
 	
 	for i in range(simplified_board.size()):
 		for j in range(simplified_board[i].size()):
 			if simplified_board[i][j] == PathCellType.ENEMY and not visited[i][j]:
-				var current_group = []
+				var current_group := []
 				__fill_group(i, j, simplified_board, visited, current_group)
 				if current_group.size():
 					groups.append(current_group)

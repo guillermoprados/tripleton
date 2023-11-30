@@ -34,8 +34,11 @@ func _process(delta:float) -> void:
 			pass
 		STATE_CONFIG:
 			assert(ordered_dinasties.size() > 0, "Add dinasties")
+			# TODO: should I disconnect it?
+			game_manager.dinasty_manager.dinasty_changed.connect(game_manager._on_dinasty_changed)
 			game_manager.dinasty_manager.set_dinasties(ordered_dinasties)
 			assert(ordered_difficulties.size() > 0, "Add difficulties")
+			game_manager.difficulty_manager.difficulty_changed.connect(game_manager._on_difficulty_changed)
 			game_manager.difficulty_manager.set_difficulties(ordered_difficulties)
 		STATE_SET_OBJECTS:
 			__position_game_objects()
@@ -57,21 +60,21 @@ func __position_game_objects() -> void:
 func __create_landscape() -> void:
 	randomize()
 	#TODO: DO NOT PLACE ENEMIES IN ENCLOSED PLACES!!
-	var rand_num = get_random_between(Constants.MIN_LANDSCAPE_TOKENS, Constants.MAX_LANDSCAPE_TOKENS)
+	var rand_num := get_random_between(Constants.MIN_LANDSCAPE_TOKENS, Constants.MAX_LANDSCAPE_TOKENS)
 	for i in range(rand_num + 1):  # +1 to make it inclusive of the random number
 		var random_cell:Vector2 = get_random_position(board.rows, board.columns)
 		if board.is_cell_empty(random_cell):
-			var rand_token = get_random_between(0, landscape_tokens.size() - 1)
+			var rand_token := get_random_between(0, landscape_tokens.size() - 1)
 			var random_token_data:TokenData = landscape_tokens[rand_token]
-			var random_token = game_manager.instantiate_new_token(random_token_data, Constants.TokenStatus.PLACED)
+			var random_token := game_manager.instantiate_new_token(random_token_data, Constants.TokenStatus.PLACED)
 			board.set_token_at_cell(random_token, random_cell)
 
 func get_random_between(min_val: int, max_val: int) -> int:
 	return min_val + randi() % (max_val - min_val + 1)
 
 func get_random_position(rows: int, columns: int) -> Vector2:
-	var rand_row = randi() % rows
-	var rand_col = randi() % columns
+	var rand_row := randi() % rows
+	var rand_col := randi() % columns
 	return Vector2(rand_row, rand_col)
 
 func is_landscape_created() -> bool:

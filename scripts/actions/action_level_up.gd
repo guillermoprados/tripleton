@@ -9,7 +9,7 @@ func action_check_result_on_cell(action_cell:Vector2, cell_tokens_ids: Array) ->
 	if __is_cell_empty(action_cell, cell_tokens_ids):
 		return Constants.ActionResult.WASTED
 	else:
-		var board_token_data = __token.get_other_token_data_util(cell_tokens_ids[action_cell.x][action_cell.y])
+		var board_token_data := __token.get_other_token_data_util(cell_tokens_ids[action_cell.x][action_cell.y])
 		if board_token_data.type() == Constants.TokenType.NORMAL and \
 			board_token_data is TokenCombinableData:
 			# (board_token_data as TokenCombinableData).has_next_token() and \

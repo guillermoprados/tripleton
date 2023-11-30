@@ -22,7 +22,7 @@ func execute(current_cell:Vector2, cell_tokens_ids: Array) -> void:
 	var available_moves := __find_available_movements(current_cell, cell_tokens_ids)
 		
 	if available_moves.size() > 0:
-		var next_cell = __select_next_move_cell(available_moves)
+		var next_cell := __select_next_move_cell(available_moves)
 		var await_time:float = __animate_to_cell_and_get_wait_time(current_cell, next_cell)
 		await get_tree().create_timer(await_time).timeout
 	

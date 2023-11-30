@@ -82,14 +82,14 @@ func __clear_board() -> void:
 	
 	__clear_floor_matrix()
 
-func __clear_floor_matrix():
+func __clear_floor_matrix() -> void:
 	# Initialize the floor_matrix with default FloorType.OUT values
 	var used_cells := tilemap.get_used_cells(0)
 	tilemap.set_cells_terrain_connect(0, used_cells, Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_OUT, false)
 	floor_matrix = []
 	var to_update_floor_cells:Array[Vector2] = []
 	for row in range(rows):
-		var row_values = []
+		var row_values := []
 		for col in range(columns):
 			row_values.append(Constants.FloorType.OUT)
 			to_update_floor_cells.append(Vector2(row, col))
@@ -126,7 +126,7 @@ func __update_floor_tiles(on_cells:Array[Vector2]) -> void:
 		else:
 			floor_type = Constants.FloorType.PATH
 			
-		var floor_has_changed = floor_matrix[cell_index.x][cell_index.y] != floor_type 
+		var floor_has_changed :bool = floor_matrix[cell_index.x][cell_index.y] != floor_type 
 		
 		if floor_has_changed:
 			floor_matrix[cell_index.x][cell_index.y] = floor_type
@@ -180,7 +180,7 @@ func get_cells_with_floor_type(type: Constants.FloorType, inverted:bool) -> Arra
 	return matching_cells
 
 	
-func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float):
+func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_time:float, tween_delay:float) -> void:
 	assert(cell_index_from != cell_index_to, "cannot move to the same cell") 
 	assert(__cell_tokens_ids[cell_index_from.x][cell_index_from.y] != Constants.EMPTY_CELL, "cannot move from "+str(cell_index_from)+ " empty token?")
 	assert(__cell_tokens_ids[cell_index_to.x][cell_index_to.y] == Constants.EMPTY_CELL, "cannot move to "+str(cell_index_to))
@@ -196,7 +196,7 @@ func move_token_from_to(cell_index_from:Vector2, cell_index_to:Vector2, tween_ti
 	if tween_time <= 0:
 		placed_tokens[cell_index_to].position = get_cell_at_position(cell_index_to).position
 	else:
-		var tween = create_tween()
+		var tween := create_tween()
 		tween.set_ease(Tween.EASE_IN)
 		tween.tween_property(placed_tokens[cell_index_to], "position", get_cell_at_position(cell_index_to).position, tween_time)
 	
@@ -249,7 +249,7 @@ func _on_cell_selected(cell_index: Vector2) -> void:
 func clear_highlights() -> void:
 	for row in cells_matrix:
 		for cell in row:
-			(cell as BoardCell).clear_highlight()
+			cell.clear_highlight()
 	for token_pos in placed_tokens.keys():
 		var token: BoardToken = placed_tokens[token_pos]
 		if token.is_in_range:
@@ -275,14 +275,14 @@ func highlight_combination(initial_cell:Vector2, combination:Combination) -> voi
 
 
 func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
-	var filtered_tokens = {}
+	var filtered_tokens := {}
 	for key in placed_tokens:
 		if placed_tokens[key].type == type:
 			filtered_tokens[key] = placed_tokens[key]
 	return filtered_tokens
 	
 func get_tokens_with_id(id:String) -> Dictionary:
-	var filtered_tokens = {}
+	var filtered_tokens := {}
 	for key in placed_tokens:
 		if placed_tokens[key].id == id:
 			filtered_tokens[key] = placed_tokens[key]

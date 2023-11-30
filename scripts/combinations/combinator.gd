@@ -16,7 +16,7 @@ func reset_combinations(rows:int, columns:int) -> void:
 			var cell_index:Vector2 = Vector2(row_index, col_index)
 			combinations[cell_index] = Combination.new(cell_index)
 
-func clear_evaluated_combination(cell_index:Vector2):
+func clear_evaluated_combination(cell_index:Vector2) -> void:
 	if combinations[cell_index].evaluated:
 		combinations[cell_index] = Combination.new(cell_index)
 # This is the method that starts the search of a combination
@@ -79,8 +79,8 @@ static func __search_combination_for_cell(token_id: String, board_tokens_ids: Ar
 
 # Helper method to search cross combination for cell
 static func __search_cross_combination_for_cell(token_id: String, board_tokens_ids: Array, center_cell: Vector2, combination_level: CombinationLevel) -> void:
-	var rows = board_tokens_ids.size()
-	var columns = board_tokens_ids[0].size()
+	var rows :int = board_tokens_ids.size()
+	var columns :int = board_tokens_ids[0].size()
 	# top
 	if center_cell.y > 0:
 		__search_combination_for_cell(token_id, board_tokens_ids, Vector2(center_cell.x, center_cell.y - 1), combination_level, false)

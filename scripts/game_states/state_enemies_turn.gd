@@ -2,22 +2,18 @@ extends StateBase
 
 class_name StateEnemiesTurn
 
-@export var grave_data:TokenData
-@export var combinator: Combinator
-
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.ENEMIES
 	
 var number_of_pending_actions : int
 
-var __inner_state = 0
-const STATE_ACTIONS = 1
-const STATE_HIGHLIGHT_LAST = 2
-const STATE_DONE = 3
+var __inner_state:int = 0
+const STATE_ACTIONS:int = 1
+const STATE_HIGHLIGHT_LAST:int = 2
+const STATE_DONE:int = 3
 
 # override in states	
 func _on_state_entered() -> void:
-	assert(grave_data, "Grave Data needed to merge graves")
 	__inner_state = 0
 	number_of_pending_actions = 0
 		
@@ -63,7 +59,7 @@ func _process(delta:float) -> void:
 	__inner_state += 1
 
 func __highlight_groups() -> void:
-	var groups = EnemiesHelper.find_enclosed_groups(board)
+	var groups := EnemiesHelper.find_enclosed_groups(board)
 	
 	for group in groups:
 		if group.size() > Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION - 1:

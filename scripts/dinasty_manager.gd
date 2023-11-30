@@ -26,17 +26,12 @@ var is_last_dinasty: bool:
 	get:
 		return __dinasty_index == __dinasties.size() - 1
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 var backgound:CompressedTexture2D:
 	get:
 		return current_dinasty.map_texture
-		
 		
 func next_dinasty() -> void:
 	__dinasty_index += 1
@@ -44,7 +39,7 @@ func next_dinasty() -> void:
 	dinasty_changed.emit()
 
 
-func _on_game_manager_points_added(added_points, total_points):
+func _on_game_manager_points_added(added_points:int, total_points:int) -> void:
 	
 	__dinasty_points += added_points
 	

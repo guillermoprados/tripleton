@@ -152,7 +152,7 @@ func test__last_enemy_placed_should_be_highlighted_in_area_with_more_than_2_enem
 	__paralized_enemies(true)
 	
 	__ascync_await_for_time_helper(2)
-	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+	var enemy_tokens := board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for cell in enemy_tokens.keys():
 		if cell == area_1_cell or cell == area_2_cell:
 			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.LAST)
@@ -187,7 +187,7 @@ func test__should_remove_last_highlight_if_area_has_less_at_some_moment() -> voi
 	## check the hihglights
 	await __wait_to_next_player_turn()
 	
-	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+	var enemy_tokens := board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for cell in enemy_tokens.keys():
 		assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.NONE)
 
@@ -211,7 +211,7 @@ func test__should_set_one_last_highlight_if_area_is_joined() -> void:
 	
 	## ensure only the last one is highlighted
 	await __wait_to_next_player_turn(IDs.BUSHH)
-	var enemy_tokens = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+	var enemy_tokens := board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	for cell in enemy_tokens.keys():
 		if cell == last_cell:
 			assert_that(enemy_tokens[cell].highlight).is_equal(Constants.TokenHighlight.LAST)

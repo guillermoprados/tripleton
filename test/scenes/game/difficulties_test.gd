@@ -27,7 +27,7 @@ func test__when_points_excedded_diff_max_points_it_should_switch_to_next_diff() 
 	
 	assert_str(game_manager.difficulty.name).is_equal("Easy")
 	
-	var diff_points = game_manager.difficulty.total_points
+	var diff_points := game_manager.difficulty.total_points
 	
 	game_manager.add_points(diff_points + 10)
 	assert_str(game_manager.difficulty.name).is_equal("Medium")
@@ -40,7 +40,7 @@ func test__when_points_excedded_diff_max_points_on_last_diff_it_should_stay() ->
 	
 	assert_str(game_manager.difficulty.name).is_equal("Easy")
 	
-	var diff_points = game_manager.difficulty.total_points
+	var diff_points := game_manager.difficulty.total_points
 	game_manager.add_points(diff_points + 10)
 	assert_str(game_manager.difficulty.name).is_equal("Medium")
 	
@@ -96,7 +96,7 @@ func test__medium_diff_should_use_default_chest_bronze() -> void:
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var diff_points = game_manager.difficulty.total_points
+	var diff_points := game_manager.difficulty.total_points
 	game_manager.add_points(diff_points + 10)
 	assert_str(game_manager.difficulty.name).is_equal("Medium")
 	assert_int(game_manager.difficulty.max_level_token).is_equal(3)

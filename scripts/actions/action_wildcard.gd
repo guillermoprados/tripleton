@@ -102,7 +102,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		if __is_cell_empty(pos, cell_tokens_ids):
 			continue
 					
-		var copied_token_data = __token.get_other_token_data_util(cell_tokens_ids[pos.x][pos.y])
+		var copied_token_data := __token.get_other_token_data_util(cell_tokens_ids[pos.x][pos.y])
 		
 		# only assigned tokens to the action can be evaluated
 		if not copied_token_data:

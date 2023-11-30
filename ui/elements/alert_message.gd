@@ -5,7 +5,7 @@ class_name TimeoutMessage
 @export var message_label:Label
 @export var show_timer:Timer
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	show_timer.timeout.connect(hide_message)
 	hide_message()
 	

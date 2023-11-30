@@ -15,7 +15,7 @@ func test__action_should_level_up_combinable_token() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -47,7 +47,7 @@ func test__action_should_level_up_to_chest_if_last_token_difficulty() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -81,7 +81,7 @@ func test__action_should_not_level_up_if_difficulty_allows() -> void:
 	
 	__set_to_last_difficulty()
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -114,7 +114,7 @@ func test__action_should_not_level_up_on_enemies() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	__paralized_enemies(true)
 	
-	var enemy_cell = Vector2(0,1)
+	var enemy_cell := Vector2(0,1)
 	
 	## enemy cell the token
 	await __async_move_mouse_to_cell(enemy_cell, false)
@@ -147,7 +147,7 @@ func test__action_should_not_level_up_on_chests() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	__paralized_enemies(true)
 	
-	var chest_cell = Vector2(1,1)
+	var chest_cell := Vector2(1,1)
 	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	## chest cell the token should open
@@ -178,7 +178,7 @@ func test__action_level_up_on_prize_should_be_invalid() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	
-	var prize_cell = Vector2(3,1)
+	var prize_cell := Vector2(3,1)
 	
 	## chest cell the token should open
 	await __async_move_mouse_to_cell(prize_cell, false)
@@ -206,7 +206,7 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	
-	var test_cell = Vector2(1,1)
+	var test_cell := Vector2(1,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -239,7 +239,7 @@ func test__action_should_level_up_and_combine() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	__set_to_last_difficulty()
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -258,7 +258,7 @@ func test__action_should_level_up_and_combine() -> void:
 		]
 	)
 	
-	var expected_points = 0
+	var expected_points := 0
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	expected_points += (points_per_id[IDs.TREEE] * 3)
 	
