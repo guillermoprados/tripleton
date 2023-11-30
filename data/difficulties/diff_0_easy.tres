@@ -1,14 +1,13 @@
-[gd_resource type="Resource" script_class="Difficulty" load_steps=13 format=3 uid="uid://b2v2ioxjx6u6q"]
+[gd_resource type="Resource" script_class="Difficulty" load_steps=12 format=3 uid="uid://b2v2ioxjx6u6q"]
 
 [ext_resource type="Script" path="res://resources/difficulty.gd" id="1_bdllu"]
-[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/gates/0_lamp.tres" id="1_t31jd"]
+[ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/houses/0_lamp.tres" id="1_t31jd"]
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass/0_grass.tres" id="2_lh846"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/grass/1_bush.tres" id="3_nohjl"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="4_j37ab"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="5_ay3xr"]
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="6_rb2lj"]
-[ext_resource type="Resource" uid="uid://djp2f3ai1cvxq" path="res://data/tokens_data/combinables/gates/1_shimai.tres" id="8_ttg83"]
-[ext_resource type="Resource" path="res://data/tokens_data/combinables/gates/2_gate.tres" id="9_i3eb1"]
+[ext_resource type="Resource" uid="uid://cq0qaqcoxnavi" path="res://data/tokens_data/combinables/houses/1_gate.tres" id="8_c0xj7"]
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="10_7qujv"]
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="11_idg3d"]
 [ext_resource type="Resource" uid="uid://bbe1iclaj1ifb" path="res://data/tokens_data/actions/level_up.tres" id="12_kj68e"]
@@ -20,7 +19,7 @@ save_token_slots = 1
 max_level_token = 4
 total_points = 5000
 common = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_t31jd"), ExtResource("2_lh846"), ExtResource("3_nohjl")])
-uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("8_ttg83"), ExtResource("9_i3eb1"), ExtResource("10_7qujv"), ExtResource("11_idg3d")])
+uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("8_c0xj7"), ExtResource("10_7qujv"), ExtResource("11_idg3d")])
 rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("4_j37ab"), ExtResource("5_ay3xr")])
 scarce = Array[Resource("res://resources/token_data.gd")]([ExtResource("6_rb2lj")])
 unique = Array[Resource("res://resources/token_data.gd")]([ExtResource("12_kj68e")])

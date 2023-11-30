@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://cq0qaqcoxnavi"]
+
+[ext_resource type="Resource" uid="uid://uufnc71pvwdw" path="res://data/tokens_data/combinables/houses/2_house.tres" id="1_non5l"]
+[ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_4q2vk"]
+[ext_resource type="PackedScene" uid="uid://bauhbswb7qhrc" path="res://scenes/objects/tokens/gates/gate.tscn" id="3_hak4p"]
+
+[resource]
+script = ExtResource("2_4q2vk")
+next_token = ExtResource("1_non5l")
+reward_type = 2
+reward_value = 100
+collectable = false
+sprite_scene = ExtResource("3_hak4p")
