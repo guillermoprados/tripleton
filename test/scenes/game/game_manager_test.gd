@@ -42,6 +42,9 @@ const IDs = {
 	COTEG = '3_cottage',
 	TOWER = '4_tower',
 	STONE = '0_stone',
+	ROCKK = '1_rock',
+	STA_B = '2_statue',
+	STA_G = '3_gold_statue',
 	MOLEE = 'mole',
 	MNKEL = 'monokelo',
 	PR_CA = 'cat_white'
@@ -247,3 +250,44 @@ func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
 func __set_to_last_difficulty()->void:
 	game_manager.difficulty_manager.__diff_index = game_manager.difficulty_manager.__difficulties.size() - 1
 	assert_str(game_manager.difficulty.name).is_equal("Hard")
+
+func __await_combination_to_combination(id_from:String, id_to:String, ignore_limit:bool = false) -> void:
+	
+	var IDs_FROM_ := id_from
+	var IDs__TO__ := id_to
+	
+	var landscape := [
+		[IDs_FROM_,IDs_FROM_,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+	]
+	
+	await __set_to_player_state_with_board(landscape)
+	
+	if !(IDs__TO__ == IDs.CHE_B) and !(IDs__TO__ == IDs.CHE_S) and !(IDs__TO__ == IDs.CHE_G):
+		assert_int(points_per_id[IDs_FROM_]).is_less(points_per_id[IDs__TO__])
+	
+	if ignore_limit:	
+		game_manager.difficulty_manager.disable_level_limit()
+	
+	## third token
+	await __wait_to_next_player_turn(IDs_FROM_)
+	
+	var third_cell := Vector2(0,2)
+	await __async_move_mouse_to_cell(third_cell, true)
+
+	## check
+	await __wait_to_next_player_turn()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[IDs.EMPTY,IDs.EMPTY,IDs__TO__],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		]
+	)
+	
+	assert_int(game_manager.points).is_not_zero()
+	assert_int(game_manager.points).is_equal(points_per_id[IDs_FROM_] * 3)

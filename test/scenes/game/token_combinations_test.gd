@@ -1,5 +1,5 @@
 # GdUnit generated TestSuite
-class_name TreesCombinationTest
+class_name TokenCombinationTest
 extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')
@@ -242,5 +242,3 @@ func test__level_first_to_last_combinations_should_evolve_to_chest() -> void:
 
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
-	
-# check bigger combination

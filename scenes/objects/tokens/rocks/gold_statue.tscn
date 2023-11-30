@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://3ivm3kcofr8b"]
+
+[ext_resource type="Script" path="res://scenes/objects/token_sprite_holder.gd" id="1_3b13r"]
+[ext_resource type="Texture2D" uid="uid://j3cf63y0qmt0" path="res://images/tokens/shadow.png" id="2_lx71u"]
+[ext_resource type="Texture2D" uid="uid://d3ayv62vyt7ib" path="res://images/tokens/gold_statue_1.png" id="3_roeqi"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hldns"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_roeqi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GoldStatue" type="Node2D"]
+position = Vector2(2.08165e-12, 2.08165e-12)
+script = ExtResource("1_3b13r")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-1.5, 2)
+scale = Vector2(0.555556, 1)
+texture = ExtResource("2_lx71u")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2, -37)
+sprite_frames = SubResource("SpriteFrames_hldns")
