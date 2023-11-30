@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TokenCombinableData" load_steps=4 format=3 uid="uid://u3ytsk3tqeg0"]
+
+[ext_resource type="Resource" uid="uid://bjadbhv7bs0km" path="res://data/tokens_data/combinables/chests/4_chest_diamond.tres" id="1_6smk7"]
+[ext_resource type="Script" path="res://resources/tokens/token_combinable_data.gd" id="2_kqglp"]
+[ext_resource type="PackedScene" uid="uid://c2swtypowdfbh" path="res://scenes/objects/tokens/houses/fortress.tscn" id="3_a8v0t"]
+
+[resource]
+script = ExtResource("2_kqglp")
+next_token = ExtResource("1_6smk7")
+reward_type = 2
+reward_value = 600
+collectable = false
+sprite_scene = ExtResource("3_a8v0t")

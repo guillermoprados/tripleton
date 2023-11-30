@@ -41,6 +41,8 @@ const IDs = {
 	HOUSE = '2_house',
 	COTEG = '3_cottage',
 	TOWER = '4_tower',
+	PALAC = '5_palace',
+	FORTR = '6_fortress',
 	STONE = '0_stone',
 	ROCKK = '1_rock',
 	STA_B = '2_statue',
@@ -251,7 +253,7 @@ func __set_to_last_difficulty()->void:
 	game_manager.difficulty_manager.__diff_index = game_manager.difficulty_manager.__difficulties.size() - 1
 	assert_str(game_manager.difficulty.name).is_equal("Hard")
 
-func __await_combination_to_combination(id_from:String, id_to:String, ignore_limit:bool = false) -> void:
+func __await_combination_to_combination(id_from:String, id_to:String, token_max_level:int = 0) -> void:
 	
 	var IDs_FROM_ := id_from
 	var IDs__TO__ := id_to
@@ -265,11 +267,11 @@ func __await_combination_to_combination(id_from:String, id_to:String, ignore_lim
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	if !(IDs__TO__ == IDs.CHE_B) and !(IDs__TO__ == IDs.CHE_S) and !(IDs__TO__ == IDs.CHE_G):
+	if !(IDs__TO__ == IDs.CHE_B) and !(IDs__TO__ == IDs.CHE_S) and !(IDs__TO__ == IDs.CHE_G) and !(IDs__TO__ == IDs.CHE_D):
 		assert_int(points_per_id[IDs_FROM_]).is_less(points_per_id[IDs__TO__])
 	
-	if ignore_limit:	
-		game_manager.difficulty_manager.disable_level_limit()
+	if token_max_level > 0:	
+		game_manager.difficulty_manager.___set_token_limit_to_test(token_max_level)
 	
 	## third token
 	await __wait_to_next_player_turn(IDs_FROM_)

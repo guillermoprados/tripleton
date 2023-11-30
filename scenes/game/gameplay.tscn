@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=44 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/combinables/graves/0_grave.tres" id="7_ik1pu"]
 [ext_resource type="Script" path="res://scripts/difficulty_manager.gd" id="7_x7uas"]
 [ext_resource type="Resource" uid="uid://cn673p2tkxq8o" path="res://data/dinasties/0_dinasty.tres" id="8_3k38h"]
+[ext_resource type="Resource" uid="uid://uufnc71pvwdw" path="res://data/tokens_data/combinables/houses/2_house.tres" id="8_f4qkx"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
 [ext_resource type="Script" path="res://scripts/game_states/state_loading.gd" id="9_kvjog"]
 [ext_resource type="Resource" uid="uid://b20sjjtmherem" path="res://data/dinasties/1_dinasty.tres" id="9_ur2yy"]
@@ -62,6 +63,7 @@ initial_token_slot = NodePath("../InitialTokenSlot")
 default_chest_data = ExtResource("5_quoxo")
 bad_token_data = ExtResource("6_ydrqi")
 grave_token_data = ExtResource("7_ik1pu")
+to_test = ExtResource("8_f4qkx")
 
 [node name="GameUIManager" type="Node" parent="."]
 script = ExtResource("5_x74f5")

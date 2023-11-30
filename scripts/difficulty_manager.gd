@@ -22,16 +22,16 @@ var is_last_difficulty: bool:
 	get:
 		return __diff_index == __difficulties.size() - 1
 
-var __level_limit_enabled:bool = true
-func disable_level_limit() -> void:
-		__level_limit_enabled = false
+var ___setted_max_limit_value:int = 0
+func ___set_token_limit_to_test(limit:int) -> void:
+		___setted_max_limit_value = limit
 	
 var token_level_limit:int:
 	get:
-		if __level_limit_enabled:
+		if ___setted_max_limit_value == 0:
 			return current_difficulty.max_level_token
 		else:
-			return 5000 
+			return ___setted_max_limit_value
 			
 func set_difficulties(diffs:Array[Difficulty]) -> void:
 	__difficulties = diffs

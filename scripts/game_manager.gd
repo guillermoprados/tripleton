@@ -28,6 +28,7 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var default_chest_data: TokenData # mmmmm
 @export var bad_token_data: TokenData # mmmmm
 @export var grave_token_data: TokenData # mmmmm
+@export var to_test: TokenData # mmmmm
 
 var __save_slots:Array[SaveTokenSlot] = []
 var save_slots:Array[SaveTokenSlot]:
