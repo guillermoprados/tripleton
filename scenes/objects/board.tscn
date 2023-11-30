@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://jr6kks18p32p"]
 
 [ext_resource type="Script" path="res://scenes/objects/board.gd" id="1_dbrbv"]
-[ext_resource type="PackedScene" path="res://scenes/objects/cell.tscn" id="3_6rpbb"]
+[ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="3_6rpbb"]
 [ext_resource type="TileSet" uid="uid://bbloyaahqup7b" path="res://tiles/board_tile_set.tres" id="3_vkylf"]
 
 [node name="board" type="Node2D" node_paths=PackedStringArray("tilemap")]

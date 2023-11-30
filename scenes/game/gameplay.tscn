@@ -95,10 +95,8 @@ ui_manager = NodePath("../../GameUIManager")
 [node name="StateStart" type="Node" parent="StateMachine"]
 script = ExtResource("11_q468j")
 
-[node name="StateEnemiesTurn" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
+[node name="StateEnemiesTurn" type="Node" parent="StateMachine"]
 script = ExtResource("17_7v2y8")
-grave_data = ExtResource("7_ik1pu")
-combinator = NodePath("../../Combinator")
 
 [node name="StatePlayer" type="Node" parent="StateMachine" node_paths=PackedStringArray("combinator")]
 script = ExtResource("10_s5a4x")
