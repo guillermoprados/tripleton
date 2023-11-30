@@ -76,7 +76,7 @@ func test__should_save_token_when_empty() -> void:
 	
 func test__should_swap_when_no_empty() -> void:
 	
-	var first_token_id = IDs.B_TRE # this is wont happend on the get random token data
+	var first_token_id := IDs.B_TRE # this is wont happend on the get random token data
 	
 	await __set_to_player_state(first_token_id) 
 	
@@ -89,9 +89,9 @@ func test__should_swap_when_no_empty() -> void:
 	assert_int(save_slot.token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
 	
 	# swap the second one
-	var floating_over_pos = save_slot.position - Constants.SAVE_SLOT_OVER_POS
+	var floating_over_pos := save_slot.position - Constants.SAVE_SLOT_OVER_POS
 	await __async_move_mouse_to_cell_object(save_slot.cell_board, false)
-	var second_token_id = game_manager.floating_token.id
+	var second_token_id := game_manager.floating_token.id
 	await __await_assert_valid_cell_object_conditions(save_slot.cell_board)
 	assert_that(game_manager.floating_token.position).is_equal(floating_over_pos)
 	assert_int(game_manager.floating_token.z_index).is_equal(Constants.FLOATING_Z_INDEX)

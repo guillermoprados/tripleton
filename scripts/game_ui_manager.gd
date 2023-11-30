@@ -16,8 +16,8 @@ func adjust_initial_slot_position(initial_token_slot:InitialTokenSlot, board:Boa
 
 func adjust_save_token_slots_positions(save_token_slots:Array[SaveTokenSlot]) -> void:
 	var screen_size:Vector2 = get_tree().root.content_scale_size
-	var num_of_slots = save_token_slots.size()
-	var slots_total_width = (Constants.CELL_SIZE.x * num_of_slots) + \
+	var num_of_slots := save_token_slots.size()
+	var slots_total_width := (Constants.CELL_SIZE.x * num_of_slots) + \
 							Constants.SAVE_SLOT_INTER_SEPARATION * (num_of_slots - 1)
 	
 	var slot_pos : Vector2

@@ -14,9 +14,9 @@ var state_machine: StateMachine
 var board: Board
 var initial_token_slot: InitialTokenSlot
 
-var __diff_easy_res = "res://data/difficulties/diff_0_easy.tres"
-var __diff_medium_res = "res://data/difficulties/diff_1_medium.tres"
-var __diff_hard_res = "res://data/difficulties/diff_2_hard.tres"
+var __diff_easy_res := "res://data/difficulties/diff_0_easy.tres"
+var __diff_medium_res := "res://data/difficulties/diff_1_medium.tres"
+var __diff_hard_res := "res://data/difficulties/diff_2_hard.tres"
 	
 const IDs = {
 	EMPTY = '',
@@ -51,19 +51,19 @@ const IDs = {
 
 var points_per_id : Dictionary = {}
 
-func before():
+func before() -> void:
 	__all_token_data = auto_free(AllTokensData.new())
 	__all_token_data.__load_tokens_data(IDs.values())
-	var keys = IDs.keys()
+	var keys := IDs.keys()
 	for key in keys:
-		var token_id = IDs[key]
+		var token_id : String = IDs[key]
 		if token_id == IDs.EMPTY:
 			continue
-		var data = __all_token_data.get_token_data_by_id(token_id)
+		var data := __all_token_data.get_token_data_by_id(token_id)
 		if data is TokenPrizeData:
 			points_per_id[token_id] = data.reward_value
 
-func before_test():
+func before_test() -> void:
 	runner = scene_runner(__source)
 	game_manager = runner.find_child("GameManager") as GameManager
 	assert_object(game_manager).is_not_null()
@@ -74,7 +74,7 @@ func before_test():
 	initial_token_slot = runner.find_child("InitialTokenSlot") as InitialTokenSlot
 	assert_object(initial_token_slot).is_not_null()
 	
-func after_test():
+func after_test() -> void:
 	runner = null
 	game_manager.queue_free()
 	game_manager = null
@@ -100,7 +100,7 @@ func __set_to_player_state(initial_token_id:String = IDs.EMPTY) -> void:
 func __set_to_player_state_with_board(landscape:Array, initial_token_id:String = IDs.EMPTY) -> void:
 	
 	await __async_await_for_property(state_machine, "current_state", Constants.PlayingState.LOADING, property_is_equal, 2)
-	var load_state = state_machine.active_state
+	var load_state := state_machine.active_state
 	assert_that(load_state.id).is_equal(Constants.PlayingState.LOADING)
 	await runner.await_func_on(load_state, "is_landscape_created").wait_until(1000).is_true()
 	board.configure(landscape.size(), landscape[0].size())
@@ -137,7 +137,7 @@ func __async_move_mouse_to_cell_object(cell:BoardCell, click:bool) -> void:
 	while runner.get_mouse_position() != Vector2.ZERO:
 		await await_idle_frame()
 	
-	var cell_pos = cell.global_position
+	var cell_pos := cell.global_position
 	
 	runner.simulate_mouse_move(cell_pos) 
 	await await_idle_frame()
@@ -154,7 +154,7 @@ func __async_move_mouse_to_cell_object(cell:BoardCell, click:bool) -> void:
 func __async_await_for_property(obj:Object, prop_name:String, value:Variant, comparison:Callable, time:float) -> bool:
 	var init_time := Time.get_unix_time_from_system()
 	while (Time.get_unix_time_from_system() - init_time < time):
-		var current_value = obj.get(prop_name)
+		var current_value :Variant = obj.get(prop_name)
 		if comparison.call(current_value, value):
 			return true
 		await await_idle_frame()
@@ -167,21 +167,20 @@ func __ascync_await_for_time_helper(time:float) -> void:
 		await await_idle_frame()
 		
 func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
-	var rows = landscape.size()
-	var columns = landscape[0].size()
+	var rows :int = landscape.size()
+	var columns :int = landscape[0].size()
 	for row in range(rows):
 		for col in range(columns):
-			var id = landscape[row][col]
+			var id :String = landscape[row][col]
 			if id != IDs.EMPTY:
 				var token_data:TokenData = __all_token_data.get_token_data_by_id(id)
-				var token = game_manager.instantiate_new_token(token_data, Constants.TokenStatus.PLACED)
+				var token := game_manager.instantiate_new_token(token_data, Constants.TokenStatus.PLACED)
 				board.set_token_at_cell(token, Vector2(row, col))
  
 func __paralized_enemies(paralized:bool) -> void:
-	for token in board.get_tokens_of_type(Constants.TokenType.ENEMY):
-		var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-		for key in enemies:
-			enemies[key].behavior.paralize = paralized
+	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
+	for key in enemies:
+		enemies[key].behavior.paralize = paralized
 
 func __await_assert_floating_token_is_boxed() -> void:
 	
@@ -209,7 +208,7 @@ func __await_assert_actionable_conditions(cell_index:Vector2) -> void:
 	assert_that(cell.highlight).is_equal(Constants.CellHighlight.COMBINATION)
 
 func __await_assert_valid_cell_conditions(cell_index:Vector2, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
-	var cell = board.get_cell_at_position(cell_index) 
+	var cell:BoardCell = board.get_cell_at_position(cell_index) 
 	await __await_assert_valid_cell_object_conditions(cell, cell_highlight)
 
 func __await_assert_valid_cell_object_conditions(cell:BoardCell, cell_highlight:Constants.CellHighlight = Constants.CellHighlight.VALID ) -> void:
@@ -245,6 +244,6 @@ func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
 	var prize_id := chest_data.get_random_prize().id
 	return prize_id
 
-func __set_to_last_difficulty():
+func __set_to_last_difficulty()->void:
 	game_manager.difficulty_manager.__diff_index = game_manager.difficulty_manager.__difficulties.size() - 1
 	assert_str(game_manager.difficulty.name).is_equal("Hard")

@@ -15,7 +15,7 @@ func test__action_combine_two_tokens() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	
-	var test_cell = Vector2(3,0)
+	var test_cell := Vector2(3,0)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -47,7 +47,7 @@ func test__action_should_combine_chests() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	
-	var test_cell = Vector2(3,0)
+	var test_cell := Vector2(3,0)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -79,7 +79,7 @@ func test__action_combine_two_groups_tokens() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -111,7 +111,7 @@ func test__action_should_combine_escalated_levels() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -130,7 +130,7 @@ func test__action_should_combine_escalated_levels() -> void:
 		]
 	)
 	
-	var expected_points = 0
+	var expected_points := 0
 	expected_points += (points_per_id[IDs.GRASS] * 3)
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	
@@ -148,7 +148,7 @@ func test__action_should_chose_bigger_combinations() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	
-	var test_cell = Vector2(2,1)
+	var test_cell := Vector2(2,1)
 	
 	assert_int(points_per_id[IDs.BUSHH]).is_greater(points_per_id[IDs.LAMPP])
 	
@@ -169,7 +169,7 @@ func test__action_should_chose_bigger_combinations() -> void:
 		]
 	)
 	
-	var expected_points = 0
+	var expected_points := 0
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	
 	assert_int(game_manager.points).is_not_zero()
@@ -187,7 +187,7 @@ func test__action_cannot_be_placed_over_enemies() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	__paralized_enemies(true)
 	
-	var enemy_cell = Vector2(0,1)
+	var enemy_cell := Vector2(0,1)
 	
 	## enemy cell the token
 	await __async_move_mouse_to_cell(enemy_cell, false)
@@ -220,7 +220,7 @@ func test__action_cannot_be_placed_over_normal_tokens() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	__paralized_enemies(true)
 	
-	var grass_cell = Vector2(2,1)
+	var grass_cell := Vector2(2,1)
 	
 	## grass cell the token
 	await __async_move_mouse_to_cell(grass_cell, false)
@@ -252,7 +252,7 @@ func test__action_cannot_be_placed_over_chest_and_should_open() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	__paralized_enemies(true)
 	
-	var chest_cell = Vector2(1,1)
+	var chest_cell := Vector2(1,1)
 	
 	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
@@ -284,7 +284,7 @@ func test__action_cannot_be_placed_over_prize_and_should_pick_it() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.WILDC)
 	
-	var prize_cell = Vector2(3,1)
+	var prize_cell := Vector2(3,1)
 	
 	await __async_move_mouse_to_cell(prize_cell, false)
 	await __await_assert_invalid_cell_conditions(prize_cell)

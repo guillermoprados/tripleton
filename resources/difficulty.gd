@@ -34,7 +34,7 @@ func get_random_token_data() -> TokenData:
 		# if you want to debug the values
 		# run_simulation(10000, self)
 	
-	var rand_val = randf()
+	var rand_val := randf()
 	
 	if rand_val < Constants.TOKEN_PROB_COMMON:
 		return get_random_from_array(common)

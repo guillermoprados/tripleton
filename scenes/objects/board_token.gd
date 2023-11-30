@@ -70,7 +70,7 @@ var floor_type:Constants.FloorType:
 	get:
 		return data.floor_type()	
 		
-func _init():
+func _init() -> void:
 	created_at = Time.get_unix_time_from_system()
 
 func _process(delta:float) -> void:

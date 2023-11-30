@@ -33,13 +33,13 @@ var back_token:BoardToken:
 	get:
 		return __ghost_token
 		
-func _ready():
+func _ready() -> void:
 	background.z_index = Constants.BOARD_Z_INDEX
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta:float) -> void:
 	if __animate_to_pos:
-		var tween = create_tween()
+		var tween := create_tween()
 		tween.set_parallel(false)
 		tween.set_ease(Tween.EASE_IN)
 		tween.tween_property(token, "position", Vector2.ZERO, 0.2)	
@@ -68,7 +68,7 @@ func discard_token() -> void:
 func return_token(to_box_token:BoardToken, box_token_world_position:Vector2) -> void:
 	token = to_box_token
 	if box_token_world_position != Vector2.ZERO:
-		var fixed_pos = box_token_world_position - position
+		var fixed_pos := box_token_world_position - position
 		token.position = fixed_pos
 		__animate_to_pos = true
 	

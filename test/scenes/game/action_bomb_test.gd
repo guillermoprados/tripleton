@@ -15,7 +15,7 @@ func test__action_bomb_should_destroy_a_normal_token() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.BOMBB)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -48,7 +48,7 @@ func test__action_bomb_should_kill_an_enemy() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.BOMBB)
 	__paralized_enemies(true)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -80,7 +80,7 @@ func test__action_bomb_on_chest_should_be_invalid() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.BOMBB)
 	
-	var chest_cell = Vector2(3,1)
+	var chest_cell := Vector2(3,1)
 	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	## chest cell the token should open
@@ -111,7 +111,7 @@ func test__action_bomb_on_prize_should_be_invalid() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.BOMBB)
 	
-	var prize_cell = Vector2(3,1)
+	var prize_cell := Vector2(3,1)
 	
 	## chest cell the token should open
 	await __async_move_mouse_to_cell(prize_cell, false)
@@ -139,7 +139,7 @@ func test__action_bomb_wasted_should_set_it_to_rock() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.BOMBB)
 	
-	var test_cell = Vector2(3,1)
+	var test_cell := Vector2(3,1)
 	
 	## move to token
 	await __async_move_mouse_to_cell(test_cell, false)

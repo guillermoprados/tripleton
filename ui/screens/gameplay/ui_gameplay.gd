@@ -59,35 +59,35 @@ func __state_name(id:Constants.UIPlayScreenId) -> String:
 		_:
 			return "I DONT KNOW"
 
-func _on_game_manager_dinasty_changed(name, max_points):
+func _on_game_manager_dinasty_changed(name:String, max_points:int) -> void:
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.set_dinasty(name, max_points)
 
-func _on_game_manager_gold_updated(value):
+func _on_game_manager_gold_updated(value:int) -> void:
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.accumulated_gold_update(value)
 
-func _on_game_manager_points_updated(updated_points:int, dinasty_points: int, total_points:int):
+func _on_game_manager_points_updated(updated_points:int, dinasty_points: int, total_points:int) -> void:
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.accumulated_points_update(total_points)
 		playing_ui.set_dinasty_progress(dinasty_points)
 		
-func _on_game_manager_show_floating_reward(type, value, position):
+func _on_game_manager_show_floating_reward(type:Constants.RewardType, value:int, position:Vector2) -> void:
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.show_floating_reward(type, value, position)
 
 
-func _on_game_manager_show_message(message, type, time):
+func _on_game_manager_show_message(message:String, type:Constants.MessageType, time:float) -> void:
 	if active_ui.id == Constants.UIPlayScreenId.PLAYING:
 		var playing_ui:PlayingStateUI = active_ui as PlayingStateUI
 		playing_ui.show_message(message, type, time)
 
 
-func _on_game_over_screen_play_again():
+func _on_game_over_screen_play_again() -> void:
 	play_again.emit()
 
 

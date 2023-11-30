@@ -10,7 +10,7 @@ func _ready() -> void:
 	z_index = Constants.FX_Z_INDEX
 	
 func play_bomb_explosion(in_board_pos:Vector2) -> void:
-	var explosion = fx_bomb_explosion_scene.instantiate()
+	var explosion := fx_bomb_explosion_scene.instantiate()
 	var fx_bomb_explosion:AnimatedSprite2D = explosion.get_child(0) as AnimatedSprite2D
 	add_child(explosion)
 	explosion.position = board.position + in_board_pos
@@ -18,7 +18,7 @@ func play_bomb_explosion(in_board_pos:Vector2) -> void:
 	fx_bomb_explosion.play()
 
 func play_select_cell_animation(in_board_pos:Vector2) -> void:
-	var select_cell = fx_select_cell_scene.instantiate()
+	var select_cell := fx_select_cell_scene.instantiate()
 	var fx_select_cell:AnimatedSprite2D = select_cell.get_child(0) as AnimatedSprite2D
 	$SelectCellAnims.add_child(select_cell)
 	select_cell.position = board.position + in_board_pos

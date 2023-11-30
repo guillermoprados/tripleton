@@ -11,5 +11,5 @@ func _on_state_entered() -> void:
 func _on_state_exited() -> void:
 	pass
 
-func _on_ui_play_again():
+func _on_ui_play_again() -> void:
 	get_tree().reload_current_scene()

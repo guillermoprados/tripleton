@@ -18,7 +18,7 @@ func test__try_single_level_combination() -> void:
 	## third token
 	await __wait_to_next_player_turn(IDs.GRASS)
 	
-	var third_cell = Vector2(0,2)
+	var third_cell := Vector2(0,2)
 	await __async_move_mouse_to_cell(third_cell, true)
 
 	## check
@@ -66,7 +66,7 @@ func test__try_multi_level_combination() -> void:
 		]
 	)
 
-	var expected_points = (grass_points * 3) + (bush_points * 3)
+	var expected_points :int = (grass_points * 3) + (bush_points * 3)
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
 
@@ -97,7 +97,7 @@ func test__complicated_conditions_1() -> void:
 		]
 	)
 
-	var expected_points = 0
+	var expected_points := 0
 	expected_points += (points_per_id[IDs.GRASS] * 4)
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	
@@ -132,7 +132,7 @@ func test__complicated_conditions_2() -> void:
 		]
 	)
 
-	var expected_points = 0
+	var expected_points := 0
 	expected_points += (points_per_id[IDs.GRASS] * 3)
 	expected_points += (points_per_id[IDs.BUSHH] * 4) 
 	expected_points += (points_per_id[IDs.TREEE] * 4)
@@ -173,7 +173,7 @@ func test__if_next_combination_level_is_bigger_than_allowed_should_chest() -> vo
 		]
 	)
 
-	var expected_points = points_per_id[IDs.TREEE] * 3
+	var expected_points :int = points_per_id[IDs.TREEE] * 3
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
 	
@@ -204,7 +204,7 @@ func test__last_combination_should_evolve_to_chest() -> void:
 		]
 	)
 
-	var expected_points = points_per_id[IDs.B_TRE] * 3
+	var expected_points:int = points_per_id[IDs.B_TRE] * 3
 	assert_int(game_manager.points).is_not_zero()
 	assert_int(game_manager.points).is_equal(expected_points)
 	
@@ -236,7 +236,7 @@ func test__level_first_to_last_combinations_should_evolve_to_chest() -> void:
 		]
 	)
 
-	var expected_points = 0
+	var expected_points := 0
 	expected_points += (points_per_id[IDs.GRASS] * 3) 
 	expected_points += (points_per_id[IDs.BUSHH] * 4)
 	expected_points += (points_per_id[IDs.TREEE] * 3)

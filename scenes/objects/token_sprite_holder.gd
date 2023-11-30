@@ -73,7 +73,7 @@ func paint_valid_action(border_color:Color, overlay_color:Color) -> void:
 	sprite.position = sprite_original_position - Constants.CELL_SIZE / 3 
 	
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _ready() -> void:
 	
 	floating_shader = load("res://materials/floating_material.tres")
 	outline_shader = load("res://materials/outline_material.tres")

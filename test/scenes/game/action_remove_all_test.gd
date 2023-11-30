@@ -7,7 +7,7 @@ extends GameManagerTest
 func __await_assert_cell_remove_conditions(current_id:String, cell_index:Vector2, landscape:Array) -> void:
 	for row in range(landscape.size()):
 		for col in range(landscape[0].size()):
-			var i_cell = Vector2(row, col)
+			var i_cell := Vector2(row, col)
 			if current_id == board.cell_tokens_ids[row][col]:
 				if cell_index == i_cell:
 					await __await_assert_valid_cell_conditions(cell_index)
@@ -27,7 +27,7 @@ func test__action_should_remove_all_same_normal_token() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
-	var test_cell = Vector2(3,0)
+	var test_cell := Vector2(3,0)
 	
 	## move over the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -61,7 +61,7 @@ func test__action_should_kill_all_enemies_of_the_same_type() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
-	var test_cell = Vector2(0,1)
+	var test_cell := Vector2(0,1)
 	
 	## move over the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -95,7 +95,7 @@ func test__action_should_remove_on_chests() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	__paralized_enemies(true)
 	
-	var chest_cell = Vector2(1,1)
+	var chest_cell := Vector2(1,1)
 	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	## chest cell the token should open
@@ -126,7 +126,7 @@ func test__action_remove_on_prize_should_be_invalid() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
-	var prize_cell = Vector2(3,1)
+	var prize_cell := Vector2(3,1)
 	
 	## chest cell the token should open
 	await __async_move_mouse_to_cell(prize_cell, false)
@@ -154,7 +154,7 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
-	var test_cell = Vector2(1,1)
+	var test_cell := Vector2(1,1)
 	
 	## place the token
 	await __async_move_mouse_to_cell(test_cell, false)
@@ -186,7 +186,7 @@ func test__action_should_remove_even_when_there_is_one_token() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.REMOV)
 	
-	var test_cell = Vector2(1,2)
+	var test_cell := Vector2(1,2)
 	
 	## move over the token
 	await __async_move_mouse_to_cell(test_cell, false)

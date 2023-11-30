@@ -28,7 +28,7 @@ var token: BoardToken:
 		token.position = Vector2.ZERO
 		assert(not is_empty(), "this slot should be no longer empty")
 
-func _ready():
+func _ready() -> void:
 	background.z_index = Constants.BOARD_Z_INDEX
 	
 func is_empty() -> bool:
@@ -39,7 +39,7 @@ func save_token(to_save_token:BoardToken) -> void:
 	
 func pick_token() -> BoardToken:
 	assert(not is_empty(), "this slot has no token")
-	var pick_token = token
+	var pick_token := token
 	remove_child(token)
 	__token = null
 	return pick_token
@@ -51,16 +51,16 @@ func swap_token(to_save_token:BoardToken) -> BoardToken:
 	save_token(to_save_token)	
 	return picked_token
 
-func _on_area_2d_cell_entered(position:Vector2):
+func _on_area_2d_cell_entered(position:Vector2) -> void:
 	if enabled:
 		cell_board.set_highlight(Constants.CellHighlight.VALID)
 		on_slot_entered.emit(index)
 
-func _on_area_2d_cell_selected(position:Vector2):
+func _on_area_2d_cell_selected(position:Vector2) -> void:
 	if enabled:
 		on_slot_selected.emit(index)
 
-func _on_area_2d_cell_exited(position:Vector2):
+func _on_area_2d_cell_exited(position:Vector2) -> void:
 	if enabled:
 		cell_board.set_highlight(Constants.CellHighlight.NONE)
 

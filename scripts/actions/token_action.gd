@@ -8,7 +8,7 @@ func get_type() -> Constants.ActionType:
 		
 var __token:BoardToken:
 	get:
-		var token = get_parent().get_parent()
+		var token :BoardToken = get_parent().get_parent()
 		assert(token is BoardToken, "the action is not configured properly")
 		return token
 

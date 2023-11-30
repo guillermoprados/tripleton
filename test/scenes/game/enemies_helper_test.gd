@@ -15,7 +15,7 @@ func test__if_all_enemies_can_move_it_should_return_an_empty_array() -> void:
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	var stucked_enemies := EnemiesHelper.find_stucked_enemies_cells(board)
 
 	assert_array(stucked_enemies).is_empty()
 
@@ -30,7 +30,7 @@ func test__if_an_enemy_cant_move_it_should_return_an_array_with_the_cell() -> vo
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	var stucked_enemies := EnemiesHelper.find_stucked_enemies_cells(board)
 
 	assert_array(stucked_enemies).is_equal([Vector2(0,0)])
 	
@@ -45,7 +45,7 @@ func test___multiple_enemies_are_in_same_group_but_have_a_way_out() -> void:
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	var stucked_enemies := EnemiesHelper.find_stucked_enemies_cells(board)
 
 	assert_array(stucked_enemies).is_empty()
 
@@ -60,7 +60,7 @@ func test___multiple_enemies_are_in_same_group_but_dont_have_a_way_out() -> void
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	var stucked_enemies := EnemiesHelper.find_stucked_enemies_cells(board)
 
 	assert_array(stucked_enemies).is_equal(
 		[
@@ -82,7 +82,7 @@ func test___multiple_enemies_are_in_same_group_but_dont_have_a_way_out_but_one_c
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	var stucked_enemies := EnemiesHelper.find_stucked_enemies_cells(board)
 
 	assert_array(stucked_enemies).is_empty()
 	
@@ -97,7 +97,7 @@ func test___multiple_enemies_are_in_closed_group_one_can_jump_but__no_more_empty
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	var stucked_enemies := EnemiesHelper.find_stucked_enemies_cells(board)
 
 	assert_array(stucked_enemies).is_equal(
 		[
@@ -119,7 +119,7 @@ func test___should_get_the_enemy_groups_divided_by_areas() -> void:
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var grouped_enemies = EnemiesHelper.find_enclosed_groups(board)
+	var grouped_enemies := EnemiesHelper.find_enclosed_groups(board)
 
 	assert_that(grouped_enemies.size()).is_equal(2)
 

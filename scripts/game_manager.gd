@@ -67,7 +67,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	pass
 
-func _on_difficulty_manager_difficulty_changed():
+func _on_difficulty_changed() -> void:
 	var required_slots := difficulty.save_token_slots 
 	while save_slots.size() < required_slots:
 		var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
@@ -77,7 +77,7 @@ func _on_difficulty_manager_difficulty_changed():
 		save_token_slot.enabled = true
 		game_ui_manager.adjust_save_token_slots_positions(save_slots)
 
-func _on_dinasty_manager_dinasty_changed():
+func _on_dinasty_changed() -> void:
 	board.change_back_texture(dinasty.map_texture)
 	
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
@@ -99,8 +99,8 @@ func pick_up_floating_token() -> void:
 	
 func release_floating_token() -> BoardToken:
 	assert(floating_token.get_parent() == self, "we're not the parent of this token")
-	var released_token = floating_token
-	var token_world_pos = floating_token.position
+	var released_token := floating_token
+	var token_world_pos := floating_token.position
 	remove_child(floating_token)
 	__floating_token = null
 	return released_token
@@ -151,7 +151,7 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 		floating_token.set_highlight(Constants.TokenHighlight.INVALID)
 		board.highligh_cell(cell_index, Constants.CellHighlight.INVALID)
 	
-func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2):
+func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2) -> void:
 	floating_token.position = on_board_position
 	
 	var action_status : Constants.ActionResult = floating_token.action.action_check_result_on_cell(cell_index, board.cell_tokens_ids)
@@ -269,7 +269,7 @@ func __place_floating_token_at(cell_index: Vector2) -> bool:
 	
 	if board.is_cell_empty(cell_index):
 		var to_place_token_data : TokenData = floating_token.data
-		var duplicated_token = instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
+		var duplicated_token := instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
 		__place_token_on_board(duplicated_token, cell_index)
 		discard_floating_token()
 		processed = true
@@ -299,7 +299,7 @@ func __replace_token_on_board(token:BoardToken, cell_index:Vector2) -> void:
 	board.clear_highlights()
 
 func set_bad_token_on_board(cell_index:Vector2) -> void:
-	var bad_token = instantiate_new_token(bad_token_data, Constants.TokenStatus.PLACED)
+	var bad_token := instantiate_new_token(bad_token_data, Constants.TokenStatus.PLACED)
 	if board.is_cell_empty(cell_index):
 		__place_token_on_board(bad_token, cell_index)
 	else:
@@ -345,12 +345,12 @@ func __get_last_created_token_position(cells: Array) -> Vector2:
 	assert(cells.size() > 0, "Cells array is empty. Cannot get last created token.")
 
 	var last_created_position: Vector2 = cells[0]
-	var last_token = board.get_token_at_cell(last_created_position)
+	var last_token := board.get_token_at_cell(last_created_position)
 	var last_created_time: float = last_token.created_at
 
 	for cell_index in cells:
-		var current_token = board.get_token_at_cell(cell_index)
-		var current_created_time = current_token.created_at
+		var current_token := board.get_token_at_cell(cell_index)
+		var current_created_time := current_token.created_at
 
 		# Update the latest created token details if the current token is newer.
 		if current_created_time > last_created_time:
@@ -471,7 +471,7 @@ func set_dead_enemy(cell_index:Vector2) -> void:
 	__replace_token_on_board(grave_token, cell_index)
 
 func check_enclosed_enemies_and_kill_them() -> void:
-	var stucked_enemies = EnemiesHelper.find_stucked_enemies_cells(board)
+	var stucked_enemies := EnemiesHelper.find_stucked_enemies_cells(board)
 	for stucked_cell in stucked_enemies:
 		set_dead_enemy(stucked_cell)
 	
@@ -536,7 +536,7 @@ func __move_token_action(cell_origin_index:Vector2) -> void:
 		slot.enabled = false
 	
 	for move_cell_index in move_token_cells:
-		var cell_board = board.get_cell_at_position(move_cell_index)
+		var cell_board := board.get_cell_at_position(move_cell_index)
 		var callable : Callable = Callable(__move_token_action_cell_selected)
 		cell_board.cell_selected.connect(callable)
 		cell_board.set_highlight(Constants.CellHighlight.COMBINATION)
@@ -569,7 +569,4 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	discard_floating_token()
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
-
-
-
 

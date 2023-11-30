@@ -307,7 +307,7 @@ func test__move_action_should_combine() -> void:
 		]
 	)
 
-	var expected_points = 0
+	var expected_points := 0
 	expected_points += (points_per_id[IDs.GRASS] * 3)
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	
@@ -325,7 +325,7 @@ func test__action_should_not_move_enemies() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	__paralized_enemies(true)
 	
-	var enemy_cell = Vector2(0,1)
+	var enemy_cell := Vector2(0,1)
 	
 	## enemy cell the token
 	await __async_move_mouse_to_cell(enemy_cell, false)
@@ -357,7 +357,7 @@ func test__action_move_should_not_work_on_chests() -> void:
 	
 	await __set_to_player_state_with_board(landscape, IDs.LV_UP)
 	
-	var chest_cell = Vector2(1,1)
+	var chest_cell := Vector2(1,1)
 	var ID__PRIZE := __get_chest_prize_id_at_cell(chest_cell)
 	
 	await __async_move_mouse_to_cell(chest_cell, false)
@@ -386,7 +386,7 @@ func test__action_move_should_not_move_prizes() -> void:
 	await __set_to_player_state_with_board(landscape, IDs.MOVEE)
 	__paralized_enemies(true)
 	
-	var prize_cell = Vector2(2,1)
+	var prize_cell := Vector2(2,1)
 	
 	## prize cell the token should be connsumed
 	await __async_move_mouse_to_cell(prize_cell, false)

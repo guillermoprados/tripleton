@@ -7,17 +7,17 @@ signal faded_out()
 
 @export var screen_rect: ColorRect
 
-func _ready():
+func _ready() -> void:
 	self.visible = true
 	
 func fade_in(time: float) -> void:
 	show()
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.tween_property(screen_rect, "color", Color(0, 0, 0, 1), time)
 	tween.tween_callback(_on_fade_in_completed)
 	
 func fade_out(time: float) -> void:
-	var tween = create_tween()
+	var tween := create_tween()
 	tween.tween_property(screen_rect, "color", Color(0, 0, 0, 0), time)
 	tween.tween_callback(_on_fade_out_completed)
 

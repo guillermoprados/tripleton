@@ -39,7 +39,6 @@ func _on_mouse_exited() -> void:
 	cell_exited.emit(board_cell_position)
 				
 func _on_input_event(viewport:Viewport, event:InputEvent, shape_idx:int) -> void:
-	
 	if __is_mobile:
 		__process_mobile_events(event)	
 	elif event is InputEventMouseButton and event.is_pressed():
@@ -55,7 +54,7 @@ func __process_mobile_events(event:InputEvent) -> void:
 			if input_event.is_pressed():
 				__pressed_at = Time.get_unix_time_from_system()
 			if input_event.is_released():
-				var current_time = Time.get_unix_time_from_system()
+				var current_time := Time.get_unix_time_from_system()
 				if current_time - __pressed_at < Constants.HOLD_TIME_TO_CANCEL_PRESS:
 					cell_selected.emit(board_cell_position)
 			
