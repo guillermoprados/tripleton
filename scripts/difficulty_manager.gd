@@ -7,7 +7,6 @@ signal difficulty_changed()
 var __diff_index : int = -1
 var __difficulties : Array[Difficulty]
 
-
 var current_difficulty:Difficulty:
 	get:
 		return __difficulties[__diff_index]

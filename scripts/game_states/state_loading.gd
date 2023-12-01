@@ -30,8 +30,7 @@ func _process(delta:float) -> void:
 			pass
 		STATE_CONFIG:
 			assert(ordered_difficulties.size() > 0, "Add difficulties")
-			game_manager.difficulty_manager.difficulty_changed.connect(game_manager._on_difficulty_changed)
-			game_manager.difficulty_manager.set_difficulties(ordered_difficulties)
+			game_manager.__set_difficulties(ordered_difficulties)
 		STATE_SET_OBJECTS:
 			__position_game_objects()
 		STATE_PREPARE_LANDSCAPE:

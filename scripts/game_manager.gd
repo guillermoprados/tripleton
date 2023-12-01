@@ -8,7 +8,6 @@ signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
 @export_category("Managers")
-@export var difficulty_manager: DifficultyManager
 @export var fx_manager : FxManager
 @export var combinator: Combinator
 
@@ -27,10 +26,27 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var grave_token_data: TokenData # mmmmm
 @export var to_test: TokenData # mmmmm
 
-var __save_slots:Array[SaveTokenSlot] = []
-var save_slots:Array[SaveTokenSlot]:
+var __game_points: int
+var game_points:int:
 	get:
-		return __save_slots
+		return __game_points
+
+var __game_gold: int
+var game_gold:
+	get:
+		return __game_gold
+
+var __difficulty_index : int = -1
+var __difficulties : Array[Difficulty]
+
+var __difficulty_points: int
+var difficulty_points:
+	get:
+		return __difficulty_points
+		
+var difficulty: Difficulty:
+	get:
+		return __difficulties[__difficulty_index]
 
 var __floating_token: BoardToken = null
 var floating_token: BoardToken:
@@ -43,20 +59,11 @@ var floating_token: BoardToken:
 		add_child(floating_token)
 		floating_token.z_index = Constants.FLOATING_Z_INDEX
 		floating_token.set_status(Constants.TokenStatus.FLOATING)
-
-var __game_points: int
-var game_points:int:
+		
+var __save_slots:Array[SaveTokenSlot] = []
+var save_slots:Array[SaveTokenSlot]:
 	get:
-		return __game_points
-
-var __game_gold: int
-var game_gold:
-	get:
-		return __game_gold
-
-var difficulty: Difficulty:
-	get:
-		return difficulty_manager.current_difficulty
+		return __save_slots
 
 
 func _enter_tree() -> void:
@@ -69,7 +76,13 @@ func _ready() -> void:
 func connect_ui() -> void:
 	pass
 
-func _on_difficulty_changed() -> void:
+## Difficulty
+func __set_difficulties(diffs:Array[Difficulty]) -> void:
+	__difficulties = diffs
+	__next_difficulty()
+	
+func __next_difficulty():
+	__difficulty_index += 1
 	var required_slots := difficulty.save_token_slots 
 	while save_slots.size() < required_slots:
 		var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
@@ -91,6 +104,11 @@ func add_gold(value:int) -> void:
 	
 func add_points(value:int) -> void:
 	__game_points += value
+	__difficulty_points += value
+	if __difficulty_points >= difficulty.total_points and __difficulty_index < __difficulties.size() - 1:
+		var overflow : int = __difficulty_points - difficulty.total_points
+		__next_difficulty()
+		__difficulty_points = overflow
 	points_added.emit(value, game_points)
 
 func pick_up_floating_token() -> void:
@@ -380,7 +398,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	
 	var is_chest_combination := initial_token.type == Constants.TokenType.CHEST
 		
-	if next_token_data.level > difficulty_manager.token_level_limit and not is_chest_combination:
+	if next_token_data.level > difficulty.max_level_token and not is_chest_combination:
 		next_token_data = difficulty.max_level_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)

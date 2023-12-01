@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=38 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/combinables/rocks/0_stone.tres" id="6_ydrqi"]
 [ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/combinables/graves/0_grave.tres" id="7_ik1pu"]
-[ext_resource type="Script" path="res://scripts/difficulty_manager.gd" id="7_x7uas"]
 [ext_resource type="Resource" uid="uid://uufnc71pvwdw" path="res://data/tokens_data/combinables/houses/2_house.tres" id="8_f4qkx"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
 [ext_resource type="Script" path="res://scripts/game_states/state_loading.gd" id="9_kvjog"]
@@ -42,9 +41,8 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("difficulty_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
 script = ExtResource("1_noepw")
-difficulty_manager = NodePath("../DifficultyManager")
 fx_manager = NodePath("../FxManager")
 combinator = NodePath("../Combinator")
 token_scene = ExtResource("2_08wbk")
@@ -56,9 +54,6 @@ initial_token_slot = NodePath("../InitialTokenSlot")
 bad_token_data = ExtResource("6_ydrqi")
 grave_token_data = ExtResource("7_ik1pu")
 to_test = ExtResource("8_f4qkx")
-
-[node name="DifficultyManager" type="Node" parent="."]
-script = ExtResource("7_x7uas")
 
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
@@ -106,7 +101,5 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 [node name="SelectCellAnims" type="Node2D" parent="FxManager"]
 
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
-[connection signal="points_added" from="GameManager" to="DifficultyManager" method="_on_game_manager_points_added"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
-[connection signal="difficulty_changed" from="DifficultyManager" to="GameManager" method="_on_difficulty_manager_difficulty_changed"]
