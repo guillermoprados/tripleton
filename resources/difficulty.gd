@@ -5,6 +5,7 @@ class_name Difficulty
 @export var level : Constants.DifficultyLevel
 
 @export_category("Level Config")
+@export var map_texture:CompressedTexture2D
 @export var save_token_slots: int
 @export var max_level_token: int
 @export var max_level_chest: TokenData

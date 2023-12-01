@@ -8,7 +8,6 @@ signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
 @export_category("Managers")
-@export var dinasty_manager: DinastyManager
 @export var difficulty_manager: DifficultyManager
 @export var game_ui_manager: GameUIManager
 @export var fx_manager : FxManager
@@ -53,12 +52,8 @@ var difficulty: Difficulty:
 	get:
 		return difficulty_manager.current_difficulty
 
-var dinasty: Dinasty:
-	get:
-		return dinasty_manager.current_dinasty
 
 func _enter_tree() -> void:
-	assert(dinasty_manager, "cannot load dinasties")
 	assert(game_ui_manager, "please set the game ui manager")
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
@@ -75,9 +70,7 @@ func _on_difficulty_changed() -> void:
 		add_child(save_token_slot)
 		save_token_slot.enabled = true
 		game_ui_manager.adjust_save_token_slots_positions(save_slots)
-
-func _on_dinasty_changed() -> void:
-	board.change_back_texture(dinasty.map_texture)
+	board.change_back_texture(difficulty.map_texture)	
 	
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
 	var token_instance: BoardToken = token_scene.instantiate() as BoardToken

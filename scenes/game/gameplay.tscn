@@ -1,26 +1,21 @@
-[gd_scene load_steps=44 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=38 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="PackedScene" uid="uid://c1x5lrnrq51io" path="res://scenes/objects/save_token_slot.tscn" id="4_cm6t5"]
-[ext_resource type="Script" path="res://scripts/dinasty_manager.gd" id="5_grqs2"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/combinables/chests/0_chest_bronze.tres" id="5_quoxo"]
 [ext_resource type="Script" path="res://scripts/game_ui_manager.gd" id="5_x74f5"]
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/combinables/rocks/0_stone.tres" id="6_ydrqi"]
 [ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/combinables/graves/0_grave.tres" id="7_ik1pu"]
 [ext_resource type="Script" path="res://scripts/difficulty_manager.gd" id="7_x7uas"]
-[ext_resource type="Resource" uid="uid://cn673p2tkxq8o" path="res://data/dinasties/0_dinasty.tres" id="8_3k38h"]
 [ext_resource type="Resource" uid="uid://uufnc71pvwdw" path="res://data/tokens_data/combinables/houses/2_house.tres" id="8_f4qkx"]
 [ext_resource type="Script" path="res://scripts/game_states/state_machine.gd" id="8_umy6w"]
 [ext_resource type="Script" path="res://scripts/game_states/state_loading.gd" id="9_kvjog"]
-[ext_resource type="Resource" uid="uid://b20sjjtmherem" path="res://data/dinasties/1_dinasty.tres" id="9_ur2yy"]
-[ext_resource type="Resource" uid="uid://bpnk3vrw8en7n" path="res://data/dinasties/2_dinasty.tres" id="10_3n31h"]
 [ext_resource type="Script" path="res://scripts/combinations/combinator.gd" id="10_dfvt2"]
 [ext_resource type="Script" path="res://scripts/game_states/state_player_turn.gd" id="10_s5a4x"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="11_a37gt"]
-[ext_resource type="Resource" uid="uid://bl53r56jlpcem" path="res://data/dinasties/3_dinasty.tres" id="11_pl43k"]
 [ext_resource type="Script" path="res://scripts/game_states/state_start.gd" id="11_q468j"]
 [ext_resource type="PackedScene" uid="uid://dwak0f0kak1jo" path="res://scenes/objects/initial_token_slot.tscn" id="12_27i5p"]
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="13_kh2cu"]
@@ -28,7 +23,6 @@
 [ext_resource type="Resource" uid="uid://dxct4ukary6br" path="res://data/tokens_data/enemies/monokelo.tres" id="15_i3l0h"]
 [ext_resource type="Resource" uid="uid://bbe1iclaj1ifb" path="res://data/tokens_data/actions/level_up.tres" id="16_o7wik"]
 [ext_resource type="Script" path="res://scripts/game_states/state_enemies_turn.gd" id="17_7v2y8"]
-[ext_resource type="Resource" uid="uid://bdme4fr70c720" path="res://data/dinasties/4_dinasty.tres" id="17_askel"]
 [ext_resource type="Script" path="res://scripts/game_states/state_check_game.gd" id="17_uph22"]
 [ext_resource type="Script" path="res://scripts/game_states/state_game_over.gd" id="18_34rgb"]
 [ext_resource type="PackedScene" uid="uid://sa1kbmcs2338" path="res://ui/screens/gameplay/ui_gameplay.tscn" id="18_65b04"]
@@ -47,9 +41,8 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("dinasty_manager", "difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
 script = ExtResource("1_noepw")
-dinasty_manager = NodePath("../DinastyManager")
 difficulty_manager = NodePath("../DifficultyManager")
 game_ui_manager = NodePath("../GameUIManager")
 fx_manager = NodePath("../FxManager")
@@ -70,9 +63,6 @@ script = ExtResource("5_x74f5")
 [node name="DifficultyManager" type="Node" parent="."]
 script = ExtResource("7_x7uas")
 
-[node name="DinastyManager" type="Node" parent="."]
-script = ExtResource("5_grqs2")
-
 [node name="Combinator" type="Node" parent="."]
 script = ExtResource("10_dfvt2")
 
@@ -88,7 +78,6 @@ board = NodePath("../Board")
 
 [node name="StateLoading" type="Node" parent="StateMachine" node_paths=PackedStringArray("ui_manager")]
 script = ExtResource("9_kvjog")
-ordered_dinasties = Array[Resource("res://resources/dinasty.gd")]([ExtResource("8_3k38h"), ExtResource("9_ur2yy"), ExtResource("10_3n31h"), ExtResource("11_pl43k"), ExtResource("17_askel")])
 ordered_difficulties = Array[Resource("res://resources/difficulty.gd")]([ExtResource("21_xhvu3"), ExtResource("22_qp5x6"), ExtResource("23_bm00m")])
 landscape_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("21_ajspr"), ExtResource("22_62cki"), ExtResource("23_fc6dr"), ExtResource("27_3h12h"), ExtResource("15_i3l0h")])
 ui_manager = NodePath("../../GameUIManager")
@@ -122,9 +111,7 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 
 [connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
 [connection signal="points_added" from="GameManager" to="DifficultyManager" method="_on_game_manager_points_added"]
-[connection signal="points_added" from="GameManager" to="DinastyManager" method="_on_game_manager_points_added"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
 [connection signal="difficulty_changed" from="DifficultyManager" to="GameManager" method="_on_difficulty_manager_difficulty_changed"]
-[connection signal="dinasty_changed" from="DinastyManager" to="GameManager" method="_on_dinasty_manager_dinasty_changed"]
 [connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]
