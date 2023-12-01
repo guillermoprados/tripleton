@@ -2,8 +2,9 @@ extends Node
 
 class_name GameManager
 
-signal gold_updated(value:int)
-signal points_added(added_points:int, total_points:int)
+signal gold_added(added_gold:int, game_gold:int)
+signal points_added(added_points:int, difficulty_points:int, game_points:int)
+signal difficulty_changed(name:String, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
@@ -91,7 +92,8 @@ func __next_difficulty():
 		add_child(save_token_slot)
 		save_token_slot.enabled = true
 		__adjust_save_token_slots_positions()
-	board.change_back_texture(difficulty.map_texture)	
+	board.change_back_texture(difficulty.map_texture)
+	difficulty_changed.emit(difficulty.name, difficulty.total_points)	
 	
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
 	var token_instance: BoardToken = token_scene.instantiate() as BoardToken
@@ -100,7 +102,7 @@ func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenS
 
 func add_gold(value:int) -> void:
 	__game_gold += value
-	gold_updated.emit(game_gold)
+	gold_added.emit(value, game_gold)
 	
 func add_points(value:int) -> void:
 	__game_points += value
@@ -109,7 +111,7 @@ func add_points(value:int) -> void:
 		var overflow : int = __difficulty_points - difficulty.total_points
 		__next_difficulty()
 		__difficulty_points = overflow
-	points_added.emit(value, game_points)
+	points_added.emit(value, __difficulty_points, game_points)
 
 func pick_up_floating_token() -> void:
 	floating_token = initial_token_slot.pick_token()

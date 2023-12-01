@@ -11,10 +11,10 @@ func state_id() -> Constants.PlayingState:
 
 var __inner_state := 0
 const STATE_PREPARE := 0
-const STATE_CONFIG := 1
-const STATE_SET_OBJECTS := 2
-const STATE_PREPARE_LANDSCAPE := 3
-const STATE_PREPARE_UI := 4
+const STATE_PREPARE_UI := 1
+const STATE_CONFIG := 2
+const STATE_SET_OBJECTS := 3
+const STATE_PREPARE_LANDSCAPE := 4
 const STATE_READY := 5
 
 func _on_state_entered() -> void:

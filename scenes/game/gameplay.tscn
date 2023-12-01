@@ -100,6 +100,8 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 
 [node name="SelectCellAnims" type="Node2D" parent="FxManager"]
 
-[connection signal="gold_updated" from="GameManager" to="UI" method="_on_game_manager_gold_updated"]
+[connection signal="difficulty_changed" from="GameManager" to="UI" method="_on_game_manager_difficulty_changed"]
+[connection signal="gold_added" from="GameManager" to="UI" method="_on_game_manager_gold_added"]
+[connection signal="points_added" from="GameManager" to="UI" method="_on_game_manager_points_added"]
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]

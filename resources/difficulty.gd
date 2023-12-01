@@ -22,7 +22,18 @@ var __validated : bool
 
 var name:String:
 	get:
-		return str(level)
+		match(level):
+			Constants.DifficultyLevel.EASY:
+				return "Easy"
+			Constants.DifficultyLevel.MEDIUM:
+				return "Medium"
+			Constants.DifficultyLevel.HARD:
+				return "Hard"
+			Constants.DifficultyLevel.SUPREME:
+				return "Supreme"
+			Constants.DifficultyLevel.LEGENDARY:
+				return "Legendary"
+		return "wtf"
 
 func __validate()  -> void:
 	assert(common.size() > 0, name + ": common array should not be empty")
