@@ -8,6 +8,6 @@
 script = ExtResource("2_4ak7x")
 next_token = ExtResource("1_bbojt")
 reward_type = 2
-reward_value = 150
+reward_value = 80
 collectable = false
 sprite_scene = ExtResource("3_qtw4c")
