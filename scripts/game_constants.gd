@@ -5,7 +5,9 @@ class_name  Constants
 enum DifficultyLevel {
 	EASY,
 	MEDIUM,
-	HARD
+	HARD,
+	SUPREME,
+	LEGENDARY
 }
 
 enum TokenType {

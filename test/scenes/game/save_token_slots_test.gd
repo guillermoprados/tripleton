@@ -17,9 +17,10 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	assert_bool(game_manager.save_slots[0].is_empty()).is_true()
 	assert_bool(game_manager.save_slots[0].enabled).is_true()
 	
-	game_manager.difficulty_manager.__next_difficulty()
+	while game_manager.difficulty.save_token_slots == 1:
+		game_manager.difficulty_manager.__next_difficulty()
+	await await_idle_frame()
 	
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(2)
 	
 	assert_int(game_manager.save_slots.size()).is_equal(2)
@@ -27,9 +28,10 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	assert_bool(game_manager.save_slots[1].is_empty()).is_true()
 	assert_bool(game_manager.save_slots[1].enabled).is_true()
 	
-	game_manager.difficulty_manager.__next_difficulty()
+	while game_manager.difficulty.save_token_slots == 2:
+		game_manager.difficulty_manager.__next_difficulty()
+	await await_idle_frame()
 	
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(3)
 	
 	assert_int(game_manager.save_slots.size()).is_equal(3)
@@ -87,11 +89,10 @@ func test__should_increase_properly_when_not_empty() -> void:
 	assert_that(save_slot.token.position).is_equal(Vector2.ZERO)
 	assert_int(save_slot.token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
 	
-	await await_idle_frame()
-	game_manager.difficulty_manager.__next_difficulty()
+	while game_manager.difficulty.save_token_slots == 1:
+		game_manager.difficulty_manager.__next_difficulty()
 	await await_idle_frame()
 	
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(2)
 	
 	assert_int(game_manager.save_slots.size()).is_equal(2)

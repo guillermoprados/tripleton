@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="Difficulty" load_steps=13 format=3 uid="uid://c64d1bd8mq5b5"]
+[gd_resource type="Resource" script_class="Difficulty" load_steps=14 format=3 uid="uid://c64d1bd8mq5b5"]
 
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/houses/0_lamp.tres" id="1_0kvlq"]
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass/0_grass.tres" id="2_735id"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/grass/1_bush.tres" id="3_m37i4"]
-[ext_resource type="Resource" uid="uid://7k60x8lr2nec" path="res://data/tokens_data/combinables/chests/2_chest_gold.tres" id="4_c0q7q"]
 [ext_resource type="Resource" uid="uid://bi56svpdbw0wm" path="res://data/tokens_data/actions/bomb.tres" id="4_jcc4x"]
+[ext_resource type="Texture2D" uid="uid://b62025drf7py7" path="res://asesprite/first_era.png" id="4_muaye"]
+[ext_resource type="Resource" uid="uid://bg22fqe88vqtl" path="res://data/tokens_data/combinables/chests/1_chest_silver.tres" id="5_rbdrb"]
 [ext_resource type="Resource" uid="uid://cj8xmxh73qauy" path="res://data/tokens_data/actions/move.tres" id="5_ytc7a"]
 [ext_resource type="Resource" uid="uid://dttqudoi54l7v" path="res://data/tokens_data/actions/wildcard.tres" id="6_rxnql"]
 [ext_resource type="Script" path="res://resources/difficulty.gd" id="7_xsw7b"]
@@ -16,9 +17,10 @@
 [resource]
 script = ExtResource("7_xsw7b")
 level = 2
-save_token_slots = 3
-max_level_token = 10
-max_level_chest = ExtResource("4_c0q7q")
+map_texture = ExtResource("4_muaye")
+save_token_slots = 2
+max_level_token = 4
+max_level_chest = ExtResource("5_rbdrb")
 total_points = 5000
 common = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_0kvlq"), ExtResource("2_735id"), ExtResource("3_m37i4")])
 uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("8_8pkk5"), ExtResource("10_038pg"), ExtResource("11_promw")])
