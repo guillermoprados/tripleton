@@ -2,6 +2,12 @@ extends Node
 
 class_name  Constants
 
+enum DifficultyLevel {
+	EASY,
+	MEDIUM,
+	HARD
+}
+
 enum TokenType {
 	NORMAL,
 	CHEST,

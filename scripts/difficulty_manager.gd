@@ -22,26 +22,19 @@ var is_last_difficulty: bool:
 	get:
 		return __diff_index == __difficulties.size() - 1
 
-var ___setted_max_limit_value:int = 0
-func ___set_token_limit_to_test(limit:int) -> void:
-		___setted_max_limit_value = limit
-	
 var token_level_limit:int:
 	get:
-		if ___setted_max_limit_value == 0:
-			return current_difficulty.max_level_token
-		else:
-			return ___setted_max_limit_value
+		return current_difficulty.max_level_token
 			
 func set_difficulties(diffs:Array[Difficulty]) -> void:
 	__difficulties = diffs
-	next_difficulty()
+	__next_difficulty()
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 	
-func next_difficulty() -> void:
+func __next_difficulty() -> void:
 	__diff_index += 1
 	print("change diff: "+str(current_difficulty.name)+" points: "+str(current_difficulty.total_points))
 	difficulty_changed.emit()
@@ -50,5 +43,5 @@ func _on_game_manager_points_added(added_points:int, total_points:int) -> void:
 	__current_points += added_points
 	if diff_points >= current_difficulty.total_points and not is_last_difficulty:
 		var overflow : int = diff_points - current_difficulty.total_points
-		next_difficulty()
+		__next_difficulty()
 		__current_points = overflow

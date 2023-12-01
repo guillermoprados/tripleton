@@ -9,7 +9,7 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	await __set_to_player_state()
 	
 	assert_object(game_manager.difficulty).is_not_null()
-	assert_str(game_manager.difficulty.name).is_equal("Easy")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.EASY)
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(1)
 	
 	assert_int(game_manager.save_slots.size()).is_equal(1)
@@ -17,9 +17,9 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	assert_bool(game_manager.save_slots[0].is_empty()).is_true()
 	assert_bool(game_manager.save_slots[0].enabled).is_true()
 	
-	game_manager.difficulty_manager.next_difficulty()
+	game_manager.difficulty_manager.__next_difficulty()
 	
-	assert_str(game_manager.difficulty.name).is_equal("Medium")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(2)
 	
 	assert_int(game_manager.save_slots.size()).is_equal(2)
@@ -27,9 +27,9 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	assert_bool(game_manager.save_slots[1].is_empty()).is_true()
 	assert_bool(game_manager.save_slots[1].enabled).is_true()
 	
-	game_manager.difficulty_manager.next_difficulty()
+	game_manager.difficulty_manager.__next_difficulty()
 	
-	assert_str(game_manager.difficulty.name).is_equal("Hard")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(3)
 	
 	assert_int(game_manager.save_slots.size()).is_equal(3)

@@ -2,11 +2,12 @@ extends Resource
 
 class_name Difficulty
 
-@export var name : String
+@export var level : Constants.DifficultyLevel
 
 @export_category("Level Config")
 @export var save_token_slots: int
 @export var max_level_token: int
+@export var max_level_chest: TokenData
 @export var total_points: int
 
 @export_category("Diff Tokens")
@@ -18,8 +19,11 @@ class_name Difficulty
 
 var __validated : bool
 
+var name:String:
+	get:
+		return str(level)
+
 func __validate()  -> void:
-	assert(name, "name of set should be set")
 	assert(common.size() > 0, name + ": common array should not be empty")
 	assert(uncommon.size() > 0, name + ": uncommon array should not be empty")
 	assert(rare.size() > 0, name + ": rare array should not be empty")

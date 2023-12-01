@@ -25,12 +25,12 @@ func test__when_points_excedded_diff_max_points_it_should_switch_to_next_diff() 
 	
 	await __set_to_player_state()
 	
-	assert_str(game_manager.difficulty.name).is_equal("Easy")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.EASY)
 	
 	var diff_points := game_manager.difficulty.total_points
 	
 	game_manager.add_points(diff_points + 10)
-	assert_str(game_manager.difficulty.name).is_equal("Medium")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
 	assert_int(game_manager.points).is_equal(diff_points + 10)
 	assert_int(game_manager.difficulty_manager.diff_points).is_equal(10)
 
@@ -38,22 +38,36 @@ func test__when_points_excedded_diff_max_points_on_last_diff_it_should_stay() ->
 	
 	await __set_to_player_state()
 	
-	assert_str(game_manager.difficulty.name).is_equal("Easy")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.EASY)
 	
 	var diff_points := game_manager.difficulty.total_points
 	game_manager.add_points(diff_points + 10)
-	assert_str(game_manager.difficulty.name).is_equal("Medium")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
 	
 	diff_points = game_manager.difficulty.total_points
 	game_manager.add_points(diff_points + 10)
-	assert_str(game_manager.difficulty.name).is_equal("Hard")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
 	
 	diff_points = game_manager.difficulty.total_points
 	game_manager.add_points(diff_points + 10)
-	assert_str(game_manager.difficulty.name).is_equal("Hard")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
 
+func test__difficulties_should_have_the_proper_token_limit() -> void:
+	
+	await __set_to_player_state()
+	
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.EASY)
+	assert_int(game_manager.difficulty.max_level_token).is_equal(2)
 
-func test__easy_diff_should_use_default_chest_bronze() -> void:
+	game_manager.difficulty_manager.__next_difficulty()
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
+	assert_int(game_manager.difficulty.max_level_token).is_equal(4)
+
+	game_manager.difficulty_manager.__next_difficulty()
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
+	assert_int(game_manager.difficulty.max_level_token).is_equal(10)
+	
+func test__easy_diff_should_use_limit_chest() -> void:
 	
 	
 	var landscape := [
@@ -65,7 +79,7 @@ func test__easy_diff_should_use_default_chest_bronze() -> void:
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	assert_str(game_manager.difficulty.name).is_equal("Easy")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.EASY)
 	assert_int(game_manager.difficulty.max_level_token).is_equal(2)
 	
 	## add grass
@@ -84,25 +98,22 @@ func test__easy_diff_should_use_default_chest_bronze() -> void:
 		]
 	)
 
-func test__medium_diff_should_use_default_chest_bronze() -> void:
-	
-	
+func test__medium_diff_should_use_limit_silver_chest() -> void:
+		
 	var landscape := [
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.B_TRE,IDs.EMPTY],
-		[IDs.EMPTY,IDs.B_TRE,IDs.EMPTY]
+		[IDs.EMPTY,IDs.TOWER,IDs.EMPTY],
+		[IDs.EMPTY,IDs.TOWER,IDs.EMPTY]
 	]
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var diff_points := game_manager.difficulty.total_points
-	game_manager.add_points(diff_points + 10)
-	assert_str(game_manager.difficulty.name).is_equal("Medium")
-	assert_int(game_manager.difficulty.max_level_token).is_equal(3)
+	game_manager.difficulty_manager.__next_difficulty()
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
 	
 	## add grass
-	await __wait_to_next_player_turn(IDs.B_TRE)
+	await __wait_to_next_player_turn(IDs.TOWER)
 	await __async_move_mouse_to_cell(Vector2(1,1), true)
 	
 	## check
@@ -111,7 +122,40 @@ func test__medium_diff_should_use_default_chest_bronze() -> void:
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
+			[IDs.EMPTY,IDs.CHE_S,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
+		]
+	)
+
+func test__hard_diff_not_limit_combinations() -> void:
+		
+	var landscape := [
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.PALAC,IDs.EMPTY],
+		[IDs.EMPTY,IDs.PALAC,IDs.EMPTY]
+	]
+	
+	await __set_to_player_state_with_board(landscape)
+	
+	game_manager.difficulty_manager.__next_difficulty()
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
+	game_manager.difficulty_manager.__next_difficulty()
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
+	assert_int(game_manager.difficulty.max_level_token).is_equal(10)
+	
+	## add grass
+	await __wait_to_next_player_turn(IDs.PALAC)
+	await __async_move_mouse_to_cell(Vector2(1,1), true)
+	
+	## check
+	await __wait_to_next_player_turn()
+	
+	assert_array(board.cell_tokens_ids).contains_same_exactly(
+		[
+			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+			[IDs.EMPTY,IDs.FORTR,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]

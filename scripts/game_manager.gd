@@ -25,7 +25,6 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var initial_token_slot:InitialTokenSlot 
 
 @export_category("Required but gonna change later")
-@export var default_chest_data: TokenData # mmmmm
 @export var bad_token_data: TokenData # mmmmm
 @export var grave_token_data: TokenData # mmmmm
 @export var to_test: TokenData # mmmmm
@@ -63,7 +62,6 @@ func _enter_tree() -> void:
 	assert(game_ui_manager, "please set the game ui manager")
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
-	assert(default_chest_data, "plase set the default chest for combinations")
 
 func _ready() -> void:
 	pass
@@ -380,7 +378,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 		next_token_data = next_token_data.next_token
 	
 	if next_token_data.level > difficulty_manager.token_level_limit:
-		next_token_data = default_chest_data
+		next_token_data = difficulty.max_level_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
 
