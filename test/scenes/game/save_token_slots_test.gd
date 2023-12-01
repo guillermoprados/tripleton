@@ -73,6 +73,35 @@ func test__should_save_token_when_empty() -> void:
 	await __async_await_for_property(game_manager, "floating_token", null, property_is_equal,2)
 	assert_object(game_manager.floating_token).is_null()
 	assert_object(game_manager.initial_token_slot.token).is_not_null()
+
+func test__should_increase_properly_when_not_empty() -> void:
+	
+	await __set_to_player_state(IDs.B_TRE) # this is wont happend on the get random token data
+	
+	var save_slot := game_manager.save_slots[0]
+	
+	# select
+	await __async_move_mouse_to_cell_object(save_slot.cell_board, true)
+	assert_bool(save_slot.is_empty()).is_false()
+	assert_str(save_slot.token.id).is_equal(IDs.B_TRE)
+	assert_that(save_slot.token.position).is_equal(Vector2.ZERO)
+	assert_int(save_slot.token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
+	
+	await await_idle_frame()
+	game_manager.difficulty_manager.__next_difficulty()
+	await await_idle_frame()
+	
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
+	assert_int(game_manager.difficulty.save_token_slots).is_equal(2)
+	
+	assert_int(game_manager.save_slots.size()).is_equal(2)
+	assert_int(game_manager.save_slots[1].index).is_equal(1)
+	assert_bool(game_manager.save_slots[1].is_empty()).is_true()
+	assert_bool(game_manager.save_slots[1].enabled).is_true()
+	
+	assert_str(save_slot.token.id).is_equal(IDs.B_TRE)
+	assert_that(save_slot.token.position).is_equal(Vector2.ZERO)
+	assert_int(save_slot.token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
 	
 func test__should_swap_when_no_empty() -> void:
 	
