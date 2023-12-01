@@ -152,7 +152,7 @@ func test__if_next_combination_level_is_bigger_than_allowed_should_chest() -> vo
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	assert_str(game_manager.difficulty.name).is_equal("Easy")
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.EASY)
 	assert_int(game_manager.difficulty.max_level_token).is_equal(2)
 	
 	## add grass
