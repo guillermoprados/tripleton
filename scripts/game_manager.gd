@@ -9,7 +9,6 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 
 @export_category("Managers")
 @export var difficulty_manager: DifficultyManager
-@export var game_ui_manager: GameUIManager
 @export var fx_manager : FxManager
 @export var combinator: Combinator
 
@@ -54,7 +53,6 @@ var difficulty: Difficulty:
 
 
 func _enter_tree() -> void:
-	assert(game_ui_manager, "please set the game ui manager")
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
 
@@ -69,7 +67,7 @@ func _on_difficulty_changed() -> void:
 		save_slots.append(save_token_slot)
 		add_child(save_token_slot)
 		save_token_slot.enabled = true
-		game_ui_manager.adjust_save_token_slots_positions(save_slots)
+		__adjust_save_token_slots_positions()
 	board.change_back_texture(difficulty.map_texture)	
 	
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
@@ -565,3 +563,30 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 
+### Game UI Objects
+
+func __adjust_board_position() -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
+	
+	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
+	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
+
+func __adjust_initial_slot_position() -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	initial_token_slot.position.x = screen_size.x/2
+	initial_token_slot.position.y = board.position.y - (Constants.CELL_SIZE.y/2) - Constants.INITAL_TOKEN_SLOT_SEPARATION
+
+func __adjust_save_token_slots_positions() -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var num_of_slots := save_slots.size()
+	var slots_total_width := (Constants.CELL_SIZE.x * num_of_slots) + \
+							Constants.SAVE_SLOT_INTER_SEPARATION * (num_of_slots - 1)
+	
+	var slot_pos : Vector2
+	slot_pos.x = (screen_size.x/2) - (slots_total_width/2) + (Constants.CELL_SIZE.x / 2)
+	slot_pos.y = screen_size.y - Constants.SAVE_SLOT_BOTTOM_SEPARATION - (Constants.CELL_SIZE.y / 2)
+	for i in range(save_slots.size()):
+		save_slots[i].position = slot_pos
+		save_slots[i].z_index = Constants.TOKEN_BOX_Z_INDEX 
+		slot_pos.x += Constants.CELL_SIZE.x + Constants.SAVE_SLOT_INTER_SEPARATION

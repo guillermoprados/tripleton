@@ -6,9 +6,6 @@ class_name StateLoading
 @export var ordered_difficulties:Array[Difficulty]
 @export var landscape_tokens:Array[TokenData]
 
-@export_category("Game Dependencies")
-@export var ui_manager:GameUIManager
-
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.LOADING
 
@@ -47,10 +44,9 @@ func _process(delta:float) -> void:
 	__inner_state += 1
 	
 func __position_game_objects() -> void:
-	
-	ui_manager.adjust_board_position(board)
-	ui_manager.adjust_initial_slot_position(game_manager.initial_token_slot, board)
-	ui_manager.adjust_save_token_slots_positions(game_manager.save_slots)
+	game_manager.__adjust_board_position()
+	game_manager.__adjust_initial_slot_position()
+	game_manager.__adjust_save_token_slots_positions()
 	
 func __create_landscape() -> void:
 	randomize()

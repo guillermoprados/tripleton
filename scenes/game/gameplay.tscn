@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="PackedScene" uid="uid://c1x5lrnrq51io" path="res://scenes/objects/save_token_slot.tscn" id="4_cm6t5"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/combinables/chests/0_chest_bronze.tres" id="5_quoxo"]
-[ext_resource type="Script" path="res://scripts/game_ui_manager.gd" id="5_x74f5"]
 [ext_resource type="PackedScene" uid="uid://c83iuigvvkkp0" path="res://scenes/objects/cell.tscn" id="6_h3m50"]
 [ext_resource type="Resource" uid="uid://cv8hu7lvay3x8" path="res://data/tokens_data/combinables/rocks/0_stone.tres" id="6_ydrqi"]
 [ext_resource type="Resource" uid="uid://cvercemsw2qwg" path="res://data/tokens_data/combinables/graves/0_grave.tres" id="7_ik1pu"]
@@ -40,13 +39,19 @@
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="23_fc6dr"]
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/houses/0_lamp.tres" id="27_3h12h"]
 
+[sub_resource type="GDScript" id="GDScript_ce6iu"]
+script/source = "extends Node
+
+class_name GameUIManager
+
+"
+
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("difficulty_manager", "game_ui_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("difficulty_manager", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
 script = ExtResource("1_noepw")
 difficulty_manager = NodePath("../DifficultyManager")
-game_ui_manager = NodePath("../GameUIManager")
 fx_manager = NodePath("../FxManager")
 combinator = NodePath("../Combinator")
 token_scene = ExtResource("2_08wbk")
@@ -60,7 +65,7 @@ grave_token_data = ExtResource("7_ik1pu")
 to_test = ExtResource("8_f4qkx")
 
 [node name="GameUIManager" type="Node" parent="."]
-script = ExtResource("5_x74f5")
+script = SubResource("GDScript_ce6iu")
 
 [node name="DifficultyManager" type="Node" parent="."]
 script = ExtResource("7_x7uas")
@@ -78,11 +83,10 @@ script = ExtResource("8_umy6w")
 game_manager = NodePath("../GameManager")
 board = NodePath("../Board")
 
-[node name="StateLoading" type="Node" parent="StateMachine" node_paths=PackedStringArray("ui_manager")]
+[node name="StateLoading" type="Node" parent="StateMachine"]
 script = ExtResource("9_kvjog")
 ordered_difficulties = Array[Resource("res://resources/difficulty.gd")]([ExtResource("21_xhvu3"), ExtResource("22_qp5x6"), ExtResource("23_bm00m"), ExtResource("18_5j8ai"), ExtResource("19_jh2cc")])
 landscape_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("21_ajspr"), ExtResource("22_62cki"), ExtResource("23_fc6dr"), ExtResource("27_3h12h"), ExtResource("15_i3l0h")])
-ui_manager = NodePath("../../GameUIManager")
 
 [node name="StateStart" type="Node" parent="StateMachine"]
 script = ExtResource("11_q468j")
