@@ -44,8 +44,15 @@ var floating_token: BoardToken:
 		floating_token.z_index = Constants.FLOATING_Z_INDEX
 		floating_token.set_status(Constants.TokenStatus.FLOATING)
 
-var points: int
-var gold: int
+var __game_points: int
+var game_points:int:
+	get:
+		return __game_points
+
+var __game_gold: int
+var game_gold:
+	get:
+		return __game_gold
 
 var difficulty: Difficulty:
 	get:
@@ -79,12 +86,12 @@ func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenS
 	return token_instance
 
 func add_gold(value:int) -> void:
-	gold += value
-	gold_updated.emit(gold)
+	__game_gold += value
+	gold_updated.emit(game_gold)
 	
 func add_points(value:int) -> void:
-	points += value
-	points_added.emit(value, points)
+	__game_points += value
+	points_added.emit(value, game_points)
 
 func pick_up_floating_token() -> void:
 	floating_token = initial_token_slot.pick_token()
