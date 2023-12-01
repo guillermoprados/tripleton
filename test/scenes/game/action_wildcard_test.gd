@@ -34,7 +34,7 @@ func test__action_combine_two_tokens() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(points_per_id[IDs.GRASS] * 3)
+	assert_int(game_manager.game_points).is_equal(points_per_id[IDs.GRASS] * 3)
 
 func test__action_should_combine_chests() -> void:
 	
@@ -66,7 +66,7 @@ func test__action_should_combine_chests() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0) # chests dont give points
+	assert_int(game_manager.game_points).is_equal(0) # chests dont give points
 	
 func test__action_combine_two_groups_tokens() -> void:
 	
@@ -98,7 +98,7 @@ func test__action_combine_two_groups_tokens() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(points_per_id[IDs.GRASS] * 5)
+	assert_int(game_manager.game_points).is_equal(points_per_id[IDs.GRASS] * 5)
 
 func test__action_should_combine_escalated_levels() -> void:
 	
@@ -134,8 +134,8 @@ func test__action_should_combine_escalated_levels() -> void:
 	expected_points += (points_per_id[IDs.GRASS] * 3)
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	
-	assert_int(game_manager.points).is_not_zero()
-	assert_int(game_manager.points).is_equal(expected_points)
+	assert_int(game_manager.game_points).is_not_zero()
+	assert_int(game_manager.game_points).is_equal(expected_points)
 
 func test__action_should_chose_bigger_combinations() -> void:
 	
@@ -172,8 +172,8 @@ func test__action_should_chose_bigger_combinations() -> void:
 	var expected_points := 0
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	
-	assert_int(game_manager.points).is_not_zero()
-	assert_int(game_manager.points).is_equal(expected_points)
+	assert_int(game_manager.game_points).is_not_zero()
+	assert_int(game_manager.game_points).is_equal(expected_points)
 
 func test__action_cannot_be_placed_over_enemies() -> void:
 	
@@ -206,7 +206,7 @@ func test__action_cannot_be_placed_over_enemies() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_cannot_be_placed_over_normal_tokens() -> void:
 	
@@ -238,7 +238,7 @@ func test__action_cannot_be_placed_over_normal_tokens() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 	
 func test__action_cannot_be_placed_over_chest_and_should_open() -> void:
 	
@@ -271,7 +271,7 @@ func test__action_cannot_be_placed_over_chest_and_should_open() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 	
 func test__action_cannot_be_placed_over_prize_and_should_pick_it() -> void:
 	
@@ -329,4 +329,4 @@ func test__action_should_be_wasted_if_no_combination() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)

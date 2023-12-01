@@ -68,7 +68,7 @@ func test__place_single_token() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 	
 func test__try_to_place_token_in_occupied_slot() -> void:
 	
@@ -100,4 +100,4 @@ func test__try_to_place_token_in_occupied_slot() -> void:
 	
 	## should let the player continue playing
 	assert_bool(board.enabled_interaction).is_true()
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)

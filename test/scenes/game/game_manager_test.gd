@@ -250,8 +250,8 @@ func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
 	return prize_id
 
 func __set_to_last_difficulty()->void:
-	game_manager.difficulty_manager.__diff_index = game_manager.difficulty_manager.__difficulties.size() - 1
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
+	game_manager.__difficulty_index = game_manager.__difficulties.size() - 1
+	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.LEGENDARY)
 
 func __await_combination_to_combination(id_from:String, id_to:String, difficulty:Constants.DifficultyLevel = Constants.DifficultyLevel.EASY) -> void:
 	
@@ -274,7 +274,7 @@ func __await_combination_to_combination(id_from:String, id_to:String, difficulty
 		assert_int(points_per_id[IDs_FROM_]).is_less(points_per_id[IDs__TO__])
 	
 	while game_manager.difficulty.name != str(difficulty):
-		game_manager.difficulty_manager.__next_difficulty()
+		game_manager.__next_difficulty()
 	
 	## third token
 	await __wait_to_next_player_turn(IDs_FROM_)
@@ -295,8 +295,8 @@ func __await_combination_to_combination(id_from:String, id_to:String, difficulty
 	)
 	
 	if is_from_chest and is_to_chest:
-		assert_int(game_manager.points).is_zero()
+		assert_int(game_manager.game_points).is_zero()
 	else:
-		assert_int(game_manager.points).is_not_zero()
+		assert_int(game_manager.game_points).is_not_zero()
 	
-	assert_int(game_manager.points).is_equal(points_per_id[IDs_FROM_] * 3)
+	assert_int(game_manager.game_points).is_equal(points_per_id[IDs_FROM_] * 3)

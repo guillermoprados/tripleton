@@ -18,7 +18,7 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	assert_bool(game_manager.save_slots[0].enabled).is_true()
 	
 	while game_manager.difficulty.save_token_slots == 1:
-		game_manager.difficulty_manager.__next_difficulty()
+		game_manager.__next_difficulty()
 	await await_idle_frame()
 	
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(2)
@@ -29,7 +29,7 @@ func test__slots_should_be_created_on_difficulty_changes() -> void:
 	assert_bool(game_manager.save_slots[1].enabled).is_true()
 	
 	while game_manager.difficulty.save_token_slots == 2:
-		game_manager.difficulty_manager.__next_difficulty()
+		game_manager.__next_difficulty()
 	await await_idle_frame()
 	
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(3)
@@ -90,7 +90,7 @@ func test__should_increase_properly_when_not_empty() -> void:
 	assert_int(save_slot.token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
 	
 	while game_manager.difficulty.save_token_slots == 1:
-		game_manager.difficulty_manager.__next_difficulty()
+		game_manager.__next_difficulty()
 	await await_idle_frame()
 	
 	assert_int(game_manager.difficulty.save_token_slots).is_equal(2)

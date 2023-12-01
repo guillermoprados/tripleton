@@ -34,7 +34,7 @@ func test__action_should_level_up_combinable_token() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_should_level_up_to_chest_if_last_token_difficulty() -> void:
 	
@@ -66,7 +66,7 @@ func test__action_should_level_up_to_chest_if_last_token_difficulty() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_should_not_level_up_if_difficulty_allows() -> void:
 	
@@ -100,7 +100,7 @@ func test__action_should_not_level_up_if_difficulty_allows() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 	
 func test__action_should_not_level_up_on_enemies() -> void:
 	
@@ -133,7 +133,7 @@ func test__action_should_not_level_up_on_enemies() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 	
 func test__action_should_not_level_up_on_chests() -> void:
 	
@@ -165,7 +165,7 @@ func test__action_should_not_level_up_on_chests() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_level_up_on_prize_should_be_invalid() -> void:
 	
@@ -225,7 +225,7 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_should_level_up_and_combine() -> void:
 	
@@ -262,4 +262,4 @@ func test__action_should_level_up_and_combine() -> void:
 	expected_points += (points_per_id[IDs.BUSHH] * 3)
 	expected_points += (points_per_id[IDs.TREEE] * 3)
 	
-	assert_int(game_manager.points).is_equal(expected_points)
+	assert_int(game_manager.game_points).is_equal(expected_points)

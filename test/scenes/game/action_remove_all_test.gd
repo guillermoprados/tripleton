@@ -47,7 +47,7 @@ func test__action_should_remove_all_same_normal_token() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 
 func test__action_should_kill_all_enemies_of_the_same_type() -> void:
@@ -81,7 +81,7 @@ func test__action_should_kill_all_enemies_of_the_same_type() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 	
 func test__action_should_remove_on_chests() -> void:
 	
@@ -113,7 +113,7 @@ func test__action_should_remove_on_chests() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_remove_on_prize_should_be_invalid() -> void:
 	
@@ -173,7 +173,7 @@ func test__action_should_level_waste_on_empty_cell() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_should_remove_even_when_there_is_one_token() -> void:
 	
@@ -206,4 +206,4 @@ func test__action_should_remove_even_when_there_is_one_token() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
