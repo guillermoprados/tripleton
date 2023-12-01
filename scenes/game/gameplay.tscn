@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=39 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
@@ -39,13 +39,6 @@
 [ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="23_fc6dr"]
 [ext_resource type="Resource" uid="uid://bfrohevgij67i" path="res://data/tokens_data/combinables/houses/0_lamp.tres" id="27_3h12h"]
 
-[sub_resource type="GDScript" id="GDScript_ce6iu"]
-script/source = "extends Node
-
-class_name GameUIManager
-
-"
-
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
@@ -63,9 +56,6 @@ initial_token_slot = NodePath("../InitialTokenSlot")
 bad_token_data = ExtResource("6_ydrqi")
 grave_token_data = ExtResource("7_ik1pu")
 to_test = ExtResource("8_f4qkx")
-
-[node name="GameUIManager" type="Node" parent="."]
-script = SubResource("GDScript_ce6iu")
 
 [node name="DifficultyManager" type="Node" parent="."]
 script = ExtResource("7_x7uas")
@@ -120,4 +110,3 @@ fx_select_cell_scene = ExtResource("22_x53b4")
 [connection signal="show_floating_reward" from="GameManager" to="UI" method="_on_game_manager_show_floating_reward"]
 [connection signal="show_message" from="GameManager" to="UI" method="_on_game_manager_show_message"]
 [connection signal="difficulty_changed" from="DifficultyManager" to="GameManager" method="_on_difficulty_manager_difficulty_changed"]
-[connection signal="play_again" from="UI" to="StateMachine/GameOverState" method="_on_ui_play_again"]

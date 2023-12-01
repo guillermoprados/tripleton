@@ -58,6 +58,9 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	pass
+	
+func connect_ui() -> void:
+	pass
 
 func _on_difficulty_changed() -> void:
 	var required_slots := difficulty.save_token_slots 

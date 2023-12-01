@@ -37,6 +37,7 @@ func _process(delta:float) -> void:
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
 		STATE_PREPARE_UI:
+			game_manager.connect_ui()
 			game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 		STATE_READY:
 			state_finished.emit(id)
