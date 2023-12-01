@@ -79,5 +79,5 @@ func test__chest_bronce_to_chest_silver() -> void:
 func test__chest_silver_to_chest_gold() -> void:
 	await __await_combination_to_combination(IDs.CHE_S, IDs.CHE_G)
 
-# func test__chest_gold_to_chest_diamond() -> void:
-#	await __await_combination_to_combination(IDs.CHE_G, IDs.CHE_D)
+func test__chest_gold_to_chest_diamond() -> void:
+	await __await_combination_to_combination(IDs.CHE_G, IDs.CHE_D)

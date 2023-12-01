@@ -377,7 +377,9 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	for i in range(combination.last_level_reached):
 		next_token_data = next_token_data.next_token
 	
-	if next_token_data.level > difficulty_manager.token_level_limit:
+	var is_chest_combination := initial_token.type == Constants.TokenType.CHEST
+		
+	if next_token_data.level > difficulty_manager.token_level_limit and not is_chest_combination:
 		next_token_data = difficulty.max_level_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)

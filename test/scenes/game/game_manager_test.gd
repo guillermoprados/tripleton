@@ -267,7 +267,9 @@ func __await_combination_to_combination(id_from:String, id_to:String, difficulty
 	
 	await __set_to_player_state_with_board(landscape)
 	
+	var is_from_chest : bool = (IDs_FROM_ == IDs.CHE_B) or (IDs_FROM_ == IDs.CHE_S) or (IDs_FROM_ == IDs.CHE_G) or (IDs_FROM_ == IDs.CHE_D)
 	var is_to_chest : bool = (IDs__TO__ == IDs.CHE_B) or (IDs__TO__ == IDs.CHE_S) or (IDs__TO__ == IDs.CHE_G) or (IDs__TO__ == IDs.CHE_D)
+
 	if !is_to_chest:
 		assert_int(points_per_id[IDs_FROM_]).is_less(points_per_id[IDs__TO__])
 	
@@ -292,7 +294,7 @@ func __await_combination_to_combination(id_from:String, id_to:String, difficulty
 		]
 	)
 	
-	if is_to_chest:
+	if is_from_chest and is_to_chest:
 		assert_int(game_manager.points).is_zero()
 	else:
 		assert_int(game_manager.points).is_not_zero()
