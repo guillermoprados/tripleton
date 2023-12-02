@@ -1,12 +1,20 @@
 import os
 import pandas as pd
 import json
+import subprocess
 
 def get_current_directory():
     return os.getcwd()
 
 def check_file_existence(file_path):
     return os.path.exists(file_path)
+
+def export_res_files_names():
+    directory = get_current_directory()
+    # Specify the command as a list of strings
+    command = [directory+'/bash/files_to_json.sh', directory+'/data/tokens_data', directory+'/generated/res_tokens_data.json']
+    # Run the command
+    subprocess.run(command)
 
 def process_excel_file(file_path):
     # Read the Excel file
@@ -37,7 +45,13 @@ def process_excel_file(file_path):
 
     return result, df
 
-def save_to_json(result, json_file_path):
+def save_to_json(result, folder, filename):
+    # Create the folder if it doesn't exist
+    os.makedirs(folder, exist_ok=True)
+
+    # Join the folder and filename to get the full path
+    json_file_path = os.path.join(folder, filename)
+
     # Convert the result dictionary to JSON and write it to a file
     with open(json_file_path, 'w') as json_file:
         json.dump(result, json_file, indent=2)
@@ -46,16 +60,20 @@ def main():
     current_directory = get_current_directory()
     print("Current Working Directory:", current_directory)
 
-    excel_file_path = current_directory + '/game_design/tokens_values.xlsx'
+    print("Exporting Tokens values")
+    excel_file_path = current_directory+'/game_design/tokens_values.xlsx'
 
     if check_file_existence(excel_file_path):
         result, df = process_excel_file(excel_file_path)
-        save_to_json(result, 'tokens_values.json')
+        save_to_json(result, current_directory+'/generated','tokens_values.json')
 
         # Print the first few rows of the DataFrame
         print(df.head())
     else:
         print(f"File not found: {excel_file_path}")
+
+    print("Exporting Tokens Resources")
+    export_res_files_names()
 
 if __name__ == "__main__":
     main()

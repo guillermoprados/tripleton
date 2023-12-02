@@ -30,15 +30,17 @@ Just tries to install the apk into the android phone (the apk needs to be previu
 ### Export Tokens Data
 Updates the tokens data files with all the tokens inside tokens data folder
 
-this script needs you to install jq:
+This script has some dependencies:
+install jq 
 ´´´bash
 brew install jq
 ´´´
-
-### Export Tokens Data to json
-
-Install pandas:
-´´´
+install pandas:
+´´´bash
 pip3 install pandas
 pip3 install openpyxl
+´´´
+then just run:
+´´´bash
+python3 bash/token_data_to_json.py
 ´´´
