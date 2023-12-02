@@ -56,8 +56,8 @@ func __create_landscape() -> void:
 		var random_cell:Vector2 = get_random_position(board.rows, board.columns)
 		if board.is_cell_empty(random_cell):
 			var rand_token := get_random_between(0, landscape_tokens.size() - 1)
-			var random_token_data:TokenData = landscape_tokens[rand_token]
-			var random_token := game_manager.instantiate_new_token(random_token_data, Constants.TokenStatus.PLACED)
+			var random_token_id:String = landscape_tokens[rand_token].id
+			var random_token := game_manager.instantiate_new_token(random_token_id, Constants.TokenStatus.PLACED)
 			board.set_token_at_cell(random_token, random_cell)
 
 func get_random_between(min_val: int, max_val: int) -> int:

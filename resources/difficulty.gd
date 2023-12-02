@@ -43,7 +43,7 @@ func __validate()  -> void:
 	assert(unique.size() > 0, name + ": unique array should not be empty")
 	__validated = true
 	
-func get_random_token_data() -> TokenData:
+func get_random_token_data_id() -> String:
 	
 	if not __validated:
 		__validate()	
@@ -53,15 +53,15 @@ func get_random_token_data() -> TokenData:
 	var rand_val := randf()
 	
 	if rand_val < Constants.TOKEN_PROB_COMMON:
-		return get_random_from_array(common)
+		return get_random_from_array(common).id
 	elif rand_val < Constants.TOKEN_PROB_UNCOMMON:
-		return get_random_from_array(uncommon)
+		return get_random_from_array(uncommon).id
 	elif rand_val < Constants.TOKEN_PROB_RARE:
-		return get_random_from_array(rare)
+		return get_random_from_array(rare).id
 	elif rand_val < Constants.TOKEN_PROB_SCARCE:
-		return get_random_from_array(scarce)
+		return get_random_from_array(scarce).id
 	else:
-		return get_random_from_array(unique)
+		return get_random_from_array(unique).id
 		
 func get_random_from_array(arr: Array) -> TokenData:
 	return arr[randi() % arr.size()]

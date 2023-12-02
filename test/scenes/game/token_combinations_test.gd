@@ -196,7 +196,7 @@ func test__last_combination_should_evolve_to_chest() -> void:
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
-			[IDs.EMPTY,IDs.CHE_B,IDs.GRASS],
+			[IDs.EMPTY,IDs.CHE_S,IDs.GRASS],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]
@@ -228,7 +228,7 @@ func test__level_first_to_last_combinations_should_evolve_to_chest() -> void:
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.LAMPP,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
+			[IDs.EMPTY,IDs.CHE_S,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY]
 		]

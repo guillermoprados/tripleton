@@ -76,7 +76,9 @@ func _init() -> void:
 func _process(delta:float) -> void:
 	pass
 
-func set_data(token_data:TokenData, status:Constants.TokenStatus) -> void:
+func set_data(token_id:String, status:Constants.TokenStatus) -> void:
+	var token_data:TokenData = all_tokens_data.get_token_data_by_id(token_id)
+	assert(token_data, "Cannot find token data for id:"+token_id)
 	id = token_data.id
 	data = token_data
 	_set_data_status = status
@@ -152,6 +154,5 @@ func set_in_range(difference_pos:Vector2) -> void:
 	set_status(Constants.TokenStatus.IN_RANGE)
 	tweener.set_in_range_tweener(difference_pos)
 
-## don't abuse of this.. since it loads the token data under each token
 func get_other_token_data_util(token_id:String) -> TokenData:
 	return all_tokens_data.get_token_data_by_id(token_id)

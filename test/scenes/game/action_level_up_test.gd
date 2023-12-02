@@ -62,7 +62,7 @@ func test__action_should_level_up_to_chest_if_last_token_difficulty() -> void:
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
+			[IDs.EMPTY,IDs.CHE_S,IDs.EMPTY],
 		]
 	)
 	
@@ -96,7 +96,7 @@ func test__action_should_not_level_up_if_difficulty_allows() -> void:
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-			[IDs.EMPTY,IDs.CHE_B,IDs.EMPTY],
+			[IDs.EMPTY,IDs.CHE_S,IDs.EMPTY],
 		]
 	)
 	

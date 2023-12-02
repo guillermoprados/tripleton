@@ -13,8 +13,8 @@ var __to_place_token:BoardToken
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.WILDCARD
 
-func get_to_place_token_data() -> TokenData:
-	return __to_place_token_data
+func get_to_place_token_id() -> String:
+	return __to_place_token_data.id
 
 func set_ghost_token(token:BoardToken) -> void:
 	__to_place_token = token
