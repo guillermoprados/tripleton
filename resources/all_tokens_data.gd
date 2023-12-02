@@ -2,7 +2,7 @@ extends Node
 
 class_name AllTokensData
 
-@export var json_path: String = "res://data/res_tokens_data.json"
+@export var json_paths: String = "res://generated/res_tokens_data.json"
 var tokens_data: Dictionary = {}
 
 func get_token_data_by_id(token_id: String) -> TokenData:
@@ -15,7 +15,7 @@ func get_token_data_by_id(token_id: String) -> TokenData:
 
 func __load_tokens_data(tokens_ids: Array) -> void:
 	# Load the JSON file
-	var json_as_text: String = FileAccess.get_file_as_string(json_path)
+	var json_as_text: String = FileAccess.get_file_as_string(json_paths)
 	var tokens_as_dict: Dictionary = JSON.parse_string(json_as_text)
 	for token_id in tokens_ids:
 		if token_id == '':
