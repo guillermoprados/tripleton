@@ -34,3 +34,11 @@ this script needs you to install jq:
 ´´´bash
 brew install jq
 ´´´
+
+### Export Tokens Data to json
+
+Install pandas:
+´´´
+pip3 install pandas
+pip3 install openpyxl
+´´´
