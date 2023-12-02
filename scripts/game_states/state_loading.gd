@@ -3,22 +3,18 @@ extends StateBase
 class_name StateLoading
 
 @export_category("Required Data Configuration")
-@export var ordered_dinasties:Array[Dinasty]
 @export var ordered_difficulties:Array[Difficulty]
 @export var landscape_tokens:Array[TokenData]
-
-@export_category("Game Dependencies")
-@export var ui_manager:GameUIManager
 
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.LOADING
 
 var __inner_state := 0
 const STATE_PREPARE := 0
-const STATE_CONFIG := 1
-const STATE_SET_OBJECTS := 2
-const STATE_PREPARE_LANDSCAPE := 3
-const STATE_PREPARE_UI := 4
+const STATE_PREPARE_UI := 1
+const STATE_CONFIG := 2
+const STATE_SET_OBJECTS := 3
+const STATE_PREPARE_LANDSCAPE := 4
 const STATE_READY := 5
 
 func _on_state_entered() -> void:
@@ -33,18 +29,14 @@ func _process(delta:float) -> void:
 		STATE_PREPARE:
 			pass
 		STATE_CONFIG:
-			assert(ordered_dinasties.size() > 0, "Add dinasties")
-			# TODO: should I disconnect it?
-			game_manager.dinasty_manager.dinasty_changed.connect(game_manager._on_dinasty_changed)
-			game_manager.dinasty_manager.set_dinasties(ordered_dinasties)
 			assert(ordered_difficulties.size() > 0, "Add difficulties")
-			game_manager.difficulty_manager.difficulty_changed.connect(game_manager._on_difficulty_changed)
-			game_manager.difficulty_manager.set_difficulties(ordered_difficulties)
+			game_manager.__set_difficulties(ordered_difficulties)
 		STATE_SET_OBJECTS:
 			__position_game_objects()
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
 		STATE_PREPARE_UI:
+			game_manager.connect_ui()
 			game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 		STATE_READY:
 			state_finished.emit(id)
@@ -52,10 +44,9 @@ func _process(delta:float) -> void:
 	__inner_state += 1
 	
 func __position_game_objects() -> void:
-	
-	ui_manager.adjust_board_position(board)
-	ui_manager.adjust_initial_slot_position(game_manager.initial_token_slot, board)
-	ui_manager.adjust_save_token_slots_positions(game_manager.save_slots)
+	game_manager.__adjust_board_position()
+	game_manager.__adjust_initial_slot_position()
+	game_manager.__adjust_save_token_slots_positions()
 	
 func __create_landscape() -> void:
 	randomize()

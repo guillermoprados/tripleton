@@ -2,15 +2,13 @@ extends Node
 
 class_name GameManager
 
-signal gold_updated(value:int)
-signal points_added(added_points:int, total_points:int)
+signal gold_added(added_gold:int, game_gold:int)
+signal points_added(added_points:int, difficulty_points:int, game_points:int)
+signal difficulty_changed(name:String, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
 @export_category("Managers")
-@export var dinasty_manager: DinastyManager
-@export var difficulty_manager: DifficultyManager
-@export var game_ui_manager: GameUIManager
 @export var fx_manager : FxManager
 @export var combinator: Combinator
 
@@ -29,10 +27,27 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var grave_token_data: TokenData # mmmmm
 @export var to_test: TokenData # mmmmm
 
-var __save_slots:Array[SaveTokenSlot] = []
-var save_slots:Array[SaveTokenSlot]:
+var __game_points: int
+var game_points:int:
 	get:
-		return __save_slots
+		return __game_points
+
+var __game_gold: int
+var game_gold:
+	get:
+		return __game_gold
+
+var __difficulty_index : int = -1
+var __difficulties : Array[Difficulty]
+
+var __difficulty_points: int
+var difficulty_points:
+	get:
+		return __difficulty_points
+		
+var difficulty: Difficulty:
+	get:
+		return __difficulties[__difficulty_index]
 
 var __floating_token: BoardToken = null
 var floating_token: BoardToken:
@@ -45,28 +60,30 @@ var floating_token: BoardToken:
 		add_child(floating_token)
 		floating_token.z_index = Constants.FLOATING_Z_INDEX
 		floating_token.set_status(Constants.TokenStatus.FLOATING)
-
-var points: int
-var gold: int
-
-var difficulty: Difficulty:
+		
+var __save_slots:Array[SaveTokenSlot] = []
+var save_slots:Array[SaveTokenSlot]:
 	get:
-		return difficulty_manager.current_difficulty
+		return __save_slots
 
-var dinasty: Dinasty:
-	get:
-		return dinasty_manager.current_dinasty
 
 func _enter_tree() -> void:
-	assert(dinasty_manager, "cannot load dinasties")
-	assert(game_ui_manager, "please set the game ui manager")
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
 
 func _ready() -> void:
 	pass
+	
+func connect_ui() -> void:
+	pass
 
-func _on_difficulty_changed() -> void:
+## Difficulty
+func __set_difficulties(diffs:Array[Difficulty]) -> void:
+	__difficulties = diffs
+	__next_difficulty()
+	
+func __next_difficulty():
+	__difficulty_index += 1
 	var required_slots := difficulty.save_token_slots 
 	while save_slots.size() < required_slots:
 		var save_token_slot : SaveTokenSlot = save_token_slot_scene.instantiate() as SaveTokenSlot
@@ -74,10 +91,9 @@ func _on_difficulty_changed() -> void:
 		save_slots.append(save_token_slot)
 		add_child(save_token_slot)
 		save_token_slot.enabled = true
-		game_ui_manager.adjust_save_token_slots_positions(save_slots)
-
-func _on_dinasty_changed() -> void:
-	board.change_back_texture(dinasty.map_texture)
+		__adjust_save_token_slots_positions()
+	board.change_back_texture(difficulty.map_texture)
+	difficulty_changed.emit(difficulty.name, difficulty.total_points)	
 	
 func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
 	var token_instance: BoardToken = token_scene.instantiate() as BoardToken
@@ -85,12 +101,17 @@ func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenS
 	return token_instance
 
 func add_gold(value:int) -> void:
-	gold += value
-	gold_updated.emit(gold)
+	__game_gold += value
+	gold_added.emit(value, game_gold)
 	
 func add_points(value:int) -> void:
-	points += value
-	points_added.emit(value, points)
+	__game_points += value
+	__difficulty_points += value
+	if __difficulty_points >= difficulty.total_points and __difficulty_index < __difficulties.size() - 1:
+		var overflow : int = __difficulty_points - difficulty.total_points
+		__next_difficulty()
+		__difficulty_points = overflow
+	points_added.emit(value, __difficulty_points, game_points)
 
 func pick_up_floating_token() -> void:
 	floating_token = initial_token_slot.pick_token()
@@ -379,7 +400,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	
 	var is_chest_combination := initial_token.type == Constants.TokenType.CHEST
 		
-	if next_token_data.level > difficulty_manager.token_level_limit and not is_chest_combination:
+	if next_token_data.level > difficulty.max_level_token and not is_chest_combination:
 		next_token_data = difficulty.max_level_chest
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
@@ -572,3 +593,30 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 
+### Game UI Objects
+
+func __adjust_board_position() -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
+	
+	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
+	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
+
+func __adjust_initial_slot_position() -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	initial_token_slot.position.x = screen_size.x/2
+	initial_token_slot.position.y = board.position.y - (Constants.CELL_SIZE.y/2) - Constants.INITAL_TOKEN_SLOT_SEPARATION
+
+func __adjust_save_token_slots_positions() -> void:
+	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var num_of_slots := save_slots.size()
+	var slots_total_width := (Constants.CELL_SIZE.x * num_of_slots) + \
+							Constants.SAVE_SLOT_INTER_SEPARATION * (num_of_slots - 1)
+	
+	var slot_pos : Vector2
+	slot_pos.x = (screen_size.x/2) - (slots_total_width/2) + (Constants.CELL_SIZE.x / 2)
+	slot_pos.y = screen_size.y - Constants.SAVE_SLOT_BOTTOM_SEPARATION - (Constants.CELL_SIZE.y / 2)
+	for i in range(save_slots.size()):
+		save_slots[i].position = slot_pos
+		save_slots[i].z_index = Constants.TOKEN_BOX_Z_INDEX 
+		slot_pos.x += Constants.CELL_SIZE.x + Constants.SAVE_SLOT_INTER_SEPARATION

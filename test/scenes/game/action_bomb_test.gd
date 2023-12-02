@@ -34,7 +34,7 @@ func test__action_bomb_should_destroy_a_normal_token() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_bomb_should_kill_an_enemy() -> void:
 	
@@ -67,7 +67,7 @@ func test__action_bomb_should_kill_an_enemy() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 
 func test__action_bomb_on_chest_should_be_invalid() -> void:
 	
@@ -98,7 +98,7 @@ func test__action_bomb_on_chest_should_be_invalid() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)
 	
 func test__action_bomb_on_prize_should_be_invalid() -> void:
 	
@@ -158,4 +158,4 @@ func test__action_bomb_wasted_should_set_it_to_rock() -> void:
 		]
 	)
 	
-	assert_int(game_manager.points).is_equal(0)
+	assert_int(game_manager.game_points).is_equal(0)

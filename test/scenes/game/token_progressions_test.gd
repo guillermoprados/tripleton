@@ -61,16 +61,19 @@ func test__house_to_cottage() -> void:
 	await __await_combination_to_combination(IDs.HOUSE, IDs.COTEG, Constants.DifficultyLevel.MEDIUM)
 	
 func test__cottage_to_tower() -> void:
-	await __await_combination_to_combination(IDs.COTEG, IDs.TOWER, Constants.DifficultyLevel.MEDIUM)
+	await __await_combination_to_combination(IDs.COTEG, IDs.TOWER, Constants.DifficultyLevel.HARD)
 	
 func test__tower_to_chest_silver() -> void:
-	await __await_combination_to_combination(IDs.TOWER, IDs.CHE_S, Constants.DifficultyLevel.MEDIUM)
+	await __await_combination_to_combination(IDs.TOWER, IDs.CHE_S, Constants.DifficultyLevel.HARD)
 
 func test__tower_to_palace() -> void:
-	await __await_combination_to_combination(IDs.TOWER, IDs.PALAC, Constants.DifficultyLevel.HARD)
+	await __await_combination_to_combination(IDs.TOWER, IDs.PALAC, Constants.DifficultyLevel.SUPREME)
+
+func test__palace_to_chest() -> void:
+	await __await_combination_to_combination(IDs.PALAC, IDs.CHE_G, Constants.DifficultyLevel.SUPREME)
 
 func test__palace_to_fortress() -> void:
-	await __await_combination_to_combination(IDs.PALAC, IDs.FORTR, Constants.DifficultyLevel.HARD)
+	await __await_combination_to_combination(IDs.PALAC, IDs.FORTR, Constants.DifficultyLevel.LEGENDARY)
 
 ## chests
 func test__chest_bronce_to_chest_silver() -> void:

@@ -5,6 +5,7 @@ class_name Difficulty
 @export var level : Constants.DifficultyLevel
 
 @export_category("Level Config")
+@export var map_texture:CompressedTexture2D
 @export var save_token_slots: int
 @export var max_level_token: int
 @export var max_level_chest: TokenData
@@ -21,7 +22,18 @@ var __validated : bool
 
 var name:String:
 	get:
-		return str(level)
+		match(level):
+			Constants.DifficultyLevel.EASY:
+				return "Easy"
+			Constants.DifficultyLevel.MEDIUM:
+				return "Medium"
+			Constants.DifficultyLevel.HARD:
+				return "Hard"
+			Constants.DifficultyLevel.SUPREME:
+				return "Supreme"
+			Constants.DifficultyLevel.LEGENDARY:
+				return "Legendary"
+		return "wtf"
 
 func __validate()  -> void:
 	assert(common.size() > 0, name + ": common array should not be empty")
