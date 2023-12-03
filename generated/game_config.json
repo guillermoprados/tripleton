@@ -1,22 +1,25 @@
 {
-  "0_grass": {
-    "token_id": "0_grass",
-    "reward_type": "points",
-    "reward_value": 100
-  },
-  "1_bush": {
-    "token_id": "1_bush",
-    "reward_type": "points",
-    "reward_value": 200
-  },
-  "0_lamp": {
-    "token_id": "0_lamp",
-    "reward_type": "points",
-    "reward_value": 100
-  },
-  "1_gate": {
-    "token_id": "1_gate",
-    "reward_type": "points",
-    "reward_value": 200
+  "difficulties": {},
+  "tokens": {
+    "0_grass": {
+      "token_id": "0_grass",
+      "reward_type": "points",
+      "reward_value": 100
+    },
+    "1_bush": {
+      "token_id": "1_bush",
+      "reward_type": "points",
+      "reward_value": 200
+    },
+    "0_lamp": {
+      "token_id": "0_lamp",
+      "reward_type": "points",
+      "reward_value": 100
+    },
+    "1_gate": {
+      "token_id": "1_gate",
+      "reward_type": "points",
+      "reward_value": 200
+    }
   }
 }

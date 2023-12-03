@@ -39,31 +39,39 @@ def process_tokens_sheet(sheet):
 def process_difficulties_sheet(sheet):
     # Process the difficulties sheet (Modify as needed)
     result = {}
-    # Your processing logic for difficulties sheet here
+    for _, row in sheet.iterrows():
+        # Your processing logic for difficulties sheet here
+        pass
     return result
 
-def save_to_json(result, folder, filename):
+def save_to_json(output_dict, folder, filename):
     # Create the folder if it doesn't exist
     os.makedirs(folder, exist_ok=True)
     # Join the folder and filename to get the full path
     json_file_path = os.path.join(folder, filename)
-    # Convert the result dictionary to JSON and write it to a file
+    # Convert the output dictionary to JSON and write it to a file
     with open(json_file_path, 'w') as json_file:
-        json.dump(result, json_file, indent=2)
+        json.dump(output_dict, json_file, indent=2)
 
 def process_excel_file(file_path):
     # Read all sheets into a dictionary
     df_dict = pd.read_excel(file_path, sheet_name=None)
 
+    # Create a dictionary to hold the final output
+    output_dict = {}
+
     for sheet_name, sheet_data in df_dict.items():
         if sheet_name.lower() == 'tokens':
             result = process_tokens_sheet(sheet_data)
-            save_to_json(result, get_current_directory() + '/generated', 'game_config.json')
+            output_dict['tokens'] = result
         elif sheet_name.lower() == 'difficulties':
             result = process_difficulties_sheet(sheet_data)
-            save_to_json(result, get_current_directory() + '/generated', 'difficulties_values.json')
+            output_dict['difficulties'] = result
         else:
             print(f"Unsupported sheet: {sheet_name}")
+
+    # Save the final output to a JSON file
+    save_to_json(output_dict, get_current_directory() + '/generated', 'game_config.json')
 
 def main():
     current_directory = get_current_directory()
