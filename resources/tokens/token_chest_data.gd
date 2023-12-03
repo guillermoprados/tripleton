@@ -18,3 +18,12 @@ func get_random_prize() -> TokenData:
 		var random_index:int = randi() % prizes.size()
 		__current_prize_data = prizes[random_index]
 	return __current_prize_data
+
+func _to_string() -> String:
+	var info = super._to_string()
+	info +="\n [ "
+	for prize in prizes:
+		info += prize.id+" "
+	info +="]"
+	
+	return info 

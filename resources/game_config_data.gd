@@ -1,9 +1,9 @@
 extends Node
 
-class_name AllTokensData
+class_name AllTokensDatass
 
 @export var json_paths: String = "res://generated/res_tokens_data.json"
-@export var json_config: String = "res://generated/game_config.json"
+@export var json_rewards: String = "res://generated/tokens_values.json"
 
 static var tokens_data: Dictionary = {}
 
@@ -20,29 +20,23 @@ func __load_tokens_data(tokens_ids: Array) -> void:
 	var res_json_as_text: String = FileAccess.get_file_as_string(json_paths)
 	var res_tokens_as_dict: Dictionary = JSON.parse_string(res_json_as_text)
 	
-	var game_config_data_text: String = FileAccess.get_file_as_string(json_config)
-	var game_config_data_as_dict: Dictionary = JSON.parse_string(game_config_data_text)
-	
-	var tokens_dictionary : Dictionary = game_config_data_as_dict["tokens"]
-	assert(tokens_dictionary, "there are no tokens in this config file")
+	var reward_json_as_text: String = FileAccess.get_file_as_string(json_rewards)
+	var reward_tokens_as_dict: Dictionary = JSON.parse_string(reward_json_as_text)
 	
 	for token_id in tokens_ids:
-		if token_id == '': # I use this for testing.. i guess? TODO: check
+		if token_id == '':
 			continue
 		assert(res_tokens_as_dict.has(token_id), "this id is not delcared in the tokens!!")
-		assert(tokens_dictionary.has(token_id), "the id is not part of the tokens config file")
 		print("loading data for: "+token_id)
 		tokens_data[token_id] = load(res_tokens_as_dict[token_id])
-		
-		if tokens_dictionary.has(token_id):
-			update_token_data(tokens_data[token_id], tokens_dictionary[token_id])
+		if reward_tokens_as_dict.has(token_id):
+			update_token_data(tokens_data[token_id], reward_tokens_as_dict[token_id])
 		else:
 			print("nothing")
 
 func update_token_data(token_data:TokenData, reward_data:Dictionary) -> void:
-	print("----------------")
 	print("before update:")
-	print(token_data)
+	str(tokens_data)
 	
 	if token_data is TokenPrizeData:
 		if reward_data['reward_type'] == "gold":
@@ -50,8 +44,7 @@ func update_token_data(token_data:TokenData, reward_data:Dictionary) -> void:
 		else:
 			token_data.reward_type = Constants.RewardType.POINTS
 		token_data.reward_value = reward_data['reward_value']
-	
-	print("----------------")
+		
 	print("after update:")
-	print(token_data)
+	str(tokens_data)
 		

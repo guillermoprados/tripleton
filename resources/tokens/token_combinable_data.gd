@@ -10,6 +10,7 @@ func type() -> Constants.TokenType:
 func has_next_token() -> bool:
 	return next_token != null
 
+#TODO: check: do I need this level variable? :thinking:
 var level: int:
 	get:
 		assert(__starts_with_number(id), "this token needs to be set with a n_id name type")
@@ -23,3 +24,9 @@ func __starts_with_number(s: String) -> bool:
 	regex.compile("^[0-9]")
 	# Test if the string matches the pattern
 	return regex.search(s) != null
+
+func _to_string() -> String:
+	var info = super._to_string()
+	info +="\n"
+	info += "next_token: " +next_token.id
+	return info 

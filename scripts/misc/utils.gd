@@ -19,3 +19,45 @@ static func copy_array_matrix(original: Array) -> Array:
 		var row_copy: Array = row.duplicate()
 		copy.append(row_copy)
 	return copy
+
+static func token_type_as_string(type:Constants.TokenType) -> String:
+	
+	match type:
+		Constants.TokenType.NORMAL:
+			return "normal"
+		Constants.TokenType.ACTION:
+			return "action"
+		Constants.TokenType.ENEMY:
+			return "enemy"
+		Constants.TokenType.CHEST:
+			return "chest"
+		Constants.TokenType.PRIZE:
+			return "prize"
+			
+	return "Unknown"
+
+static func token_action_type_as_string(type:Constants.ActionType) -> String:
+	
+	match type:
+		Constants.ActionType.BOMB:
+			return "bomb"
+		Constants.ActionType.LEVEL_UP:
+			return "level_up"
+		Constants.ActionType.WILDCARD:
+			return "wildcard"
+		Constants.ActionType.REMOVE_ALL:
+			return "remove_all"
+		Constants.ActionType.MOVE:
+			return "move"
+			
+	return "Unknown"
+
+static func reward_type_as_string(type:Constants.RewardType) -> String:
+	match type:
+		Constants.RewardType.GOLD:
+			return "gold"
+		Constants.RewardType.POINTS:
+			return "points"
+		Constants.RewardType.NONE:
+			return "none"
+	return "unknown"
