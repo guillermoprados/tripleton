@@ -1,23 +1,50 @@
 {
-  "difficulties": {},
+  "difficulties": {
+    "easy": {
+      "total_points": 3000,
+      "save_token_slots": 1,
+      "max_level_token": 3,
+      "max_level_chest_id": "0_chest_bronze"
+    },
+    "medium": {
+      "total_points": 4000,
+      "save_token_slots": 1,
+      "max_level_token": 3,
+      "max_level_chest_id": "0_chest_bronze"
+    },
+    "hard": {
+      "total_points": 5000,
+      "save_token_slots": 2,
+      "max_level_token": 4,
+      "max_level_chest_id": "1_chest_silver"
+    },
+    "supreme": {
+      "total_points": 6000,
+      "save_token_slots": 2,
+      "max_level_token": 5,
+      "max_level_chest_id": "2_chest_gold"
+    },
+    "legendary": {
+      "total_points": 10000,
+      "save_token_slots": 3,
+      "max_level_token": 10,
+      "max_level_chest_id": "4_chest_diamond"
+    }
+  },
   "tokens": {
     "0_grass": {
-      "token_id": "0_grass",
       "reward_type": "points",
       "reward_value": 100
     },
     "1_bush": {
-      "token_id": "1_bush",
       "reward_type": "points",
       "reward_value": 200
     },
     "0_lamp": {
-      "token_id": "0_lamp",
       "reward_type": "points",
       "reward_value": 100
     },
     "1_gate": {
-      "token_id": "1_gate",
       "reward_type": "points",
       "reward_value": 200
     }

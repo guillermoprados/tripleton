@@ -18,6 +18,16 @@ def export_res_files_names():
     # Run the command
     subprocess.run(command)
 
+def convert_to_int_if_possible(value):
+    # Convert to integer if the value is a whole number
+    try:
+        float_value = float(value)
+        if float_value.is_integer():
+            return int(float_value)
+        return float_value
+    except ValueError:
+        return value
+
 def process_tokens_sheet(sheet):
     # Process the tokens sheet
     result = {}
@@ -30,18 +40,28 @@ def process_tokens_sheet(sheet):
             for prop_name, prop_value in row.items():
                 # Skip the 'token_id' column and ignore empty values
                 # Convert to integer if possible
-                try:
-                    result[token_name][prop_name] = int(float(prop_value))
-                except ValueError:
-                    result[token_name][prop_name] = prop_value
+                if prop_name.lower() != 'token_id' and pd.notna(prop_value):
+                    try:
+                        result[token_name][prop_name.lower()] = convert_to_int_if_possible(prop_value)
+                    except ValueError:
+                        result[token_name][prop_name.lower()] = prop_value
     return result
 
 def process_difficulties_sheet(sheet):
-    # Process the difficulties sheet (Modify as needed)
     result = {}
     for _, row in sheet.iterrows():
-        # Your processing logic for difficulties sheet here
-        pass
+        level_name = row['level']
+        if pd.notna(level_name):
+            if level_name.lower() not in result:
+                result[level_name.lower()] = {}
+            for prop_name, prop_value in row.items():
+                # Skip the 'level' column and ignore empty values
+                # Convert to integer if possible
+                if prop_name.lower() != 'level' and pd.notna(prop_value):
+                    try:
+                        result[level_name.lower()][prop_name.lower()] = convert_to_int_if_possible(prop_value)
+                    except ValueError:
+                        result[level_name.lower()][prop_name.lower()] = prop_value
     return result
 
 def save_to_json(output_dict, folder, filename):
