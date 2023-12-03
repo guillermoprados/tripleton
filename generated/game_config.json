@@ -1,4 +1,182 @@
 {
+  "tokens": {
+    "0_grass": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 20,
+      "next_token_id": "1_bush"
+    },
+    "1_bush": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 40,
+      "next_token_id": "2_tree"
+    },
+    "2_tree": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 150,
+      "next_token_id": "3_big_tree"
+    },
+    "3_big_tree": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 250,
+      "next_token_id": "1_chest_silver"
+    },
+    "0_lamp": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 20,
+      "next_token_id": "1_gate"
+    },
+    "1_gate": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 50,
+      "next_token_id": "2_house"
+    },
+    "2_house": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 150,
+      "next_token_id": "3_cottage"
+    },
+    "3_cottage": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 200,
+      "next_token_id": "4_tower"
+    },
+    "4_tower": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 300,
+      "next_token_id": "5_palace"
+    },
+    "5_palace": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 450,
+      "next_token_id": "6_fortress"
+    },
+    "6_fortress": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 600,
+      "next_token_id": "2_chest_gold"
+    },
+    "0_chest_bronze": {
+      "type": "chest",
+      "reward_type": "points",
+      "reward_value": 300,
+      "next_token_id": "1_chest_silver",
+      "collectable": 1
+    },
+    "1_chest_silver": {
+      "type": "chest",
+      "reward_type": "points",
+      "reward_value": 500,
+      "next_token_id": "2_chest_gold",
+      "collectable": 1
+    },
+    "2_chest_gold": {
+      "type": "chest",
+      "reward_type": "points",
+      "reward_value": 800,
+      "next_token_id": "4_chest_diamond",
+      "collectable": 1
+    },
+    "4_chest_diamond": {
+      "type": "chest",
+      "reward_type": "none",
+      "collectable": 1
+    },
+    "0_grave": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 100,
+      "next_token_id": "1_tomb"
+    },
+    "1_tomb": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 150,
+      "next_token_id": "2_shrine"
+    },
+    "2_shrine": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 400,
+      "next_token_id": "1_chest_silver"
+    },
+    "0_stone": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 50,
+      "next_token_id": "1_rock"
+    },
+    "1_rock": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 200,
+      "next_token_id": "2_statue"
+    },
+    "2_statue": {
+      "type": "normal",
+      "reward_type": "points",
+      "reward_value": 450,
+      "next_token_id": "3_gold_statue"
+    },
+    "3_gold_statue": {
+      "type": "normal",
+      "reward_type": "gold",
+      "reward_value": 10,
+      "next_token_id": "2_chest_gold"
+    },
+    "mole": {
+      "type": "enemy",
+      "reward_type": "points",
+      "reward_value": 200
+    },
+    "monokelo": {
+      "type": "enemy",
+      "reward_type": "points",
+      "reward_value": 100
+    },
+    "bomb": {
+      "type": "action",
+      "reward_type": "none"
+    },
+    "level_up": {
+      "type": "action",
+      "reward_type": "none"
+    },
+    "move": {
+      "type": "action",
+      "reward_type": "none"
+    },
+    "wildcard": {
+      "type": "action",
+      "reward_type": "none"
+    },
+    "remove_all": {
+      "type": "action",
+      "reward_type": "none"
+    },
+    "cat_white": {
+      "type": "prize",
+      "reward_type": "points",
+      "reward_value": 1000,
+      "collectable": 1
+    },
+    "cat_gold": {
+      "type": "prize",
+      "reward_type": "gold",
+      "reward_value": 10,
+      "collectable": 1
+    }
+  },
   "difficulties": {
     "easy": {
       "total_points": 3000,
@@ -94,24 +272,21 @@
       "2_house": 8,
       "mole": 3,
       "monokelo": 7
-    }
-  },
-  "tokens": {
-    "0_grass": {
-      "reward_type": "points",
-      "reward_value": 100
     },
-    "1_bush": {
-      "reward_type": "points",
-      "reward_value": 200
-    },
-    "0_lamp": {
-      "reward_type": "points",
-      "reward_value": 100
-    },
-    "1_gate": {
-      "reward_type": "points",
-      "reward_value": 200
+    "legendary": {
+      "bomb": 2,
+      "level_up": 3,
+      "move": 8,
+      "wildcard": 4,
+      "remove_all": 3,
+      "0_grass": 10,
+      "1_bush": 17,
+      "2_tree": 8,
+      "0_lamp": 10,
+      "1_gate": 17,
+      "2_house": 8,
+      "mole": 3,
+      "monokelo": 7
     }
   }
 }
