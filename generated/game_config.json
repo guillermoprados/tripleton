@@ -175,7 +175,12 @@
       "reward_type": "gold",
       "reward_value": 10,
       "collectable": 1
-    }
+    },
+    "flowers": {
+      "collectable": 1
+    },
+    "small_coins": {},
+    "flower_point": {}
   },
   "difficulties": {
     "easy": {
@@ -287,6 +292,29 @@
       "2_house": 8,
       "mole": 3,
       "monokelo": 7
+    }
+  },
+  "chest_prizes": {
+    "0_chest_bronze": {
+      "cat_white": 20,
+      "cat_gold": 40,
+      "flowers": 40
+    },
+    "1_chest_silver": {
+      "cat_gold": 20,
+      "flowers": 40,
+      "small_coins": 30,
+      "flower_point": 10
+    },
+    "2_chest_gold": {
+      "flowers": 50,
+      "small_coins": 30,
+      "flower_point": 20
+    },
+    "4_chest_diamond": {
+      "flowers": 20,
+      "small_coins": 20,
+      "flower_point": 55
     }
   },
   "file_info": {

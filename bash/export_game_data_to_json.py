@@ -103,6 +103,31 @@ def process_file_info_sheet(sheet):
 
     return result
 
+def process_chest_prizes_sheet(sheet):
+    result = {}
+
+    # Exclude the 'total' row
+    sheet = sheet.iloc[:-1]
+
+    # Use the first column as the key (probs/chest)
+    key_column = sheet.columns[0]
+
+    # Iterate over each column (except the first one)
+    for column_name in sheet.columns[1:]:
+        result[column_name.lower()] = {}
+
+        # Iterate over each row
+        for _, row in sheet.iterrows():
+            key_value = str(row[key_column]).lower()
+            probability = convert_to_int_if_possible(row[column_name])
+
+            # Ignore rows where probability is 0
+            if probability != 0:
+                result[column_name.lower()][key_value] = probability
+
+    return result
+
+
 def save_to_json(output_dict, folder, filename):
     # Create the folder if it doesn't exist
     os.makedirs(folder, exist_ok=True)
@@ -129,6 +154,9 @@ def process_excel_file(file_path):
         elif sheet_name.lower() == 'spawn_probabilities':
             result = process_spawn_probabilities_sheet(sheet_data)
             output_dict['spawn_probabilities'] = result
+        elif sheet_name.lower() == 'chest_prizes':
+            result = process_chest_prizes_sheet(sheet_data)
+            output_dict['chest_prizes'] = result
         elif sheet_name.lower() == 'file_info':
             result = process_file_info_sheet(sheet_data)
             output_dict['file_info'] = result
