@@ -31,6 +31,71 @@
       "max_level_chest_id": "4_chest_diamond"
     }
   },
+  "spawn_probabilities": {
+    "landscape": {
+      "0_grass": 20,
+      "1_bush": 20,
+      "2_tree": 10,
+      "0_grave": 10,
+      "0_lamp": 20,
+      "1_gate": 20
+    },
+    "easy": {
+      "bomb": 3,
+      "move": 5,
+      "wildcard": 5,
+      "remove_all": 2,
+      "0_grass": 25,
+      "1_bush": 10,
+      "2_tree": 5,
+      "0_lamp": 25,
+      "1_gate": 10,
+      "monokelo": 10
+    },
+    "medium": {
+      "bomb": 2,
+      "level_up": 2,
+      "move": 5,
+      "wildcard": 5,
+      "remove_all": 1,
+      "0_grass": 20,
+      "1_bush": 15,
+      "2_tree": 5,
+      "0_lamp": 20,
+      "1_gate": 10,
+      "2_house": 5,
+      "monokelo": 10
+    },
+    "hard": {
+      "bomb": 2,
+      "level_up": 2,
+      "move": 7,
+      "wildcard": 4,
+      "remove_all": 1,
+      "0_grass": 17,
+      "1_bush": 11,
+      "2_tree": 6,
+      "0_lamp": 17,
+      "1_gate": 12,
+      "2_house": 6,
+      "monokelo": 15
+    },
+    "supreme": {
+      "bomb": 2,
+      "level_up": 3,
+      "move": 6,
+      "wildcard": 4,
+      "remove_all": 1,
+      "0_grass": 17,
+      "1_bush": 12,
+      "2_tree": 8,
+      "0_lamp": 17,
+      "1_gate": 12,
+      "2_house": 8,
+      "mole": 3,
+      "monokelo": 7
+    }
+  },
   "tokens": {
     "0_grass": {
       "reward_type": "points",

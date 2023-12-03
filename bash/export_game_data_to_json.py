@@ -64,6 +64,30 @@ def process_difficulties_sheet(sheet):
                         result[level_name.lower()][prop_name.lower()] = prop_value
     return result
 
+def process_spawn_probabilities_sheet(sheet):
+    result = {}
+    
+    # Exclude the 'total' row
+    sheet = sheet.iloc[:-1]
+    
+    # Use the first column as token_id/level
+    token_id_column = sheet.columns[0]
+    
+    # Iterate over each column (except the first one)
+    for column_name in sheet.columns[1:]:
+        result[column_name.lower()] = {}
+        
+        # Iterate over each row
+        for _, row in sheet.iterrows():
+            token_id = str(row[token_id_column]).lower()
+            probability = convert_to_int_if_possible(row[column_name])
+            
+            # Ignore rows where probability is 0
+            if probability != 0:
+                result[column_name.lower()][token_id] = probability
+    
+    return result
+
 def save_to_json(output_dict, folder, filename):
     # Create the folder if it doesn't exist
     os.makedirs(folder, exist_ok=True)
@@ -87,6 +111,9 @@ def process_excel_file(file_path):
         elif sheet_name.lower() == 'difficulties':
             result = process_difficulties_sheet(sheet_data)
             output_dict['difficulties'] = result
+        elif sheet_name.lower() == 'spawn_probabilities':
+            result = process_spawn_probabilities_sheet(sheet_data)
+            output_dict['spawn_probabilities'] = result
         else:
             print(f"Unsupported sheet: {sheet_name}")
 
@@ -97,7 +124,7 @@ def main():
     current_directory = get_current_directory()
     print("Current Working Directory:", current_directory)
 
-    print("Exporting Tokens and Difficulties values")
+    print("Exporting game config")
     excel_file_path = current_directory + '/game_design/game_config.xlsx'
 
     if check_file_existence(excel_file_path):
