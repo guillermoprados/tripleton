@@ -88,6 +88,21 @@ def process_spawn_probabilities_sheet(sheet):
     
     return result
 
+def process_file_info_sheet(sheet):
+    result = {}
+
+    # Iterate over each row
+    for _, row in sheet.iterrows():
+        prop_name = row.iloc[0]  # Use the first column as the property name
+        prop_value = row.iloc[1]  # Use the second column as the property value
+
+        # Skip rows with empty or NaN property names or values
+        if pd.notna(prop_name) and pd.notna(prop_value):
+            # Use the property value directly without attempting to convert to int
+            result[str(prop_name).lower()] = prop_value
+
+    return result
+
 def save_to_json(output_dict, folder, filename):
     # Create the folder if it doesn't exist
     os.makedirs(folder, exist_ok=True)
@@ -114,6 +129,9 @@ def process_excel_file(file_path):
         elif sheet_name.lower() == 'spawn_probabilities':
             result = process_spawn_probabilities_sheet(sheet_data)
             output_dict['spawn_probabilities'] = result
+        elif sheet_name.lower() == 'file_info':
+            result = process_file_info_sheet(sheet_data)
+            output_dict['file_info'] = result
         else:
             print(f"Unsupported sheet: {sheet_name}")
 

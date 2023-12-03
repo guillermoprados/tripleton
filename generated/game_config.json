@@ -288,5 +288,8 @@
       "mole": 3,
       "monokelo": 7
     }
+  },
+  "file_info": {
+    "config_file_version_test": "0.0.2"
   }
 }
