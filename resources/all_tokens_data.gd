@@ -31,7 +31,7 @@ func __load_tokens_data(tokens_ids: Array) -> void:
 			continue
 		assert(res_tokens_as_dict.has(token_id), "this id is not delcared in the tokens!!")
 		assert(tokens_dictionary.has(token_id), "the id is not part of the tokens config file")
-		print("loading data for: "+token_id)
+		print(">> loading data for: "+token_id)
 		tokens_data[token_id] = load(res_tokens_as_dict[token_id])
 		
 		if tokens_dictionary.has(token_id):
@@ -40,8 +40,8 @@ func __load_tokens_data(tokens_ids: Array) -> void:
 			print("nothing")
 
 func update_token_data(token_data:TokenData, reward_data:Dictionary) -> void:
-	print("----------------")
-	print("before update:")
+	
+	print("- before update:")
 	print(token_data)
 	
 	if token_data is TokenPrizeData:
@@ -51,7 +51,7 @@ func update_token_data(token_data:TokenData, reward_data:Dictionary) -> void:
 			token_data.reward_type = Constants.RewardType.POINTS
 		token_data.reward_value = reward_data['reward_value']
 	
-	print("----------------")
-	print("after update:")
+	print("~~~-- ")
+	print("- after update:")
 	print(token_data)
-		
+	print("----------------")
