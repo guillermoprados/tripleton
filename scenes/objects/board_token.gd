@@ -9,7 +9,7 @@ class_name BoardToken
 @export var color_semi_transparent : Color = Color(1, 1, 1, 0.5)
 
 @export var tweener:TokenTweener
-@export var all_tokens_data: AllTokensData
+@export var all_tokens_data: GameConfigData
 
 var sprite_holder:TokenSpriteHolder
 

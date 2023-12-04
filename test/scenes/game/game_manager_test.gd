@@ -5,8 +5,9 @@ extends GdUnitTestSuite
 @warning_ignore('return_value_discarded')
 
 # TestSuite generated from
+var __game_config_data: GameConfigData
 const __source = 'res://scenes/game/gameplay.tscn'
-var __all_token_data: AllTokensData
+var __test_config_file := "res://test/scenes/config/game_config_test.json"
 
 var runner : GdUnitSceneRunner
 var game_manager: GameManager
@@ -57,14 +58,15 @@ const IDs = {
 var points_per_id : Dictionary = {}
 
 func before() -> void:
-	__all_token_data = auto_free(AllTokensData.new())
-	__all_token_data.__load_tokens_data(IDs.values())
+	__game_config_data = auto_free(GameConfigData.new())
+	__game_config_data.json_config_file = __test_config_file
+	__game_config_data.__load_tokens_data(IDs.values())
 	var keys := IDs.keys()
 	for key in keys:
 		var token_id : String = IDs[key]
 		if token_id == IDs.EMPTY:
 			continue
-		var data := __all_token_data.get_token_data_by_id(token_id)
+		var data := __game_config_data.get_token_data_by_id(token_id)
 		if data is TokenPrizeData:
 			points_per_id[token_id] = data.reward_value
 
@@ -126,7 +128,7 @@ func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 	await __async_await_for_property(game_manager.initial_token_slot, "token", null, property_is_not_equal, 2)
 	
 	if token_id and token_id != IDs.EMPTY:
-		var token_data := __all_token_data.get_token_data_by_id(token_id)
+		var token_data := __game_config_data.get_token_data_by_id(token_id)
 		game_manager.initial_token_slot.discard_token()
 		game_manager.initial_token_slot.spawn_token(token_data.id)
 	
@@ -178,7 +180,7 @@ func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
 		for col in range(columns):
 			var id :String = landscape[row][col]
 			if id != IDs.EMPTY:
-				var token_data:TokenData = __all_token_data.get_token_data_by_id(id)
+				var token_data:TokenData = __game_config_data.get_token_data_by_id(id)
 				var token := game_manager.instantiate_new_token(token_data.id, Constants.TokenStatus.PLACED)
 				board.set_token_at_cell(token, Vector2(row, col))
  
