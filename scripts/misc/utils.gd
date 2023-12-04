@@ -61,3 +61,14 @@ static func reward_type_as_string(type:Constants.RewardType) -> String:
 		Constants.RewardType.NONE:
 			return "none"
 	return "unknown"
+
+static func reward_type_from_string(type:String) -> Constants.RewardType:
+	match type:
+		"gold":
+			return Constants.RewardType.GOLD
+		"points":
+			return Constants.RewardType.POINTS
+		"none":
+			return Constants.RewardType.NONE
+	assert(false, "type "+type+" not found")
+	return Constants.RewardType.NONE

@@ -2,10 +2,21 @@ extends TokenData
 
 class_name TokenPrizeData
 
-@export var reward_type: Constants.RewardType
-@export var reward_value: int = 0
-@export var collectable: bool = false
-
+var __reward_type:Constants.RewardType
+var reward_type: Constants.RewardType:
+	get:
+		return __reward_type
+		
+var __reward_value:int
+var reward_value: int:
+	get:
+		return __reward_value
+		
+var __collectable:bool
+var is_collectable: bool:
+	get:
+		return __collectable
+	
 func type() -> Constants.TokenType:
 	return Constants.TokenType.PRIZE
 
@@ -14,6 +25,6 @@ func _to_string() -> String:
 	info +="\n"
 	info += "reward_type: " + Utils.reward_type_as_string(reward_type) + "\n"
 	info += "reward_value: " + str(reward_value) + "\n"
-	info += "collectable: " + str(collectable)
+	info += "collectable: " + str(is_collectable)
 	return info 
 

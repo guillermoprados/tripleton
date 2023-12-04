@@ -4,7 +4,7 @@ extends GameManagerTest
 @warning_ignore('unused_parameter')
 @warning_ignore('return_value_discarded')
 
-func test__when_creating_a_chest_token_it_should_configure_it_config_data() -> void:
+func test__when_loading_a_chest_token_it_should_configure_it_config_data() -> void:
 	
 	await __set_to_player_state(IDs.CHE_B)
 	
@@ -13,9 +13,35 @@ func test__when_creating_a_chest_token_it_should_configure_it_config_data() -> v
 	assert_bool(is_chest).is_true()
 	
 	var chest_token_data := token_data as TokenChestData
-	var config_chest_prizes : Dictionary = __game_config_data.get_chest_prizes_data(IDs.CHE_B)
+	var config_chest_prizes : Dictionary = __game_config_data.get_chest_prizes_config_data(IDs.CHE_B)
 	
 	assert_dict(chest_token_data.prizes).is_same(config_chest_prizes)
 	
+func test__when_loading_a_combinable_token_it_should_configure_it_config_data() -> void:
 	
+	await __set_to_player_state(IDs.BUSHH)
+	
+	var token_data := game_manager.initial_token_slot.token.data
+	var is_combinable = token_data is TokenCombinableData
+	assert_bool(is_combinable).is_true()
+	
+	var config_token_data : Dictionary = __game_config_data.get_token_config_data(IDs.BUSHH)
+	var combinable_data := token_data as TokenCombinableData
+	var prize_data := token_data as TokenPrizeData
+	
+	assert_str(combinable_data.next_token_id).is_equal(config_token_data["next_token_id"])
+	assert_str(Utils.reward_type_as_string(prize_data.reward_type)).is_equal(config_token_data["reward_type"])
+	assert_int(prize_data.reward_value).is_equal(config_token_data["reward_value"])
+	
+func test__when_loading_a_collectable_tokens_it_should_configure_it_config_data() -> void:
+	
+	await __set_to_player_state(IDs.CHE_B)
+	
+	var token_data := game_manager.initial_token_slot.token.data
+	var is_combinable = token_data is TokenCombinableData
+	assert_bool(is_combinable).is_true()
+	
+	var config_token_data : Dictionary = __game_config_data.get_token_config_data(IDs.CHE_B)
+	
+	assert_int(int(token_data.is_collectable)).is_equal(config_token_data["collectable"])
 	

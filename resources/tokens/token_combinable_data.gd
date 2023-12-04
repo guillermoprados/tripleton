@@ -2,7 +2,10 @@ extends TokenPrizeData
 
 class_name TokenCombinableData
 
-var next_token_id: String
+var __next_token_id: String
+var next_token_id: String:
+	get:
+		return __next_token_id
 
 func type() -> Constants.TokenType:
 	return Constants.TokenType.NORMAL

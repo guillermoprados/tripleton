@@ -51,9 +51,25 @@ func fulfill_token_data(token_data:TokenData) -> void:
 	
 	#print("- before update:")
 	#print(tokens_data[token_id])
+	var token_id:String = token_data.id
+	
+	var config_token_data : Dictionary = get_token_config_data(token_id)
+	
+	if token_data is TokenCombinableData:
+		if config_token_data.has("next_token_id"):
+			token_data.__next_token_id = config_token_data["next_token_id"]
+	
+	if token_data is TokenPrizeData:
+		if config_token_data.has("reward_type"):
+			token_data.__reward_type = Utils.reward_type_from_string(config_token_data["reward_type"])
+		if config_token_data.has("reward_value"):
+			token_data.__reward_value = config_token_data["reward_value"]
+		if config_token_data.has("collectable"):
+			token_data.__collectable = bool(config_token_data["collectable"])
 	
 	if token_data is TokenChestData:
-		token_data.__prizes = get_chest_prizes_data(token_data.id)
+		token_data.__prizes = get_chest_prizes_config_data(token_id)
+	
 	#if token_data is TokenPrizeData:
 	#	if reward_data['reward_type'] == "gold":
 	#		token_data.reward_type = Constants.RewardType.GOLD
@@ -67,8 +83,14 @@ func fulfill_token_data(token_data:TokenData) -> void:
 	print("----------------")
 	
 
-func get_chest_prizes_data(chest_id:String) -> Dictionary:
+func get_chest_prizes_config_data(chest_id:String) -> Dictionary:
 	var config_chests : Dictionary = game_config_data[Constants.CONFIG_CHEST_PRIZES]
 	var config_chest_prizes = config_chests[chest_id]
 	assert(config_chest_prizes, "cannot get prizes for id "+chest_id)
 	return config_chest_prizes
+
+func get_token_config_data(token_id:String) -> Dictionary:
+	var config_tokens : Dictionary = game_config_data[Constants.CONFIG_TOKENS]
+	var config_token_data = config_tokens[token_id]
+	assert(config_token_data, "cannot get config token data  "+token_id)
+	return config_token_data
