@@ -5,25 +5,44 @@ class_name TokenChestData
 func type() -> Constants.TokenType:
 	return Constants.TokenType.CHEST
 
-@export var prizes: Array[TokenData]
+var __prizes: Dictionary
+var prizes: Dictionary:
+	get: 
+		return __prizes
 
-# we only calculate the value of the prize once, 
-# so we can compare it on tests when we call it again
-var __current_prize_data:TokenData
+var __current_prize_id:String
 
-func get_random_prize() -> TokenData:
-	assert(prizes.size() > 0, "This chest is empty")
-	if not __current_prize_data:
+# we only calculate the prize once (which makes testing easier)
+func get_random_prize_id() -> String:
+	assert(prizes.keys().size() > 0, "This chest is empty")
+	var random_prize_id = ''
+	if __current_prize_id == '':
 		randomize()
-		var random_index:int = randi() % prizes.size()
-		__current_prize_data = prizes[random_index]
-	return __current_prize_data
+		var total_probability = 0
+		# Calculate the total probability
+		for probability in prizes.values():
+			total_probability += probability
+
+		# Generate a random value within the total probability range
+		var random_value = randi() % total_probability
+
+		# Iterate through the objects and find the selected one
+		var current_probability = 0
+		for prize_id in prizes.keys():
+			current_probability += prizes[prize_id]
+			if random_value < current_probability:
+				random_prize_id = prize_id
+				break
+
+	assert(random_prize_id != '', "you should not be here")
+	return random_prize_id
 
 func _to_string() -> String:
 	var info = super._to_string()
 	info +="\n [ "
-	for prize in prizes:
-		info += prize.id+" "
+	for prize in prizes.keys():
+		info += prize+" "
 	info +="]"
 	
 	return info 
+	

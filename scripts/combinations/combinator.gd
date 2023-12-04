@@ -60,7 +60,7 @@ static func __evaluate_combination(initial_token: TokenData, combination: Combin
 			combination_level.valid_combination_cells.clear()
 			break
 		
-		evaluating_token = evaluating_token.next_token
+		evaluating_token = evaluating_token
 			
 	# if I want to evaluate chests for prize levels I have to do it here as well
 

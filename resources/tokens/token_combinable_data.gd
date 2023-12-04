@@ -2,13 +2,13 @@ extends TokenPrizeData
 
 class_name TokenCombinableData
 
-@export var next_token: TokenData
+var next_token_id: String
 
 func type() -> Constants.TokenType:
 	return Constants.TokenType.NORMAL
 
 func has_next_token() -> bool:
-	return next_token != null
+	return next_token_id != ''
 
 #TODO: check: do I need this level variable? :thinking:
 var level: int:
@@ -28,5 +28,5 @@ func __starts_with_number(s: String) -> bool:
 func _to_string() -> String:
 	var info = super._to_string()
 	info +="\n"
-	info += "next_token: " +next_token.id
+	info += "next_token: " +next_token_id
 	return info 

@@ -248,7 +248,7 @@ func __await_token_id_at_cell(token_id: String, at_cell:Vector2) -> void:
 
 func __get_chest_prize_id_at_cell(cell_index:Vector2) -> String:
 	var chest_data: TokenChestData = board.get_token_at_cell(cell_index).data
-	var prize_id := chest_data.get_random_prize().id
+	var prize_id := chest_data.get_random_prize_id()
 	return prize_id
 
 func __set_to_last_difficulty()->void:

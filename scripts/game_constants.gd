@@ -2,6 +2,11 @@ extends Node
 
 class_name  Constants
 
+const CONFIG_TOKENS = 'tokens'
+const CONFIG_DIFFICULTIES = 'difficulties'
+const CONFIG_PAWN_PROBS = 'spawn_probabilities'
+const CONFIG_CHEST_PRIZES = 'chest_prizes'
+
 enum DifficultyLevel {
 	EASY,
 	MEDIUM,
