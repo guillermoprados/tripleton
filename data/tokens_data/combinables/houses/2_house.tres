@@ -5,7 +5,4 @@
 
 [resource]
 script = ExtResource("2_w2j4i")
-reward_type = 2
-reward_value = 100
-collectable = null
 sprite_scene = ExtResource("3_7bm70")

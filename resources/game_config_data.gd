@@ -2,12 +2,15 @@ extends Node
 
 class_name GameConfigData
 
-@export var json_paths_file: String = "res://generated/res_tokens_data.json"
-@export var json_config_file: String = "res://generated/game_config.json"
+var json_paths_file: String = "res://generated/res_tokens_data.json"
+var json_config_file: String = "res://generated/game_config.json"
 
-static var tokens_data: Dictionary = {}
-
-var __game_config_data:Dictionary
+static var __tokens_data: Dictionary = {}
+var tokens_data:Dictionary:
+	get:
+		return __tokens_data
+		
+static var __game_config_data:Dictionary
 var game_config_data:Dictionary:
 	get:
 		if not __game_config_data:
@@ -15,7 +18,7 @@ var game_config_data:Dictionary:
 			__game_config_data = JSON.parse_string(game_config_data_text)
 		return __game_config_data
 		
-var __game_resources_data:Dictionary
+static var __game_resources_data:Dictionary
 var game_resources_data:Dictionary:
 	get:
 		if not __game_resources_data:
@@ -25,10 +28,10 @@ var game_resources_data:Dictionary:
 
 func get_token_data_by_id(token_id: String) -> TokenData:
 	# Retrieve the TokenData using the provided token_id
-	if not tokens_data.has(token_id):
+	if not __tokens_data.has(token_id):
 		__load_tokens_data([token_id])
 	
-	assert(tokens_data[token_id], "Cannot load that token id")
+	assert(tokens_data[token_id], "Cannot load that token id ("+token_id+")")
 	return tokens_data[token_id]
 
 func __load_tokens_data(tokens_ids: Array) -> void:
@@ -39,7 +42,7 @@ func __load_tokens_data(tokens_ids: Array) -> void:
 	for token_id in tokens_ids:
 		if token_id == '': # I use this for testing.. i guess? TODO: check
 			continue
-		assert(game_resources_data.has(token_id), "this id is not delcared in the tokens!!")
+		assert(game_resources_data.has(token_id), "this id: "+token_id+" is not delcared in the tokens!!")
 		assert(tokens_dictionary.has(token_id), "the id is not part of the tokens config file")
 		print(">> loading data for: "+token_id)
 		tokens_data[token_id] = load(game_resources_data[token_id])

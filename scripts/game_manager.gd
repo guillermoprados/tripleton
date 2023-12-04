@@ -8,6 +8,8 @@ signal difficulty_changed(name:String, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
+@export var game_config_data: GameConfigData
+
 @export_category("Managers")
 @export var fx_manager : FxManager
 @export var combinator: Combinator
@@ -233,7 +235,7 @@ func __process_chest_or_prize_selection(cell_index:Vector2) -> bool:
 		if cell_token.type == Constants.TokenType.CHEST:
 			__open_chest(cell_token, cell_index)
 			picked_action = true
-		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
+		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).is_collectable:
 			__collect_reward(cell_token, cell_index)
 			picked_action = true
 		
@@ -392,10 +394,13 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	var initial_token:BoardToken = board.get_token_at_cell(combination.initial_cell())
 	var initial_token_data:TokenCombinableData = initial_token.data
 	
-	var next_token_data:TokenCombinableData = initial_token_data.next_token
+	var next_token_id := initial_token_data.next_token_id
+	var next_token_data:TokenCombinableData = game_config_data.get_token_data_by_id(next_token_id)
 	
+	# go to the last level
 	for i in range(combination.last_level_reached):
-		next_token_data = next_token_data.next_token
+		next_token_id = next_token_data.next_token_id
+		next_token_data = game_config_data.get_token_data_by_id(next_token_id)
 	
 	var is_chest_combination := initial_token.type == Constants.TokenType.CHEST
 		
@@ -432,7 +437,8 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 func __open_chest(token:BoardToken, cell_index: Vector2) -> void:
 	#remove the chest
 	var chest_data: TokenChestData = token.data
-	var prize_data:TokenPrizeData = chest_data.get_random_prize()
+	var random_prize_id = chest_data.get_random_prize_id()
+	var prize_data:TokenPrizeData = game_config_data.get_token_data_by_id(random_prize_id)
 	var prize_instance:BoardToken = instantiate_new_token(prize_data.id, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(prize_instance, cell_index)
 	
@@ -488,7 +494,7 @@ func on_save_token_slot_selected(index:int) -> void:
 ## Enemies
 func set_dead_enemy(cell_index:Vector2) -> void:
 	var enemy_token: BoardToken = board.get_token_at_cell(cell_index)
-	var grave_token:BoardToken = instantiate_new_token(enemy_token.data.next_token.id, Constants.TokenStatus.PLACED)
+	var grave_token:BoardToken = instantiate_new_token(enemy_token.data.next_token_id, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(grave_token, cell_index)
 
 func check_enclosed_enemies_and_kill_them() -> void:
@@ -523,17 +529,14 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
 	
 	board.clear_token(cell_index)
-	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token.id, Constants.TokenStatus.PLACED)
+	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token_id, Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 	
 func __remove_all_type_action(cell_index:Vector2) -> void:
 	var token:BoardToken = board.get_token_at_cell(cell_index)
-	assert(token.data is TokenCombinableData, "This token type cannot be leveled")
 	var token_data: TokenCombinableData = token.data as TokenCombinableData
-	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
-	
 	var affected_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
 	for cell in affected_cells:
 		if token.type == Constants.TokenType.ENEMY:

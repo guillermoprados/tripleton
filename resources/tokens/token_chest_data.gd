@@ -24,7 +24,7 @@ func get_random_prize_id() -> String:
 			total_probability += probability
 
 		# Generate a random value within the total probability range
-		var random_value = randi() % total_probability
+		var random_value = randi() % int(total_probability)
 
 		# Iterate through the objects and find the selected one
 		var current_probability = 0

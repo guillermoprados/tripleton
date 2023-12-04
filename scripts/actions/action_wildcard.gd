@@ -10,6 +10,9 @@ var __last_position_evaluated: Vector2 = Constants.INVALID_CELL
 var __to_place_token_data: TokenData
 var __to_place_token:BoardToken
 
+func _ready():
+	combinator.game_config_data = __token.all_tokens_data
+	
 func get_type() -> Constants.ActionType:
 	return Constants.ActionType.WILDCARD
 

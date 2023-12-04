@@ -1,6 +1,7 @@
-[gd_scene load_steps=38 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=39 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
+[ext_resource type="Script" path="res://resources/game_config_data.gd" id="1_vxlqp"]
 [ext_resource type="PackedScene" uid="uid://jr6kks18p32p" path="res://scenes/objects/board.tscn" id="2_7sxhf"]
 [ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_08wbk"]
 [ext_resource type="PackedScene" uid="uid://c1x5lrnrq51io" path="res://scenes/objects/save_token_slot.tscn" id="4_cm6t5"]
@@ -41,8 +42,12 @@
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
+[node name="GameConfigData" type="Node" parent="."]
+script = ExtResource("1_vxlqp")
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("game_config_data", "fx_manager", "combinator", "board", "gameplay_ui", "initial_token_slot")]
 script = ExtResource("1_noepw")
+game_config_data = NodePath("../GameConfigData")
 fx_manager = NodePath("../FxManager")
 combinator = NodePath("../Combinator")
 token_scene = ExtResource("2_08wbk")
@@ -55,8 +60,9 @@ bad_token_data = ExtResource("6_ydrqi")
 grave_token_data = ExtResource("7_ik1pu")
 to_test = ExtResource("8_f4qkx")
 
-[node name="Combinator" type="Node" parent="."]
+[node name="Combinator" type="Node" parent="." node_paths=PackedStringArray("game_config_data")]
 script = ExtResource("10_dfvt2")
+game_config_data = NodePath("../GameConfigData")
 
 [node name="Board" parent="." instance=ExtResource("2_7sxhf")]
 position = Vector2(72, 713)
