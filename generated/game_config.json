@@ -2,7 +2,7 @@
   "tokens": {
     "0_grass": {
       "reward_type": "points",
-      "reward_value": 20,
+      "reward_value": 30,
       "next_token_id": "1_bush"
     },
     "1_bush": {
