@@ -39,7 +39,7 @@ func __load_tokens_data(tokens_ids: Array) -> void:
 	var tokens_dictionary : Dictionary = game_config_data[Constants.CONFIG_TOKENS]
 	assert(tokens_dictionary, "there are no tokens in this config file")
 	
-	for token_id in tokens_ids:
+	for token_id:String in tokens_ids:
 		if token_id == '': # I use this for testing.. i guess? TODO: check
 			continue
 		assert(game_resources_data.has(token_id), "this id: "+token_id+" is not delcared in the tokens!!")
@@ -88,12 +88,12 @@ func fulfill_token_data(token_data:TokenData) -> void:
 
 func get_chest_prizes_config_data(chest_id:String) -> Dictionary:
 	var config_chests : Dictionary = game_config_data[Constants.CONFIG_CHEST_PRIZES]
-	var config_chest_prizes = config_chests[chest_id]
+	var config_chest_prizes:Dictionary = config_chests[chest_id]
 	assert(config_chest_prizes, "cannot get prizes for id "+chest_id)
 	return config_chest_prizes
 
 func get_token_config_data(token_id:String) -> Dictionary:
 	var config_tokens : Dictionary = game_config_data[Constants.CONFIG_TOKENS]
-	var config_token_data = config_tokens[token_id]
+	var config_token_data : Dictionary = config_tokens[token_id]
 	assert(config_token_data, "cannot get config token data  "+token_id)
 	return config_token_data

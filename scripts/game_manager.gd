@@ -35,7 +35,7 @@ var game_points:int:
 		return __game_points
 
 var __game_gold: int
-var game_gold:
+var game_gold:int:
 	get:
 		return __game_gold
 
@@ -43,7 +43,7 @@ var __difficulty_index : int = -1
 var __difficulties : Array[Difficulty]
 
 var __difficulty_points: int
-var difficulty_points:
+var difficulty_points:int:
 	get:
 		return __difficulty_points
 		
@@ -84,7 +84,7 @@ func __set_difficulties(diffs:Array[Difficulty]) -> void:
 	__difficulties = diffs
 	__next_difficulty()
 	
-func __next_difficulty():
+func __next_difficulty() -> void:
 	__difficulty_index += 1
 	var required_slots := difficulty.save_token_slots 
 	while save_slots.size() < required_slots:
@@ -340,7 +340,7 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 	
 	var merged_cells : Array = []
 	
-	for cell_index in cells:
+	for cell_index:Vector2 in cells:
 	
 		# multiple cells can be part of the same combination, so we don't want 
 		# to merge them again
@@ -370,7 +370,7 @@ func __get_last_created_token_position(cells: Array) -> Vector2:
 	var last_token := board.get_token_at_cell(last_created_position)
 	var last_created_time: float = last_token.created_at
 
-	for cell_index in cells:
+	for cell_index:Vector2 in cells:
 		var current_token := board.get_token_at_cell(cell_index)
 		var current_created_time := current_token.created_at
 
@@ -411,7 +411,7 @@ func combine_tokens(combination: Combination) -> BoardToken:
 
 	var awarded_points:int = 0	
 	
-	for cell_index in combination.combinable_cells:
+	for cell_index:Vector2 in combination.combinable_cells:
 		var token:BoardToken = board.get_token_at_cell(cell_index)
 		if token.data.reward_type == Constants.RewardType.GOLD:
 			assert("Please do not reward with gold in combinations")
@@ -437,7 +437,7 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 func __open_chest(token:BoardToken, cell_index: Vector2) -> void:
 	#remove the chest
 	var chest_data: TokenChestData = token.data
-	var random_prize_id = chest_data.get_random_prize_id()
+	var random_prize_id:String = chest_data.get_random_prize_id()
 	var prize_data:TokenPrizeData = game_config_data.get_token_data_by_id(random_prize_id)
 	var prize_instance:BoardToken = instantiate_new_token(prize_data.id, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(prize_instance, cell_index)
@@ -576,7 +576,7 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	var move_time:float = 0.2
 	move_token_in_board(move_token_origin, to, move_time, 0)
 	
-	for cell in move_token_action_callables.keys():
+	for cell:Vector2 in move_token_action_callables.keys():
 		board.get_cell_at_position(cell).cell_selected.disconnect(move_token_action_callables[cell])
 	move_token_action_callables.clear()
 	

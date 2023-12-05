@@ -29,7 +29,7 @@ func __starts_with_number(s: String) -> bool:
 	return regex.search(s) != null
 
 func _to_string() -> String:
-	var info = super._to_string()
+	var info := super._to_string()
 	info +="\n"
 	info += "next_token: " +next_token_id
 	return info 

@@ -11,7 +11,7 @@ func floor_type() -> Constants.FloorType:
 @export var enemy_type : Constants.EnemyType
 
 func _to_string() -> String:
-	var info = super._to_string()
+	var info := super._to_string()
 	info +="\n"
 	info += "enemy_type:" + "TODO"
 	return info 
