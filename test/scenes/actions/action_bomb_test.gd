@@ -148,7 +148,7 @@ func test__action_bomb_wasted_should_set_it_to_rock() -> void:
 	
 	assert_bool(board.enabled_interaction).is_false()
 	assert_object(game_manager.floating_token).is_null()
-	
+	 
 	assert_array(board.cell_tokens_ids).contains_same_exactly(
 		[
 			[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],

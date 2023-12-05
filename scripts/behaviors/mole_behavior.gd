@@ -3,7 +3,7 @@ extends TokenBehavior
 class_name MoleBehavior
 
 func __execute_behavior(current_cell:Vector2, cell_tokens_ids: Array) -> void:
-		var available_cells = __find_available_movements(current_cell, cell_tokens_ids)
+		var available_cells := __find_available_movements(current_cell, cell_tokens_ids)
 		var next_empty_cell : Vector2 = __select_next_move_cell(available_cells) 
 		if next_empty_cell != Constants.INVALID_CELL:
 			move_from_cell_to_cell.emit(current_cell, next_empty_cell, 0, 0)

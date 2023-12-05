@@ -494,7 +494,7 @@ func on_save_token_slot_selected(index:int) -> void:
 ## Enemies
 func set_dead_enemy(cell_index:Vector2) -> void:
 	var enemy_token: BoardToken = board.get_token_at_cell(cell_index)
-	var grave_token:BoardToken = instantiate_new_token(enemy_token.data.next_token_id, Constants.TokenStatus.PLACED)
+	var grave_token:BoardToken = instantiate_new_token(grave_token_data.id, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(grave_token, cell_index)
 
 func check_enclosed_enemies_and_kill_them() -> void:

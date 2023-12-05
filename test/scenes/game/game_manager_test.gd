@@ -186,7 +186,7 @@ func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
  
 func __paralized_enemies(paralized:bool) -> void:
 	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-	for key:String in enemies:
+	for key:Vector2 in enemies:
 		enemies[key].behavior.paralize = paralized
 
 func __await_assert_floating_token_is_boxed() -> void:
