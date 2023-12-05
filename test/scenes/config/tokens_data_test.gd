@@ -9,7 +9,7 @@ func test__when_loading_a_chest_token_it_should_configure_it_config_data() -> vo
 	await __set_to_player_state(IDs.CHE_B)
 	
 	var token_data := game_manager.initial_token_slot.token.data
-	var is_chest = token_data is TokenChestData
+	var is_chest := token_data is TokenChestData
 	assert_bool(is_chest).is_true()
 	
 	var chest_token_data := token_data as TokenChestData
@@ -22,7 +22,7 @@ func test__when_loading_a_combinable_token_it_should_configure_it_config_data() 
 	await __set_to_player_state(IDs.BUSHH)
 	
 	var token_data := game_manager.initial_token_slot.token.data
-	var is_combinable = token_data is TokenCombinableData
+	var is_combinable := token_data is TokenCombinableData
 	assert_bool(is_combinable).is_true()
 	
 	var config_token_data : Dictionary = __game_config_data.get_token_config_data(IDs.BUSHH)
@@ -38,7 +38,7 @@ func test__when_loading_a_collectable_tokens_it_should_configure_it_config_data(
 	await __set_to_player_state(IDs.CHE_B)
 	
 	var token_data := game_manager.initial_token_slot.token.data
-	var is_combinable = token_data is TokenCombinableData
+	var is_combinable := token_data is TokenCombinableData
 	assert_bool(is_combinable).is_true()
 	
 	var config_token_data : Dictionary = __game_config_data.get_token_config_data(IDs.CHE_B)

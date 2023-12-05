@@ -33,9 +33,10 @@ func get_random_prize_id() -> String:
 			if random_value < current_probability:
 				random_prize_id = prize_id
 				break
+		__current_prize_id = random_prize_id
 
-	assert(random_prize_id != '', "you should not be here")
-	return random_prize_id
+	assert(__current_prize_id != '', "you should not be here")
+	return __current_prize_id
 
 func _to_string() -> String:
 	var info := super._to_string()
