@@ -44,3 +44,13 @@ then just run:
 ´´´bash
 python3 bash/export_game_data_to_json.py
 ´´´
+
+### sync game desicn
+
+Dependency:
+
+´´´
+pip3 install gdown
+pip3 install google-auth google-auth-oauthlib google-auth-httplib2
+pip3 install requests
+´´´
