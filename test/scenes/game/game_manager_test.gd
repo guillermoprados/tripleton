@@ -62,7 +62,7 @@ func before() -> void:
 	__game_config_data.json_config_file = __test_config_file
 	__game_config_data.__load_tokens_data(IDs.values())
 	var keys := IDs.keys()
-	for key in keys:
+	for key:String in keys:
 		var token_id : String = IDs[key]
 		if token_id == IDs.EMPTY:
 			continue
@@ -186,7 +186,7 @@ func __prepare_landscape(landscape:Array, runner:GdUnitSceneRunner) -> void:
  
 func __paralized_enemies(paralized:bool) -> void:
 	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-	for key in enemies:
+	for key:Vector2 in enemies:
 		enemies[key].behavior.paralize = paralized
 
 func __await_assert_floating_token_is_boxed() -> void:

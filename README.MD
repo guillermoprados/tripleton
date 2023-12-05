@@ -42,5 +42,5 @@ pip3 install openpyxl
 ´´´
 then just run:
 ´´´bash
-python3 bash/token_data_to_json.py
+python3 bash/export_game_data_to_json.py
 ´´´

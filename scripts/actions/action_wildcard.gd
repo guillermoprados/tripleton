@@ -10,7 +10,7 @@ var __last_position_evaluated: Vector2 = Constants.INVALID_CELL
 var __to_place_token_data: TokenData
 var __to_place_token:BoardToken
 
-func _ready():
+func _ready() -> void:
 	combinator.game_config_data = __token.all_tokens_data
 	
 func get_type() -> Constants.ActionType:
@@ -68,7 +68,7 @@ func affected_cells(action_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector
 	var cells : Array[Vector2]	= []
 	var combination:Combination = combinator.search_combinations_for_cell(__token.data, action_cell, cell_tokens_ids, true)
 
-	for cell in combination.combinable_cells:
+	for cell:Vector2 in combination.combinable_cells:
 		cells.append(cell)
 	
 	return cells
@@ -117,7 +117,7 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		
 		if combination.is_valid():
 			var current_points:int = 0
-			for cell in combination.combinable_cells:
+			for cell:Vector2 in combination.combinable_cells:
 				if __is_cell_empty(cell, cell_tokens_ids):
 					continue
 				var token_data:TokenData = __token.get_other_token_data_util(cell_tokens_ids[cell.x][cell.y])

@@ -95,12 +95,12 @@ func set_boxed_token_back(token:BoardToken) -> void:
 	back_token.set_data(token.id, Constants.TokenStatus.GHOST_BOX)
 	
 
-func _on_area_2d_cell_entered(index):
+func _on_area_2d_cell_entered(index:Vector2) -> void:
 	pass # Replace with function body.
 
 
-func _on_area_2d_cell_exited(index):
+func _on_area_2d_cell_exited(index:Vector2) -> void:
 	pass # Replace with function body.
 
-func _on_area_2d_cell_selected(index):
+func _on_area_2d_cell_selected(index:Vector2) -> void:
 	pass # Replace with function body.

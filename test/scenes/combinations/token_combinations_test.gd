@@ -47,8 +47,8 @@ func test__try_multi_level_combination() -> void:
 	
 	await __set_to_player_state_with_board(landscape)
 	
-	var grass_points : int = __all_token_data.get_token_data_by_id(IDs.GRASS).reward_value
-	var bush_points : int = __all_token_data.get_token_data_by_id(IDs.BUSHH).reward_value
+	var grass_points : int = __game_config_data.get_token_data_by_id(IDs.GRASS).reward_value
+	var bush_points : int = __game_config_data.get_token_data_by_id(IDs.BUSHH).reward_value
 	
 	## add grass
 	await __wait_to_next_player_turn(IDs.GRASS)

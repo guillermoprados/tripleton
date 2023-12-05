@@ -69,14 +69,14 @@ func configure(num_rows:int, num_columns:int) -> void:
 
 func __clear_board() -> void:
 	# Clear cell instances
-	for row in cells_matrix:
-		for cell in row:
+	for row:Array in cells_matrix:
+		for cell:BoardCell in row:
 			cell.queue_free()
 	cells_matrix.clear()
 	__cell_tokens_ids.clear()
 
 	# Clear token instances
-	for token_pos in placed_tokens.keys():
+	for token_pos:Vector2 in placed_tokens.keys():
 		placed_tokens[token_pos].queue_free()
 	placed_tokens.clear()
 	
@@ -247,10 +247,10 @@ func _on_cell_selected(cell_index: Vector2) -> void:
 	board_cell_selected.emit(cell_index)
 
 func clear_highlights() -> void:
-	for row in cells_matrix:
-		for cell in row:
+	for row:Array in cells_matrix:
+		for cell:BoardCell in row:
 			cell.clear_highlight()
-	for token_pos in placed_tokens.keys():
+	for token_pos:Vector2 in placed_tokens.keys():
 		var token: BoardToken = placed_tokens[token_pos]
 		if token.is_in_range:
 			token.set_status(Constants.TokenStatus.PLACED)
@@ -263,7 +263,7 @@ func highlight_cells(cells:Array[Vector2], mode:Constants.CellHighlight) -> void
 		get_cell_at_position(cell_index).set_highlight(mode)
 		
 func highlight_combination(initial_cell:Vector2, combination:Combination) -> void:
-	for cell_index in combination.combinable_cells:
+	for cell_index:Vector2 in combination.combinable_cells:
 		get_cell_at_position(cell_index).set_highlight(Constants.CellHighlight.COMBINATION)
 		
 		if placed_tokens.has(cell_index):
@@ -276,14 +276,14 @@ func highlight_combination(initial_cell:Vector2, combination:Combination) -> voi
 
 func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
 	var filtered_tokens := {}
-	for key in placed_tokens:
+	for key:Vector2 in placed_tokens:
 		if placed_tokens[key].type == type:
 			filtered_tokens[key] = placed_tokens[key]
 	return filtered_tokens
 	
 func get_tokens_with_id(id:String) -> Dictionary:
 	var filtered_tokens := {}
-	for key in placed_tokens:
+	for key:Vector2 in placed_tokens:
 		if placed_tokens[key].id == id:
 			filtered_tokens[key] = placed_tokens[key]
 	return filtered_tokens
