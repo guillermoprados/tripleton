@@ -1,34 +1,55 @@
+import io
 import os
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2 import service_account
-import requests
 
-def download_file_from_google_drive(file_id, destination, credentials_path):
-    # Load the credentials from the service account file
-    credentials = service_account.Credentials.from_service_account_file(credentials_path)
+def download_file(real_file_id, credentials, export_mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', destination_path='.'):
+    """Downloads a file
+    Args:
+        real_file_id: ID of the file to download
+        credentials: Service account credentials
+        export_mimetype: MIME type for export (default is 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        destination_path: Path to save the downloaded file (default is the current directory)
+    Returns: Full path to the downloaded file.
+    """
+    try:
+        # create drive api client
+        service = build("drive", "v3", credentials=credentials)
 
-    # Download the file
-    url = 'https://drive.google.com/uc?id={}'.format(file_id)
+        file_id = real_file_id
 
-    # Set up headers with authorization token
-    headers = {'Authorization': 'Bearer {}'.format(credentials.token)}
+        request = service.files().export_media(fileId=file_id, mimeType=export_mimetype)
+        file_path = os.path.join(destination_path, 'game_config.xlsx')  # Change the file extension based on your export type
+        file = io.FileIO(file_path, 'wb')
+        downloader = MediaIoBaseDownload(file, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+            print(f"Download {int(status.progress() * 100)}.")
 
-    # Download the file using requests with custom headers
-    response = requests.get(url, headers=headers, stream=True)
+    except HttpError as error:
+        print(f"An error occurred: {error}")
+        file_path = None
 
-    # Save the content to the destination file
-    with open(destination, 'wb') as f:
-        for chunk in response.iter_content(chunk_size=8192):
-            if chunk:
-                f.write(chunk)
+    return file_path
 
 if __name__ == "__main__":
-    file_id = '968182285'
-
     current_dir = os.getcwd()
+    file_id = '1OSIRBxDzhq0kEK6OOmUV9GM9uxbSI-aA7gFrkZeup9w'
     # Replace 'YOUR_DESTINATION_PATH' with the desired destination path
-    destination_path = current_dir+'/game_design/game_config_downloaded.xlsx'
+    destination_path = current_dir + '/game_design'
+    credentials_path = current_dir + '/keys/tripleton-449811bdca96.json'
 
-    credentials_path = current_dir+'/keys/tripleton-449811bdca96.json'
+    credentials = service_account.Credentials.from_service_account_file(
+        credentials_path,
+        scopes=['https://www.googleapis.com/auth/drive']
+    )
 
-    # Download the file using service account credentials
-    download_file_from_google_drive(file_id, destination_path, credentials_path)
+    downloaded_file = download_file(file_id, credentials, destination_path=destination_path)
+
+    if downloaded_file:
+        print(f"File downloaded successfully: {downloaded_file}")
+    else:
+        print("Failed to download file.")

@@ -45,12 +45,18 @@ then just run:
 python3 bash/export_game_data_to_json.py
 ´´´
 
-### sync game desicn
+### sync game design
 
-Dependency:
+Dependencies:
 
 ´´´
-pip3 install gdown
+pip3 install google-api-python-client
 pip3 install google-auth google-auth-oauthlib google-auth-httplib2
 pip3 install requests
+´´´
+
+command:
+
+´´´
+python3 bash/sync_gdrive.py
 ´´´
