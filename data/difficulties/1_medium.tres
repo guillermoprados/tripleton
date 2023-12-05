@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="Difficulty" load_steps=4 format=3 uid="uid://djp2prybxnb24"]
+[gd_resource type="Resource" script_class="Difficulty" load_steps=5 format=3 uid="uid://djp2prybxnb24"]
 
+[ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass/0_grass.tres" id="1_kemcx"]
 [ext_resource type="Texture2D" uid="uid://b62025drf7py7" path="res://asesprite/first_era.png" id="4_c0xi5"]
 [ext_resource type="Resource" uid="uid://i85atx5fko2x" path="res://data/tokens_data/combinables/chests/0_chest_bronze.tres" id="5_fuo4x"]
 [ext_resource type="Script" path="res://resources/difficulty.gd" id="8_3ygab"]
@@ -12,8 +13,8 @@ save_token_slots = 1
 max_level_token = 3
 max_level_chest = ExtResource("5_fuo4x")
 total_points = 5000
-common = Array[Resource("res://resources/token_data.gd")]([])
-uncommon = Array[Resource("res://resources/token_data.gd")]([])
-rare = Array[Resource("res://resources/token_data.gd")]([])
-scarce = Array[Resource("res://resources/token_data.gd")]([])
-unique = Array[Resource("res://resources/token_data.gd")]([])
+common = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_kemcx")])
+uncommon = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_kemcx")])
+rare = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_kemcx")])
+scarce = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_kemcx")])
+unique = Array[Resource("res://resources/token_data.gd")]([ExtResource("1_kemcx")])
