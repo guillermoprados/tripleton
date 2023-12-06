@@ -28,6 +28,7 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var bad_token_data: TokenData # mmmmm
 @export var grave_token_data: TokenData # mmmmm
 @export var to_test: TokenData # mmmmm
+@export var map_texture:CompressedTexture2D
 
 var __game_points: int
 var game_points:int:
@@ -94,7 +95,7 @@ func __next_difficulty() -> void:
 		add_child(save_token_slot)
 		save_token_slot.enabled = true
 		__adjust_save_token_slots_positions()
-	board.change_back_texture(difficulty.map_texture)
+	board.change_back_texture(map_texture)
 	difficulty_changed.emit(difficulty.name, difficulty.total_points)	
 	
 func instantiate_new_token(token_id:String, initial_status:Constants.TokenStatus) -> BoardToken:
@@ -405,7 +406,8 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	var is_chest_combination := initial_token.type == Constants.TokenType.CHEST
 		
 	if next_token_data.level > difficulty.max_level_token and not is_chest_combination:
-		next_token_data = difficulty.max_level_chest
+		next_token_id = difficulty.max_level_chest_id
+		next_token_data = game_config_data.get_token_data_by_id(next_token_id)
 		
 	var combined_token : BoardToken = instantiate_new_token(next_token_data.id, Constants.TokenStatus.PLACED)
 

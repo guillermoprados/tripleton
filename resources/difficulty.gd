@@ -1,46 +1,81 @@
-extends Resource
+extends RefCounted
 
 class_name Difficulty
 
-@export var level : Constants.DifficultyLevel
+var __level : Constants.DifficultyLevel
+var level : Constants.DifficultyLevel:
+	get:
+		return __level
+		
+var __save_token_slots: int
+var save_token_slots: int:
+	get:
+		return __save_token_slots
+		
+var __max_level_token: int
+var max_level_token: int:
+	get:
+		return __max_level_token
+		
+var __max_level_chest_id: String
+var max_level_chest_id: String:
+	get:
+		return __max_level_chest_id
 
-@export_category("Level Config")
-@export var map_texture:CompressedTexture2D
-@export var save_token_slots: int
-@export var max_level_token: int
-@export var max_level_chest: TokenData
-@export var total_points: int
+var __total_points: int
+var total_points: int:
+	get:
+		return __total_points
 
-@export_category("Diff Tokens")
-@export var common: Array[TokenData] = []
-@export var uncommon: Array[TokenData] = []
-@export var rare: Array[TokenData] = [] 
-@export var scarce: Array[TokenData] = [] 
-@export var unique: Array[TokenData] = [] 
+var __common_token_ids: Array[String] = []
+var __frequent_token_ids: Array[String] = []
+var __rare_token_ids: Array[String] = [] 
+var __scarce_token_ids: Array[String] = [] 
+var __unique_token_ids: Array[String] = [] 
 
 var __validated : bool
 
+static func as_string(level:Constants.DifficultyLevel) -> String:
+	match(level):
+		Constants.DifficultyLevel.EASY:
+			return "easy"
+		Constants.DifficultyLevel.MEDIUM:
+			return "medium"
+		Constants.DifficultyLevel.HARD:
+			return "hard"
+		Constants.DifficultyLevel.SUPREME:
+			return "supreme"
+		Constants.DifficultyLevel.LEGENDARY:
+			return "legendary"
+	assert(false, "cannot cast level : "+as_string(level))
+	return "wtf"
+
+static func from_string(level:String) -> Constants.DifficultyLevel:
+	match(level):
+		"easy":
+			return Constants.DifficultyLevel.EASY
+		"medium":
+			return Constants.DifficultyLevel.MEDIUM
+		"hard":
+			return Constants.DifficultyLevel.HARD
+		"supreme":
+			return Constants.DifficultyLevel.SUPREME
+		"legendary":
+			return Constants.DifficultyLevel.LEGENDARY
+	
+	assert(false, "cannot cast level : "+level)
+	return Constants.DifficultyLevel.EASY
+
 var name:String:
 	get:
-		match(level):
-			Constants.DifficultyLevel.EASY:
-				return "Easy"
-			Constants.DifficultyLevel.MEDIUM:
-				return "Medium"
-			Constants.DifficultyLevel.HARD:
-				return "Hard"
-			Constants.DifficultyLevel.SUPREME:
-				return "Supreme"
-			Constants.DifficultyLevel.LEGENDARY:
-				return "Legendary"
-		return "wtf"
+		return as_string(level)
 
 func __validate()  -> void:
-	assert(common.size() > 0, name + ": common array should not be empty")
-	assert(uncommon.size() > 0, name + ": uncommon array should not be empty")
-	assert(rare.size() > 0, name + ": rare array should not be empty")
-	assert(scarce.size() > 0, name + ": scarce array should not be empty")
-	assert(unique.size() > 0, name + ": unique array should not be empty")
+	assert(__common_token_ids.size() > 0, name + ": common array should not be empty")
+	assert(__frequent_token_ids.size() > 0, name + ": uncommon array should not be empty")
+	assert(__rare_token_ids.size() > 0, name + ": rare array should not be empty")
+	assert(__scarce_token_ids.size() > 0, name + ": scarce array should not be empty")
+	assert(__unique_token_ids.size() > 0, name + ": unique array should not be empty")
 	__validated = true
 	
 func get_random_token_data_id() -> String:
@@ -53,15 +88,15 @@ func get_random_token_data_id() -> String:
 	var rand_val := randf()
 	
 	if rand_val < Constants.TOKEN_PROB_COMMON:
-		return get_random_from_array(common).id
+		return get_random_from_array(__common_token_ids)
 	elif rand_val < Constants.TOKEN_PROB_UNCOMMON:
-		return get_random_from_array(uncommon).id
+		return get_random_from_array(__frequent_token_ids)
 	elif rand_val < Constants.TOKEN_PROB_RARE:
-		return get_random_from_array(rare).id
+		return get_random_from_array(__rare_token_ids)
 	elif rand_val < Constants.TOKEN_PROB_SCARCE:
-		return get_random_from_array(scarce).id
+		return get_random_from_array(__scarce_token_ids)
 	else:
-		return get_random_from_array(unique).id
+		return get_random_from_array(__unique_token_ids)
 		
-func get_random_from_array(arr: Array) -> TokenData:
+func get_random_from_array(arr: Array) -> String:
 	return arr[randi() % arr.size()]

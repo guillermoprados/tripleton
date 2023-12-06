@@ -165,7 +165,7 @@ def process_excel_file(file_path):
 
     # Save the final output to a JSON file
     save_to_json(output_dict, get_current_directory() + '/generated', 'game_config.json')
-
+    print("config exported")
 def main():
     current_directory = get_current_directory()
     print("Current Working Directory:", current_directory)

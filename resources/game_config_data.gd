@@ -18,13 +18,13 @@ var game_config_data:Dictionary:
 			__game_config_data = JSON.parse_string(game_config_data_text)
 		return __game_config_data
 		
-static var __game_resources_data:Dictionary
-var game_resources_data:Dictionary:
+static var __token_resources_path:Dictionary
+var token_resources_path:Dictionary:
 	get:
-		if not __game_resources_data:
+		if not __token_resources_path:
 			var res_json_as_text: String = FileAccess.get_file_as_string(json_paths_file)
-			__game_resources_data = JSON.parse_string(res_json_as_text)
-		return __game_resources_data
+			__token_resources_path = JSON.parse_string(res_json_as_text)
+		return __token_resources_path
 
 func get_token_data_by_id(token_id: String) -> TokenData:
 	# Retrieve the TokenData using the provided token_id
@@ -36,24 +36,19 @@ func get_token_data_by_id(token_id: String) -> TokenData:
 
 func __load_tokens_data(tokens_ids: Array) -> void:
 	
-	var tokens_dictionary : Dictionary = game_config_data[Constants.CONFIG_TOKENS]
-	assert(tokens_dictionary, "there are no tokens in this config file")
-	
 	for token_id:String in tokens_ids:
 		if token_id == '': # I use this for testing.. i guess? TODO: check
 			continue
-		assert(game_resources_data.has(token_id), "this id: "+token_id+" is not delcared in the tokens!!")
-		assert(tokens_dictionary.has(token_id), "the id is not part of the tokens config file")
+		assert(token_resources_path.has(token_id), "this id: "+token_id+" is not delcared in the tokens!!")
 		print(">> loading data for: "+token_id)
-		tokens_data[token_id] = load(game_resources_data[token_id])
+		tokens_data[token_id] = load(token_resources_path[token_id])
 		
-		fulfill_token_data(tokens_data[token_id])
+		if game_config_data[Constants.CONFIG_TOKENS].has(token_id):
+			fulfill_token_data(tokens_data[token_id])
 
 
 func fulfill_token_data(token_data:TokenData) -> void:
 	
-	#print("- before update:")
-	#print(tokens_data[token_id])
 	var token_id:String = token_data.id
 	
 	var config_token_data : Dictionary = get_token_config_data(token_id)
@@ -97,3 +92,17 @@ func get_token_config_data(token_id:String) -> Dictionary:
 	var config_token_data : Dictionary = config_tokens[token_id]
 	assert(config_token_data, "cannot get config token data  "+token_id)
 	return config_token_data
+
+func get_difficulties_config_data(difficulty_id:Constants.DifficultyLevel) -> Dictionary:
+	var diff_as_string := Difficulty.as_string(difficulty_id)
+	var config_difficulties : Dictionary = game_config_data["difficulties"]
+	var config_difficulty_data : Dictionary = config_difficulties[diff_as_string]
+	assert(config_difficulty_data, "cannot get difficulty info for id " + diff_as_string)
+	return config_difficulty_data
+	
+func get_spawn_probabilities_set_data(set_id:String) -> Dictionary:
+	var spawn_probs : Dictionary = game_config_data["spawn_probabilities"]
+	var spawn_probs_for_set: Dictionary = spawn_probs[set_id]
+	assert(spawn_probs_for_set, "cannot get set info for id " + set_id)
+	return spawn_probs_for_set
+	

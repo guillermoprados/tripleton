@@ -7,7 +7,7 @@ extends GdUnitTestSuite
 # TestSuite generated from
 var __game_config_data: GameConfigData
 const __source = 'res://scenes/game/gameplay.tscn'
-var __test_config_file := "res://test/scenes/config/game_config_test.json"
+var __test_config_file := "res://generated/game_config.json"
 
 var runner : GdUnitSceneRunner
 var game_manager: GameManager
