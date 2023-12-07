@@ -117,6 +117,15 @@ enum UIPlayScreenId {
 	GAME_OVER
 }
 
+enum SetFrecuency {
+	COMMON,
+	FREQUENT,
+	RARE,
+	SCARCE,
+	UNIQUE,
+	NEVER
+}
+
 const BOARD_SIZE := Vector2(6,5)
 
 const TILESET_TERRAIN_BOARD_SET = 0
@@ -134,8 +143,8 @@ const IS_DEBUG_MODE = true
 const CELL_SIZE:Vector2 = Vector2(100,100)
 
 const TOKEN_PROB_COMMON: float = 0.6
-const TOKEN_PROB_UNCOMMON: float = TOKEN_PROB_COMMON + 0.2 
-const TOKEN_PROB_RARE: float = TOKEN_PROB_UNCOMMON + 0.1 
+const TOKEN_PROB_FREQUENT: float = TOKEN_PROB_COMMON + 0.2 
+const TOKEN_PROB_RARE: float = TOKEN_PROB_FREQUENT + 0.1 
 const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08 
 
 const HOLD_TIME_TO_CANCEL_PRESS: float = 1

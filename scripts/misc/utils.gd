@@ -72,3 +72,39 @@ static func reward_type_from_string(type:String) -> Constants.RewardType:
 			return Constants.RewardType.NONE
 	assert(false, "type "+type+" not found")
 	return Constants.RewardType.NONE
+
+static func set_frecuency_to_string(frecuency:Constants.SetFrecuency) -> String:
+	match frecuency:
+		Constants.SetFrecuency.COMMON:
+			return "0_common"
+		Constants.SetFrecuency.FREQUENT:
+			return "1_frequent"
+		Constants.SetFrecuency.RARE:
+			return "2_rare"
+		Constants.SetFrecuency.SCARCE:
+			return "3_scarce"
+		Constants.SetFrecuency.UNIQUE:
+			return "4_unique"
+		Constants.SetFrecuency.NEVER:
+			return "5_never"
+		_:
+			assert(false, "Invalid Frecuency:"+str(frecuency))
+			return "wtf"
+			
+static func set_frecuency_from_string(frecuency:String) -> Constants.SetFrecuency:
+	match frecuency:
+		"0_common":
+			return Constants.SetFrecuency.COMMON
+		"1_frequent":
+			return Constants.SetFrecuency.FREQUENT
+		"2_rare":
+			return Constants.SetFrecuency.RARE
+		"3_scarce":
+			return Constants.SetFrecuency.SCARCE
+		"4_unique":
+			return Constants.SetFrecuency.UNIQUE
+		"5_never":
+			return Constants.SetFrecuency.NEVER
+		_:
+			assert(false, "Invalid Frecuency:"+str(frecuency))
+			return Constants.SetFrecuency.COMMON
