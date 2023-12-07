@@ -30,3 +30,8 @@ func validate() -> void:
 
 	# Check behavior
 	# assert(behavior != null, "sprite_scene cannot be null.")
+
+func _to_string() -> String:
+	var info := "id: " +id +" \n"
+	info += "type: " +Utils.token_type_as_string(type())
+	return info 

@@ -49,9 +49,9 @@ func _process(delta:float) -> void:
 func spawn_random_token(difficulty:Difficulty) -> void:
 	spawn_token(difficulty.get_random_token_data())
 	
-func spawn_token(token_data:TokenData) -> void:
+func spawn_token(token_id:String) -> void:
 	var new_token := token_scene.instantiate() as BoardToken
-	new_token.set_data(token_data, Constants.TokenStatus.NONE)
+	new_token.set_data(token_id, Constants.TokenStatus.NONE)
 	new_token.z_as_relative = false
 	token = new_token
 
@@ -92,5 +92,15 @@ func set_boxed_token_back(token:BoardToken) -> void:
 	add_child(__ghost_token)
 	back_token.z_index = Constants.GHOST_BOX_Z_INDEX
 	back_token.z_as_relative = false
-	back_token.set_data(token.data, Constants.TokenStatus.GHOST_BOX)
+	back_token.set_data(token.id, Constants.TokenStatus.GHOST_BOX)
 	
+
+func _on_area_2d_cell_entered(index:Vector2) -> void:
+	pass # Replace with function body.
+
+
+func _on_area_2d_cell_exited(index:Vector2) -> void:
+	pass # Replace with function body.
+
+func _on_area_2d_cell_selected(index:Vector2) -> void:
+	pass # Replace with function body.

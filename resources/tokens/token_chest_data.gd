@@ -5,16 +5,25 @@ class_name TokenChestData
 func type() -> Constants.TokenType:
 	return Constants.TokenType.CHEST
 
-@export var prizes: Array[TokenData]
+var __prizes: TokenSet
 
-# we only calculate the value of the prize once, 
-# so we can compare it on tests when we call it again
-var __current_prize_data:TokenData
+var __current_prize_id:String
 
-func get_random_prize() -> TokenData:
-	assert(prizes.size() > 0, "This chest is empty")
-	if not __current_prize_data:
-		randomize()
-		var random_index:int = randi() % prizes.size()
-		__current_prize_data = prizes[random_index]
-	return __current_prize_data
+func add_prizes(prizes:TokenSet) -> void:
+	__prizes = prizes
+
+# we only calculate the prize once (which makes testing easier)
+func get_random_prize_id() -> String:
+	if __current_prize_id == '':
+		__current_prize_id = __prizes.get_random_token_data_id()
+	return __current_prize_id
+
+func _to_string() -> String:
+	var info := super._to_string()
+	info +="\n [ TODO: print chest prizes"
+	#for prize:String in prizes.keys():
+	#	info += prize+" "
+	info +="]"
+	
+	return info 
+	

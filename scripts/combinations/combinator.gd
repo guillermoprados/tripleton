@@ -1,5 +1,7 @@
 class_name Combinator extends Node
 
+@export var game_config_data: GameConfigData
+
 var combinations: Dictionary  
 
 var __is_resetted:bool
@@ -34,7 +36,7 @@ func replace_combination_at_cell(combination:Combination, cell_index:Vector2) ->
 	combinations[cell_index] = combination
 
 # The primary evaluation method
-static func __evaluate_combination(initial_token: TokenData, combination: Combination, board_tokens_ids: Array, recursive_levels:bool) -> void:
+func __evaluate_combination(initial_token: TokenData, combination: Combination, board_tokens_ids: Array, recursive_levels:bool) -> void:
 	
 	combination.evaluated = true
 
@@ -60,7 +62,7 @@ static func __evaluate_combination(initial_token: TokenData, combination: Combin
 			combination_level.valid_combination_cells.clear()
 			break
 		
-		evaluating_token = evaluating_token.next_token
+		evaluating_token = game_config_data.get_token_data_by_id(evaluating_token.next_token_id)
 			
 	# if I want to evaluate chests for prize levels I have to do it here as well
 

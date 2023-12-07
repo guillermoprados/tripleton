@@ -8,6 +8,8 @@ signal difficulty_changed(name:String, total_points:int)
 signal show_message(message:String, type:Constants.MessageType, time:float)
 signal show_floating_reward(type:Constants.RewardType, value:int, position:Vector2)
 
+@export var game_config_data: GameConfigData
+
 @export_category("Managers")
 @export var fx_manager : FxManager
 @export var combinator: Combinator
@@ -26,6 +28,7 @@ signal show_floating_reward(type:Constants.RewardType, value:int, position:Vecto
 @export var bad_token_data: TokenData # mmmmm
 @export var grave_token_data: TokenData # mmmmm
 @export var to_test: TokenData # mmmmm
+@export var map_texture:CompressedTexture2D
 
 var __game_points: int
 var game_points:int:
@@ -33,7 +36,7 @@ var game_points:int:
 		return __game_points
 
 var __game_gold: int
-var game_gold:
+var game_gold:int:
 	get:
 		return __game_gold
 
@@ -41,7 +44,7 @@ var __difficulty_index : int = -1
 var __difficulties : Array[Difficulty]
 
 var __difficulty_points: int
-var difficulty_points:
+var difficulty_points:int:
 	get:
 		return __difficulty_points
 		
@@ -82,7 +85,7 @@ func __set_difficulties(diffs:Array[Difficulty]) -> void:
 	__difficulties = diffs
 	__next_difficulty()
 	
-func __next_difficulty():
+func __next_difficulty() -> void:
 	__difficulty_index += 1
 	var required_slots := difficulty.save_token_slots 
 	while save_slots.size() < required_slots:
@@ -92,12 +95,12 @@ func __next_difficulty():
 		add_child(save_token_slot)
 		save_token_slot.enabled = true
 		__adjust_save_token_slots_positions()
-	board.change_back_texture(difficulty.map_texture)
+	board.change_back_texture(map_texture)
 	difficulty_changed.emit(difficulty.name, difficulty.total_points)	
 	
-func instantiate_new_token(token_data:TokenData, initial_status:Constants.TokenStatus) -> BoardToken:
+func instantiate_new_token(token_id:String, initial_status:Constants.TokenStatus) -> BoardToken:
 	var token_instance: BoardToken = token_scene.instantiate() as BoardToken
-	token_instance.set_data(token_data, initial_status)
+	token_instance.set_data(token_id, initial_status)
 	return token_instance
 
 func add_gold(value:int) -> void:
@@ -125,10 +128,10 @@ func release_floating_token() -> BoardToken:
 	__floating_token = null
 	return released_token
 		
-func spawn_new_token(token_data:TokenData) -> void:
-	if not token_data:
-		token_data = difficulty.get_random_token_data()
-	initial_token_slot.spawn_token(token_data)
+func spawn_new_token(token_id:String='') -> void:
+	if token_id == '':
+		token_id = difficulty.get_random_token_data_id()
+	initial_token_slot.spawn_token(token_id)
 	
 func discard_floating_token() -> void:
 	assert (floating_token, "trying to discard a non existing token")
@@ -182,8 +185,8 @@ func __move_floating_action_token(cell_index:Vector2, on_board_position:Vector2)
 			if floating_token.is_wildcard:
 				var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
 				board.highlight_combination(cell_index, wildcard_action.get_wildcard_combination())
-				var to_place_data : TokenData = wildcard_action.get_to_place_token_data()
-				var to_place_token : BoardToken = instantiate_new_token(to_place_data, Constants.TokenStatus.PLACED)
+				var to_place_id : String = wildcard_action.get_to_place_token_id()
+				var to_place_token : BoardToken = instantiate_new_token(to_place_id, Constants.TokenStatus.PLACED)
 				wildcard_action.set_ghost_token(to_place_token)
 				board.highligh_cell(cell_index, Constants.CellHighlight.COMBINATION)
 			else:
@@ -233,7 +236,7 @@ func __process_chest_or_prize_selection(cell_index:Vector2) -> bool:
 		if cell_token.type == Constants.TokenType.CHEST:
 			__open_chest(cell_token, cell_index)
 			picked_action = true
-		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).collectable:
+		elif cell_token.type == Constants.TokenType.PRIZE and (cell_token.data as TokenPrizeData).is_collectable:
 			__collect_reward(cell_token, cell_index)
 			picked_action = true
 		
@@ -289,8 +292,7 @@ func __place_floating_token_at(cell_index: Vector2) -> bool:
 	var processed := true
 	
 	if board.is_cell_empty(cell_index):
-		var to_place_token_data : TokenData = floating_token.data
-		var duplicated_token := instantiate_new_token(to_place_token_data, Constants.TokenStatus.PLACED)
+		var duplicated_token := instantiate_new_token(floating_token.data.id, Constants.TokenStatus.PLACED)
 		__place_token_on_board(duplicated_token, cell_index)
 		discard_floating_token()
 		processed = true
@@ -320,7 +322,7 @@ func __replace_token_on_board(token:BoardToken, cell_index:Vector2) -> void:
 	board.clear_highlights()
 
 func set_bad_token_on_board(cell_index:Vector2) -> void:
-	var bad_token := instantiate_new_token(bad_token_data, Constants.TokenStatus.PLACED)
+	var bad_token := instantiate_new_token(bad_token_data.id, Constants.TokenStatus.PLACED)
 	if board.is_cell_empty(cell_index):
 		__place_token_on_board(bad_token, cell_index)
 	else:
@@ -339,7 +341,7 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 	
 	var merged_cells : Array = []
 	
-	for cell_index in cells:
+	for cell_index:Vector2 in cells:
 	
 		# multiple cells can be part of the same combination, so we don't want 
 		# to merge them again
@@ -369,7 +371,7 @@ func __get_last_created_token_position(cells: Array) -> Vector2:
 	var last_token := board.get_token_at_cell(last_created_position)
 	var last_created_time: float = last_token.created_at
 
-	for cell_index in cells:
+	for cell_index:Vector2 in cells:
 		var current_token := board.get_token_at_cell(cell_index)
 		var current_created_time := current_token.created_at
 
@@ -393,21 +395,25 @@ func combine_tokens(combination: Combination) -> BoardToken:
 	var initial_token:BoardToken = board.get_token_at_cell(combination.initial_cell())
 	var initial_token_data:TokenCombinableData = initial_token.data
 	
-	var next_token_data:TokenCombinableData = initial_token_data.next_token
+	var next_token_id := initial_token_data.next_token_id
+	var next_token_data:TokenCombinableData = game_config_data.get_token_data_by_id(next_token_id)
 	
+	# go to the last level
 	for i in range(combination.last_level_reached):
-		next_token_data = next_token_data.next_token
+		next_token_id = next_token_data.next_token_id
+		next_token_data = game_config_data.get_token_data_by_id(next_token_id)
 	
 	var is_chest_combination := initial_token.type == Constants.TokenType.CHEST
 		
 	if next_token_data.level > difficulty.max_level_token and not is_chest_combination:
-		next_token_data = difficulty.max_level_chest
+		next_token_id = difficulty.max_level_chest_id
+		next_token_data = game_config_data.get_token_data_by_id(next_token_id)
 		
-	var combined_token : BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
+	var combined_token : BoardToken = instantiate_new_token(next_token_data.id, Constants.TokenStatus.PLACED)
 
 	var awarded_points:int = 0	
 	
-	for cell_index in combination.combinable_cells:
+	for cell_index:Vector2 in combination.combinable_cells:
 		var token:BoardToken = board.get_token_at_cell(cell_index)
 		if token.data.reward_type == Constants.RewardType.GOLD:
 			assert("Please do not reward with gold in combinations")
@@ -433,8 +439,9 @@ func sum_rewards(type:Constants.RewardType, value:int) -> void:
 func __open_chest(token:BoardToken, cell_index: Vector2) -> void:
 	#remove the chest
 	var chest_data: TokenChestData = token.data
-	var prize_data:TokenPrizeData = chest_data.get_random_prize()
-	var prize_instance:BoardToken = instantiate_new_token(prize_data, Constants.TokenStatus.PLACED)
+	var random_prize_id:String = chest_data.get_random_prize_id()
+	var prize_data:TokenPrizeData = game_config_data.get_token_data_by_id(random_prize_id)
+	var prize_instance:BoardToken = instantiate_new_token(prize_data.id, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(prize_instance, cell_index)
 	
 func __collect_reward(token:BoardToken, cell_index: Vector2) -> void:
@@ -477,7 +484,7 @@ func on_save_token_slot_selected(index:int) -> void:
 	
 	if save_slots[index].is_empty():
 		save_slots[index].save_token(release_floating_token())
-		spawn_new_token(null)
+		spawn_new_token()
 	else:
 		floating_token = save_slots[index].swap_token(release_floating_token())
 		floating_token.position = save_slots[index].position - Constants.SAVE_SLOT_OVER_POS
@@ -489,8 +496,7 @@ func on_save_token_slot_selected(index:int) -> void:
 ## Enemies
 func set_dead_enemy(cell_index:Vector2) -> void:
 	var enemy_token: BoardToken = board.get_token_at_cell(cell_index)
-	var next_token_data: TokenData = enemy_token.data.next_token
-	var grave_token:BoardToken = instantiate_new_token(next_token_data, Constants.TokenStatus.PLACED)
+	var grave_token:BoardToken = instantiate_new_token(grave_token_data.id, Constants.TokenStatus.PLACED)
 	__replace_token_on_board(grave_token, cell_index)
 
 func check_enclosed_enemies_and_kill_them() -> void:
@@ -525,17 +531,14 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
 	
 	board.clear_token(cell_index)
-	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token, Constants.TokenStatus.PLACED)
+	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token_id, Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)
 	
 func __remove_all_type_action(cell_index:Vector2) -> void:
 	var token:BoardToken = board.get_token_at_cell(cell_index)
-	assert(token.data is TokenCombinableData, "This token type cannot be leveled")
 	var token_data: TokenCombinableData = token.data as TokenCombinableData
-	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
-	
 	var affected_cells : Array[Vector2] = floating_token.action.affected_cells(cell_index, board.cell_tokens_ids) 
 	for cell in affected_cells:
 		if token.type == Constants.TokenType.ENEMY:
@@ -575,7 +578,7 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	var move_time:float = 0.2
 	move_token_in_board(move_token_origin, to, move_time, 0)
 	
-	for cell in move_token_action_callables.keys():
+	for cell:Vector2 in move_token_action_callables.keys():
 		board.get_cell_at_position(cell).cell_selected.disconnect(move_token_action_callables[cell])
 	move_token_action_callables.clear()
 	
@@ -588,7 +591,7 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	
 func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 	var wildcard_action : ActionWildcard = (floating_token.action as ActionWildcard)
-	var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_data(), Constants.TokenStatus.PLACED)
+	var to_place_token : BoardToken = instantiate_new_token(wildcard_action.get_to_place_token_id(), Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
 	__place_floating_token_at(cell_index)

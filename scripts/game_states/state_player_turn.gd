@@ -21,7 +21,7 @@ func _on_state_entered() -> void:
 	game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)
 	
 	if not game_manager.initial_token_slot.token:
-		game_manager.spawn_new_token(null)
+		game_manager.spawn_new_token()
 	
 	for save_slot in game_manager.save_slots:
 		save_slot.on_slot_entered.connect(game_manager.on_save_token_slot_entered)
@@ -53,7 +53,7 @@ func _on_state_exited() -> void:
 		save_slot.enabled = false
 	
 	#so the user can see it	
-	game_manager.spawn_new_token(null)
+	game_manager.spawn_new_token()
 	
 	board.enabled_interaction = false
 		
@@ -81,7 +81,7 @@ func _input(event:InputEvent) -> void:
 			if game_manager.initial_token_slot.token:
 				game_manager.initial_token_slot.discard_token()
 				
-			game_manager.spawn_new_token(next_token_data)
+			game_manager.spawn_new_token(next_token_data.id)
 			combinator.reset_combinations(board.rows, board.columns)
 			board.clear_highlights()
 			is_scroll_in_progress = true

@@ -44,7 +44,7 @@ static func find_stucked_enemies_cells(board:Board) -> Array[Vector2]:
 	var stucked_enemies_cells :Array[Vector2] = []
 	var enemies_by_cell := board.get_tokens_of_type(Constants.TokenType.ENEMY)
 	var path_cell_type_board := __get_enemy_and_path_simplified_board(board, true)
-	for cell in enemies_by_cell.keys():
+	for cell:Vector2 in enemies_by_cell.keys():
 		var enemy := board.get_token_at_cell(cell)
 		var enemy_behavior:TokenBehavior = enemy.behavior
 		if not enemy_behavior.has_some_available_move(cell, board.cell_tokens_ids):
@@ -72,7 +72,7 @@ static func __enemy_can_reach_empty_cell(start_pos: Vector2, board: Array) -> bo
 		var current:Vector2 = queue.pop_front()
 		
 		# Check for each possible direction
-		for dir in directions:
+		for dir:Vector2 in directions:
 			var next_pos :Vector2 = current + dir
 			
 			# Check for out-of-bounds

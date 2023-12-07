@@ -1,4 +1,4 @@
-[gd_resource type="AnimatedTexture" load_steps=3 format=3 uid="uid://bn1nma8u3dnm"]
+[gd_resource type="AnimatedTexture" load_steps=3 format=3 uid="uid://cpkkyjs854s23"]
 
 [ext_resource type="Texture2D" uid="uid://bdl7p3rf6wpfw" path="res://addons/gdUnit4/src/ui/assets/orphan/TestCaseError1.svg" id="1"]
 [ext_resource type="Texture2D" uid="uid://fqf674gwq375" path="res://addons/gdUnit4/src/ui/assets/orphan/TestCaseError2.svg" id="2"]

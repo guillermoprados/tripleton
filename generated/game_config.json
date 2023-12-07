@@ -1,0 +1,283 @@
+{
+  "tokens": {
+    "0_grass": {
+      "reward_type": "points",
+      "reward_value": 30,
+      "next_token_id": "1_bush"
+    },
+    "1_bush": {
+      "reward_type": "points",
+      "reward_value": 40,
+      "next_token_id": "2_tree"
+    },
+    "2_tree": {
+      "reward_type": "points",
+      "reward_value": 150,
+      "next_token_id": "3_big_tree"
+    },
+    "3_big_tree": {
+      "reward_type": "points",
+      "reward_value": 250,
+      "next_token_id": "1_chest_silver"
+    },
+    "0_lamp": {
+      "reward_type": "points",
+      "reward_value": 20,
+      "next_token_id": "1_gate"
+    },
+    "1_gate": {
+      "reward_type": "points",
+      "reward_value": 50,
+      "next_token_id": "2_house"
+    },
+    "2_house": {
+      "reward_type": "points",
+      "reward_value": 150,
+      "next_token_id": "3_cottage"
+    },
+    "3_cottage": {
+      "reward_type": "points",
+      "reward_value": 200,
+      "next_token_id": "4_tower"
+    },
+    "4_tower": {
+      "reward_type": "points",
+      "reward_value": 300,
+      "next_token_id": "5_palace"
+    },
+    "5_palace": {
+      "reward_type": "points",
+      "reward_value": 450,
+      "next_token_id": "6_fortress"
+    },
+    "6_fortress": {
+      "reward_type": "points",
+      "reward_value": 600,
+      "next_token_id": "2_chest_gold"
+    },
+    "0_chest_bronze": {
+      "reward_type": "points",
+      "reward_value": 300,
+      "next_token_id": "1_chest_silver",
+      "collectable": 1
+    },
+    "1_chest_silver": {
+      "reward_type": "points",
+      "reward_value": 500,
+      "next_token_id": "2_chest_gold",
+      "collectable": 1
+    },
+    "2_chest_gold": {
+      "reward_type": "points",
+      "reward_value": 800,
+      "next_token_id": "4_chest_diamond",
+      "collectable": 1
+    },
+    "4_chest_diamond": {
+      "reward_type": "none",
+      "collectable": 1
+    },
+    "0_grave": {
+      "reward_type": "points",
+      "reward_value": 100,
+      "next_token_id": "1_tomb"
+    },
+    "1_tomb": {
+      "reward_type": "points",
+      "reward_value": 150,
+      "next_token_id": "2_shrine"
+    },
+    "2_shrine": {
+      "reward_type": "points",
+      "reward_value": 400,
+      "next_token_id": "1_chest_silver"
+    },
+    "0_stone": {
+      "reward_type": "points",
+      "reward_value": 50,
+      "next_token_id": "1_rock"
+    },
+    "1_rock": {
+      "reward_type": "points",
+      "reward_value": 200,
+      "next_token_id": "2_statue"
+    },
+    "2_statue": {
+      "reward_type": "points",
+      "reward_value": 450,
+      "next_token_id": "3_gold_statue"
+    },
+    "3_gold_statue": {
+      "reward_type": "gold",
+      "reward_value": 10,
+      "next_token_id": "2_chest_gold"
+    },
+    "cat_white": {
+      "reward_type": "points",
+      "reward_value": 1000,
+      "collectable": 1
+    },
+    "cat_gold": {
+      "reward_type": "gold",
+      "reward_value": 10,
+      "collectable": 1
+    }
+  },
+  "difficulties": {
+    "easy": {
+      "total_points": 3000,
+      "save_token_slots": 1,
+      "max_level_token": 2,
+      "max_level_chest_id": "0_chest_bronze"
+    },
+    "medium": {
+      "total_points": 4000,
+      "save_token_slots": 1,
+      "max_level_token": 3,
+      "max_level_chest_id": "0_chest_bronze"
+    },
+    "hard": {
+      "total_points": 5000,
+      "save_token_slots": 2,
+      "max_level_token": 4,
+      "max_level_chest_id": "1_chest_silver"
+    },
+    "supreme": {
+      "total_points": 6000,
+      "save_token_slots": 2,
+      "max_level_token": 5,
+      "max_level_chest_id": "2_chest_gold"
+    },
+    "legendary": {
+      "total_points": 10000,
+      "save_token_slots": 3,
+      "max_level_token": 10,
+      "max_level_chest_id": "4_chest_diamond"
+    }
+  },
+  "spawn_probabilities": {
+    "landscape": {
+      "bomb": "5_never",
+      "level_up": "5_never",
+      "move": "5_never",
+      "wildcard": "5_never",
+      "remove_all": "5_never",
+      "0_grass": "0_common",
+      "1_bush": "1_frequent",
+      "2_tree": "2_rare",
+      "3_big_tree": "5_never",
+      "0_grave": "2_rare",
+      "0_lamp": "1_frequent",
+      "1_gate": "2_rare",
+      "2_house": "4_unique",
+      "mole": "5_never",
+      "monokelo": "3_scarce"
+    },
+    "easy": {
+      "bomb": "4_unique",
+      "level_up": "4_unique",
+      "move": "1_frequent",
+      "wildcard": "2_rare",
+      "remove_all": "5_never",
+      "0_grass": "0_common",
+      "1_bush": "1_frequent",
+      "2_tree": "3_scarce",
+      "3_big_tree": "5_never",
+      "0_grave": "5_never",
+      "0_lamp": "0_common",
+      "1_gate": "1_frequent",
+      "2_house": "4_unique",
+      "mole": "5_never",
+      "monokelo": "2_rare"
+    },
+    "medium": {
+      "bomb": "2_rare",
+      "level_up": "2_rare",
+      "move": "1_frequent",
+      "wildcard": "2_rare",
+      "remove_all": "4_unique",
+      "0_grass": "0_common",
+      "1_bush": "1_frequent",
+      "2_tree": "3_scarce",
+      "3_big_tree": "5_never",
+      "0_grave": "5_never",
+      "0_lamp": "0_common",
+      "1_gate": "1_frequent",
+      "2_house": "4_unique",
+      "mole": "5_never",
+      "monokelo": "2_rare"
+    },
+    "hard": {
+      "bomb": "1_frequent",
+      "level_up": "2_rare",
+      "move": "2_rare",
+      "wildcard": "3_scarce",
+      "remove_all": "4_unique",
+      "0_grass": "0_common",
+      "1_bush": "1_frequent",
+      "2_tree": "3_scarce",
+      "3_big_tree": "5_never",
+      "0_grave": "5_never",
+      "0_lamp": "0_common",
+      "1_gate": "1_frequent",
+      "2_house": "4_unique",
+      "mole": "5_never",
+      "monokelo": "2_rare"
+    },
+    "supreme": {
+      "bomb": "4_unique",
+      "level_up": "4_unique",
+      "move": "1_frequent",
+      "wildcard": "2_rare",
+      "remove_all": "5_never",
+      "0_grass": "0_common",
+      "1_bush": "1_frequent",
+      "2_tree": "3_scarce",
+      "3_big_tree": "5_never",
+      "0_grave": "5_never",
+      "0_lamp": "0_common",
+      "1_gate": "1_frequent",
+      "2_house": "4_unique",
+      "mole": "5_never",
+      "monokelo": "2_rare"
+    },
+    "legendary": {
+      "bomb": "4_unique",
+      "level_up": "4_unique",
+      "move": "1_frequent",
+      "wildcard": "2_rare",
+      "remove_all": "5_never",
+      "0_grass": "0_common",
+      "1_bush": "1_frequent",
+      "2_tree": "3_scarce",
+      "3_big_tree": "5_never",
+      "0_grave": "5_never",
+      "0_lamp": "0_common",
+      "1_gate": "1_frequent",
+      "2_house": "4_unique",
+      "mole": "5_never",
+      "monokelo": "2_rare"
+    }
+  },
+  "chest_prizes": {
+    "0_chest_bronze": {
+      "cat_white": "1_frequent",
+      "cat_gold": "2_rare"
+    },
+    "1_chest_silver": {
+      "cat_white": "1_frequent",
+      "cat_gold": "2_rare"
+    },
+    "2_chest_gold": {
+      "cat_white": "2_rare",
+      "cat_gold": "1_frequent"
+    },
+    "4_chest_diamond": {
+      "cat_white": "5_never",
+      "cat_gold": "1_frequent"
+    }
+  },
+  "file_info": {
+    "config_file_version_test": "0.0.2"
+  }
+}

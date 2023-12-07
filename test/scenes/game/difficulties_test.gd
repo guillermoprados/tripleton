@@ -60,30 +60,6 @@ func test__when_points_excedded_diff_max_points_on_last_diff_it_should_stay() ->
 	game_manager.add_points(diff_points + 10)
 	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.LEGENDARY)
 	
-
-func test__difficulties_should_have_the_proper_token_limit() -> void:
-	
-	await __set_to_player_state()
-	
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.EASY)
-	assert_int(game_manager.difficulty.max_level_token).is_equal(2)
-
-	game_manager.__next_difficulty()
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.MEDIUM)
-	assert_int(game_manager.difficulty.max_level_token).is_equal(3)
-
-	game_manager.__next_difficulty()
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.HARD)
-	assert_int(game_manager.difficulty.max_level_token).is_equal(4)
-	
-	game_manager.__next_difficulty()
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.SUPREME)
-	assert_int(game_manager.difficulty.max_level_token).is_equal(5)
-	
-	game_manager.__next_difficulty()
-	assert_that(game_manager.difficulty.level).is_equal(Constants.DifficultyLevel.LEGENDARY)
-	assert_int(game_manager.difficulty.max_level_token).is_equal(10)
-	
 func test__easy_diff_should_use_limit_chest() -> void:
 	
 	var landscape := [

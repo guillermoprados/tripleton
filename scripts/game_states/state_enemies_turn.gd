@@ -20,7 +20,7 @@ func _on_state_entered() -> void:
 # override in states
 func _on_state_exited() -> void:
 	var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-	for key in enemies:
+	for key:Vector2 in enemies:
 		__unbind_enemy_actions(enemies[key])
 	enemies = {}
 
@@ -47,7 +47,7 @@ func _process(delta:float) -> void:
 	match __inner_state:
 		STATE_ACTIONS:
 			var enemies: Dictionary = board.get_tokens_of_type(Constants.TokenType.ENEMY)
-			for key in enemies:
+			for key:Vector2 in enemies:
 				number_of_pending_actions += 1
 				__bind_enemy_actions(enemies[key])
 				enemies[key].behavior.execute(key, board.cell_tokens_ids)
@@ -61,7 +61,7 @@ func _process(delta:float) -> void:
 func __highlight_groups() -> void:
 	var groups := EnemiesHelper.find_enclosed_groups(board)
 	
-	for group in groups:
+	for group:Array in groups:
 		if group.size() > Constants.MIN_REQUIRED_TOKENS_FOR_COMBINATION - 1:
 			__highlight_last_created(group)
 		else:
@@ -74,13 +74,13 @@ func __highlight_last_created(group:Array) -> void:
 	assert(group.size() > 0, "groups info should be bigger than 0")
 	var last_pos : Vector2 = group[0] 
 	var last_created_token:BoardToken = board.get_token_at_cell(last_pos)
-	for pos in group:
+	for pos:Vector2 in group:
 		var other_token: BoardToken = board.get_token_at_cell(pos)
 		if other_token.created_at > last_created_token.created_at:
 			last_created_token = other_token
 			last_pos = pos
 		
-	for pos in group:
+	for pos:Vector2 in group:
 		var token:BoardToken = board.get_token_at_cell(pos)
 		if pos == last_pos:
 			token.set_highlight(Constants.TokenHighlight.LAST)
@@ -88,6 +88,6 @@ func __highlight_last_created(group:Array) -> void:
 			token.set_highlight(Constants.TokenHighlight.NONE)
 
 func __clear_group_hihglights(group:Array) -> void:
-	for pos in group:
+	for pos:Vector2 in group:
 		var token:BoardToken = board.get_token_at_cell(pos)
 		token.set_highlight(Constants.TokenHighlight.NONE)
