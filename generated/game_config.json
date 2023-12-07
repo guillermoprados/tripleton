@@ -127,25 +127,25 @@
     "easy": {
       "total_points": 3000,
       "save_token_slots": 1,
-      "max_level_token": 3,
+      "max_level_token": 2,
       "max_level_chest_id": "0_chest_bronze"
     },
     "medium": {
       "total_points": 4000,
       "save_token_slots": 1,
-      "max_level_token": 3,
+      "max_level_token": 2,
       "max_level_chest_id": "0_chest_bronze"
     },
     "hard": {
       "total_points": 5000,
       "save_token_slots": 2,
-      "max_level_token": 4,
+      "max_level_token": 3,
       "max_level_chest_id": "1_chest_silver"
     },
     "supreme": {
       "total_points": 6000,
       "save_token_slots": 2,
-      "max_level_token": 5,
+      "max_level_token": 4,
       "max_level_chest_id": "2_chest_gold"
     },
     "legendary": {
@@ -169,8 +169,9 @@
       "0_grave": "2_rare",
       "0_lamp": "1_frequent",
       "1_gate": "2_rare",
-      "2_house": "5_never",
-      "mole": "5_never"
+      "2_house": "4_unique",
+      "mole": "5_never",
+      "monokelo": "3_scarce"
     },
     "easy": {
       "bomb": "4_unique",
@@ -186,7 +187,8 @@
       "0_lamp": "0_common",
       "1_gate": "1_frequent",
       "2_house": "4_unique",
-      "mole": "5_never"
+      "mole": "5_never",
+      "monokelo": "2_rare"
     },
     "medium": {
       "bomb": "2_rare",
@@ -202,7 +204,8 @@
       "0_lamp": "0_common",
       "1_gate": "1_frequent",
       "2_house": "4_unique",
-      "mole": "5_never"
+      "mole": "5_never",
+      "monokelo": "2_rare"
     },
     "hard": {
       "bomb": "1_frequent",
@@ -218,7 +221,8 @@
       "0_lamp": "0_common",
       "1_gate": "1_frequent",
       "2_house": "4_unique",
-      "mole": "5_never"
+      "mole": "5_never",
+      "monokelo": "2_rare"
     },
     "supreme": {
       "bomb": "4_unique",
@@ -234,7 +238,8 @@
       "0_lamp": "0_common",
       "1_gate": "1_frequent",
       "2_house": "4_unique",
-      "mole": "5_never"
+      "mole": "5_never",
+      "monokelo": "2_rare"
     },
     "legendary": {
       "bomb": "4_unique",
@@ -250,7 +255,8 @@
       "0_lamp": "0_common",
       "1_gate": "1_frequent",
       "2_house": "4_unique",
-      "mole": "5_never"
+      "mole": "5_never",
+      "monokelo": "2_rare"
     }
   },
   "chest_prizes": {

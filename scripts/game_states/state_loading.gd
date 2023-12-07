@@ -2,9 +2,6 @@ extends StateBase
 
 class_name StateLoading
 
-@export_category("Required Data Configuration")
-@export var landscape_tokens:Array[TokenData]
-
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.LOADING
 
@@ -28,10 +25,7 @@ func _process(delta:float) -> void:
 		STATE_PREPARE:
 			pass
 		STATE_CONFIG:
-			#assert(ordered_difficulties.size() > 0, "Add difficulties")
-			#game_manager.__set_difficulties(ordered_difficulties)
 			load_difficulties()
-			pass
 		STATE_SET_OBJECTS:
 			__position_game_objects()
 		STATE_PREPARE_LANDSCAPE:
@@ -53,11 +47,15 @@ func __create_landscape() -> void:
 	randomize()
 	#TODO: DO NOT PLACE ENEMIES IN ENCLOSED PLACES!!
 	var rand_num := __get_random_between(Constants.MIN_LANDSCAPE_TOKENS, Constants.MAX_LANDSCAPE_TOKENS)
+	var token_probs_by_set:Dictionary = game_manager.game_config_data.get_spawn_probabilities_set_data("landscape")
+	var token_set := TokenSet.new()
+	for token_id:String in token_probs_by_set.keys():
+			token_set.add_token_id(token_id, token_probs_by_set[token_id])
+			
 	for i in range(rand_num + 1):  # +1 to make it inclusive of the random number
 		var random_cell:Vector2 = __get_random_position(board.rows, board.columns)
 		if board.is_cell_empty(random_cell):
-			var rand_token := __get_random_between(0, landscape_tokens.size() - 1)
-			var random_token_id:String = landscape_tokens[rand_token].id
+			var random_token_id:String = token_set.get_random_token_data_id()
 			var random_token := game_manager.instantiate_new_token(random_token_id, Constants.TokenStatus.PLACED)
 			board.set_token_at_cell(random_token, random_cell)
 
@@ -90,7 +88,7 @@ func load_difficulties() -> void:
 		
 		var difficulty := Difficulty.new()
 		
-		difficulty.level = id
+		difficulty.__level = id
 		difficulty.__total_points = difficulty_data['total_points']
 		difficulty.__save_token_slots = difficulty_data['save_token_slots']
 		difficulty.__max_level_token = difficulty_data['max_level_token']
@@ -99,23 +97,10 @@ func load_difficulties() -> void:
 		var difficulty_id_as_string := Difficulty.as_string(id)
 		var token_probs_by_set:Dictionary = game_manager.game_config_data.get_spawn_probabilities_set_data(difficulty_id_as_string)
 		
+		var token_set := TokenSet.new()
 		for token_id:String in token_probs_by_set.keys():
-			match token_probs_by_set[token_id]:
-				"0_common":
-					difficulty.__common_token_ids.append(token_id)
-				"1_frequent":
-					difficulty.__frequent_token_ids.append(token_id)
-				"2_rare":
-					difficulty.__rare_token_ids.append(token_id)
-				"3_scarce":
-					difficulty.__scarce_token_ids.append(token_id)
-				"4_unique":
-					difficulty.__unique_token_ids.append(token_id)
-				"5_never":
-					pass
-				_:
-					assert(false, "id invalid " + token_id + " for set: "+Difficulty.as_string(id))
-					
+			token_set.add_token_id(token_id, token_probs_by_set[token_id])
+		difficulty.__tokens_set = token_set
 		difficulties.append(difficulty)
 		
 	game_manager.__set_difficulties(difficulties)

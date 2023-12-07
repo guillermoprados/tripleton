@@ -27,11 +27,7 @@ var total_points: int:
 	get:
 		return __total_points
 
-var __common_token_ids: Array[String] = []
-var __frequent_token_ids: Array[String] = []
-var __rare_token_ids: Array[String] = [] 
-var __scarce_token_ids: Array[String] = [] 
-var __unique_token_ids: Array[String] = [] 
+var __tokens_set: TokenSet
 
 var __validated : bool
 
@@ -70,33 +66,7 @@ var name:String:
 	get:
 		return as_string(level)
 
-func __validate()  -> void:
-	assert(__common_token_ids.size() > 0, name + ": common array should not be empty")
-	assert(__frequent_token_ids.size() > 0, name + ": uncommon array should not be empty")
-	assert(__rare_token_ids.size() > 0, name + ": rare array should not be empty")
-	assert(__scarce_token_ids.size() > 0, name + ": scarce array should not be empty")
-	assert(__unique_token_ids.size() > 0, name + ": unique array should not be empty")
-	__validated = true
-	
 func get_random_token_data_id() -> String:
-	
-	if not __validated:
-		__validate()	
-		# if you want to debug the values
-		# run_simulation(10000, self)
-	
-	var rand_val := randf()
-	
-	if rand_val < Constants.TOKEN_PROB_COMMON:
-		return get_random_from_array(__common_token_ids)
-	elif rand_val < Constants.TOKEN_PROB_UNCOMMON:
-		return get_random_from_array(__frequent_token_ids)
-	elif rand_val < Constants.TOKEN_PROB_RARE:
-		return get_random_from_array(__rare_token_ids)
-	elif rand_val < Constants.TOKEN_PROB_SCARCE:
-		return get_random_from_array(__scarce_token_ids)
-	else:
-		return get_random_from_array(__unique_token_ids)
+	assert(__tokens_set, "There is no token set for this difficulty")
+	return __tokens_set.get_random_token_data_id()	
 		
-func get_random_from_array(arr: Array) -> String:
-	return arr[randi() % arr.size()]

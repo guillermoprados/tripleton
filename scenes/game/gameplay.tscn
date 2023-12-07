@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://lkolhnpo6fuo"]
+[gd_scene load_steps=26 format=3 uid="uid://lkolhnpo6fuo"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_noepw"]
 [ext_resource type="Script" path="res://resources/game_config_data.gd" id="1_vxlqp"]
@@ -25,7 +25,6 @@
 [ext_resource type="Resource" uid="uid://dy163nmcgs5yx" path="res://data/tokens_data/combinables/grass/0_grass.tres" id="21_ajspr"]
 [ext_resource type="Resource" uid="uid://yclnnytw230n" path="res://data/tokens_data/combinables/grass/1_bush.tres" id="22_62cki"]
 [ext_resource type="PackedScene" uid="uid://1rbab57s5yio" path="res://scenes/effects/select_cell.tscn" id="22_x53b4"]
-[ext_resource type="Resource" uid="uid://kccdpfen1pu7" path="res://data/tokens_data/combinables/grass/2_tree.tres" id="23_fc6dr"]
 
 [node name="Gameplay" type="Node2D"]
 position = Vector2(0, 1)
@@ -65,7 +64,6 @@ board = NodePath("../Board")
 
 [node name="StateLoading" type="Node" parent="StateMachine"]
 script = ExtResource("9_kvjog")
-landscape_tokens = Array[Resource("res://resources/token_data.gd")]([ExtResource("21_ajspr"), ExtResource("22_62cki"), ExtResource("23_fc6dr")])
 
 [node name="StateStart" type="Node" parent="StateMachine"]
 script = ExtResource("11_q468j")

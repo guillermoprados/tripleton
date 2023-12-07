@@ -67,9 +67,6 @@ def process_difficulties_sheet(sheet):
 def process_spawn_probabilities_sheet(sheet):
     result = {}
     
-    # Exclude the 'total' row
-    sheet = sheet.iloc[:-1]
-    
     # Use the first column as token_id/level
     token_id_column = sheet.columns[0]
     
