@@ -14,12 +14,12 @@ func test__bush_to_tree() -> void:
 func test__tree_to_chest() -> void:
 	await __await_combination_to_combination(IDs.TREEE, IDs.CHE_B)
 
-func test__tree_to_big_tree() -> void:
-	await __await_combination_to_combination(IDs.TREEE, IDs.B_TRE, Constants.DifficultyLevel.MEDIUM)
-	
 func test__big_tree_to_chest() -> void:
 	await __await_combination_to_combination(IDs.B_TRE, IDs.CHE_S, Constants.DifficultyLevel.MEDIUM)
 
+func test__tree_to_big_tree() -> void:
+	await __await_combination_to_combination(IDs.TREEE, IDs.B_TRE, Constants.DifficultyLevel.MEDIUM)
+	
 ## graves
 func test__grave_to_tomb() -> void:
 	await __await_combination_to_combination(IDs.GRAVE, IDs.TOMBB)

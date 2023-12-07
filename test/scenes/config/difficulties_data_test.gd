@@ -15,11 +15,11 @@ func test__when_loading_a_difficulty_easy_it_should_match_config_data() -> void:
 	assert_int(game_difficulty.max_level_token).is_equal(config_difficulty["max_level_token"])
 	assert_str(game_difficulty.max_level_chest_id).is_equal(config_difficulty["max_level_chest_id"])
 	
-	assert_array(game_difficulty.__tokens_set.__common_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__frequent_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__rare_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__scarce_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__unique_token_ids).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.COMMON]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.FREQUENT]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.RARE]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.SCARCE]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.UNIQUE]).is_not_empty()
 
 func test__when_loading_a_difficulty_hard_it_should_match_config_data() -> void:
 	
@@ -35,8 +35,8 @@ func test__when_loading_a_difficulty_hard_it_should_match_config_data() -> void:
 	assert_int(game_difficulty.max_level_token).is_equal(config_difficulty["max_level_token"])
 	assert_str(game_difficulty.max_level_chest_id).is_equal(config_difficulty["max_level_chest_id"])
 	
-	assert_array(game_difficulty.__tokens_set.__common_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__frequent_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__rare_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__scarce_token_ids).is_not_empty()
-	assert_array(game_difficulty.__tokens_set.__unique_token_ids).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.COMMON]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.FREQUENT]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.RARE]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.SCARCE]).is_not_empty()
+	assert_array(game_difficulty.__tokens_set.tokens_id_by_frequency[Constants.SetFrecuency.UNIQUE]).is_not_empty()
