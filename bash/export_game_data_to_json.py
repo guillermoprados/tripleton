@@ -103,9 +103,6 @@ def process_file_info_sheet(sheet):
 def process_chest_prizes_sheet(sheet):
     result = {}
 
-    # Exclude the 'total' row
-    sheet = sheet.iloc[:-1]
-
     # Use the first column as the key (probs/chest)
     key_column = sheet.columns[0]
 

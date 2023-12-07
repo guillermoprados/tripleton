@@ -13,9 +13,8 @@ func test__when_loading_a_chest_token_it_should_configure_it_config_data() -> vo
 	assert_bool(is_chest).is_true()
 	
 	var chest_token_data := token_data as TokenChestData
-	var config_chest_prizes : Dictionary = __game_config_data.get_chest_prizes_config_data(IDs.CHE_B)
-	
-	assert_dict(chest_token_data.prizes).is_same(config_chest_prizes)
+	var random_token_id := chest_token_data.get_random_prize_id()
+	assert_str(random_token_id).is_not_empty()
 	
 func test__when_loading_a_combinable_token_it_should_configure_it_config_data() -> void:
 	

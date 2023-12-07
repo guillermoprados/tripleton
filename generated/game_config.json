@@ -261,17 +261,20 @@
   },
   "chest_prizes": {
     "0_chest_bronze": {
-      "cat_white": 20,
-      "cat_gold": 40
+      "cat_white": "1_frequent",
+      "cat_gold": "2_rare"
     },
     "1_chest_silver": {
-      "cat_gold": 20
+      "cat_white": "1_frequent",
+      "cat_gold": "2_rare"
     },
     "2_chest_gold": {
-      "cat_gold": 20
+      "cat_white": "2_rare",
+      "cat_gold": "1_frequent"
     },
     "4_chest_diamond": {
-      "cat_gold": 20
+      "cat_white": "5_never",
+      "cat_gold": "1_frequent"
     }
   },
   "file_info": {

@@ -96,11 +96,11 @@ func load_difficulties() -> void:
 		
 		var difficulty_id_as_string := Difficulty.as_string(id)
 		var token_probs_by_set:Dictionary = game_manager.game_config_data.get_spawn_probabilities_set_data(difficulty_id_as_string)
-		
 		var token_set := TokenSet.new()
 		for token_id:String in token_probs_by_set.keys():
 			token_set.add_token_id(token_id, token_probs_by_set[token_id])
 		difficulty.__tokens_set = token_set
+		
 		difficulties.append(difficulty)
 		
 	game_manager.__set_difficulties(difficulties)

@@ -66,7 +66,11 @@ func fulfill_token_data(token_data:TokenData) -> void:
 			token_data.__collectable = bool(config_token_data["collectable"])
 	
 	if token_data is TokenChestData:
-		token_data.__prizes = get_chest_prizes_config_data(token_id)
+		var token_probs_by_set:Dictionary = get_chest_prizes_config_data(token_id)
+		var token_set := TokenSet.new()
+		for t_id:String in token_probs_by_set.keys():
+			token_set.add_token_id(t_id, token_probs_by_set[t_id])
+		token_data.__prizes = token_set
 	
 	#if token_data is TokenPrizeData:
 	#	if reward_data['reward_type'] == "gold":
