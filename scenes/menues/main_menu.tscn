@@ -1,0 +1,111 @@
+[gd_scene load_steps=20 format=3 uid="uid://b4ay3jjjapf4c"]
+
+[ext_resource type="Texture2D" uid="uid://lpwcid5g3068" path="res://images/menu/mm_moun_b_l.png" id="1_wl7x0"]
+[ext_resource type="Texture2D" uid="uid://kt8oqsnbn3jh" path="res://images/menu/mm_moun_b_r.png" id="2_8d63u"]
+[ext_resource type="Texture2D" uid="uid://dob3h82bowgsl" path="res://images/menu/mm_cloud_2.png" id="3_hou8y"]
+[ext_resource type="Texture2D" uid="uid://djy3f6l3ply0d" path="res://images/menu/mm_cloud_1.png" id="4_qdgnx"]
+[ext_resource type="Texture2D" uid="uid://6yu2ldb6lkg" path="res://images/menu/mm_moun_m_r.png" id="5_fep3c"]
+[ext_resource type="Texture2D" uid="uid://m6vd6xg1w36j" path="res://images/menu/mm_moun_m_l.png" id="6_mc3je"]
+[ext_resource type="Texture2D" uid="uid://c453kct5lfm5c" path="res://images/menu/mm_cloud_4.png" id="7_vucvx"]
+[ext_resource type="Texture2D" uid="uid://b3wt0yf5pca5b" path="res://images/menu/mm_cloud_3.png" id="8_p56wg"]
+[ext_resource type="Texture2D" uid="uid://d4csd07oeq8ba" path="res://images/menu/mm_moun_f_l.png" id="9_uv88x"]
+[ext_resource type="Texture2D" uid="uid://bsksilhydd0pb" path="res://images/menu/mm_moun_f_r.png" id="10_36im5"]
+[ext_resource type="PackedScene" uid="uid://cy5oku1k32smq" path="res://ui/menu/main_menu.tscn" id="11_wwmfu"]
+
+[sub_resource type="Gradient" id="Gradient_itwvy"]
+offsets = PackedFloat32Array(0, 0.990291, 1)
+colors = PackedColorArray(0.669376, 0.646093, 0.291766, 1, 0.778641, 0.778641, 0.778641, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_74dbs"]
+gradient = SubResource("Gradient_itwvy")
+
+[sub_resource type="Gradient" id="Gradient_hmrxo"]
+offsets = PackedFloat32Array(0, 0.184466, 1)
+colors = PackedColorArray(0.72549, 0.517647, 0.247059, 0, 0.72549, 0.517647, 0.247059, 0.541176, 1, 1, 1, 0.0705882)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vipwl"]
+gradient = SubResource("Gradient_hmrxo")
+
+[sub_resource type="Gradient" id="Gradient_enku0"]
+colors = PackedColorArray(0.435294, 0.290196, 0.156863, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jrbs3"]
+gradient = SubResource("Gradient_enku0")
+
+[sub_resource type="Gradient" id="Gradient_qumor"]
+colors = PackedColorArray(0, 0, 0, 0, 0.901961, 0.74902, 0.509804, 0.584314)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gmmcl"]
+gradient = SubResource("Gradient_qumor")
+
+[node name="main_menu" type="Node2D"]
+
+[node name="back" type="Node2D" parent="."]
+
+[node name="background" type="Sprite2D" parent="back"]
+position = Vector2(327, 644)
+rotation = 1.5708
+scale = Vector2(6.43359, 1134)
+texture = SubResource("GradientTexture1D_74dbs")
+
+[node name="moun_back_left" type="Sprite2D" parent="back"]
+position = Vector2(310, 915)
+texture = ExtResource("1_wl7x0")
+
+[node name="moun_back_rigth" type="Sprite2D" parent="back"]
+position = Vector2(443, 885)
+texture = ExtResource("2_8d63u")
+
+[node name="cloud_2" type="Sprite2D" parent="back"]
+position = Vector2(174, 242)
+texture = ExtResource("3_hou8y")
+
+[node name="smog_back" type="Sprite2D" parent="back"]
+position = Vector2(446, 703)
+rotation = 1.5708
+scale = Vector2(6.34004, 1127.73)
+texture = SubResource("GradientTexture1D_vipwl")
+
+[node name="cloud_1" type="Sprite2D" parent="back"]
+position = Vector2(572, 427)
+texture = ExtResource("4_qdgnx")
+
+[node name="moun_mid_right" type="Sprite2D" parent="back"]
+position = Vector2(528, 828)
+texture = ExtResource("5_fep3c")
+
+[node name="moun_mid_left" type="Sprite2D" parent="back"]
+position = Vector2(186, 853)
+texture = ExtResource("6_mc3je")
+
+[node name="smog_middle" type="Sprite2D" parent="back"]
+position = Vector2(367.695, 661.364)
+rotation = 1.5708
+scale = Vector2(5.46356, 964.835)
+texture = SubResource("GradientTexture1D_jrbs3")
+
+[node name="cloud_4" type="Sprite2D" parent="back"]
+position = Vector2(102, 975)
+texture = ExtResource("7_vucvx")
+
+[node name="cloud_3" type="Sprite2D" parent="back"]
+position = Vector2(523, 750)
+texture = ExtResource("8_p56wg")
+
+[node name="moun_front_left" type="Sprite2D" parent="back"]
+position = Vector2(122, 754)
+texture = ExtResource("9_uv88x")
+
+[node name="moun_front_left2" type="Sprite2D" parent="back"]
+position = Vector2(594, 779)
+texture = ExtResource("10_36im5")
+
+[node name="smog_front" type="Sprite2D" parent="back"]
+position = Vector2(355.087, 616.418)
+rotation = 1.5708
+scale = Vector2(5.77248, 926.053)
+texture = SubResource("GradientTexture1D_gmmcl")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("11_wwmfu")]

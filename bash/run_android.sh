@@ -7,7 +7,7 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd "$script_dir"
 
-adb install ../android/tripleton.apk
+adb install ../exports/android/tripleton.apk
 
 echo "start log"
 
