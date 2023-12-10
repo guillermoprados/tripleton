@@ -1,0 +1,15 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmdg1yt71lgq"]
+
+[ext_resource type="Texture2D" uid="uid://dob3h82bowgsl" path="res://images/menu/mm_cloud_2.png" id="1_lpplj"]
+[ext_resource type="Script" path="res://scenes/menues/cloud.gd" id="2_aj2wd"]
+[ext_resource type="Texture2D" uid="uid://djy3f6l3ply0d" path="res://images/menu/mm_cloud_1.png" id="3_eqmjc"]
+[ext_resource type="Texture2D" uid="uid://b3wt0yf5pca5b" path="res://images/menu/mm_cloud_3.png" id="4_br085"]
+[ext_resource type="Texture2D" uid="uid://c453kct5lfm5c" path="res://images/menu/mm_cloud_4.png" id="5_of84a"]
+
+[node name="cloud_2" type="Sprite2D"]
+position = Vector2(290, 242)
+texture = ExtResource("1_lpplj")
+script = ExtResource("2_aj2wd")
+cloud_textures = Array[Texture]([ExtResource("3_eqmjc"), ExtResource("1_lpplj"), ExtResource("4_br085"), ExtResource("5_of84a")])
+min_time = 10.0
+max_time = 20.0

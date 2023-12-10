@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cy5oku1k32smq"]
+[gd_scene load_steps=2 format=3 uid="uid://cy5oku1k32smq"]
+
+[ext_resource type="Script" path="res://ui/menu/main_menu.gd" id="1_aeokc"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("1_aeokc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -32,3 +35,7 @@ text = "Gallery
 [node name="ButOption" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Options"
+
+[connection signal="pressed" from="VBoxContainer/ButNewGame" to="." method="_on_but_new_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButCollection" to="." method="_on_but_collection_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButOption" to="." method="_on_but_option_pressed"]
