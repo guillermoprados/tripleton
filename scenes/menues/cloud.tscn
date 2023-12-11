@@ -6,8 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b3wt0yf5pca5b" path="res://images/menu/mm_cloud_3.png" id="4_br085"]
 [ext_resource type="Texture2D" uid="uid://c453kct5lfm5c" path="res://images/menu/mm_cloud_4.png" id="5_of84a"]
 
-[node name="cloud_2" type="Sprite2D"]
-position = Vector2(290, 242)
+[node name="cloud" type="Sprite2D"]
 texture = ExtResource("1_lpplj")
 script = ExtResource("2_aj2wd")
 cloud_textures = Array[Texture]([ExtResource("3_eqmjc"), ExtResource("1_lpplj"), ExtResource("4_br085"), ExtResource("5_of84a")])

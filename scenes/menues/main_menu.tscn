@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b4ay3jjjapf4c"]
+[gd_scene load_steps=18 format=3 uid="uid://b4ay3jjjapf4c"]
 
 [ext_resource type="Texture2D" uid="uid://lpwcid5g3068" path="res://images/menu/mm_moun_b_l.png" id="1_wl7x0"]
 [ext_resource type="Script" path="res://scenes/menues/main_menu.gd" id="1_ygwgq"]
@@ -36,118 +36,9 @@ colors = PackedColorArray(0, 0, 0, 0, 0.901961, 0.74902, 0.509804, 0.584314)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_gmmcl"]
 gradient = SubResource("Gradient_qumor")
 
-[sub_resource type="Animation" id="Animation_464sc"]
-resource_name = "enter_screen"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("back/moun_front_right:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(583, 1789), Vector2(583, 769)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("back/moun_front_left:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(122, 1780), Vector2(122, 752)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("back/moun_mid_left:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1.7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(186, 1884), Vector2(186, 858)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("back/moun_mid_right:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 1.7),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(498, 1861), Vector2(498, 829)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("back/moun_back_left:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(310, 1931), Vector2(310, 874)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("back/moun_back_rigth:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 1.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(448, 1776), Vector2(448, 770)]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("back/smog_front:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(355, 1573), Vector2(355, 560)]
-}
-
-[sub_resource type="Animation" id="Animation_0n687"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("back/moun_back_rigth:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(448, 770)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_22vai"]
-_data = {
-"RESET": SubResource("Animation_0n687"),
-"enter_screen": SubResource("Animation_464sc")
-}
-
 [node name="main_menu" type="Node2D" node_paths=PackedStringArray("animation_player")]
 script = ExtResource("1_ygwgq")
-animation_player = NodePath("mountains_animator")
+animation_player = NodePath("")
 
 [node name="back" type="Node2D" parent="."]
 
@@ -157,6 +48,9 @@ rotation = 1.5708
 scale = Vector2(6.43359, 1134)
 texture = SubResource("GradientTexture1D_74dbs")
 
+[node name="cloud_1" parent="back" instance=ExtResource("4_4rf5e")]
+position = Vector2(539, 336)
+
 [node name="moun_back_rigth" type="Sprite2D" parent="back"]
 position = Vector2(448, 770)
 texture = ExtResource("2_8d63u")
@@ -165,24 +59,8 @@ texture = ExtResource("2_8d63u")
 position = Vector2(310, 874)
 texture = ExtResource("1_wl7x0")
 
-[node name="cloud_1" parent="back" node_paths=PackedStringArray("left_top_marker", "right_bottom_marker") instance=ExtResource("4_4rf5e")]
-left_top_marker = NodePath("../LeftTopPositionClouds")
-right_bottom_marker = NodePath("../RightBottomPositionClouds")
-
-[node name="cloud_2" parent="back" node_paths=PackedStringArray("left_top_marker", "right_bottom_marker") instance=ExtResource("4_4rf5e")]
-position = Vector2(156, 247)
-left_top_marker = NodePath("../LeftTopPositionClouds")
-right_bottom_marker = NodePath("../RightBottomPositionClouds")
-
-[node name="cloud_3" parent="back" node_paths=PackedStringArray("left_top_marker", "right_bottom_marker") instance=ExtResource("4_4rf5e")]
-position = Vector2(267, 360)
-left_top_marker = NodePath("../LeftTopPositionClouds")
-right_bottom_marker = NodePath("../RightBottomPositionClouds")
-
-[node name="cloud_4" parent="back" node_paths=PackedStringArray("left_top_marker", "right_bottom_marker") instance=ExtResource("4_4rf5e")]
-position = Vector2(429, 340)
-left_top_marker = NodePath("../LeftTopPositionClouds")
-right_bottom_marker = NodePath("../RightBottomPositionClouds")
+[node name="cloud_2" parent="back" instance=ExtResource("4_4rf5e")]
+position = Vector2(564, 471)
 
 [node name="smog_back" type="Sprite2D" parent="back"]
 position = Vector2(446, 703)
@@ -195,8 +73,11 @@ position = Vector2(498, 829)
 texture = ExtResource("5_fep3c")
 
 [node name="moun_mid_left" type="Sprite2D" parent="back"]
-position = Vector2(186, 858)
+position = Vector2(156, 858)
 texture = ExtResource("6_mc3je")
+
+[node name="cloud_3" parent="back" instance=ExtResource("4_4rf5e")]
+position = Vector2(583, 595)
 
 [node name="smog_middle" type="Sprite2D" parent="back"]
 position = Vector2(367.695, 661.364)
@@ -212,25 +93,17 @@ texture = ExtResource("9_uv88x")
 position = Vector2(583, 769)
 texture = ExtResource("10_36im5")
 
+[node name="cloud_4" parent="back/moun_front_right" instance=ExtResource("4_4rf5e")]
+position = Vector2(-36, -29)
+
 [node name="smog_front" type="Sprite2D" parent="back"]
 position = Vector2(355, 560)
 rotation = 1.5708
 scale = Vector2(5.77248, 926.053)
 texture = SubResource("GradientTexture1D_gmmcl")
 
-[node name="LeftTopPositionClouds" type="Marker2D" parent="back"]
-position = Vector2(-186, -121)
-
-[node name="RightBottomPositionClouds" type="Marker2D" parent="back"]
-position = Vector2(961, 920)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MainMenu" parent="CanvasLayer" instance=ExtResource("11_wwmfu")]
-
-[node name="mountains_animator" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_22vai")
-}
 
 [connection signal="new_game_selected" from="CanvasLayer/MainMenu" to="." method="_on_main_menu_new_game_selected"]

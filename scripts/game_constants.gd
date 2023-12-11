@@ -126,6 +126,7 @@ enum SetFrecuency {
 	NEVER
 }
 
+const DEFAULT_SCREEN_SIZE := Vector2(720, 1280)
 const BOARD_SIZE := Vector2(6,5)
 
 const TILESET_TERRAIN_BOARD_SET = 0
