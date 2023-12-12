@@ -38,7 +38,7 @@ gradient = SubResource("Gradient_qumor")
 
 [node name="main_menu_background" type="Node2D" node_paths=PackedStringArray("menu_mountains", "markers")]
 script = ExtResource("1_jep1r")
-menu_mountains = [null, null, null, null, NodePath("moun_front_right"), NodePath("moun_front_left")]
+menu_mountains = [NodePath("moun_front_right"), NodePath("moun_front_left")]
 markers = [NodePath("normal_position_left"), NodePath("bottom_position_left"), NodePath("normal_position_right"), NodePath("bottom_position_right")]
 
 [node name="background" type="Sprite2D" parent="."]

@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name MainMenuBackground
+
 @export var menu_mountains:Array[MenuMountain]
 
 @export var markers:Array[Marker2D] = []
@@ -28,3 +30,7 @@ func __adjust_markers_positions() -> void:
 	for i in range(markers.size()):
 		markers[i].position = screen_size * markers_original_positions[i] / scale_factor
 
+
+func animate_from_sky() -> void:
+	for mountain:MenuMountain in menu_mountains:
+		mountain.animate_from_button()

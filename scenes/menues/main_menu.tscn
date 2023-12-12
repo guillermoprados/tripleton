@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://b76l6kxxudfnt" path="res://scenes/menues/main_menu_background.tscn" id="2_52iof"]
 [ext_resource type="PackedScene" uid="uid://cy5oku1k32smq" path="res://ui/menu/main_menu.tscn" id="11_wwmfu"]
 
-[node name="main_menu" type="Node2D"]
+[node name="main_menu" type="Node2D" node_paths=PackedStringArray("background")]
 script = ExtResource("1_ygwgq")
+background = NodePath("main_menu_background")
 
-[node name="main_menu_background" parent="." node_paths=PackedStringArray("menu_mountains") instance=ExtResource("2_52iof")]
-menu_mountains = [null, null, null, null, NodePath("moun_front_right"), NodePath("moun_front_left")]
+[node name="main_menu_background" parent="." instance=ExtResource("2_52iof")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

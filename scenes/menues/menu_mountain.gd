@@ -15,9 +15,7 @@ func _ready() -> void:
 func _process(delta:float) -> void:
 	if not animating:
 		position = current_marker.position
-			 
-func set_animation_positions() -> void:
-	var button_pos := Vector2.ZERO
-	
+			 	
 func animate_from_button() -> void:
 	pass
+	
