@@ -1,5 +1,7 @@
 extends Sprite2D
 
+class_name MenuCloud
+
 @export var cloud_textures : Array[Texture]
 
 @export var min_time : float
@@ -24,13 +26,14 @@ func get_random_end_position(initial_pos:Vector2) -> Vector2:
 	return Vector2(pos_x,pos_y)
 	
 func _on_tween_completed()->void:
-	kill_tweeners()
+	reset_tweeners()
 	start_movement()
 
-func kill_tweeners() -> void:
+func reset_tweeners() -> void:
 	if cloud_tween and cloud_tween.is_running():
 		cloud_tween.kill()
-		
+	cloud_tween = create_tween()
+	
 func start_movement() -> void:
 	visible = false
 	
@@ -47,17 +50,20 @@ func start_movement() -> void:
 	var wait_time := randf_range(0, 2)
 	await get_tree().create_timer(wait_time).timeout
 	
+	reset_tweeners()
+	
 	position = initial_pos
 	
 	visible = true
-	cloud_tween = create_tween()
 	
 	# Move the cloud to the opposite side
-	cloud_tween.set_ease(Tween.EASE_IN_OUT)
-	
 	var final_pos := get_random_end_position(initial_pos)
 	 
 	cloud_tween.tween_property(self, "position", final_pos, time)
 	
 	# Connect the tween's "tween_completed" signal to the _on_tween_completed method
 	cloud_tween.tween_callback(_on_tween_completed)
+
+func animate_to_front(scale_factor:float, time:float) -> void:
+	reset_tweeners()
+	cloud_tween.tween_property(self, "scale", Vector2(scale_factor, scale_factor), time)

@@ -38,7 +38,7 @@ gradient = SubResource("Gradient_qumor")
 
 [node name="main_menu_background" type="Node2D" node_paths=PackedStringArray("menu_mountains", "markers")]
 script = ExtResource("1_jep1r")
-menu_mountains = [NodePath("moun_front_right"), NodePath("moun_front_left")]
+menu_mountains = [NodePath("moun_front_right"), NodePath("moun_front_left"), NodePath("moun_back_rigth"), NodePath("moun_back_left"), NodePath("moun_mid_right"), NodePath("moun_mid_left")]
 markers = [NodePath("normal_position_left"), NodePath("bottom_position_left"), NodePath("normal_position_right"), NodePath("bottom_position_right")]
 
 [node name="background" type="Sprite2D" parent="."]
@@ -50,13 +50,23 @@ texture = SubResource("GradientTexture1D_74dbs")
 [node name="cloud_1" parent="." instance=ExtResource("2_kg0nx")]
 position = Vector2(539, 336)
 
-[node name="moun_back_rigth" type="Sprite2D" parent="."]
-position = Vector2(448, 770)
+[node name="moun_back_rigth" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker", "front_position_marker")]
+position = Vector2(714, 1279)
 texture = ExtResource("3_7wcra")
+offset = Vector2(-290, -358)
+script = ExtResource("4_kvn85")
+normal_position_marker = NodePath("../normal_position_right")
+bottom_position_marker = NodePath("../bottom_position_right")
+front_position_marker = NodePath("../front_position_right")
 
-[node name="moun_back_left" type="Sprite2D" parent="."]
-position = Vector2(310, 874)
+[node name="moun_back_left" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker", "front_position_marker")]
+position = Vector2(0, 1273)
 texture = ExtResource("4_v4msk")
+offset = Vector2(310, -399)
+script = ExtResource("4_kvn85")
+normal_position_marker = NodePath("../normal_position_left")
+bottom_position_marker = NodePath("../bottom_position_left")
+front_position_marker = NodePath("../front_position_left")
 
 [node name="cloud_2" parent="." instance=ExtResource("2_kg0nx")]
 position = Vector2(564, 471)
@@ -67,13 +77,23 @@ rotation = 1.5708
 scale = Vector2(6.34004, 1127.73)
 texture = SubResource("GradientTexture1D_vipwl")
 
-[node name="moun_mid_right" type="Sprite2D" parent="."]
-position = Vector2(498, 829)
+[node name="moun_mid_right" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker", "front_position_marker")]
+position = Vector2(715, 1278)
 texture = ExtResource("5_68kfy")
+offset = Vector2(-217, -449)
+script = ExtResource("4_kvn85")
+normal_position_marker = NodePath("../normal_position_right")
+bottom_position_marker = NodePath("../bottom_position_right")
+front_position_marker = NodePath("../front_position_right")
 
-[node name="moun_mid_left" type="Sprite2D" parent="."]
-position = Vector2(156, 858)
+[node name="moun_mid_left" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker", "front_position_marker")]
+position = Vector2(-30, 1283)
 texture = ExtResource("6_wfl26")
+offset = Vector2(186, -425)
+script = ExtResource("4_kvn85")
+normal_position_marker = NodePath("../normal_position_left")
+bottom_position_marker = NodePath("../bottom_position_left")
+front_position_marker = NodePath("../front_position_left")
 
 [node name="cloud_3" parent="." instance=ExtResource("2_kg0nx")]
 position = Vector2(583, 595)
@@ -84,21 +104,23 @@ rotation = 1.5708
 scale = Vector2(5.46356, 964.835)
 texture = SubResource("GradientTexture1D_jrbs3")
 
-[node name="moun_front_left" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker")]
+[node name="moun_front_left" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker", "front_position_marker")]
 position = Vector2(2, 1280)
 texture = ExtResource("7_4q46o")
 offset = Vector2(120, -528)
 script = ExtResource("4_kvn85")
 normal_position_marker = NodePath("../normal_position_left")
 bottom_position_marker = NodePath("../bottom_position_left")
+front_position_marker = NodePath("../front_position_left")
 
-[node name="moun_front_right" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker")]
+[node name="moun_front_right" type="Sprite2D" parent="." node_paths=PackedStringArray("normal_position_marker", "bottom_position_marker", "front_position_marker")]
 position = Vector2(709, 1270)
 texture = ExtResource("8_v7x1u")
 offset = Vector2(-126, -501)
 script = ExtResource("4_kvn85")
 normal_position_marker = NodePath("../normal_position_right")
 bottom_position_marker = NodePath("../bottom_position_right")
+front_position_marker = NodePath("../front_position_right")
 
 [node name="cloud_4" parent="." instance=ExtResource("2_kg0nx")]
 position = Vector2(547, 740)
@@ -112,11 +134,17 @@ texture = SubResource("GradientTexture1D_gmmcl")
 [node name="normal_position_left" type="Marker2D" parent="."]
 position = Vector2(3, 1278)
 
+[node name="front_position_left" type="Marker2D" parent="."]
+position = Vector2(-697, 1577)
+
 [node name="bottom_position_left" type="Marker2D" parent="."]
 position = Vector2(3, 2205)
 
 [node name="normal_position_right" type="Marker2D" parent="."]
 position = Vector2(714, 1277)
+
+[node name="front_position_right" type="Marker2D" parent="."]
+position = Vector2(1507, 1626)
 
 [node name="bottom_position_right" type="Marker2D" parent="."]
 position = Vector2(714, 2191)

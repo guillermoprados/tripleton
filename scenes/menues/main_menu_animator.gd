@@ -2,7 +2,12 @@ extends Node2D
 
 class_name MainMenuBackground
 
+const FROM_SKY_ANIM_TIME = 2
+const TO_CITY_ANIM_TIME = 1
+const SCALE_FACTOR_TO_FRONT = 1.5
+
 @export var menu_mountains:Array[MenuMountain]
+@export var menu_clouds:Array[MenuCloud]
 
 @export var markers:Array[Marker2D] = []
 
@@ -33,4 +38,10 @@ func __adjust_markers_positions() -> void:
 
 func animate_from_sky() -> void:
 	for mountain:MenuMountain in menu_mountains:
-		mountain.animate_from_button()
+		mountain.animate_from_button(FROM_SKY_ANIM_TIME)
+
+func animate_to_city() -> void:
+	for mountain:MenuMountain in menu_mountains:
+		mountain.animate_to_front(SCALE_FACTOR_TO_FRONT, TO_CITY_ANIM_TIME)
+	for cloud:MenuCloud in menu_clouds:
+		cloud.animate_to_front(SCALE_FACTOR_TO_FRONT, TO_CITY_ANIM_TIME)
