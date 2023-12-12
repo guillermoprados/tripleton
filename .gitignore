@@ -5,3 +5,7 @@ android/tripleton.apk
 android/tripleton.apk.idsig
 addons/gdUnit4/GdUnitRunner.cfg
 keys/*
+exports/android/*
+exports/iOS/*
+*.apk
+*.idsig

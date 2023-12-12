@@ -1,106 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://b4ay3jjjapf4c"]
+[gd_scene load_steps=4 format=3 uid="uid://b4ay3jjjapf4c"]
 
-[ext_resource type="Texture2D" uid="uid://lpwcid5g3068" path="res://images/menu/mm_moun_b_l.png" id="1_wl7x0"]
 [ext_resource type="Script" path="res://scenes/menues/main_menu.gd" id="1_ygwgq"]
-[ext_resource type="Texture2D" uid="uid://kt8oqsnbn3jh" path="res://images/menu/mm_moun_b_r.png" id="2_8d63u"]
-[ext_resource type="PackedScene" uid="uid://cmdg1yt71lgq" path="res://scenes/menues/cloud.tscn" id="4_4rf5e"]
-[ext_resource type="Texture2D" uid="uid://6yu2ldb6lkg" path="res://images/menu/mm_moun_m_r.png" id="5_fep3c"]
-[ext_resource type="Texture2D" uid="uid://m6vd6xg1w36j" path="res://images/menu/mm_moun_m_l.png" id="6_mc3je"]
-[ext_resource type="Texture2D" uid="uid://d4csd07oeq8ba" path="res://images/menu/mm_moun_f_l.png" id="9_uv88x"]
-[ext_resource type="Texture2D" uid="uid://bsksilhydd0pb" path="res://images/menu/mm_moun_f_r.png" id="10_36im5"]
+[ext_resource type="PackedScene" uid="uid://b76l6kxxudfnt" path="res://scenes/menues/main_menu_background.tscn" id="2_52iof"]
 [ext_resource type="PackedScene" uid="uid://cy5oku1k32smq" path="res://ui/menu/main_menu.tscn" id="11_wwmfu"]
 
-[sub_resource type="Gradient" id="Gradient_itwvy"]
-offsets = PackedFloat32Array(0, 0.990291, 1)
-colors = PackedColorArray(0.669376, 0.646093, 0.291766, 1, 0.778641, 0.778641, 0.778641, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_74dbs"]
-gradient = SubResource("Gradient_itwvy")
-
-[sub_resource type="Gradient" id="Gradient_hmrxo"]
-offsets = PackedFloat32Array(0, 0.184466, 1)
-colors = PackedColorArray(0.72549, 0.517647, 0.247059, 0, 0.72549, 0.517647, 0.247059, 0.541176, 1, 1, 1, 0.0705882)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_vipwl"]
-gradient = SubResource("Gradient_hmrxo")
-
-[sub_resource type="Gradient" id="Gradient_enku0"]
-colors = PackedColorArray(0.435294, 0.290196, 0.156863, 0, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_jrbs3"]
-gradient = SubResource("Gradient_enku0")
-
-[sub_resource type="Gradient" id="Gradient_qumor"]
-colors = PackedColorArray(0, 0, 0, 0, 0.901961, 0.74902, 0.509804, 0.584314)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_gmmcl"]
-gradient = SubResource("Gradient_qumor")
-
-[node name="main_menu" type="Node2D" node_paths=PackedStringArray("animation_player")]
+[node name="main_menu" type="Node2D"]
 script = ExtResource("1_ygwgq")
-animation_player = NodePath("")
 
-[node name="back" type="Node2D" parent="."]
-
-[node name="background" type="Sprite2D" parent="back"]
-position = Vector2(327, 644)
-rotation = 1.5708
-scale = Vector2(6.43359, 1134)
-texture = SubResource("GradientTexture1D_74dbs")
-
-[node name="cloud_1" parent="back" instance=ExtResource("4_4rf5e")]
-position = Vector2(539, 336)
-
-[node name="moun_back_rigth" type="Sprite2D" parent="back"]
-position = Vector2(448, 770)
-texture = ExtResource("2_8d63u")
-
-[node name="moun_back_left" type="Sprite2D" parent="back"]
-position = Vector2(310, 874)
-texture = ExtResource("1_wl7x0")
-
-[node name="cloud_2" parent="back" instance=ExtResource("4_4rf5e")]
-position = Vector2(564, 471)
-
-[node name="smog_back" type="Sprite2D" parent="back"]
-position = Vector2(446, 703)
-rotation = 1.5708
-scale = Vector2(6.34004, 1127.73)
-texture = SubResource("GradientTexture1D_vipwl")
-
-[node name="moun_mid_right" type="Sprite2D" parent="back"]
-position = Vector2(498, 829)
-texture = ExtResource("5_fep3c")
-
-[node name="moun_mid_left" type="Sprite2D" parent="back"]
-position = Vector2(156, 858)
-texture = ExtResource("6_mc3je")
-
-[node name="cloud_3" parent="back" instance=ExtResource("4_4rf5e")]
-position = Vector2(583, 595)
-
-[node name="smog_middle" type="Sprite2D" parent="back"]
-position = Vector2(367.695, 661.364)
-rotation = 1.5708
-scale = Vector2(5.46356, 964.835)
-texture = SubResource("GradientTexture1D_jrbs3")
-
-[node name="moun_front_left" type="Sprite2D" parent="back"]
-position = Vector2(122, 752)
-texture = ExtResource("9_uv88x")
-
-[node name="moun_front_right" type="Sprite2D" parent="back"]
-position = Vector2(583, 769)
-texture = ExtResource("10_36im5")
-
-[node name="cloud_4" parent="back/moun_front_right" instance=ExtResource("4_4rf5e")]
-position = Vector2(-36, -29)
-
-[node name="smog_front" type="Sprite2D" parent="back"]
-position = Vector2(355, 560)
-rotation = 1.5708
-scale = Vector2(5.77248, 926.053)
-texture = SubResource("GradientTexture1D_gmmcl")
+[node name="main_menu_background" parent="." node_paths=PackedStringArray("menu_mountains") instance=ExtResource("2_52iof")]
+menu_mountains = [null, null, null, null, NodePath("moun_front_right"), NodePath("moun_front_left")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
