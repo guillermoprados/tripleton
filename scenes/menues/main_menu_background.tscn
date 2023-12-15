@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b76l6kxxudfnt"]
+[gd_scene load_steps=20 format=3 uid="uid://b76l6kxxudfnt"]
 
 [ext_resource type="Script" path="res://scenes/menues/main_menu_animator.gd" id="1_jep1r"]
 [ext_resource type="Texture2D" uid="uid://kt8oqsnbn3jh" path="res://images/menu/mm_moun_b_r.png" id="3_7wcra"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bsksilhydd0pb" path="res://images/menu/mm_moun_f_r.png" id="8_v7x1u"]
 [ext_resource type="Script" path="res://scripts/misc/auto_escalable_gradient_holder.gd" id="10_kgj2a"]
 [ext_resource type="PackedScene" uid="uid://cmdg1yt71lgq" path="res://scenes/menues/menu_cloud.tscn" id="10_oa8q2"]
+[ext_resource type="Texture2D" uid="uid://beap6ukteu1g5" path="res://images/menu/mm_logo.png" id="11_axj7e"]
 
 [sub_resource type="Gradient" id="Gradient_itwvy"]
 offsets = PackedFloat32Array(0, 0.990291, 1)
@@ -39,8 +40,9 @@ gradient = SubResource("Gradient_6o2d8")
 width = 1300
 height = 800
 
-[node name="main_menu_background" type="Node2D"]
+[node name="main_menu_background" type="Node2D" node_paths=PackedStringArray("game_logo")]
 script = ExtResource("1_jep1r")
+game_logo = NodePath("Logo")
 
 [node name="background2" type="Node2D" parent="." node_paths=PackedStringArray("gradient")]
 z_index = -100
@@ -155,3 +157,7 @@ gradient = NodePath("smog_front")
 position = Vector2(-30, -34)
 rotation = 1.5708
 texture = SubResource("GradientTexture2D_ok1u1")
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(371, 296)
+texture = ExtResource("11_axj7e")
