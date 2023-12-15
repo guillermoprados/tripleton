@@ -1,15 +1,15 @@
 [gd_scene load_steps=20 format=3 uid="uid://b76l6kxxudfnt"]
 
-[ext_resource type="Script" path="res://scenes/menues/main_menu_animator.gd" id="1_jep1r"]
+[ext_resource type="Script" path="res://scenes/menues/background/main_menu_animator.gd" id="1_jep1r"]
+[ext_resource type="Script" path="res://scripts/misc/auto_escalable_node2d.gd" id="2_nb72l"]
 [ext_resource type="Texture2D" uid="uid://kt8oqsnbn3jh" path="res://images/menu/mm_moun_b_r.png" id="3_7wcra"]
-[ext_resource type="Script" path="res://scenes/menues/menu_movable.gd" id="4_calcq"]
+[ext_resource type="Script" path="res://scenes/menues/background/menu_movable.gd" id="4_calcq"]
 [ext_resource type="Texture2D" uid="uid://lpwcid5g3068" path="res://images/menu/mm_moun_b_l.png" id="4_v4msk"]
 [ext_resource type="Texture2D" uid="uid://6yu2ldb6lkg" path="res://images/menu/mm_moun_m_r.png" id="5_68kfy"]
 [ext_resource type="Texture2D" uid="uid://m6vd6xg1w36j" path="res://images/menu/mm_moun_m_l.png" id="6_wfl26"]
 [ext_resource type="Texture2D" uid="uid://d4csd07oeq8ba" path="res://images/menu/mm_moun_f_l.png" id="7_4q46o"]
 [ext_resource type="Texture2D" uid="uid://bsksilhydd0pb" path="res://images/menu/mm_moun_f_r.png" id="8_v7x1u"]
-[ext_resource type="Script" path="res://scripts/misc/auto_escalable_gradient_holder.gd" id="10_kgj2a"]
-[ext_resource type="PackedScene" uid="uid://cmdg1yt71lgq" path="res://scenes/menues/menu_cloud.tscn" id="10_oa8q2"]
+[ext_resource type="PackedScene" uid="uid://cmdg1yt71lgq" path="res://scenes/menues/background/menu_cloud.tscn" id="10_oa8q2"]
 [ext_resource type="Texture2D" uid="uid://beap6ukteu1g5" path="res://images/menu/mm_logo.png" id="11_axj7e"]
 
 [sub_resource type="Gradient" id="Gradient_itwvy"]
@@ -44,13 +44,12 @@ height = 800
 script = ExtResource("1_jep1r")
 game_logo = NodePath("Logo")
 
-[node name="background2" type="Node2D" parent="." node_paths=PackedStringArray("gradient")]
+[node name="scalable_background" type="Node2D" parent="."]
 z_index = -100
 position = Vector2(473, 787)
-script = ExtResource("10_kgj2a")
-gradient = NodePath("background")
+script = ExtResource("2_nb72l")
 
-[node name="background" type="Sprite2D" parent="background2"]
+[node name="background" type="Sprite2D" parent="scalable_background"]
 position = Vector2(-21, -25)
 rotation = 1.5708
 scale = Vector2(6.43359, 1134)
@@ -72,11 +71,10 @@ offset = Vector2(310, -399)
 script = ExtResource("4_calcq")
 orientation = 1
 
-[node name="smog_back2" type="Node2D" parent="." node_paths=PackedStringArray("gradient")]
+[node name="smog_back2" type="Node2D" parent="."]
 z_index = -9
 position = Vector2(464, 703)
-script = ExtResource("10_kgj2a")
-gradient = NodePath("smog_back")
+script = ExtResource("2_nb72l")
 
 [node name="smog_back" type="Sprite2D" parent="smog_back2"]
 position = Vector2(2.08165e-12, 2.08165e-12)
@@ -100,11 +98,10 @@ offset = Vector2(186, -425)
 script = ExtResource("4_calcq")
 orientation = 1
 
-[node name="smog_middle2" type="Node2D" parent="." node_paths=PackedStringArray("gradient")]
+[node name="smog_middle2" type="Node2D" parent="."]
 z_index = -5
 position = Vector2(412, 642)
-script = ExtResource("10_kgj2a")
-gradient = NodePath("smog_middle")
+script = ExtResource("2_nb72l")
 
 [node name="smog_middle" type="Sprite2D" parent="smog_middle2"]
 position = Vector2(-23, 3)
@@ -147,11 +144,10 @@ position = Vector2(113, -1225)
 [node name="cloud_5" parent="clouds" instance=ExtResource("10_oa8q2")]
 position = Vector2(465, -1529)
 
-[node name="smog_front" type="Node2D" parent="." node_paths=PackedStringArray("gradient")]
+[node name="smog_front" type="Node2D" parent="."]
 z_index = -2
 position = Vector2(392, 671)
-script = ExtResource("10_kgj2a")
-gradient = NodePath("smog_front")
+script = ExtResource("2_nb72l")
 
 [node name="smog_front" type="Sprite2D" parent="smog_front"]
 position = Vector2(-30, -34)

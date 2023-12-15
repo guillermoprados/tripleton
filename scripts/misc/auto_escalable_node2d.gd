@@ -1,8 +1,6 @@
 extends Node2D
 
-class_name AutoEscalableSprite
-
-@export var gradient:Sprite2D
+class_name AutoEscalableNode2D
 
 var original_pos:Vector2
 var original_scale:Vector2

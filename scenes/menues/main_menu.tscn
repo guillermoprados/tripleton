@@ -1,17 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4ay3jjjapf4c"]
+[gd_scene load_steps=3 format=3 uid="uid://b4ay3jjjapf4c"]
 
-[ext_resource type="Script" path="res://scenes/menues/main_menu.gd" id="1_ygwgq"]
-[ext_resource type="PackedScene" uid="uid://b76l6kxxudfnt" path="res://scenes/menues/main_menu_background.tscn" id="2_52iof"]
-[ext_resource type="PackedScene" uid="uid://cy5oku1k32smq" path="res://ui/menu/main_menu.tscn" id="11_wwmfu"]
+[ext_resource type="PackedScene" uid="uid://b76l6kxxudfnt" path="res://scenes/menues/background/main_menu_background.tscn" id="2_52iof"]
+[ext_resource type="PackedScene" uid="uid://cfikqf1xbjnmj" path="res://ui/screens/menu/ui_root_menu.tscn" id="3_tkdtv"]
 
-[node name="main_menu" type="Node2D" node_paths=PackedStringArray("background")]
-script = ExtResource("1_ygwgq")
-background = NodePath("main_menu_background")
+[node name="main_menu" type="Node2D"]
 
 [node name="main_menu_background" parent="." instance=ExtResource("2_52iof")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MainMenu" parent="CanvasLayer" instance=ExtResource("11_wwmfu")]
-
-[connection signal="new_game_selected" from="CanvasLayer/MainMenu" to="." method="_on_main_menu_new_game_selected"]
+[node name="root_menu" parent="." node_paths=PackedStringArray("mm_background") instance=ExtResource("3_tkdtv")]
+mm_background = NodePath("../main_menu_background")

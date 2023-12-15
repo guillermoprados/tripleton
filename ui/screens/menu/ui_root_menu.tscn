@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfikqf1xbjnmj"]
+
+[ext_resource type="Script" path="res://ui/screens/menu/ui_root_menu.gd" id="1_mg5bx"]
+[ext_resource type="PackedScene" uid="uid://cy5oku1k32smq" path="res://ui/screens/menu/main_menu.tscn" id="1_os33e"]
+[ext_resource type="Script" path="res://ui/elements/screen_fader.gd" id="2_pvqu5"]
+
+[node name="ui_root_menu" type="CanvasLayer" node_paths=PackedStringArray("screen_fader")]
+script = ExtResource("1_mg5bx")
+screen_fader = NodePath("Fader")
+
+[node name="MainMenu" parent="." node_paths=PackedStringArray("screen_fader") instance=ExtResource("1_os33e")]
+screen_fader = NodePath("../Fader")
+
+[node name="Fader" type="Control" parent="." node_paths=PackedStringArray("screen_rect")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_pvqu5")
+screen_rect = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="Fader"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="new_game_selected" from="MainMenu" to="." method="_on_main_menu_new_game_selected"]
