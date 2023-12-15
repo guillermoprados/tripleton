@@ -150,6 +150,10 @@ const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08
 
 const HOLD_TIME_TO_CANCEL_PRESS: float = 1
 
+# Transitions
+const TO_CITY_ANIM_TIME = 1
+const FROM_SKY_ANIM_TIME = 3
+
 # Game Objects positions
 
 ## Z_INDEX

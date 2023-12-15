@@ -51,7 +51,7 @@ func reset_tweeners() -> void:
 func animate_from_button(time:float) -> void:
 	reset_tweeners()
 	position = bottom_position
-	animation_tween.set_trans(Tween.TRANS_QUAD)
+	animation_tween.set_trans(Tween.TRANS_LINEAR)
 	animation_tween.set_ease(Tween.EASE_OUT)
 	animation_tween.tween_property(self, "position", normal_position, time)
 	

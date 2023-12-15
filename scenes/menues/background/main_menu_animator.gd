@@ -7,8 +7,7 @@ class_name MainMenuBackground
 signal  from_sky_animation_finished()
 signal  to_city_animation_finished()
 
-const FROM_SKY_ANIM_TIME = 4
-const TO_CITY_ANIM_TIME = 1
+
 const SCALE_FACTOR_TO_FRONT = 1.5
 
 var background_movables:Array
@@ -28,7 +27,7 @@ func __reset_logo_tween() -> void:
 func animate_from_sky() -> void:
 	
 	for movable:MenuBackgroundMovable in background_movables:
-		movable.animate_from_button(FROM_SKY_ANIM_TIME)
+		movable.animate_from_button(Constants.FROM_SKY_ANIM_TIME)
 	game_logo.scale = Vector2.ZERO
 	__reset_logo_tween()
 	logo_tween.set_trans(Tween.TRANS_BACK)
@@ -37,7 +36,7 @@ func animate_from_sky() -> void:
 	
 func animate_to_city() -> void:
 	for movable:MenuBackgroundMovable in background_movables:
-		movable.animate_to_front(SCALE_FACTOR_TO_FRONT, TO_CITY_ANIM_TIME)
+		movable.animate_to_front(SCALE_FACTOR_TO_FRONT, Constants.TO_CITY_ANIM_TIME)
 	__reset_logo_tween()
 	logo_tween.set_trans(Tween.TRANS_BACK)
 	logo_tween.set_ease(Tween.EASE_IN)

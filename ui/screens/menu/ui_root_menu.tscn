@@ -8,8 +8,7 @@
 script = ExtResource("1_mg5bx")
 screen_fader = NodePath("Fader")
 
-[node name="MainMenu" parent="." node_paths=PackedStringArray("screen_fader") instance=ExtResource("1_os33e")]
-screen_fader = NodePath("../Fader")
+[node name="MainMenu" parent="." instance=ExtResource("1_os33e")]
 
 [node name="Fader" type="Control" parent="." node_paths=PackedStringArray("screen_rect")]
 visible = false
