@@ -19,7 +19,7 @@ static func copy_array_matrix(original: Array) -> Array:
 		var row_copy: Array = row.duplicate()
 		copy.append(row_copy)
 	return copy
-
+	
 static func token_type_as_string(type:Constants.TokenType) -> String:
 	
 	match type:
@@ -108,3 +108,5 @@ static func set_frecuency_from_string(frecuency:String) -> Constants.SetFrecuenc
 		_:
 			assert(false, "Invalid Frecuency:"+str(frecuency))
 			return Constants.SetFrecuency.COMMON
+
+

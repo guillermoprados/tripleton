@@ -126,6 +126,7 @@ enum SetFrecuency {
 	NEVER
 }
 
+const DEFAULT_SCREEN_SIZE := Vector2(720, 1280)
 const BOARD_SIZE := Vector2(6,5)
 
 const TILESET_TERRAIN_BOARD_SET = 0
@@ -148,6 +149,10 @@ const TOKEN_PROB_RARE: float = TOKEN_PROB_FREQUENT + 0.1
 const TOKEN_PROB_SCARCE: float = TOKEN_PROB_RARE + 0.08 
 
 const HOLD_TIME_TO_CANCEL_PRESS: float = 1
+
+# Transitions
+const TO_CITY_ANIM_TIME = 1
+const FROM_SKY_ANIM_TIME = 3
 
 # Game Objects positions
 

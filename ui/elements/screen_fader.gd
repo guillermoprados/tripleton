@@ -9,6 +9,7 @@ signal faded_out()
 
 func _ready() -> void:
 	self.visible = true
+	assert(screen_rect, "you need to assign an screen rect")
 	
 func fade_in(time: float) -> void:
 	show()
@@ -27,3 +28,9 @@ func _on_fade_in_completed() -> void:
 func _on_fade_out_completed() -> void:
 	hide()
 	emit_signal("faded_out")
+
+func fade_to_black(time:float) -> void:
+	fade_in(time)
+
+func fade_to_transparent(time:float) -> void:
+	fade_out(time)

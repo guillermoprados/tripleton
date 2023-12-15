@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4ay3jjjapf4c"]
+
+[ext_resource type="PackedScene" uid="uid://b76l6kxxudfnt" path="res://scenes/menues/background/main_menu_background.tscn" id="2_52iof"]
+[ext_resource type="PackedScene" uid="uid://cfikqf1xbjnmj" path="res://ui/screens/menu/ui_root_menu.tscn" id="3_tkdtv"]
+
+[node name="main_menu" type="Node2D"]
+
+[node name="main_menu_background" parent="." instance=ExtResource("2_52iof")]
+
+[node name="root_menu" parent="." node_paths=PackedStringArray("mm_background") instance=ExtResource("3_tkdtv")]
+mm_background = NodePath("../main_menu_background")
