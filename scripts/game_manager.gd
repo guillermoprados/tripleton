@@ -473,8 +473,9 @@ func on_save_token_slot_entered(index:int) -> void:
 	if not floating_token:
 		pick_up_floating_token()
 		
-	floating_token.unhighlight()
+	floating_token.set_highlight(Constants.TokenHighlight.FOCUSED)
 	floating_token.position = save_slots[index].position
+	
 	if not save_slots[index].is_empty():
 		floating_token.position -= Constants.SAVE_SLOT_OVER_POS
 
@@ -490,6 +491,7 @@ func on_save_token_slot_selected(index:int) -> void:
 		floating_token = save_slots[index].swap_token(release_floating_token())
 		floating_token.position = save_slots[index].position - Constants.SAVE_SLOT_OVER_POS
 		initial_token_slot.set_boxed_token_back(floating_token)
+		floating_token.set_highlight(Constants.TokenHighlight.FOCUSED)
 	
 	# reset combinations because we're caching them
 	combinator.reset_combinations(board.rows, board.columns)	
