@@ -1,33 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://cf4lf5wwylon3"]
+[gd_scene load_steps=5 format=3 uid="uid://cf4lf5wwylon3"]
 
 [ext_resource type="Script" path="res://ui/elements/award_points.gd" id="1_2yeq0"]
+[ext_resource type="Shader" path="res://shaders/ui/wavy_text.gdshader" id="2_2b8mo"]
+[ext_resource type="LabelSettings" uid="uid://nbity56jx3kd" path="res://ui/themes/floating_points_settings.tres" id="2_8uwm2"]
 
-[node name="AwardPoints" type="Control"]
-layout_mode = 3
-anchors_preset = 0
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1hyxp"]
+shader = ExtResource("2_2b8mo")
+shader_parameter/height = 5.0
+shader_parameter/frecuency = 5.0
+shader_parameter/speed = 5.0
+
+[node name="AwardPoints" type="Node2D"]
 script = ExtResource("1_2yeq0")
-expansion_scale = Vector2(1.4, 1.4)
-shrink_scale = Vector2(0.9, 0.9)
+display_duration = 2.0
 
 [node name="Points" type="Label" parent="."]
-layout_mode = 1
+material = SubResource("ShaderMaterial_1hyxp")
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -42.0
+offset_top = -28.5
+offset_right = 42.0
+offset_bottom = 28.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.968627, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 10
-text = "50"
+text = "+50000000"
+label_settings = ExtResource("2_8uwm2")
 horizontal_alignment = 1
 vertical_alignment = 1
+justification_flags = 0
 
 [node name="DisplayTimer" type="Timer" parent="."]
 

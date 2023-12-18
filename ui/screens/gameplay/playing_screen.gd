@@ -23,8 +23,8 @@ func show_message(message:String, type:Constants.MessageType, time:float) -> voi
 
 func show_floating_reward(type:Constants.RewardType, value:int, position:Vector2) -> void:
 	var award_instance:AwardPoints = award_points_scene.instantiate()
-	award_instance.position = position
 	add_child(award_instance)
+	award_instance.position = position
 	award_instance.show_points(value)
 
 func accumulated_gold_update(value:int) -> void:

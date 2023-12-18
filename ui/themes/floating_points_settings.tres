@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://nbity56jx3kd"]
+
+[ext_resource type="FontFile" uid="uid://b3rh5858t8k6i" path="res://ui/fonts/euljiro/FONT/BMEULJIROTTF.ttf" id="1_1y3to"]
+
+[resource]
+font = ExtResource("1_1y3to")
+font_size = 50
+font_color = Color(0.937255, 0.745098, 0.784314, 1)
+outline_size = 2
+outline_color = Color(0.560784, 0.282353, 0.188235, 1)
