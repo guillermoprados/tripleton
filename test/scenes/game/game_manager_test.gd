@@ -131,7 +131,8 @@ func __wait_to_next_player_turn(token_id:String = IDs.EMPTY) -> void:
 		var token_data := __game_config_data.get_token_data_by_id(token_id)
 		game_manager.initial_token_slot.discard_token()
 		game_manager.initial_token_slot.spawn_token(token_data.id)
-	
+		game_manager.initial_token_slot.focus_token()
+
 func __async_move_mouse_to_cell(cell_index:Vector2, click:bool) -> void:
 	await __async_move_mouse_to_cell_object(board.get_cell_at_position(cell_index), click)
 	
@@ -223,7 +224,7 @@ func __await_assert_valid_cell_object_conditions(cell:BoardCell, cell_highlight:
 	if game_manager.floating_token.type == Constants.TokenType.ACTION:
 		assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.VALID)
 	else:
-		assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.NONE)
+		assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.FOCUSED)
 	assert_that(cell.highlight).is_equal(cell_highlight)
 	
 func __await_assert_invalid_cell_conditions(cell_index:Vector2) -> void:

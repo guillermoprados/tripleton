@@ -132,6 +132,7 @@ func spawn_new_token(token_id:String='') -> void:
 	if token_id == '':
 		token_id = difficulty.get_random_token_data_id()
 	initial_token_slot.spawn_token(token_id)
+	initial_token_slot.focus_token()
 	
 func discard_floating_token() -> void:
 	assert (floating_token, "trying to discard a non existing token")
@@ -168,7 +169,7 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 			floating_token.set_highlight(Constants.TokenHighlight.COMBINATION)
 		else:
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
-			floating_token.set_highlight(Constants.TokenHighlight.NONE)
+			floating_token.set_highlight(Constants.TokenHighlight.FOCUSED)
 	else:
 		
 		floating_token.set_highlight(Constants.TokenHighlight.INVALID)

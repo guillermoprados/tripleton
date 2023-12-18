@@ -13,6 +13,7 @@ func test__on_game_start_should_create_a_token() -> void:
 	assert_object(spawned_token).is_not_null()
 	assert_str(spawned_token.id).is_equal(IDs.BUSHH)
 	assert_that(spawned_token.current_status).is_equal(Constants.TokenStatus.BOXED)
+	assert_that(spawned_token.highlight).is_equal(Constants.TokenHighlight.FOCUSED)
 	assert_that(spawned_token.position).is_equal(Vector2.ZERO)
 	assert_int(spawned_token.z_index).is_equal(Constants.TOKEN_BOXED_Z_INDEX)
 	assert_bool(spawned_token.z_as_relative).is_false()

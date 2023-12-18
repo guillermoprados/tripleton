@@ -8,28 +8,53 @@ func test__move_over_cells() -> void:
 	
 	var landscape := [
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
-		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
+		[IDs.EMPTY,IDs.GRASS,IDs.EMPTY],
 		[IDs.EMPTY,IDs.EMPTY,IDs.EMPTY],
 	]
 	
 	await __set_to_player_state_with_board(landscape, IDs.GRASS)
 	
-	var test_cell_A := Vector2(0,1)
-	var test_cell_B := Vector2(2,1)
+	var test_cell_empty_1 := Vector2(0,1)
+	var test_cell_empty_2 := Vector2(2,1)
+	var test_cell_occupied := Vector2(1,1)
+	
+	var spawned_token := game_manager.initial_token_slot.token
+	assert_object(spawned_token).is_not_null()
+	assert_that(spawned_token.current_status).is_equal(Constants.TokenStatus.BOXED)
+	assert_that(spawned_token.highlight).is_equal(Constants.TokenHighlight.FOCUSED)
+	
+	assert_that(game_manager.floating_token).is_null()
 	
 	# test cell is not highlighted
-	await __await_assert_empty_cell_conditions(test_cell_A)
+	await __await_assert_empty_cell_conditions(test_cell_empty_1)
 	
 	# test cell and floating token highlight as valid
-	await __async_move_mouse_to_cell(test_cell_A, false)
-	await __await_assert_valid_cell_conditions(test_cell_A)
+	await __async_move_mouse_to_cell(test_cell_empty_1, false)
+	await __await_assert_valid_cell_conditions(test_cell_empty_1)
+	
+	assert_object(game_manager.initial_token_slot.token).is_null()
+	
+	var floating_token := game_manager.floating_token
+	assert_that(floating_token.current_status).is_equal(Constants.TokenStatus.FLOATING)
+	assert_that(floating_token.highlight).is_equal(Constants.TokenHighlight.FOCUSED)
 	
 	# leave cell
 	# test cell and floating token highlight as valid
-	await __async_move_mouse_to_cell(test_cell_B, false)
-	await __await_assert_valid_cell_conditions(test_cell_B)
+	await __async_move_mouse_to_cell(test_cell_empty_2, false)
+	await __await_assert_valid_cell_conditions(test_cell_empty_2)
 	
-	await __await_assert_empty_cell_conditions(test_cell_A)
+	await __await_assert_empty_cell_conditions(test_cell_empty_1)
+	
+	# move to occupied cell
+	# leave cell
+	# test cell and floating token highlight as valid
+	await __async_move_mouse_to_cell(test_cell_occupied, false)
+	await __await_assert_invalid_cell_conditions(test_cell_occupied)
+	assert_that(floating_token.current_status).is_equal(Constants.TokenStatus.FLOATING)
+	assert_that(floating_token.highlight).is_equal(Constants.TokenHighlight.INVALID)
+	
+	
+	test_cell_occupied
 	
 func test__place_single_token() -> void:
 	

@@ -59,17 +59,24 @@ func paint_last() -> void:
 	
 func paint_normal() -> void:
 	sprite.material = outline_shader
-	
+
 func paint_floating(border_color:Color, overlay_color:Color) -> void:
-	sprite.material = floating_shader
-	sprite.get_material().set_shader_parameter("overlay_color", overlay_color)
-	sprite.get_material().set_shader_parameter("line_color", border_color)
+	__paint_token(floating_shader, border_color, overlay_color) 
 	# I need to do this again here to not complicate transitions
 	sprite.position = sprite_original_position
 	sprite.position.y = sprite_original_position.y - Constants.TOKEN_FLOATING_Y_POS
+
+
+func __paint_token(shader:ShaderMaterial, border_color:Color, overlay_color:Color) -> void:
+	sprite.material = shader
+	sprite.get_material().set_shader_parameter("overlay_color", overlay_color)
+	sprite.get_material().set_shader_parameter("line_color", border_color)
+	
+func paint_boxed_selected(border_color:Color, overlay_color:Color) -> void:
+	__paint_token(floating_shader, border_color, overlay_color) 
 	
 func paint_valid_action(border_color:Color, overlay_color:Color) -> void:
-	paint_floating(border_color, overlay_color)
+	__paint_token(floating_shader, border_color, overlay_color) 
 	sprite.position = sprite_original_position - Constants.CELL_SIZE / 3 
 	
 # Called when the node enters the scene tree for the first time.
