@@ -109,7 +109,6 @@ func set_status(new_status:Constants.TokenStatus) -> void:
 			sprite_holder.set_boxed()		
 		Constants.TokenStatus.FLOATING:
 			sprite_holder.set_floating()
-			tweener.set_focus_tweener()	
 		Constants.TokenStatus.PLACED:
 			sprite_holder.set_placed()
 		Constants.TokenStatus.IN_RANGE:
@@ -125,19 +124,22 @@ func unhighlight() -> void:
 func set_highlight(mode:Constants.TokenHighlight) -> void:
 	
 	__highlight = mode
-	
 	var color:Color = Color.WHITE
+	
 	# this deserves a rethink
 	match mode:
 		
 		Constants.TokenHighlight.NONE:
+			sprite_holder.paint_normal()
+		Constants.TokenHighlight.FOCUSED:
 			if __current_status == Constants.TokenStatus.FLOATING:
 				sprite_holder.paint_floating(Color.WHITE, Color.WHITE)
-			else:
-				sprite_holder.paint_normal()
+			if __current_status == Constants.TokenStatus.BOXED:
+				sprite_holder.paint_boxed_selected(Color.WHITE, Color.WHITE)
+			tweener.set_focus_tweener()	
 		Constants.TokenHighlight.VALID:
 			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be transparent")
-			sprite_holder.paint_valid_action(color_border_valid, color_semi_transparent)		
+			sprite_holder.paint_valid_action(color_border_valid, color_semi_transparent)
 		Constants.TokenHighlight.INVALID:
 			assert(__current_status == Constants.TokenStatus.FLOATING, "only floating tokens can be invalid")
 			sprite_holder.paint_floating(color_border_invalid, color_overlay_invalid )
@@ -149,7 +151,6 @@ func set_highlight(mode:Constants.TokenHighlight) -> void:
 			assert(__current_status == Constants.TokenStatus.PLACED, "only placed tokens can be last")
 			sprite_holder.paint_last()
 			
-		
 func set_in_range(difference_pos:Vector2) -> void:
 	set_status(Constants.TokenStatus.IN_RANGE)
 	tweener.set_in_range_tweener(difference_pos)

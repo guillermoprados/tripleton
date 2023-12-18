@@ -55,6 +55,7 @@ enum CellHighlight {
 
 enum TokenHighlight {
 	NONE,
+	FOCUSED,
 	VALID,
 	INVALID,
 	WASTED,

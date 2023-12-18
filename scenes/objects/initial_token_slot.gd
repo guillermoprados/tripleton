@@ -25,6 +25,7 @@ var token:BoardToken:
 		add_child(token)
 		token.position = Vector2.ZERO
 		token.set_status(Constants.TokenStatus.BOXED)
+		token.set_highlight(Constants.TokenHighlight.NONE)
 		token.z_index = Constants.TOKEN_BOXED_Z_INDEX
 		set_boxed_token_back(token)
 
@@ -65,6 +66,9 @@ func discard_token() -> void:
 		__ghost_token.queue_free()
 		__ghost_token = null
 
+func focus_token() -> void:
+	token.set_highlight(Constants.TokenHighlight.FOCUSED)
+	
 func return_token(to_box_token:BoardToken, box_token_world_position:Vector2) -> void:
 	token = to_box_token
 	if box_token_world_position != Vector2.ZERO:

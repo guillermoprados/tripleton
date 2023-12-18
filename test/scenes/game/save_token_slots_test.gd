@@ -125,6 +125,7 @@ func test__should_swap_when_no_empty() -> void:
 	await __await_assert_valid_cell_object_conditions(save_slot.cell_board)
 	assert_that(game_manager.floating_token.position).is_equal(floating_over_pos)
 	assert_int(game_manager.floating_token.z_index).is_equal(Constants.FLOATING_Z_INDEX)
+	assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.FOCUSED)
 	
 	await __async_move_mouse_to_cell_object(save_slot.cell_board, true)
 	await __await_assert_valid_cell_object_conditions(save_slot.cell_board)
@@ -138,5 +139,6 @@ func test__should_swap_when_no_empty() -> void:
 	assert_that(game_manager.floating_token.current_status).is_equal(Constants.TokenStatus.FLOATING)
 	assert_int(game_manager.floating_token.z_index).is_equal(Constants.FLOATING_Z_INDEX)
 	assert_that(game_manager.floating_token.position).is_equal(floating_over_pos)
+	assert_that(game_manager.floating_token.highlight).is_equal(Constants.TokenHighlight.FOCUSED)
 
 	assert_bool(game_manager.combinator.is_resetted).is_true()

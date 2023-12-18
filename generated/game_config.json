@@ -105,12 +105,7 @@
     "2_statue": {
       "reward_type": "points",
       "reward_value": 450,
-      "next_token_id": "3_gold_statue"
-    },
-    "3_gold_statue": {
-      "reward_type": "gold",
-      "reward_value": 10,
-      "next_token_id": "2_chest_gold"
+      "next_token_id": "1_chest_silver"
     },
     "cat_white": {
       "reward_type": "points",

@@ -38,13 +38,7 @@ func test__rock_to_statue() -> void:
 	await __await_combination_to_combination(IDs.ROCKK, IDs.STA_B)
 	
 func test__statue_to_chest() -> void:
-	await __await_combination_to_combination(IDs.STA_B, IDs.CHE_B)
-
-func test__statue_to_gold_statue() -> void:
-	await __await_combination_to_combination(IDs.STA_B, IDs.STA_G, Constants.DifficultyLevel.MEDIUM)
-	
-func test__statue_gold_to_chest_gold() -> void:
-	await __await_combination_to_combination(IDs.STA_G, IDs.CHE_G)
+	await __await_combination_to_combination(IDs.STA_B, IDs.CHE_S)
 
 ## houses
 
