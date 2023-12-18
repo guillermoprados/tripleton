@@ -25,6 +25,7 @@ func show_floating_reward(type:Constants.RewardType, value:int, position:Vector2
 	var award_instance:AwardPoints = award_points_scene.instantiate()
 	add_child(award_instance)
 	award_instance.position = position
+	award_instance.position.y -= Constants.CELL_SIZE.y / 4
 	award_instance.show_points(value)
 
 func accumulated_gold_update(value:int) -> void:
