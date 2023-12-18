@@ -47,7 +47,6 @@ const IDs = {
 	STONE = '0_stone',
 	ROCKK = '1_rock',
 	STA_B = '2_statue',
-	STA_G = '3_gold_statue',
 	MOLEE = 'mole',
 	MNKEL = 'monokelo',
 	PR_CA = 'cat_white'
