@@ -1,12 +1,52 @@
-[gd_scene load_steps=3 format=3 uid="uid://cf4lf5wwylon3"]
+[gd_scene load_steps=7 format=3 uid="uid://cf4lf5wwylon3"]
 
 [ext_resource type="Script" path="res://ui/elements/award_points.gd" id="1_2yeq0"]
 [ext_resource type="FontFile" uid="uid://b3rh5858t8k6i" path="res://ui/fonts/euljiro/FONT/BMEULJIROTTF.ttf" id="2_8pjrj"]
+[ext_resource type="Texture2D" uid="uid://cd3lsgdpksfrh" path="res://images/tokens/effect_spark.png" id="2_ihdr0"]
+
+[sub_resource type="Curve" id="Curve_hwilk"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_3h2bs"]
+
+[sub_resource type="Gradient" id="Gradient_20gs5"]
+colors = PackedColorArray(1, 0.452416, 0.383959, 1, 1, 1, 1, 1)
 
 [node name="AwardPoints" type="Node2D"]
 position = Vector2(2, -1)
 script = ExtResource("1_2yeq0")
 move_up_speed = 50.0
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+explosiveness = 0.17
+randomness = 0.18
+texture = ExtResource("2_ihdr0")
+emission_shape = 2
+emission_sphere_radius = 15.2
+direction = Vector2(2.08165e-12, 2.08165e-12)
+spread = 74.5
+gravity = Vector2(2.08165e-12, 2.08165e-12)
+initial_velocity_max = 75.89
+angular_velocity_curve = SubResource("Curve_hwilk")
+linear_accel_min = -100.0
+linear_accel_max = 100.0
+radial_accel_min = -100.0
+radial_accel_max = 100.0
+damping_min = 10.268
+damping_max = 59.375
+angle_min = -311.0
+angle_max = 269.0
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_3h2bs")
+split_scale = true
+scale_curve_x = null
+scale_curve_y = null
+color = Color(1, 0.466667, 0.756863, 1)
+color_ramp = SubResource("Gradient_20gs5")
 
 [node name="Points" type="RichTextLabel" parent="."]
 clip_contents = false
