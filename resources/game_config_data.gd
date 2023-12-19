@@ -79,10 +79,10 @@ func fulfill_token_data(token_data:TokenData) -> void:
 	#		token_data.reward_type = Constants.RewardType.POINTS
 	#	token_data.reward_value = reward_data['reward_value']
 	
-	print("~~~-- ")
-	print("- after update:")
-	print(token_data)
-	print("----------------")
+	#print("~~~-- ")
+	#print("- after update:")
+	#print(token_data)
+	#print("----------------")
 	
 
 func get_chest_prizes_config_data(chest_id:String) -> Dictionary:

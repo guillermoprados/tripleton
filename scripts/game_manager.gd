@@ -454,8 +454,7 @@ func __collect_reward(token:BoardToken, cell_index: Vector2) -> void:
 func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
 	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
 	var reward_position: Vector2 = board.position + cell_position
-	reward_position.x += Constants.CELL_SIZE.x / 2 
-	reward_position.y += Constants.CELL_SIZE.y / 4 
+	reward_position.y -= Constants.CELL_SIZE.y / 4 
 		
 	show_floating_reward.emit(type, value, reward_position)
 
