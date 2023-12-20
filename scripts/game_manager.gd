@@ -317,7 +317,7 @@ func __replace_token_on_board(token:BoardToken, cell_index:Vector2) -> void:
 	
 	# it's important to keep the time, because when merging graves it merges to the last one
 	var old_token_date:float = board.get_token_at_cell(cell_index).created_at
-	board.clear_token(cell_index)
+	board.remove_token(cell_index)
 	token.created_at = old_token_date
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
@@ -422,7 +422,8 @@ func combine_tokens(combination: Combination) -> BoardToken:
 		elif token.data.reward_type == Constants.RewardType.POINTS:
 			awarded_points += token.data.reward_value
 			show_rewards(token.data.reward_type, token.data.reward_value, cell_index)
-		board.clear_token(cell_index)
+		board.remove_token(cell_index, false)
+		token.combine_to_position(board.get_cell_at_position(combination.cell_index).position)
 	
 	if awarded_points > 0:
 		sum_rewards(Constants.RewardType.POINTS, awarded_points)
@@ -449,7 +450,7 @@ func __collect_reward(token:BoardToken, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data
 	show_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	sum_rewards(prize_data.reward_type, prize_data.reward_value)
-	board.clear_token(cell_index)
+	board.remove_token(cell_index)
 
 func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
 	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
@@ -522,7 +523,7 @@ func __bomb_cell_action(cell_index:Vector2) -> void:
 	if token.type == Constants.TokenType.ENEMY:
 		set_dead_enemy(cell_index)
 	else:
-		board.clear_token(cell_index)
+		board.remove_token(cell_index)
 	
 	discard_floating_token()
 
@@ -532,7 +533,7 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	var token_data: TokenCombinableData = token.data as TokenCombinableData
 	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
 	
-	board.clear_token(cell_index)
+	board.remove_token(cell_index)
 	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token_id, Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
@@ -546,7 +547,7 @@ func __remove_all_type_action(cell_index:Vector2) -> void:
 		if token.type == Constants.TokenType.ENEMY:
 			set_dead_enemy(cell)
 		else:
-			board.clear_token(cell)
+			board.remove_token(cell)
 	
 	discard_floating_token()
 	

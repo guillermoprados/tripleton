@@ -139,13 +139,17 @@ func __update_floor_tiles(on_cells:Array[Vector2]) -> void:
 		tilemap.set_cells_terrain_connect(0, cells_pert_type[Constants.FloorType.GRASS], Constants.TILESET_TERRAIN_BOARD_SET, Constants.TILESET_TERRAIN_BACK, false)
 
 
-func clear_token(cell_index: Vector2) -> void:
+func remove_token(cell_index: Vector2, destroy:bool = true) -> void:
+	
+	assert(placed_tokens.has(cell_index), "you cannot remove a token that does not exist")
 	
 	# Remove the token instance from the scene if it exists in the dictionary
-	if placed_tokens.has(cell_index):
+	if destroy:
 		var token:BoardToken = placed_tokens[cell_index]
 		token.queue_free()  # Safely remove the token from the scene
-		placed_tokens.erase(cell_index)  # Remove the token from the dictionary
+	
+	# Remove the token from the dictionary
+	placed_tokens.erase(cell_index)  
 		
 	# Update the matrix value to EMPTY_CELL
 	__cell_tokens_ids[cell_index.x][cell_index.y] = Constants.EMPTY_CELL
