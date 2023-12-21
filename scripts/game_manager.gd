@@ -310,7 +310,7 @@ func __place_token_on_board(token:BoardToken, cell_index: Vector2) -> void:
 	assert(board.get_token_at_cell(cell_index), "placed token is empty")
 
 	combinator.reset_combinations(board.rows, board.columns)
-	check_and_do_board_combinations([cell_index], Constants.MergeType.BY_INITIAL_CELL)
+	check_and_do_board_combinations_by_level([cell_index], Constants.MergeType.BY_INITIAL_CELL)
 
 # replace SHOULD NOT check combinations!! if you need to check after replace, call it manually
 func __replace_token_on_board(token:BoardToken, cell_index:Vector2) -> void:
@@ -338,11 +338,11 @@ func __get_replace_wildcard_token_data(cell_index:Vector2) -> TokenData:
 	else: 
 		return bad_token_data
 
-func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
+func check_and_do_board_combinations_by_level(cells_to_evaluate_cells:Array, merge_type:Constants.MergeType) -> void:
 	
 	var merged_cells : Array = []
 	
-	for cell_index:Vector2 in cells:
+	for cell_index:Vector2 in cells_to_evaluate_cells:
 	
 		# multiple cells can be part of the same combination, so we don't want 
 		# to merge them again
@@ -362,7 +362,6 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 			var combined_token:BoardToken = combine_tokens(combination)
 			
 			__place_token_on_board(combined_token, merge_position)
-			
 			
 func __get_last_created_token_position(cells: Array) -> Vector2:
 	# Ensure the cells array is not empty.
@@ -509,7 +508,7 @@ func check_enclosed_enemies_and_kill_them() -> void:
 	
 	var graves:Array = board.get_tokens_with_id(grave_token_data.id).keys()
 	combinator.reset_combinations(board.rows, board.columns)
-	check_and_do_board_combinations(graves, Constants.MergeType.BY_LAST_CREATED)
+	check_and_do_board_combinations_by_level(graves, Constants.MergeType.BY_LAST_CREATED)
 
 ## ACTIONS
 
@@ -588,7 +587,7 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	await get_tree().create_timer(move_time).timeout
 	# I need to trigger all the combination validations ofte
 	combinator.reset_combinations(board.rows, board.columns)
-	check_and_do_board_combinations([to], Constants.MergeType.BY_INITIAL_CELL)
+	check_and_do_board_combinations_by_level([to], Constants.MergeType.BY_INITIAL_CELL)
 
 	discard_floating_token()
 	
