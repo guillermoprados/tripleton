@@ -157,3 +157,8 @@ func set_in_range(difference_pos:Vector2) -> void:
 
 func get_other_token_data_util(token_id:String) -> TokenData:
 	return all_tokens_data.get_token_data_by_id(token_id)
+
+func combine_to_position(combine_position:Vector2) -> void:
+	var move_tween := create_tween()
+	move_tween.tween_property(self, "position", combine_position, .1)
+	move_tween.tween_callback(queue_free)

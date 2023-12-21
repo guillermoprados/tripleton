@@ -310,14 +310,14 @@ func __place_token_on_board(token:BoardToken, cell_index: Vector2) -> void:
 	assert(board.get_token_at_cell(cell_index), "placed token is empty")
 
 	combinator.reset_combinations(board.rows, board.columns)
-	check_and_do_board_combinations([cell_index], Constants.MergeType.BY_INITIAL_CELL)
+	check_and_do_board_combinations_by_level([cell_index], Constants.MergeType.BY_INITIAL_CELL)
 
 # replace SHOULD NOT check combinations!! if you need to check after replace, call it manually
 func __replace_token_on_board(token:BoardToken, cell_index:Vector2) -> void:
 	
 	# it's important to keep the time, because when merging graves it merges to the last one
 	var old_token_date:float = board.get_token_at_cell(cell_index).created_at
-	board.clear_token(cell_index)
+	board.remove_token(cell_index)
 	token.created_at = old_token_date
 	board.set_token_at_cell(token, cell_index)
 	board.clear_highlights()
@@ -338,11 +338,11 @@ func __get_replace_wildcard_token_data(cell_index:Vector2) -> TokenData:
 	else: 
 		return bad_token_data
 
-func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType) -> void:
+func check_and_do_board_combinations_by_level(cells_to_evaluate_cells:Array, merge_type:Constants.MergeType) -> void:
 	
 	var merged_cells : Array = []
 	
-	for cell_index:Vector2 in cells:
+	for cell_index:Vector2 in cells_to_evaluate_cells:
 	
 		# multiple cells can be part of the same combination, so we don't want 
 		# to merge them again
@@ -362,7 +362,6 @@ func check_and_do_board_combinations(cells:Array, merge_type:Constants.MergeType
 			var combined_token:BoardToken = combine_tokens(combination)
 			
 			__place_token_on_board(combined_token, merge_position)
-			
 			
 func __get_last_created_token_position(cells: Array) -> Vector2:
 	# Ensure the cells array is not empty.
@@ -422,7 +421,8 @@ func combine_tokens(combination: Combination) -> BoardToken:
 		elif token.data.reward_type == Constants.RewardType.POINTS:
 			awarded_points += token.data.reward_value
 			show_rewards(token.data.reward_type, token.data.reward_value, cell_index)
-		board.clear_token(cell_index)
+		board.remove_token(cell_index, false)
+		token.combine_to_position(board.get_cell_at_position(combination.cell_index).position)
 	
 	if awarded_points > 0:
 		sum_rewards(Constants.RewardType.POINTS, awarded_points)
@@ -449,7 +449,7 @@ func __collect_reward(token:BoardToken, cell_index: Vector2) -> void:
 	var prize_data: TokenPrizeData = token.data
 	show_rewards(prize_data.reward_type, prize_data.reward_value, cell_index)
 	sum_rewards(prize_data.reward_type, prize_data.reward_value)
-	board.clear_token(cell_index)
+	board.remove_token(cell_index)
 
 func show_rewards(type:Constants.RewardType, value:int, cell_index:Vector2) -> void:
 	var cell_position:Vector2 = board.get_cell_at_position(cell_index).position
@@ -508,7 +508,7 @@ func check_enclosed_enemies_and_kill_them() -> void:
 	
 	var graves:Array = board.get_tokens_with_id(grave_token_data.id).keys()
 	combinator.reset_combinations(board.rows, board.columns)
-	check_and_do_board_combinations(graves, Constants.MergeType.BY_LAST_CREATED)
+	check_and_do_board_combinations_by_level(graves, Constants.MergeType.BY_LAST_CREATED)
 
 ## ACTIONS
 
@@ -522,7 +522,7 @@ func __bomb_cell_action(cell_index:Vector2) -> void:
 	if token.type == Constants.TokenType.ENEMY:
 		set_dead_enemy(cell_index)
 	else:
-		board.clear_token(cell_index)
+		board.remove_token(cell_index)
 	
 	discard_floating_token()
 
@@ -532,7 +532,7 @@ func __level_up_cell_action(cell_index:Vector2) -> void:
 	var token_data: TokenCombinableData = token.data as TokenCombinableData
 	assert(token_data.has_next_token(), "This token cannot be leveled anymore")
 	
-	board.clear_token(cell_index)
+	board.remove_token(cell_index)
 	var to_place_token : BoardToken = instantiate_new_token(token_data.next_token_id, Constants.TokenStatus.PLACED)
 	discard_floating_token()
 	floating_token = to_place_token
@@ -546,7 +546,7 @@ func __remove_all_type_action(cell_index:Vector2) -> void:
 		if token.type == Constants.TokenType.ENEMY:
 			set_dead_enemy(cell)
 		else:
-			board.clear_token(cell)
+			board.remove_token(cell)
 	
 	discard_floating_token()
 	
@@ -587,7 +587,7 @@ func __move_token_action_cell_selected(to:Vector2) -> void:
 	await get_tree().create_timer(move_time).timeout
 	# I need to trigger all the combination validations ofte
 	combinator.reset_combinations(board.rows, board.columns)
-	check_and_do_board_combinations([to], Constants.MergeType.BY_INITIAL_CELL)
+	check_and_do_board_combinations_by_level([to], Constants.MergeType.BY_INITIAL_CELL)
 
 	discard_floating_token()
 	
