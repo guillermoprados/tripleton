@@ -276,7 +276,15 @@ func highlight_combination(initial_cell:Vector2, combination:Combination) -> voi
 			var token : BoardToken = placed_tokens[cell_index]
 			token.set_in_range(difference_pos)
 
+func highlight_shining_tokens(shining_cells:Array) -> void:
+	for cell:Vector2 in shining_cells:
+		get_token_at_cell(cell).set_shining()
 
+func clear_highlight_shining_tokens(shining_cells:Array) -> void:
+	#shining tokens can have been merged
+	for cell:Vector2 in shining_cells:
+		if not is_cell_empty(cell):
+			get_token_at_cell(cell).set_highlight(Constants.TokenHighlight.NONE)
 
 func get_tokens_of_type(type:Constants.TokenType) -> Dictionary:
 	var filtered_tokens := {}

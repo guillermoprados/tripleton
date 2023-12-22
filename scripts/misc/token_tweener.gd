@@ -2,8 +2,16 @@ extends Node2D
 
 class_name TokenTweener
 
-var sprite_holder: Node2D
+var __sprite_holder: Node2D
 
+var sprite_holder: Node2D:
+	get:
+		if not __sprite_holder:
+			__sprite_holder = get_parent().sprite_holder
+			assert(__sprite_holder, "cannot find sprite holder")
+			holder_original_pos = __sprite_holder.position
+		return __sprite_holder
+	
 var holder_tween : Tween
 
 var tween_forward : bool
@@ -21,24 +29,13 @@ func _ready() -> void:
 func _process(delta:float) -> void:
 	pass
 
-func __set_sprite_holder() -> void:
-	sprite_holder = get_parent().sprite_holder
-	assert(sprite_holder, "cannot find sprite holder")
-	holder_original_pos = sprite_holder.position
-
 func set_focus_tweener() -> void:
-	
-	if not sprite_holder:
-		__set_sprite_holder()
 	
 	tween_forward = true
 	
 	animate_focused()
 
 func set_in_range_tweener(difference_pos:Vector2) -> void:
-	
-	if not sprite_holder:
-		__set_sprite_holder()
 	
 	holder_to_pos.x = difference_pos.y / 4
 	holder_to_pos.y = difference_pos.x / 4

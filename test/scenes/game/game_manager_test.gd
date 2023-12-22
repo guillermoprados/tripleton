@@ -165,7 +165,7 @@ func __async_await_for_property(obj:Object, prop_name:String, value:Variant, com
 		if comparison.call(current_value, value):
 			return true
 		await await_idle_frame()
-	assert(false, "property " +prop_name+" never reached the required condition")
+	assert(false, "await for property " +prop_name+" fail > expecting: "+str(value)+" but received: "+str(obj.get(prop_name)))
 	return false
 	
 func __ascync_await_for_time_helper(time:float) -> void:

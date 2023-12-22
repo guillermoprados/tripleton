@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dblfj2mkf83xt"]
+
+[ext_resource type="Script" path="res://scenes/helpers/token_scene_test.gd" id="1_cyl4k"]
+[ext_resource type="PackedScene" uid="uid://gbg1fq05vnj5" path="res://scenes/objects/token.tscn" id="2_00gse"]
+
+[node name="TokenTest" type="Node2D" node_paths=PackedStringArray("token_test")]
+script = ExtResource("1_cyl4k")
+token_id = "2_tree"
+token_test = NodePath("Token")
+token_status = 3
+
+[node name="Token" parent="." instance=ExtResource("2_00gse")]
+position = Vector2(150, 131)
