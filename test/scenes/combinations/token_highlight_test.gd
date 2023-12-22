@@ -49,3 +49,23 @@ func test__shining_cells_single_level_combination_should_higlight_valid_cells() 
 	var expected_cells := [Vector2(0, 0), Vector2(0, 1)]	
 	await __async_await_for_property(game_manager,"shining_cells", [], property_is_not_equal, 2)
 	assert_array(game_manager.shining_cells).contains_same(expected_cells)
+
+func test__shining_cells_multi_level_combination_should_higlight_valid_cells() -> void:
+	
+	var landscape := [
+		[IDs.GRASS,IDs.GRASS,IDs.EMPTY],
+		[IDs.EMPTY,IDs.EMPTY,IDs.BUSHH],
+		[IDs.EMPTY,IDs.EMPTY,IDs.BUSHH],
+		[IDs.GRASS,IDs.EMPTY,IDs.BUSHH],
+	]
+	
+	await __set_to_player_state_with_board(landscape)
+	
+	## third token
+	await __wait_to_next_player_turn(IDs.GRASS)
+	
+	game_manager.__shine_helper_after_time = 0
+	
+	var expected_cells := [Vector2(0, 0), Vector2(0, 1)]	
+	await __async_await_for_property(game_manager,"shining_cells", [], property_is_not_equal, 2)
+	assert_array(game_manager.shining_cells).contains_same(expected_cells)
