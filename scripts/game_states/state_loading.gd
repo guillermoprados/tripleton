@@ -9,8 +9,8 @@ var __inner_state := 0
 const STATE_PREPARE := 0
 const STATE_PREPARE_UI := 1
 const STATE_CONFIG := 2
-const STATE_SET_OBJECTS := 3
-const STATE_PREPARE_LANDSCAPE := 4
+const STATE_PREPARE_LANDSCAPE := 3
+const STATE_SET_OBJECTS := 4
 const STATE_READY := 5
 
 func _on_state_entered() -> void:
@@ -26,10 +26,10 @@ func _process(delta:float) -> void:
 			pass
 		STATE_CONFIG:
 			load_difficulties()
-		STATE_SET_OBJECTS:
-			__position_game_objects()
 		STATE_PREPARE_LANDSCAPE:
 			__create_landscape()
+		STATE_SET_OBJECTS:
+			__position_game_objects()
 		STATE_PREPARE_UI:
 			game_manager.connect_ui()
 			game_manager.gameplay_ui.switch_ui(Constants.UIPlayScreenId.PLAYING)

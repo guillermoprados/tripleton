@@ -23,9 +23,10 @@ gdscript/warnings/untyped_declaration=2
 
 window/size/viewport_width=720
 window/size/viewport_height=1280
-window/size/initial_screen=1
+window/size/initial_position_type=0
+window/size/always_on_top=true
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep_height"
 window/handheld/orientation=1
 
 [dotnet]
