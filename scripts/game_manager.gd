@@ -69,7 +69,23 @@ var save_slots:Array[SaveTokenSlot]:
 	get:
 		return __save_slots
 
+var __shine_helper_after_time := Constants.SHINE_HELPER_AFTER_TIME
 
+var __shining_cells:Array = []
+
+var shining_cells:Array:
+	get:
+		return __shining_cells
+		
+func add_shining_cell(cell:Vector2) -> void:
+	if not __shining_cells.has(cell):
+		__shining_cells.append(cell)
+	board.highlight_shining_tokens(shining_cells)
+	
+func clear_shining_cells() -> void:
+	board.clear_highlight_shining_tokens(shining_cells)
+	__shining_cells.clear()
+	
 func _enter_tree() -> void:
 	assert(fx_manager, "plase set the fx manager")
 	assert(combinator, "please set the combinator")
@@ -160,7 +176,6 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 	if board.is_cell_empty(cell_index):
 		
 		floating_token.position = on_board_position
-		floating_token.unhighlight()
 		
 		var combination:Combination = check_combination_all_levels(floating_token, cell_index)
 
@@ -169,7 +184,9 @@ func __move_floating_normal_token(cell_index:Vector2, on_board_position:Vector2)
 			floating_token.set_highlight(Constants.TokenHighlight.COMBINATION)
 		else:
 			board.highligh_cell(cell_index, Constants.CellHighlight.VALID)
+			board.highlight_shining_tokens(shining_cells)
 			floating_token.set_highlight(Constants.TokenHighlight.FOCUSED)
+			
 	else:
 		
 		floating_token.set_highlight(Constants.TokenHighlight.INVALID)
@@ -331,7 +348,7 @@ func set_bad_token_on_board(cell_index:Vector2) -> void:
 
 func __get_replace_wildcard_token_data(cell_index:Vector2) -> TokenData:
 	var replace_token : BoardToken = null
-	var combination : Combination = combinator.get_combinations_for_cell(cell_index)
+	var combination : Combination = combinator.get_combination_for_cell(cell_index)
 	if combination.is_valid():
 		assert(combination.wildcard_evaluated , "trying to replace a combination that is not wildcard")
 		return board.get_token_at_cell(combination.combinable_cells[1]).data # skip the first one

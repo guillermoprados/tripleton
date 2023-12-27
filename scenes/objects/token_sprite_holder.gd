@@ -12,6 +12,7 @@ var floating_shader : ShaderMaterial
 var outline_shader : ShaderMaterial
 var outline_last_shader : ShaderMaterial
 var ghost_token_shader : ShaderMaterial
+var shine_token_shader: ShaderMaterial
 
 func set_boxed() -> void:
 	sprite.show()
@@ -47,7 +48,7 @@ func set_as_box_ghost() -> void:
 	sprite.position = sprite_original_position
 	sprite.position.y = sprite_original_position.y - Constants.TOKEN_BOXED_Y_POS
 	sprite.material = ghost_token_shader
-	sprite.stop()
+	sprite.show()
 	shadow.hide()
 	
 func set_invisible() -> void:
@@ -60,6 +61,9 @@ func paint_last() -> void:
 func paint_normal() -> void:
 	sprite.material = outline_shader
 
+func paint_shining() -> void:
+	sprite.material = shine_token_shader
+	
 func paint_floating(border_color:Color, overlay_color:Color) -> void:
 	__paint_token(floating_shader, border_color, overlay_color) 
 	# I need to do this again here to not complicate transitions
@@ -86,6 +90,7 @@ func _ready() -> void:
 	outline_shader = load("res://materials/outline_material.tres")
 	outline_last_shader = load("res://materials/last_placed_material.tres")
 	ghost_token_shader = load("res://materials/ghost_token_material.tres")
+	shine_token_shader = load("res://materials/shine_token_material.tres")
 	
 	sprite = $Sprite
 	shadow = $Shadow
@@ -94,6 +99,7 @@ func _ready() -> void:
 	assert(shadow, "please asign shadow to the token")
 	assert(floating_shader, "cannot load floating shader")
 	assert(outline_shader, "cannot load outline shader")
+	assert(shine_token_shader, "cannot load shine shader")
 	
 	position = Vector2(0, (Constants.CELL_SIZE.y / 2) - Constants.TOKEN_SPRITE_HOLDER_Y)
 	sprite_original_position = sprite.position

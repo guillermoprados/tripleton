@@ -28,7 +28,7 @@ func search_combinations_for_cell(placed_token: TokenData, cell_index: Vector2, 
 		__evaluate_combination(placed_token, combinations[cell_index], board_token_ids, recursive_levels)
 	return combinations[cell_index]
 
-func get_combinations_for_cell(cell_index: Vector2) -> Combination:
+func get_combination_for_cell(cell_index: Vector2) -> Combination:
 	return combinations[cell_index]
 	
 # this is only useful for wildcards

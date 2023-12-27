@@ -118,9 +118,6 @@ func set_status(new_status:Constants.TokenStatus) -> void:
 		Constants.TokenStatus.GHOST_BOX:
 			sprite_holder.set_as_box_ghost()
 
-func unhighlight() -> void:
-	set_highlight(Constants.TokenHighlight.NONE)
-
 func set_highlight(mode:Constants.TokenHighlight) -> void:
 	
 	__highlight = mode
@@ -154,6 +151,9 @@ func set_highlight(mode:Constants.TokenHighlight) -> void:
 func set_in_range(difference_pos:Vector2) -> void:
 	set_status(Constants.TokenStatus.IN_RANGE)
 	tweener.set_in_range_tweener(difference_pos)
+
+func set_shining() -> void:
+	sprite_holder.paint_shining()
 
 func get_other_token_data_util(token_id:String) -> TokenData:
 	return all_tokens_data.get_token_data_by_id(token_id)

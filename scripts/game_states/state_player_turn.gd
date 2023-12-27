@@ -10,6 +10,10 @@ class_name  StatePlayerTurn
 var current_scroll_item: int = 0
 var is_scroll_in_progress: bool = false
 
+var playing_turn_time : float = 0.
+var combinable_cell_to_evaluate : int
+var combinable_total_cells_to_evaluate : int
+
 func state_id() -> Constants.PlayingState:
 	return Constants.PlayingState.PLAYER
 	
@@ -33,12 +37,43 @@ func _on_state_entered() -> void:
 	board.board_cell_selected.connect(self._on_board_board_cell_selected)
 	
 	board.enabled_interaction = true
+	
+	playing_turn_time = 0
+	combinable_cell_to_evaluate = 0
+	combinable_total_cells_to_evaluate = board.rows * board.columns
 
 func _process(delta:float) -> void:
-	if not game_manager.floating_token and not game_manager.initial_token_slot.token:
+	
+	playing_turn_time += delta
+	
+	var playing_token : BoardToken = game_manager.floating_token
+	if not playing_token:
+		playing_token = game_manager.initial_token_slot.token
+	
+	if playing_token:
+		#doing one by one on each _process 
+		if playing_turn_time > game_manager.__shine_helper_after_time \
+		and combinable_cell_to_evaluate < combinable_total_cells_to_evaluate - 1:
+			var cell_to_evaluate : = Utils.indexToVector2(combinable_cell_to_evaluate, board.rows, board.columns)
+			__find_shinning_combinations_on_cell(playing_token, cell_to_evaluate)
+			combinable_cell_to_evaluate += 1
+	else:
 		game_manager.check_enclosed_enemies_and_kill_them()
 		state_finished.emit(id)
+	
+func __find_shinning_combinations_on_cell(playing_token:BoardToken, cell_to_evaluate:Vector2) -> void:
+	
+	if board.is_cell_empty(cell_to_evaluate):
+		var combination := combinator.get_combination_for_cell(cell_to_evaluate) 
 		
+		if not combination.evaluated:
+			game_manager.check_combination_single_level(playing_token, cell_to_evaluate)
+		
+		if combination.is_valid():
+			for cell_index:Vector2 in combination.combinable_cells:
+				if not board.is_cell_empty(cell_index): # combination returns the cell to be placed
+					game_manager.add_shining_cell(cell_index)
+					
 # override in states
 func _on_state_exited() -> void:
 	
@@ -56,7 +91,9 @@ func _on_state_exited() -> void:
 	game_manager.spawn_new_token()
 	
 	board.enabled_interaction = false
-		
+	
+	game_manager.clear_shining_cells()
+	
 func _input(event:InputEvent) -> void:
 	if !Constants.IS_DEBUG_MODE || is_scroll_in_progress:
 		return

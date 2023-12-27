@@ -157,6 +157,7 @@ const FROM_SKY_ANIM_TIME = 3
 
 # Timers
 const MERGE_ANIMATION_TIME = .1
+const SHINE_HELPER_AFTER_TIME = 5
 
 # Game Objects positions
 

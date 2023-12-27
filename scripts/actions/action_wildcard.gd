@@ -75,7 +75,7 @@ func affected_cells(action_cell:Vector2, cell_tokens_ids: Array) -> Array[Vector
 
 func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array) -> void:
 	
-	if combinator.get_combinations_for_cell(cell_index).wildcard_evaluated:
+	if combinator.get_combination_for_cell(cell_index).wildcard_evaluated:
 		return
 	
 	var bigger_combination: Combination = null
@@ -137,5 +137,5 @@ func __mark_wildcard_combinations_at(cell_index:Vector2, cell_tokens_ids: Array)
 		combinator.replace_combination_at_cell(bigger_combination, cell_index)
 		__to_place_token_data = bigger_combination_token_data
 		
-	combinator.get_combinations_for_cell(cell_index).wildcard_evaluated = true
+	combinator.get_combination_for_cell(cell_index).wildcard_evaluated = true
 

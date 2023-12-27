@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dkn5f5m7nu5em"]
+
+[ext_resource type="Shader" path="res://shaders/shine_item.gdshader" id="1_gc7tj"]
+
+[resource]
+shader = ExtResource("1_gc7tj")
+shader_parameter/tint = Color(0.501961, 0.823529, 0.270588, 0.254902)
+shader_parameter/color_span = 0.3
+shader_parameter/highlight_speed = 1.0
+shader_parameter/highlight_duration = 1.0
+shader_parameter/wait_duration = 5.0
+shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/overlay_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 2.0
