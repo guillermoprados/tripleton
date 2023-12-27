@@ -618,19 +618,19 @@ func __place_wildcard_cell_action(cell_index:Vector2) -> void:
 ### Game UI Objects
 
 func __adjust_board_position() -> void:
-	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var screen_size:Vector2 = get_viewport().get_visible_rect().size
 	var board_size: Vector2 = Vector2(board.columns * Constants.CELL_SIZE.x, board.rows * Constants.CELL_SIZE.y)
 	
 	board.position.x = (screen_size.x / 2 ) - (board_size.x / 2)
 	board.position.y = screen_size.y  - board_size.y - Constants.BOARD_BOTTOM_SEPARATION
 
 func __adjust_initial_slot_position() -> void:
-	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var screen_size:Vector2 = get_viewport().get_visible_rect().size
 	initial_token_slot.position.x = screen_size.x/2
 	initial_token_slot.position.y = board.position.y - (Constants.CELL_SIZE.y/2) - Constants.INITAL_TOKEN_SLOT_SEPARATION
 
 func __adjust_save_token_slots_positions() -> void:
-	var screen_size:Vector2 = get_tree().root.content_scale_size
+	var screen_size:Vector2 = get_viewport().get_visible_rect().size
 	var num_of_slots := save_slots.size()
 	var slots_total_width := (Constants.CELL_SIZE.x * num_of_slots) + \
 							Constants.SAVE_SLOT_INTER_SEPARATION * (num_of_slots - 1)
